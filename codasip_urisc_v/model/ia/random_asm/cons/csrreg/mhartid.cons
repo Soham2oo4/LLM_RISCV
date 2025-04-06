@@ -1,0 +1,41 @@
+#ifndef _MHARTID_
+#define _MHARTID_
+
+// mhartid [Machine Hart ID Register]: containing the integer ID of the hardware thread running the code
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MHARTID)
+#if OVERRIDE_EXPLICIT_MHARTID != 0xFF
+#define OVERRIDE_MHARTID_HOW OVERRIDE_EXPLICIT_MHARTID
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MHARTID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MHARTID_HOW)(, mhartid);
+        };
+    };
+};
+
+#if OVERRIDE_MHARTID_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mhartid);
+#endif
+
+#if OVERRIDE_MHARTID_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mhartid);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MHARTID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MHARTID_

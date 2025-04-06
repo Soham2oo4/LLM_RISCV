@@ -1,0 +1,58 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#ifdef OPTION_OCD
+
+#include "ca_defines.hcodal"
+#include "common.hcodal"
+
+settings
+{
+    debugger
+    {
+        type = RISC_V;
+
+        // Signals between processor core <--> debug module for halt/resume handshake
+        dm_active = s_dm_active;
+        dm_halt = s_dm_halt;
+        hart_halted = s_hart_halted;
+
+        // Signals between processor core <--> debug module for progbuf execution
+        progbuf_base = OPTION_PROGBUF_START;
+        progbuf_size = OPTION_PROGBUF_SIZE;
+        progbuf_access = { fetch_interface };
+        progbuf_start = s_dm_progbuf_en;
+        progbuf_exception = s_dm_progbuf_exc;
+        progbuf_done = s_dm_progbuf_done;
+
+        // Syscall resource definition - for CA simulation
+        syscall = ldst_interface[SYSCALL_ADDR];
+
+        sw_break_instruction = (uint32)0x00100073; // ebreak
+
+        // Signals for profiler
+        instruction_address = r_ex_instr_addr;
+        instruction_valid = r_ex_instr_valid;
+    };
+};
+
+#endif  // OPTION_OCD

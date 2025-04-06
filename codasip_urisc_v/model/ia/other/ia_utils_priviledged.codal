@@ -1,0 +1,600 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "common.hcodal"
+#include "opcodes.hcodal"
+#include "isa.hcodal"
+
+void print_trap_info(const UXLEN_T trap_cause, const UXLEN_T tval)
+{
+    #pragma simulator
+    {
+        uint5 int_cause;
+
+        if ((XLEN_T) trap_cause < 0)
+        {
+            int_cause = trap_cause & 0x01f;
+            codasip_print(TRAP_INFO_LEVEL, "Interrupt, cause %d: ", int_cause);
+            switch (int_cause)
+            {
+                case M_INT_SW:
+                    codasip_print(TRAP_INFO_LEVEL, "Machine SW\n");
+                    break;
+                case M_INT_TIMER:
+                    codasip_print(TRAP_INFO_LEVEL, "Machine timer\n");
+                    break;
+                case M_INT_EXTERNAL:
+                    codasip_print(TRAP_INFO_LEVEL, "Machine external\n");
+                    break;
+                case M_INT_NMI:
+                    codasip_print(TRAP_INFO_LEVEL, "Bus error on addr 0x%x\n", tval);
+                    break;
+                default:
+                    codasip_print(TRAP_INFO_LEVEL, "Unknown\n");
+                    break;
+            }
+        }
+        else
+        {
+            codasip_print(TRAP_INFO_LEVEL, "Exception, cause %d: ", trap_cause);
+            switch (trap_cause)
+            {
+                case MISALIGNED_FETCH:
+                    codasip_print(TRAP_INFO_LEVEL, "Instr addr 0x%x is misaligned\n", tval);
+                    break;
+                case FAULT_FETCH:
+                    codasip_print(TRAP_INFO_LEVEL, "Instr access fault at addr 0x%x\n",
+                            tval);
+                    break;
+                case ILLEGAL_INST:
+                    codasip_print(TRAP_INFO_LEVEL, "Illegal instr\n");
+                    break;
+                case BREAK:
+                    codasip_print(TRAP_INFO_LEVEL, "EBREAK\n");
+                    break;
+                case MISALIGNED_LOAD:
+                    codasip_print(TRAP_INFO_LEVEL, "Load addr 0x%x misaligned\n",tval);
+                    break;
+                case FAULT_LOAD:
+                    codasip_print(TRAP_INFO_LEVEL, "Load fault from addr 0x%x\n",tval);
+                    break;
+                case MISALIGNED_STORE:
+                    codasip_print(TRAP_INFO_LEVEL, "Store to addr 0x%x misaligned\n",
+                            tval);
+                    break;
+                case FAULT_STORE:
+                    codasip_print(TRAP_INFO_LEVEL, "Store fault to addr 0x%x\n",tval);
+                    break;
+                case U_ECALL:
+                    codasip_print(TRAP_INFO_LEVEL, "ECALL from U-mode\n");
+                    break;
+                case M_ECALL:
+                    codasip_print(TRAP_INFO_LEVEL, "ECALL from M-mode\n");
+                    break;
+                default:
+                    codasip_print(TRAP_INFO_LEVEL, "Unknown exception\n");
+                    break;
+            }
+        }
+    }
+}
+
+/**
+ * Get new value to write to the CSR register, depending on the opcode ("write", "set bits" or "clear bits").
+ */
+UXLEN_T csr_get_write_val(const uint32 opc, const UXLEN_T currVal, const UXLEN_T writeVal)
+{
+    UXLEN_T retval;
+    retval = 0;
+    switch (opc)
+    {
+        case OPC_I_CSRRW:
+        case OPC_I_CSRRWI:
+            retval = writeVal;
+            break;
+        case OPC_I_CSRRS:
+        case OPC_I_CSRRSI:
+            retval = writeVal | currVal;
+            break;
+        case OPC_I_CSRRC:
+        case OPC_I_CSRRCI:
+            retval = (~writeVal) & currVal;
+            break;
+        default:
+            retval = 0;
+            #pragma simulator
+            {
+                eprintf("csr_get_write_val() - unknown opcode (0x%X)", opc);
+            }
+            break;
+    }
+    return retval;
+}
+
+void take_int()
+{
+    uint1 men;
+    UXLEN_T pending, enabled, int_cause, nmi_mtval;
+    uint1 nmi;
+    nmi_mtval = 0;
+    nmi = p_nmi & ~r_csr_nmi;
+    r_csr_nmi = p_nmi;
+
+    if (nmi)
+    {
+        nmi_mtval = p_nmi_mtval;
+    }
+
+    // Check pending interrupts against interrupt enable register
+    pending = (r_csr_mip) & r_csr_mie;
+
+    // Machine interrupts enabled either when mode is lesser than M or M and global machine
+    // interrupts are enabled
+    men = r_csr_mstatus[CSR_MSTATUS_MIE];
+
+    // Ignore pending interrupts for machine if disabled
+    enabled = pending & (men ? (UXLEN_T)-1 : (UXLEN_T)0);
+
+    // WFI is cleared regardless of global interrupt enables/delegations etc.
+    if (pending || nmi)
+    {
+        r_wfi = 0;
+        r_wfi_ce = 1;
+    }
+
+    int_cause = 0;
+    if (enabled || nmi)
+    {
+        // Take interrupt with highest priority
+        if (nmi)
+        {
+            int_cause = (UXLEN_T) M_INT_NMI;
+        }
+        else if (enabled[CSR_MIP_MEIP])
+        {
+            int_cause = (UXLEN_T) M_INT_EXTERNAL;
+        }
+        else if (enabled[CSR_MIP_MSIP])
+        {
+            int_cause = (UXLEN_T) M_INT_SW;
+        }
+        else if (enabled[CSR_MIP_MTIP])
+        {
+            int_cause = (UXLEN_T) M_INT_TIMER;
+        }
+
+        take_trap(
+            ((UXLEN_T)1 << (XLEN - 1)) | int_cause,
+            nmi_mtval,
+            KEEP_PC
+        );
+    }
+}
+
+void take_trap(const UXLEN_T trap_cause, const UXLEN_T bad_val, const uint1 decrement)
+{
+    #pragma simulator
+    {
+        UXLEN_T cause;
+
+        print_trap_info(trap_cause, bad_val);
+        dprintf("Take trap: cause = %d\n", trap_cause);
+        if (decrement)
+        {
+            r_PC -= INSTR_LAU_SIZE;
+        }
+        cause = trap_cause;
+
+        // Interrupt
+        if ((XLEN_T)cause < 0)
+        {
+            if ((cause << 1) == ((XLEN_T)M_INT_NMI << 1))
+            {
+                // Non-maskable interrupt, non-delegable
+                cause = (UXLEN_T) M_INT_NMI;
+            }
+            else
+            {
+                // Regular interrupt
+                cause &= ((UXLEN_T)-1 >> 1);
+            }
+        }
+        // Trap to M
+        r_csr_mepc = r_PC & ~(UXLEN_T)3;
+
+        if (cause == (UXLEN_T) M_INT_NMI)
+        {
+            r_PC = (UXLEN_T) r_nmi_handler;
+        }
+        else
+        {
+            // PC is set to:
+            //  - BASE + CAUSE * 4 if cause is interrupt and vectored mode is enabled
+            //  - BASE otherwise
+            r_PC = (r_csr_mtvec & ~(UXLEN_T)3) + (((r_csr_mtvec & 1) && ((XLEN_T)trap_cause < 0)) ?
+                (trap_cause[CAUSE_W - 1 .. 0] * 4) : (uint32)0);
+        }
+        r_csr_mcause = trap_cause;
+        if (cause == (UXLEN_T)M_INT_NMI)
+        {
+            r_csr_mtval = (UXLEN_T)0;
+            r_csr_nmi_mtval = bad_val;
+        }
+        else
+        {
+            r_csr_mtval = bad_val;
+        }
+
+        do_xcall();
+
+#ifdef OPTION_OCD
+        // Save MTE into MPTE and zero MTE
+        r_csr_tcontrol = r_csr_tcontrol[CSR_TCONTROL_MTE] :: (uint7)0;
+#endif
+    }
+}
+
+void do_xcall()
+{
+    uint1 mpie;
+    mpie = r_csr_mstatus[CSR_MSTATUS_MIE];
+
+    r_csr_mstatus =
+        r_csr_mstatus[XLEN - 1 .. 13] ::
+        PRV_M ::
+        r_csr_mstatus[10 .. 8] ::
+        mpie ::
+        r_csr_mstatus[6 .. 4] ::
+        (uint1)0 ::
+        r_csr_mstatus[2 .. 0];
+}
+
+void do_xret()
+{
+    uint4 int_enable, prev_int_enable;
+    int_enable = 0;
+    prev_int_enable = 0;
+
+    r_PC = r_csr_mepc;
+    int_enable = r_csr_mstatus[CSR_MSTATUS_MPIE] :: r_csr_mstatus[2 .. 0];
+    prev_int_enable = (uint1)1 :: r_csr_mstatus[6 .. 4];
+
+    r_csr_mstatus =
+        r_csr_mstatus[XLEN - 1 .. 13] ::
+        PRV_M ::
+        r_csr_mstatus[10 .. 8] ::
+        prev_int_enable ::
+        int_enable;
+}
+
+UXLEN_T csr_read_write_reg(const uint5 src, const uint12 csr, const uint10 opc)
+{
+    UXLEN_T writeVal;
+    UXLEN_T readVal;
+    uint1 is_write;
+
+    is_write = (opc == OPC_I_CSRRW) || ((opc == OPC_I_CSRRS || opc == OPC_I_CSRRC) && src != 0);
+    if ((csr[CSR_NAME_MODE] == CSR_NAME_RONLY) && is_write)
+    {
+        r_illegal_instr = true;
+        return 0;
+    }
+
+    // Obtain the value to write from a source GPR
+    writeVal = rf_gpr_read(src);
+
+    // Perform the read + write operations
+    readVal = csr_read_write(writeVal, csr, opc, is_write);
+
+    // Return the read value
+    return readVal;
+}
+
+UXLEN_T csr_read_write_imm(UXLEN_T imm, const uint12 csr, const uint10 opc)
+{
+    UXLEN_T readVal;
+    uint1 is_write;
+
+    is_write = (opc == OPC_I_CSRRWI) || ((opc == OPC_I_CSRRSI || opc == OPC_I_CSRRCI) && imm != 0);
+    if ((csr[CSR_NAME_MODE] == CSR_NAME_RONLY) && is_write)
+    {
+        r_illegal_instr = true;
+        return 0;
+    }
+
+    // Perform the read + write operations
+    readVal = csr_read_write(imm, csr, opc, is_write);
+
+    // Return the read value
+    return readVal;
+}
+
+UXLEN_T csr_read_write(UXLEN_T writeVal, const uint12 csr, const uint10 opc, uint1 is_write)
+{
+    UXLEN_T readVal;
+
+    switch (csr)
+    {
+        case CSR_MISA:
+            readVal = r_csr_misa;
+            dprintf("misa ");
+            break;
+
+        case CSR_MHARTID:
+            readVal = r_csr_mhartid;
+            dprintf("mhartid ");
+            break;
+
+        case CSR_MSTATUS:
+            dprintf("mstatus ");
+            readVal = r_csr_mstatus;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (writeVal[CSR_MSTATUS_MPP] != PRV_M)
+            {
+                writeVal = writeVal[XLEN - 1 .. 13] :: PRV_M :: writeVal[10 .. 0];
+            }
+            writeVal &= MSTATUS_VIEW_MASK;
+            if (is_write)
+            {
+                r_csr_mstatus = writeVal;
+            }
+            break;
+
+        case CSR_MTVEC:
+            dprintf("mtvec ");
+            readVal = r_csr_mtvec;
+            if (is_write)
+            {
+                r_csr_mtvec = csr_get_write_val(opc, readVal, writeVal) & ~(UXLEN_T)2;
+            }
+            break;
+
+        case CSR_MEPC:
+            dprintf("mepc ");
+            readVal = r_csr_mepc;
+            if (is_write)
+            {
+                r_csr_mepc = csr_get_write_val(opc, readVal, writeVal) & ~(UXLEN_T)3;
+            }
+            break;
+
+        case CSR_MCAUSE:
+            dprintf("mcause ");
+            readVal = r_csr_mcause;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (is_write)
+            {
+                r_csr_mcause = writeVal;
+            }
+            break;
+
+        case CSR_MTVAL:
+            dprintf("mtval ");
+            readVal = r_csr_mtval;
+            if (is_write)
+            {
+                r_csr_mtval = csr_get_write_val(opc, readVal, writeVal);
+            }
+            break;
+
+        case CSR_MSCRATCH:
+            dprintf("mscratch ");
+            readVal = r_csr_mscratch;
+            if (is_write)
+            {
+                r_csr_mscratch = csr_get_write_val(opc, readVal, writeVal);
+            }
+            break;
+
+        case CSR_MIE:
+            dprintf("mie ");
+            readVal = r_csr_mie;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (is_write)
+            {
+                r_csr_mie =
+                    writeVal[CSR_MIE_MEIE] ::
+                    (uint3)0 ::
+                    writeVal[CSR_MIE_MTIE] ::
+                    (uint3)0 ::
+                    writeVal[CSR_MIE_MSIE] ::
+                    (uint3)0;
+            }
+            break;
+
+        case CSR_MIP:
+            dprintf("mip ");
+            readVal = r_csr_mip;
+            break;
+
+        case CSR_NMI:
+            readVal = r_csr_nmi;
+            break;
+
+        case CSR_NMI_MTVAL:
+            readVal = r_csr_nmi_mtval;
+            break;
+
+        case CSR_MCYCLE:
+            dprintf("mcycle ");
+            readVal = ZEXT_XLEN(r_csr_mcycle);
+            if (is_write)
+            {
+                r_csr_mcycle =
+#if OPTION_XLEN == 32
+                    r_csr_mcycle[(2 * XLEN) - 1 .. XLEN] ::
+#endif
+                    csr_get_write_val(opc, readVal, writeVal);
+            }
+            break;
+
+        case CSR_MINSTRET:
+            dprintf("minstret ");
+            readVal = ZEXT_XLEN(r_csr_minstret);
+            if (is_write)
+            {
+                r_csr_minstret =
+#if OPTION_XLEN == 32
+                    r_csr_minstret[(2 * XLEN) - 1 .. XLEN] ::
+#endif
+                    csr_get_write_val(opc, readVal, writeVal);
+            }
+            r_minstret_written = is_write;
+            break;
+
+#if OPTION_XLEN == 32
+        case CSR_MCYCLEH:
+            dprintf("mcycleh ");
+            readVal = r_csr_mcycle[(2 * XLEN) - 1 .. XLEN];
+            if (is_write)
+            {
+                r_csr_mcycle = csr_get_write_val(opc, readVal, writeVal) :: r_csr_mcycle[XLEN - 1 .. 0];
+            }
+            break;
+
+        case CSR_MINSTRETH:
+            dprintf("minstreth ");
+            readVal = r_csr_minstret[(2 * XLEN) - 1 .. XLEN];
+            if (is_write)
+            {
+                r_csr_minstret = csr_get_write_val(opc, readVal, writeVal) :: r_csr_minstret[XLEN - 1 .. 0];
+            }
+            r_minstret_written = is_write;
+            break;
+#endif // OPTION_XLEN == 32
+
+        case CSR_MVENDORID:
+            readVal = 0x503;
+            dprintf("mvendorid ");
+            break;
+
+        case CSR_MIMPID:
+            readVal = (uint8)0x0 :: (uint8)CORE_VERSION_MAJOR :: (uint8)CORE_VERSION_MINOR :: (uint8)CORE_VERSION_PATCH;
+            dprintf("mimpid");
+            break;
+
+        case CSR_MARCHID:
+            readVal = r_csr_marchid;
+            dprintf("marchid ");
+            break;
+
+        case CSR_MCOUNTINHIBIT:
+            dprintf("mcountinhibit ");
+            readVal = r_csr_mcountinhibit;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (is_write)
+            {
+                r_csr_mcountinhibit = writeVal & MCOUNTINHIBIT_WRITE_MASK;
+            }
+            break;
+
+#ifdef OPTION_ENABLE_CACHES
+        case CSR_ML1CACHE_START:
+            readVal = READ_ML1CACHE_START;
+            break;
+#endif
+
+#ifdef OPTION_OCD
+        case CSR_TCONTROL:
+            dprintf("TCONTROL ");
+            readVal = r_csr_tcontrol;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (is_write)
+            {
+                r_csr_tcontrol = writeVal[CSR_TCONTROL_MPTE] :: (uint3)0 :: writeVal[CSR_TCONTROL_MTE] :: (uint3)0;
+            }
+            break;
+
+        case CSR_TSELECT:
+            dprintf("TSELECT ");
+            readVal = r_csr_tselect;
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            if (writeVal >= TRIGGER_COUNT)
+            {
+                writeVal = 0;
+            }
+            if (is_write)
+            {
+                r_csr_tselect = writeVal;
+            }
+            break;
+
+        case CSR_TDATA1:
+            dprintf("TDATA1 ");
+            readVal = r_csr_tdata1.r[r_csr_tselect];
+            writeVal = csr_get_write_val(opc, readVal, writeVal);
+            // Only allow write to tdata1 if tdata1.dmode==0.
+            if (is_write && r_csr_tdata1.r[r_csr_tselect][CSR_TDATA1_DMODE] == TDATA1_DMODE_BOTH)
+            {
+                r_csr_tdata1.w[r_csr_tselect] =
+                    TDATA1_TYPE_ADDR_DATA_MATCH_TRIGGER ::
+                    TDATA1_DMODE_DEBUG ::
+                    (uint7)0 ::
+                    TDATA1_SELECT_ADDR ::
+                    TDATA1_TIMING_BEFORE ::
+                    TDATA1_SIZE_ANY ::
+                    TDATA1_ACTION_DEBUG ::
+                    (uint1)0 ::
+                    TDATA1_MATCH_EQ ::
+                    writeVal[6..6] ::
+                    (uint2)0 ::
+                    writeVal[3..3] ::
+                    writeVal[2..2] ::
+#ifdef OPTION_ENABLE_WATCHPOINTS
+                    writeVal[1..0];
+#else
+                    (uint2)0;
+#endif
+            }
+            break;
+
+        case CSR_TDATA2:
+            dprintf("TDATA2 ");
+            readVal = r_csr_tdata2.r[r_csr_tselect];
+            // Only allow write to tdata2 if the corresponding tdata1.dmode==0.
+            if (is_write && r_csr_tdata1.r[r_csr_tselect][CSR_TDATA1_DMODE] == TDATA1_DMODE_BOTH)
+            {
+                r_csr_tdata2.w[r_csr_tselect] = csr_get_write_val(opc, readVal, writeVal);
+            }
+            break;
+
+        case CSR_TINFO:
+            dprintf("TINFO ");
+            readVal = TINFO_VALUE;
+            break;
+
+        case CSR_DCSR:
+        case CSR_DPC:
+            r_illegal_instr = 1;
+            readVal = 0;
+            break;
+#endif // ifdef OPTION_OCD
+
+        default:
+            dprintf("unknown ");
+            readVal = 0;
+            break;
+    }
+    dprintf(": read = 0x%X, write = 0x%X\n", readVal, writeVal);
+    return readVal;
+}
+

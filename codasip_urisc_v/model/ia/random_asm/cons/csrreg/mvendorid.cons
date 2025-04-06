@@ -1,0 +1,41 @@
+#ifndef _MVENDORID_
+#define _MVENDORID_
+
+// mvendorid [Machine Vendor ID Register]: providing the JEDEC manufacturer ID of the provider of the core
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MVENDORID)
+#if OVERRIDE_EXPLICIT_MVENDORID != 0xFF
+#define OVERRIDE_MVENDORID_HOW OVERRIDE_EXPLICIT_MVENDORID
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MVENDORID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MVENDORID_HOW)(, mvendorid);
+        };
+    };
+};
+
+#if OVERRIDE_MVENDORID_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mvendorid);
+#endif
+
+#if OVERRIDE_MVENDORID_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mvendorid);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MVENDORID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MVENDORID_

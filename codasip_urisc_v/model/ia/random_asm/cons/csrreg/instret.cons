@@ -1,0 +1,60 @@
+#ifndef _INSTRET_
+#define _INSTRET_
+
+// minstret [Machine Instructions-Retired Counter]: the number of instructions the hart has retired since some arbitrary time in the past
+// instret [User Instructions-Retired Counter]: read-only view at minstret and have the same limited use
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_INSTRET)
+#if OVERRIDE_EXPLICIT_INSTRET != 0xFF
+#define OVERRIDE_INSTRET_HOW OVERRIDE_EXPLICIT_INSTRET
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_INSTRET_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_INSTRET_HOW)(, minstret);
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_INSTRET_HOW)(, instret);
+#if OPTION_XLEN == 32
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_INSTRET_HOW)(, minstreth);
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_INSTRET_HOW)(, instreth);
+#endif
+        };
+    };
+};
+
+#if OVERRIDE_INSTRET_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(minstret);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(instret);
+#if OPTION_XLEN == 32
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(minstreth);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(instreth);
+#endif
+#endif
+
+#if OVERRIDE_INSTRET_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(minstret);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(instret);
+#if OPTION_XLEN == 32
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(minstreth);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(instreth);
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_INSTRET_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_INSTRET_

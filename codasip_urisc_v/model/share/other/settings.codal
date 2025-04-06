@@ -1,0 +1,142 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "common.hcodal"
+
+settings
+{
+    compiler
+    {
+        return_address = rf_gpr[REG_RA];
+        // x5 is the alternate return address register per RISC-V ABI spec.
+        // It is used for save-restore routines defined in libs/newlib/newlib/libc/save-restore.S
+        alternate_return_address = rf_gpr[REG_ARA];
+        stack_pointer = rf_gpr[REG_SP];
+        base_pointer = rf_gpr[REG_FP];
+        // Interrupt handler needs to be aligned to 4B
+        interrupt_handler_alignment = 4;
+
+        // Don't insert nops to handle hazards
+        eliminate_data_hazards = false;
+        eliminate_structural_hazards = false;
+
+        // r12 and r13 are not part of function results register group in the original ABI.
+        function_result = { rf_gpr[10], rf_gpr[11], rf_gpr[12], rf_gpr[13] };
+#if OPTION_XLEN == 64
+        function_result = { rf_gpr32[10], rf_gpr32[11], rf_gpr32[12], rf_gpr32[13] };
+#endif
+
+        function_params = {rf_gpr[10], rf_gpr[11], rf_gpr[12], rf_gpr[13]};
+        function_params = {rf_gpr[14], rf_gpr[15], rf_gpr[16], rf_gpr[17]};
+#if OPTION_XLEN == 64
+        function_params = { rf_gpr32[10], rf_gpr32[11], rf_gpr32[12], rf_gpr32[13],
+            rf_gpr32[14], rf_gpr32[15], rf_gpr32[16], rf_gpr32[17] };
+#endif
+
+#if OPTION_XLEN == 64
+        unused_registers = { rf_gpr32[REG_UNUSED1], rf_gpr[REG_UNUSED1] /* need for emulations*/};
+#endif
+        callee_saved = { rf_gpr[9], rf_gpr[18], rf_gpr[19], rf_gpr[20], rf_gpr[21],
+            rf_gpr[22], rf_gpr[23], rf_gpr[24], rf_gpr[25], rf_gpr[26], rf_gpr[27] };
+        pointer_size = XLEN;
+        legal_types = { int32 };
+
+#if OPTION_XLEN == 64
+        legal_types = { int64 };
+#endif
+        max_data_address_bits = 31;
+        max_program_address_bits = 31;
+
+#ifdef OPTION_OCD
+        preprocessor_defines += { "CODASIP_OCD" };
+#endif
+
+        stack_alignment = 16;
+
+#if OPTION_XLEN == 32
+        preprocessor_defines += { "CODASIP_RV32" };
+#else
+        preprocessor_defines += { "CODASIP_RV64" };
+#endif
+        preprocessor_defines += { "CODASIP_RVI" };
+        preprocessor_defines += { "CODASIP_ENABLE_BASE_COUNTERS" };
+        preprocessor_defines += { "CODASIP_ENABLE_HPM_COUNTERS" };
+#ifdef OPTION_EXTENSION_M
+        preprocessor_defines += { "CODASIP_RVM" };
+#endif
+        reg_alloc_order = { regs, "true",
+            // caller-saved registers
+            rf_gpr[10], rf_gpr[11], rf_gpr[12], rf_gpr[13], rf_gpr[14], rf_gpr[15],
+            rf_gpr[16], rf_gpr[17],
+            rf_gpr[5], rf_gpr[6], rf_gpr[7],
+            rf_gpr[28], rf_gpr[29], rf_gpr[30], rf_gpr[31],
+            // callee-saved registers
+            rf_gpr[8], rf_gpr[9],
+            rf_gpr[18], rf_gpr[19], rf_gpr[20], rf_gpr[21], rf_gpr[22], rf_gpr[23], rf_gpr[24], rf_gpr[25],
+            rf_gpr[26], rf_gpr[27],
+            // special registers
+            rf_gpr[1], rf_gpr[3], rf_gpr[4]
+        };
+#if OPTION_XLEN == 64
+        reg_alloc_order = { regs32, "true",
+            // caller-saved registers
+            rf_gpr[10], rf_gpr[11], rf_gpr[12], rf_gpr[13], rf_gpr[14], rf_gpr[15], rf_gpr[16], rf_gpr[17],
+            rf_gpr[5], rf_gpr[6], rf_gpr[7],
+            rf_gpr[28], rf_gpr[29], rf_gpr[30], rf_gpr[31],
+            // callee-saved registers
+            rf_gpr[8], rf_gpr[9],
+            rf_gpr[18], rf_gpr[19], rf_gpr[20], rf_gpr[21], rf_gpr[22], rf_gpr[23], rf_gpr[24], rf_gpr[25],
+            rf_gpr[26], rf_gpr[27],
+            // special registers
+            rf_gpr[1], rf_gpr[3], rf_gpr[4]
+        };
+#endif // OPTION_XLEN == 64
+
+        // GCC preprocessor definitions
+        preprocessor_defines += { "__riscv" };
+#if OPTION_XLEN == 64
+        preprocessor_defines += { "__riscv_xlen=64" };
+#else // OPTION_XLEN == 32
+        preprocessor_defines += { "__riscv_xlen=32" };
+#endif
+
+#ifdef OPTION_EXTENSION_M
+        preprocessor_defines += { "__riscv_mul" };
+        preprocessor_defines += { "__riscv_muldiv" };
+        preprocessor_defines += { "__riscv_div" };
+#endif
+    };
+
+    assembler
+    {
+        new_line_delimiter = { ";" };
+        comment_prefix = { "#" };
+    };
+
+    // For both IA and CA model:
+    wfi
+    {
+        exclude = { r_csr_mip };
+        clock_enable = r_wfi_ce;
+        wakeup = { p_msip, p_mtip, p_meip, p_nmi };
+    };
+};

@@ -1,0 +1,59 @@
+	.text
+	.file	"sf_fma.c"
+	.globl	fmaf                    //  -- Begin function fmaf
+	.type	fmaf,@function
+fmaf:                                   //  @fmaf
+	.cfi_sections .debug_frame
+	.cfi_startproc
+	.cfi_return_column 1
+//  %bb.0:                              //  %entry
+	.cfi_def_cfa 2, 0
+	add sp, sp, -32
+	.cfi_adjust_cfa_offset 32
+	sw x9, 24 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	sw fp, 12 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 8, -20
+	sw ra, 28 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	sw x18, 20 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 18, -12
+	sw x19, 16 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 19, -16
+	mv fp, x12
+	mv x9, x11
+	jal __extendsfdf2
+	mv x18, x10
+	mv x10, x9
+	mv x19, x11
+	jal __extendsfdf2
+	mv x12, x10
+	mv x13, x11
+	mv x10, x18
+	mv x11, x19
+	jal __muldf3
+	mv x9, x10
+	mv x10, fp
+	mv x18, x11
+	jal __extendsfdf2
+	mv x12, x10
+	mv x13, x11
+	mv x10, x9
+	mv x11, x18
+	jal __adddf3
+	jal __truncdfsf2
+	lw fp, 12 ( sp )                //  4-byte Folded Reload
+	lw x19, 16 ( sp )               //  4-byte Folded Reload
+	lw x18, 20 ( sp )               //  4-byte Folded Reload
+	lw x9, 24 ( sp )                //  4-byte Folded Reload
+	lw ra, 28 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 32
+	.cfi_def_cfa 2, 0
+	jr ra
+.Lfunc_end0:
+	.size	fmaf, .Lfunc_end0-fmaf
+	.cfi_endproc
+                                        //  -- End function
+
+	.ident	"clang version 9.0.1 (ssh://git@gitlab.codasip.com/codasip-studio/llvm-project.git de721e516e0cf84aa99255d0f6f37c402af48983)"
+	.section	".note.GNU-stack","",@progbits

@@ -1,0 +1,97 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * Branch unit (BRU) is a combinational logic module responsible for computing jump/branch targets
+ * and detecting branch misses.
+ */
+
+#include "common.hcodal"
+#include "ca_defines.hcodal"
+
+// Branch Unit
+module bru
+{
+    // Inputs
+    signal bit[FU_OP_W] s_op_i;                     // type of branch
+    signal bit[ADDR_W]  s_rs1_data_i;               // base address for JALR instruction
+    signal bit[ADDR_W]  s_imm_i;                    // immediate added to base address
+    signal bit[ADDR_W]  s_instr_addr_i;             // address of the branch instruction
+    signal bit[1]       s_take_branch_i;            // result from ALU
+    // Outputs
+    signal bit[ADDR_W] s_branch_target_addr_o;      // address of branch instruction
+    signal bit[1]      s_branch_miss_o;             // miss-predict
+    signal bit[ADDR_W] s_rd_data_o;                 // return address to link register
+    signal bit[1]      s_rd_we_o;                   // jump and link
+    // Outputs for exception propagation
+    signal bit[EXC_TYPE_W] s_exc_type_o;
+    signal bit[1]      s_exc_valid_o;
+    signal bit[ADDR_W] s_exc_tval_o;
+
+    event compute
+    {
+        semantics
+        {
+            uint_<ADDR_W> nxt_pc, tmp_addr, target_addr, branch_target_addr, base_addr;
+            uint1 is_branch;
+            uint1 is_jump;
+            uint1 branch_taken;
+            uint1 target_addr_is_aligned;
+
+            // All branch instructions
+            is_branch = (s_op_i == OP_LT || s_op_i == OP_LTU || s_op_i == OP_GE || s_op_i == OP_GEU || s_op_i == OP_EQ || s_op_i == OP_NE);
+            // All jump instructions
+            is_jump = (s_op_i == OP_JALR || s_op_i == OP_JAL);
+            // Base address for the computation
+            base_addr = (s_op_i == OP_JALR) ? s_rs1_data_i : s_instr_addr_i;
+            // Next PC in the case that the jump is not taken
+            nxt_pc = s_instr_addr_i + INSTR_LAU_SIZE;
+            // Compute the target address
+            tmp_addr = base_addr + s_imm_i;
+            // JALR require the last bit to be 0
+            target_addr = tmp_addr[ADDR_W-1..1] :: (uint1)0;
+            // Taken if true
+            branch_taken = is_jump | (is_branch & s_take_branch_i);
+            // Target address assignment
+            branch_target_addr = branch_taken ? target_addr : nxt_pc;
+            s_branch_target_addr_o = branch_target_addr;
+
+            // Detect whether target address is aligned
+            target_addr_is_aligned = branch_target_addr[1..0] == (uint2)0;
+
+            // Miss-predict detection
+            // With BP not present, this port tracks also jump instructions which are always counted as mis-predicted
+            // (when target addr is valid - aligned).
+            s_branch_miss_o = branch_taken & target_addr_is_aligned;
+
+            // Address of the next instruction
+            s_rd_data_o = nxt_pc;
+            // RD data is valid
+            s_rd_we_o = is_jump;
+
+            // Raise an exception if target address is not aligned and the branch is taken
+            s_exc_valid_o = (~target_addr_is_aligned) & branch_taken;
+            s_exc_type_o = MISALIGNED_FETCH;
+            s_exc_tval_o = branch_target_addr;
+        };
+    };
+};

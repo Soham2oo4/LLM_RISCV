@@ -1,0 +1,41 @@
+#ifndef _MIMPID_
+#define _MIMPID_
+
+// mimpid [Machine Implementation ID Register]: provides unique encoding of the version of the processor implementation
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MIMPID)
+#if OVERRIDE_EXPLICIT_MIMPID != 0xFF
+#define OVERRIDE_MIMPID_HOW OVERRIDE_EXPLICIT_MIMPID
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MIMPID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MIMPID_HOW)(, mimpid);
+        };
+    };
+};
+
+#if OVERRIDE_MIMPID_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mimpid);
+#endif
+
+#if OVERRIDE_MIMPID_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mimpid);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MIMPID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MIMPID_

@@ -1,0 +1,41 @@
+#ifndef _MTVEC_
+#define _MTVEC_
+
+// mtvec [Machine Trap Vector Base Address Register]: holds trap vector configuration, consisting of the base address (4-byte aligned) and vector mode
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MTVEC)
+#if OVERRIDE_EXPLICIT_MTVEC != 0xFF
+#define OVERRIDE_MTVEC_HOW OVERRIDE_EXPLICIT_MTVEC
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MTVEC_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MTVEC_HOW)(, mtvec);
+        };
+    };
+};
+
+#if OVERRIDE_MTVEC_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mtvec);
+#endif
+
+#if OVERRIDE_MTVEC_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mtvec);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MTVEC_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MTVEC_

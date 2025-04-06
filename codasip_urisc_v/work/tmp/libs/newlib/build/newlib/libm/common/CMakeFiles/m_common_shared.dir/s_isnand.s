@@ -1,0 +1,28 @@
+	.text
+	.file	"s_isnand.c"
+	.globl	__isnand                //  -- Begin function __isnand
+	.type	__isnand,@function
+__isnand:                               //  @__isnand
+	.cfi_sections .debug_frame
+	.cfi_startproc
+	.cfi_return_column 1
+//  %bb.0:                              //  %entry
+	.cfi_def_cfa 2, 0
+	lui x12, %hi( 2147483647 )
+	add x12, x12, %lo( 2147483647 )
+	and x11, x12, x11
+	sub x12, x0, x10
+	or x10, x12, x10
+	slt x10, x10, x0
+	or x10, x10, x11
+	lui x11, (2146435072>>12)&1048575
+	sub x10, x11, x10
+	slt x10, x10, x0
+	jr ra
+.Lfunc_end0:
+	.size	__isnand, .Lfunc_end0-__isnand
+	.cfi_endproc
+                                        //  -- End function
+
+	.ident	"clang version 9.0.1 (ssh://git@gitlab.codasip.com/codasip-studio/llvm-project.git de721e516e0cf84aa99255d0f6f37c402af48983)"
+	.section	".note.GNU-stack","",@progbits

@@ -1,0 +1,97 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The IFB is implemented as FIFO with 4 entries.
+ */
+
+#include "ifb_defines.hcodal"
+
+// Instruction Fetch Buffer
+module ifb
+{
+    // Inputs:
+    // - control inputs
+    signal bit[1] s_pop_i;
+    signal bit[1] s_push_i;
+    signal bit[1] s_flush_i;
+    // - data inputs
+    signal bit[ADDR_W] s_addr_i;
+    signal bit[FETCH_WIDTH] s_data_i;
+    signal bit[1] s_valid_i;
+    signal bit[EXC_TYPE_W] s_exc_type_i;
+    signal bit[EXC_VALID_W] s_exc_valid_i;
+
+    // Outputs:
+    // - control outputs
+    signal bit[1] s_empty_o;
+    signal bit[1] s_full_o;
+    // - data outputs
+    signal bit[ADDR_W] s_addr_o;
+    signal bit[FETCH_WIDTH] s_data_o;
+    signal bit[1] s_valid_o;
+    signal bit[EXC_TYPE_W] s_exc_type_o;
+    signal bit[EXC_VALID_W] s_exc_valid_o;
+
+    // Event that sets all output signals
+    event ifb_outputs
+    {
+        use fifo.outputs as fifo_outputs;
+        semantics
+        {
+            uint_<IFB_ENTRY_W> rdata;
+
+            // Obtain outputs from the FIFO
+            fifo_outputs();
+
+            // Obtain the read data (rdata)
+            rdata = fifo.s_q_o;
+
+            // Set control outputs
+            s_empty_o = fifo.s_empty_o;
+            s_full_o = fifo.s_full_o;
+
+            // Set data outputs
+            s_addr_o = rdata[ADDR_SB..DATA_SB+1];
+            s_data_o = rdata[DATA_SB..VALID_SB+1];
+            s_valid_o = rdata[VALID_SB..EXC_TYPE_SB+1];
+            s_exc_type_o = rdata[EXC_TYPE_SB..EXC_VALID_SB+1];
+            s_exc_valid_o = rdata[EXC_VALID_SB..0];
+        };
+    };
+
+    // Push an item to the buffer; update internal state
+    event ifb_update
+    {
+        use fifo.update as fifo_updates;
+        semantics
+        {
+            uint_<IFB_ENTRY_W> wdata;
+            wdata = s_addr_i :: s_data_i :: s_valid_i :: s_exc_type_i :: s_exc_valid_i;
+            fifo.s_d_i = wdata;
+            fifo.s_we_i = s_push_i;
+            fifo.s_clear_i = s_flush_i;
+            fifo.s_re_i = s_pop_i;
+            fifo_updates();
+        };
+    };
+};

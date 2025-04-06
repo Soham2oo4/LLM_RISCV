@@ -1,0 +1,46 @@
+#ifndef _ML1CACHE_START_
+#define _ML1CACHE_START_
+
+// ml1cache_start [Machine Level 1 Cache Start Register]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_ENABLE_CACHES)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_ML1CACHE_START)
+#if OVERRIDE_EXPLICIT_ML1CACHE_START != 0xFF
+#define OVERRIDE_ML1CACHE_START_HOW OVERRIDE_EXPLICIT_ML1CACHE_START
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_ML1CACHE_START_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_ML1CACHE_START_HOW)(, ml1cache_start);
+        };
+    };
+};
+
+#if OVERRIDE_ML1CACHE_START_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(ml1cache_start);
+#endif
+
+#if OVERRIDE_ML1CACHE_START_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(ml1cache_start);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_ML1CACHE_START_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_ENABLE_CACHES)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_ML1CACHE_START_

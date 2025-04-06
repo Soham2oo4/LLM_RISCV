@@ -1,0 +1,349 @@
+#ifndef _TRAP_M_
+#define _TRAP_M_
+
+//----------------------------------------------------------------------------------------------------------
+
+element trap_handler
+{
+    assembly
+    {
+        ".global _trap_handler                             // into M-mode\n"
+        ".align 4\n"
+        "_trap_handler:                                    // routine start\n"
+        BACKUP(mscratch)
+        CHECK_IRQ(mcause, "_trap_handler_irq")
+        trap_handler_exc
+        trap_handler_irq
+        "_trap_handler_end:                                // routine end\n"
+        CLEAN_CAUSE(mcause)
+        RESTORE(mscratch)
+        "    mret\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+element trap_handler_exc
+{
+    assembly
+    {
+        "_trap_handler_exc:                                // proceeds according to codes caused by exception\n"
+#if defined(DEVELOP)
+        // cause: 0, 4, 6
+        misaligned
+#endif
+#if defined(REPLIER) && !defined(false)
+        // cause: 1, 5, 7
+        access_fault
+#endif
+        // cause: 2 and everything other
+        illegal_instruction
+#if defined(ENVIRON_CALL)
+        // cause: 11, 9, 8
+        environ_call
+#endif
+#if defined(VIRTUAL_PAGE_UTILIZE)
+        // cause: 12
+        page_fault
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(DEVELOP)
+element misaligned
+{
+    assembly
+    {
+        MISALIGNED_TEST("_misaligned")
+        "_misaligned:                                      // wrong address during development trial, finish program execution\n"
+        MISALIGNED(mcause, "rndg_finish")
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// mixed processing of trap control, when PMP is used should increment address
+#if defined(REPLIER) && !defined(false)
+element access_fault
+{
+    assembly
+    {
+        ACCESS_FAULT_TEST("_access_fault")
+        "_access_fault:                                    // potentially caused by replier, the instruction should be re-executed again\n"
+        ACCESS_FAULT(mcause, "_trap_handler_end")
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+
+// prepare the following label for branch when no illegal
+#if defined(ENVIRON_CALL)
+#define ILLEGAL_FOLLOW "_check_environ_call"
+#elif defined(VIRTUAL_PAGE_UTILIZE)
+#define ILLEGAL_FOLLOW "_check_page_fault"
+#else
+#define ILLEGAL_FOLLOW "_another_take_care"
+#endif
+
+element illegal_instruction
+{
+    assembly
+    {
+#if defined(CAPTURE_ILLEGAL) || defined(ENVIRON_CALL) || defined(VIRTUAL_PAGE_UTILIZE)
+        ILLEGAL_INSTRUCTION(ILLEGAL_FOLLOW)
+        load_special
+        increment_addr
+#if defined(ENVIRON_CALL)
+        check_environ_call
+#endif
+#if defined(VIRTUAL_PAGE_UTILIZE)
+        check_page_fault
+#endif
+        "_another_take_care:                               // all other exception cases\n"
+        load_general
+        "    j _increment_addr\n"
+#else
+        load_general
+        increment_addr
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+element load_special
+{
+    assembly
+    {
+#if defined(CAPTURE_ILLEGAL)
+        LOAD_SPECIAL(mtval)
+#else
+        LOAD_GENERAL(mepc)
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+element load_general
+{
+    assembly
+    {
+        LOAD_GENERAL(mepc)
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+element increment_addr
+{
+    assembly
+    {
+        "_increment_addr:                                  // follow to the next instruction\n"
+        CHECK_COMPRESSION("_compressed")
+        "_regular:\n"
+        INCREMENT_ADDR(mepc, 4)
+        "    j _trap_handler_end\n"
+        "_compressed:\n"
+        INCREMENT_ADDR(mepc, 2)
+        "    j _trap_handler_end\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(ENVIRON_CALL)
+//----------------------------------------------------------------------------------------------------------
+
+element check_environ_call
+{
+    assembly
+    {
+        "_check_environ_call:                              // check of environmental reason\n"
+#if defined(PRV_MODE_CHANGE)
+        CHECK_ENVIRON_CALL(mcause, "M-mode", 0xB, "_environ_call_m")
+#endif
+#if defined(PRV_MODE_CHANGE) || defined(false)
+        CHECK_ENVIRON_CALL(mcause, "U-mode", 0x8, "_environ_call_u")
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+element environ_call
+{
+    assembly
+    {
+#if defined(PRV_MODE_CHANGE)
+        environ_call_m
+#endif
+#if defined(PRV_MODE_CHANGE) || defined(false)
+        environ_call_u
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(PRV_MODE_CHANGE)
+element environ_call_m
+{
+    assembly
+    {
+        "_environ_call_m:\n"
+        CHANGE_TO_MODE(mstatus, prv_mode_mpp_from_m, 0xB, "MPP")
+        "    j _another_take_care\n"
+    };
+};
+variables
+{
+    uint2 prv_mode_mpp_from_m
+    {
+        constraints
+        {
+            weights
+            {
+                0b00 = 2;
+                0b11 = 1;
+                default / 0;
+            };
+        };
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(PRV_MODE_CHANGE) || defined(false)
+element environ_call_u
+{
+    assembly
+    {
+        "_environ_call_u:\n"
+#if defined(PRV_MODE_CHANGE)
+        CHANGE_TO_MODE(mstatus, prv_mode_mpp_from_u, 0xB, "MPP")
+#endif
+        "    j _another_take_care\n"
+    };
+};
+#if defined(PRV_MODE_CHANGE)
+variables
+{
+    uint2 prv_mode_mpp_from_u
+    {
+        constraints
+        {
+            weights
+            {
+                0b00 = 1;
+                0b11 = 2;
+                default / 0;
+            };
+        };
+    };
+};
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(VIRTUAL_PAGE_UTILIZE)
+//----------------------------------------------------------------------------------------------------------
+
+element check_page_fault
+{
+    assembly
+    {
+        "_check_page_fault:                                // check of page fault exception\n"
+        CHECK_PAGE_FAULT(mcause, 0xC, "_page_fault")
+    };
+};
+
+element page_fault
+{
+    assembly
+    {
+        "_page_fault:                                      // S-mode software fault on access to U-mode pages\n"
+        PAGE_FAULT(mstatus)
+        "    j _trap_handler_end\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+element trap_handler_irq
+{
+    assembly
+    {
+
+        "_trap_handler_irq:                                // respond codes in case of interrupt\n"
+        TRAP_HANDLER_IRQ("_software_irq", "_timer_irq", "_external_irq")
+        MACRO_JUMP("rndg_finish")
+
+        // cause: 0-3
+        software_irq
+        // cause: 4-7
+        timer_irq
+        // cause: 8-11
+        external_irq
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// MSIP* bit is accessed by the use of the same memory-mapped control register to provide interprocessor interrupts.
+// SSIP, USIP can be written by CSR accesses from code running on the local hart at the associated or any higher privilege level.
+element software_irq
+{
+    assembly
+    {
+        "_software_irq:\n"
+        SOFTWARE_IRQ(mip, 0x8, "MSIP")
+        "    j _trap_handler_end\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// MTIP* bit is read-only and is cleared by writing to the memory-mapped machine-mode timer compare register.
+// STIP, UTIP can be written by M-mode software to deliver timer interrupts to lower privilege levels.
+element timer_irq
+{
+    assembly
+    {
+
+        "_timer_irq:\n"
+        TIMER_IRQ(mip, 0x8, "MTIP")
+        "    j _trap_handler_end\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// MEIP* bit is read-only and is cleared by the platform-specific interrupt controller.
+// SEIP*, UEIP can be written by M-mode software to indicate changing value on external port.
+element external_irq
+{
+    assembly
+    {
+
+        "_external_irq:\n"
+        EXTERNAL_IRQ(mip, 0x8, "MEIP")
+
+        //handling_mpicflag
+    };
+};
+
+#endif //_TRAP_M_

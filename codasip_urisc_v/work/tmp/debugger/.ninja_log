@@ -1,0 +1,6 @@
+# ninja log v5
+0	11	1743921764134395247	CMakeFiles/codasip_urisc_v-ia-lldb.dir/dummy.cpp.o	c5813e773dd81ae6
+0	12	1743921764134395247	CMakeFiles/lldb-mi.dir/dummy.cpp.o	97dfcf2f859322c3
+11	9642	1743921773726419337	codasip_urisc_v-ia-lldb	268faeaaa25503f6
+12	9782	1743921773866419689	codasip_urisc_v-ia-lldb-mi	d7fccc59f68fc14
+9783	10035	0	CMakeFiles/install.util	635a820c3c1d527a

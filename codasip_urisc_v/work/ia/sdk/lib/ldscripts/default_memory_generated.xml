@@ -1,0 +1,5 @@
+<!DOCTYPE Board_Memory_Definition_File>
+<Root name="Default memory map of the linker script, for normal executables" >
+<OutputFormat name="elf32-codasip-le"/>
+<MemorySegment name="if_ldst_if_fetch" access="awx" start="0x0000000000000000" size="0x0000000100000000" address_space="as_all"/>
+</Root>

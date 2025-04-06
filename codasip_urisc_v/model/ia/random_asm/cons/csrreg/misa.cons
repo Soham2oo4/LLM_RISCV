@@ -1,0 +1,41 @@
+#ifndef _MISA_
+#define _MISA_
+
+// misa [Machine ISA Register]: encodes the ISA extensions supported by the hart
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MISA)
+#if OVERRIDE_EXPLICIT_MISA != 0xFF
+#define OVERRIDE_MISA_HOW OVERRIDE_EXPLICIT_MISA
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MISA_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MISA_HOW)(, misa);
+        };
+    };
+};
+
+#if OVERRIDE_MISA_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(misa);
+#endif
+
+#if OVERRIDE_MISA_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(misa);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MISA_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MISA_

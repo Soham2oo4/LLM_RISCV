@@ -1,0 +1,41 @@
+#ifndef _MEPC_
+#define _MEPC_
+
+// mepc [Machine Exception Program Counter]: when is taken into M-mode trap written with the virtual address of the instruction that was interrupted or encountered the exception
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MEPC)
+#if OVERRIDE_EXPLICIT_MEPC != 0xFF
+#define OVERRIDE_MEPC_HOW OVERRIDE_EXPLICIT_MEPC
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MEPC_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MEPC_HOW)(, mepc);
+        };
+    };
+};
+
+#if OVERRIDE_MEPC_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mepc);
+#endif
+
+#if OVERRIDE_MEPC_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mepc);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MEPC_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MEPC_

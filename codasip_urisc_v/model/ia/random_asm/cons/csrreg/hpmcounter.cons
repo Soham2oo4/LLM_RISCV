@@ -1,0 +1,96 @@
+#ifndef _HPMCOUNTER_
+#define _HPMCOUNTER_
+
+// mhpmcounter [Machine Performance Counter Register]: plus upper 32 bits, hardware performance-monitoring counters
+// hpmcounter [User Performance Counter Register]: plus upper 32 bits, read-only shadows of machine performance-monitoring counters
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_HPMCOUNTER)
+#if OVERRIDE_EXPLICIT_HPMCOUNTER != 0xFF
+#define OVERRIDE_HPMCOUNTER_HOW OVERRIDE_EXPLICIT_HPMCOUNTER
+#else
+#define UNTOUCHED_HPMCOUNTER_VALUE
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if !defined(UNTOUCHED_HPMCOUNTER_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+// meaning: decrease the weights for all required registers selected during randomization
+// 1. create long group of all instructions
+//    in principle, reduce the probability for group will be the same as one instruction
+// 2. add each created set to the root of program_instruction tree
+//    included instructions in set will be considered as the second level by the randomgen
+// 3. always update root program_instruction
+//    turning-off all corresponding pre-generated elements on the first level
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_HPMCOUNTER_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if (OVERRIDE_HPMCOUNTER_HOW != 0)
+//----------------------------------------------------------------------------------------------------------
+
+set i_control_registers__mhpmcounterX__ = I_CONTROL_REGISTERS_HOW_HPMREG(OVERRIDE_HPMCOUNTER_HOW)(, mhpmcounter);
+set program_instruction += i_control_registers__mhpmcounterX__;
+
+set i_control_registers__hpmcounterX__ = I_CONTROL_REGISTERS_HOW_HPMREG(OVERRIDE_HPMCOUNTER_HOW)(, hpmcounter);
+set program_instruction += i_control_registers__hpmcounterX__;
+
+#if OPTION_XLEN == 32
+set i_control_registers__mhpmcounterXh__ = I_CONTROL_REGISTERS_HOW_HPMREG(OVERRIDE_HPMCOUNTER_HOW)(, mhpmcounter, h);
+set program_instruction += i_control_registers__mhpmcounterXh__;
+
+set i_control_registers__hpmcounterXh__ = I_CONTROL_REGISTERS_HOW_HPMREG(OVERRIDE_HPMCOUNTER_HOW)(, hpmcounter, h);
+set program_instruction += i_control_registers__hpmcounterXh__;
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //(OVERRIDE_HPMCOUNTER_HOW != 0)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#else
+//----------------------------------------------------------------------------------------------------------
+
+set i_control_registers__mhpmcounterX__ = I_CONTROL_REGISTERS_ALL_HPMREG(, mhpmcounter);
+set program_instruction += i_control_registers__mhpmcounterX__;
+
+set i_control_registers__hpmcounterX__ = I_CONTROL_REGISTERS_ALL_HPMREG(, hpmcounter);
+set program_instruction += i_control_registers__hpmcounterX__;
+
+#if OPTION_XLEN == 32
+set i_control_registers__mhpmcounterXh__ = I_CONTROL_REGISTERS_ALL_HPMREG(, mhpmcounter, h);
+set program_instruction += i_control_registers__mhpmcounterXh__;
+
+set i_control_registers__hpmcounterXh__ = I_CONTROL_REGISTERS_ALL_HPMREG(, hpmcounter, h);
+set program_instruction += i_control_registers__hpmcounterXh__;
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_HPMCOUNTER_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_HPMREG(, mhpmcounter);
+#if OPTION_XLEN == 32
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_HPMREG(, mhpmcounter, h);
+#endif
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(UNTOUCHED_HPMCOUNTER_VALUE)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_HPMCOUNTER_

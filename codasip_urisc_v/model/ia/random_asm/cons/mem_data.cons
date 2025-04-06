@@ -1,0 +1,197 @@
+#ifndef _MEM_DATA_
+#define _MEM_DATA_
+
+//----------------------------------------------------------------------------------------------------------
+
+// create all at once special variables for randomization (properly name and type)
+variables
+{
+    // memory address space minimum number
+    REG_DATA_TYPE addr_mem_init_min
+    {
+        constraints
+        {
+            weights
+            {
+                ( ADDR_SPACE_LOAD_MIN ) / 1;
+                default / 0;
+            };
+        };
+    };
+    // memory address space maximum number
+    REG_DATA_TYPE addr_mem_init_max
+    {
+        constraints
+        {
+            weights
+            {
+                ( ADDR_SPACE_LOAD_MAX - 32*4 ) / 1;
+                default / 0;
+            };
+        };
+    };
+    REG_DATA_TYPE val_natural;
+    uint1 val_sign;
+    uint8 val_f_exponent
+    {
+        constraints
+        {
+            weights
+            {
+                0 / 1;
+                1..254 / 10;
+                255 / 1;
+                default / 0;
+            };
+        };
+    };
+    uint23 val_f_fraction
+    {
+        constraints
+        {
+            weights
+            {
+                0x0 / 10;
+                0x7FFFFF / 1;
+                default / 100;
+            };
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// properly size and value for int32 or int64
+#define DATA_SIZE 4
+#define DATA_VAL val_natural
+
+// properly size and value for float32
+#define DATA_SIZE_F 4
+#define DATA_VAL_F ( val_sign << 31 | val_f_exponent << 23 | val_f_fraction )
+
+//----------------------------------------------------------------------------------------------------------
+
+// instruction only show the variable, without any other constraints
+element print
+{
+    assembly { E_LI_OPRD };
+};
+
+element print_val
+{
+    assembly { print(E_LI_OPRD = DATA_VAL) };
+};
+
+element print_size
+{
+    assembly { print(E_LI_OPRD = DATA_SIZE) };
+};
+
+element print_val_f
+{
+    assembly { print(E_LI_OPRD = DATA_VAL_F) };
+};
+
+element print_size_f
+{
+    assembly { print(E_LI_OPRD = DATA_SIZE_F) };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+#define MEM_DATA_COUNT ( ( addr_mem_init_max - addr_mem_init_min ) / DATA_SIZE + 1 )
+
+#define MEM_DATA_COUNT_F ( ( addr_mem_init_max - addr_mem_init_min ) / DATA_SIZE_F + 1 )
+
+//----------------------------------------------------------------------------------------------------------
+
+// generate random value, used in memory init
+element random_val_mem_data
+{
+    assembly
+    {
+        ".fill " print(E_LI_OPRD = MEM_DATA_COUNT) ", " print_size ", " print_val "\n"
+    };
+};
+
+// generate random value, used in memory init
+element random_val_mem_data_f
+{
+    assembly
+    {
+        ".fill " print(E_LI_OPRD = MEM_DATA_COUNT_F) ", " print_size_f ", " print_val_f "\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// choose between kind of value during memory init
+set fill_mem_data_value =
+    random_val_mem_data_f,
+    random_val_mem_data
+{
+    constraints
+    {
+        weights
+        {
+            random_val_mem_data_f = 4;
+            random_val_mem_data = 1;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// control base address of memory region
+// usage: load_start_region(E_LI_OPRD = "0x4000")
+scenario load_start_region
+{
+    instructions
+    {
+        E_LI_INSTR(regs_dst_0 = TO_STRING(MAX_REGISTER), E_LI_OPRD = E_LI_OPRD);
+    };
+};
+
+// generate random value, used for register init
+element random_val_reg_data_f
+{
+    assembly
+    {
+        ".4byte " print_val_f "\n"
+    };
+};
+
+
+//----------------------------------------------------------------------------------------------------------
+
+// generate random value into register
+// usage: random_val_to_reg(regs_dst_0 = "x10")
+scenario random_val_to_reg
+{
+    instructions
+    {
+        load_value_comment(E_LI_OPRD = DATA_VAL);
+        E_LI_INSTR(regs_dst_0 = regs_dst_0, E_LI_OPRD = DATA_VAL);
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// add instruction into root of program instruction tree
+set program_instruction +=
+    random_val_to_reg
+{
+    constraints
+    {
+        weights
+        {
+            random_val_to_reg = 1;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MEM_DATA_

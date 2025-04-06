@@ -1,0 +1,126 @@
+#ifndef _MCAUSE_
+#define _MCAUSE_
+
+// mcause [Machine Cause Register]: written in running M-mode trap with the code indicating the event that caused the trap, may be explicitly written
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MCAUSE)
+#if OVERRIDE_EXPLICIT_MCAUSE != 0xFF
+#define OVERRIDE_MCAUSE_HOW OVERRIDE_EXPLICIT_MCAUSE
+#else
+#define UNTOUCHED_MCAUSE_VALUE
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if !defined(UNTOUCHED_MCAUSE_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+// purpose of constraining: mcause is more frequently set to non-reserved values
+
+// include new wrapped elements for mcause register dependent on extra action
+set program_instruction += I_CONTROL_REGISTERS_ALL_FIX(wrapped_mcause_, mcause);
+
+// turn-off operation with mcause register which they are handled by wrapped elements
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(, mcause);
+        };
+    };
+};
+
+// connected with registers: operation inside scenario section
+// properly randomized value which bitwise conjunction with rand bit being shifted for trap caused by interrupt
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS_FIX(, wrapped_mcause_, mcause, ((rand_bit_mcause << MSB_CAUSE_IRQ) | uimm_0_mcause));
+
+// connected with immediates: renew assembly section
+// properly randomized value only (implied direct 5 bits, could not set interrupt bit)
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_FIX(mcause, uimm_5_0_mcause);
+
+// create special variables for randomization (properly name and type) with defined value restrictions
+variables
+{
+    uint1 rand_bit_mcause;
+    REG_DATA_TYPE uimm_0_mcause
+    {
+        constraints
+        {
+            weights
+            {
+                0..15 = 1;
+                default / 1;
+            };
+        };
+    };
+    uint5 uimm_5_0_mcause
+    {
+        constraints
+        {
+            weights
+            {
+                0..15 = 1;
+                default / 1;
+            };
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif //!defined(UNTOUCHED_MCAUSE_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MCAUSE_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MCAUSE_HOW)(, mcause);
+#if !defined(UNTOUCHED_MCAUSE_VALUE)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX(OVERRIDE_MCAUSE_HOW)(wrapped_mcause_, mcause);
+#endif
+        };
+    };
+};
+
+#if OVERRIDE_MCAUSE_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mcause);
+#endif
+
+#if OVERRIDE_MCAUSE_HOW == 3
+#if !defined(UNTOUCHED_MCAUSE_VALUE)
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_TUNEZERO(mcause, uimm_5_0_mcause_nonezero);
+variables
+{
+    uint5 uimm_5_0_mcause_nonezero
+    {
+        constraints
+        {
+            weights
+            {
+                0 = 0;
+                1..15 = 1;
+                default / 1;
+            };
+        };
+    };
+};
+#else
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mcause);
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MCAUSE_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MCAUSE_

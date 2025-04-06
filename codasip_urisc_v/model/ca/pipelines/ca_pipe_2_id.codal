@@ -1,0 +1,179 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "ca_defines.hcodal"
+
+event id : pipeline(pipe.ID)
+{
+    use ifb.ifb_outputs as ifb_outputs;
+    use dec.compute as decode;
+    use hazard.compute as hazard_compute;
+#ifdef OPTION_OCD
+    use tgm.ocd_trigger as ocd_trigger;
+#endif
+
+    semantics
+    {
+        uint1 exc_valid;
+        uint_<ADDR_W> lsu_addr;  // address for LSU
+        uint1 id_data_hazard;
+        uint_<FU_UNIT_W> id_fu;
+        uint1 s_id_valid;
+
+        ifb_outputs();
+
+        s_id_valid = ifb.s_empty_o ? (uint1)0 : ifb.s_valid_o;
+
+        s_id_instr_addr = ifb.s_addr_o;
+        dec.s_instr_i = ifb.s_data_o;
+#ifdef OPTION_OCD
+        dec.s_ocd_progbuf_mode_i = s_progbuf_mode_active;
+#endif
+
+        if (s_id_valid)
+        {
+            decode();
+        }
+
+        // Hazard unit for AGU
+        // DEC
+        hazard.s_rs_addr_i = dec.s_rs1_addr_o;
+        {
+            // Power optimization - reduce activity at read port 0
+            uint_<RF_ADDR_W> r0_addr;
+            UXLEN_T r0_data;
+
+            r0_addr = dec.s_fu_o == FU_LSU ? dec.s_rs1_addr_o : (uint_<RF_ADDR_W>)0;
+            r0_data = rf_gpr.r0[r0_addr];
+            hazard.s_rs_data_i = r0_data;
+
+            // Ensure x0 to be hard-wired zero.
+            codasip_assert((r0_addr != 0u) || (r0_data == 0u),
+                           "x0_zero_r0: Value of the x0 register must be always zero, actual value=%0x", r0_data);
+
+            // Issue failure if unknown values occur on address/data while reading from the register file.
+            codasip_sverilog_assert(
+                "rf_gpr_r0_RA_not_X: assert property (\n"
+                "    (rf_gpr_r0_RE == 1'b1) |-> !$isunknown(%0)\n"
+                ")\n"
+                "else $fatal(32'sd2, \"rf_gpr_r0_RA_not_X: Unknown value of the read address occurred while reading from rf_gpr.r0!\", %0);\n",
+                r0_addr);
+            codasip_sverilog_assert(
+                "rf_gpr_r0_RDATA_not_X: assert property (\n"
+                "    (rf_gpr_r0_RE == 1'b1) |-> !$isunknown(%0)\n"
+                ")\n"
+                "else $fatal(\"rf_gpr_r0_RDATA_not_X: Unknown value occurred while reading from rf_gpr.r0[%%0d] = %%0x!\", %1, %0);\n",
+                r0_data, r0_addr);
+        }
+        // EX
+        hazard.s_rd_addr_i = s_ex_rd_addr;
+        hazard.s_rd_data_i = s_ex_rd_data;
+        hazard.s_rd_we_i = s_ex_rd_we;
+        hazard.s_p0_addr_i = s_ex_p0_addr;
+        hazard.s_p0_we_i = s_ex_p0_we;
+        hazard.s_p1_addr_i = s_ex_p1_addr;
+        hazard.s_p1_we_i = s_ex_p1_we;
+        hazard_compute();
+
+        // AGU
+        lsu_addr = hazard.s_data_o + dec.s_imm_o;
+
+#ifdef OPTION_OCD
+        tgm.s_fetch_addr_i = s_id_instr_addr;
+        tgm.s_ldst_addr_i = lsu_addr;
+        tgm.s_ldst_cmd_i = dec.s_op_o;
+        tgm.s_progbuf_mode_i = s_ex_progbuf_mode;
+        ocd_trigger();
+#endif
+
+        // Exception propagation - generated either from IFB, TGM or DEC
+        exc_valid =
+#ifdef OPTION_OCD
+            tgm.s_trigger_fire_o |
+#endif
+            ifb.s_exc_valid_o | dec.s_exc_valid_o;
+
+        id_data_hazard = hazard.s_data_hazard_o & ~exc_valid & dec.s_fu_o == FU_LSU;
+        id_fu = (exc_valid | id_data_hazard) ? FU_NONE : dec.s_fu_o;
+
+        // Outputs to next stage.
+        // Is instruction valid?
+        r_ex_instr_valid = s_id_valid;
+
+        if (s_id_valid)
+        {
+            // Instruction
+            r_ex_instr_addr = s_id_instr_addr;
+            // rs1
+            r_ex_rs1_addr = dec.s_rs1_addr_o;
+            r_ex_fu_s1_source = dec.s_fu_s1_source_o;
+            // rs2
+            r_ex_rs2_addr = dec.s_rs2_addr_o;
+            r_ex_fu_s2_source = dec.s_fu_s2_source_o;
+            // rd
+            r_ex_rd_addr = dec.s_rd_addr_o;
+            // LSU
+            if (id_fu == FU_LSU)
+            {
+                r_ex_lsu_addr = lsu_addr;
+            }
+            // CSR
+            r_ex_csr_addr = dec.s_csr_addr_o;
+            // FUs
+            r_ex_op = dec.s_op_o;
+            r_ex_fu = id_fu;
+            r_ex_imm = dec.s_imm_o;
+        }
+
+        // Exceptions
+        r_ex_exc_valid = exc_valid;
+        if (exc_valid)
+        {
+            r_ex_exc_type =
+#ifdef OPTION_OCD
+                tgm.s_trigger_fire_o ? tgm.s_trigger_action_o :
+#endif
+                ifb.s_exc_valid_o ? ifb.s_exc_type_o : dec.s_exc_type_o;
+        }
+
+        // Tval is needed for CSR instructions that can be flagged as illegal inside CRF unit
+        if (exc_valid | id_fu == FU_CSR)
+        {
+            r_ex_exc_tval = ifb.s_exc_valid_o ? ifb.s_addr_o : dec.s_exc_tval_o;
+        }
+
+        // Control
+        s_id_stall = id_data_hazard | s_ex_stall;
+        // Insert bubble by clearing pipeline
+        // while having LSU instruction that is waiting for an address.
+        s_id_clear = id_data_hazard & ~s_ex_stall;
+
+        // PERF
+        s_perf_data_stall = id_data_hazard;
+
+        // Update
+        // IFB
+        ifb.s_pop_i = ~s_id_stall;
+        ifb.s_flush_i = s_flush;
+
+    };
+};

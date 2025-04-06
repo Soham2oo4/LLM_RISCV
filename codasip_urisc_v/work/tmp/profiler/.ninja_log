@@ -1,0 +1,7 @@
+# ninja log v5
+1	717	1743921717166279631	CMakeFiles/profiler.dir/profiler_builder.cpp.o	b132846c0f28c3ac
+1	734	1743921717182279665	CMakeFiles/profiler.dir/codasip_profiler_MI15codasip_urisc_v_Profiler.cpp.o	cbb6b75f352873fb
+1	766	1743921717214279733	CMakeFiles/profiler.dir/codasip_profiler_MI15codasip_urisc_v_Decoders.cpp.o	542676dbeb05c64
+0	1464	1743921717914281232	CMakeFiles/profiler.dir/codasip_profiler_decoder_0.cpp.o	23ae1bf4a7c4184e
+1464	5016	1743921721446288796	codasip_urisc_v-ia-profiler	e5471e22e0c46b71
+5017	5092	0	CMakeFiles/install.util	5a13ff3add365e0a

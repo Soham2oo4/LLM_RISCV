@@ -1,0 +1,118 @@
+#ifndef _BRANCHES_
+#define _BRANCHES_
+
+// Without any constraints randomgen generates target for the desired branch type as random variable imm12 value.
+// Target can not be completely random, otherwise BP may cause reading from uninitialized fetch memory
+// so it's necessary to use some proper target.
+// The branch target (absolute address) is changed by compiler to an immediate offset operand (relative address).
+// Target must be the address point before branch instruction (negative offset operand value) for BP to account for the jump
+// condition in those branch type is never evaluated true, means instruction from target address will never be executed anyway.
+variables
+{  
+    label label_backward_jump_always_not_taken
+    {
+        constraints
+        {
+            prefix = "label_backward_jump_always_not_taken";
+        };
+    };
+};
+
+element i_label_backward_jump_always_not_taken
+{
+    assembly { label_backward_jump_always_not_taken ":" };
+
+    constraints
+    {
+        label = label_backward_jump_always_not_taken;
+        size = 0;
+    };
+};
+set program_instruction += 
+    i_label_backward_jump_always_not_taken {};
+set program_instruction
+{    
+    constraints
+    {
+        weights
+        {
+            override i_control_conditional__opc_blt__reg0__reg0__rel_addr12__  = 0;
+            override i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__ = 0;
+            override i_control_conditional__opc_bltu__regs__reg0__rel_addr12__ = 0;
+            override i_control_conditional__opc_bne__reg0__reg0__rel_addr12__  = 0;
+        };
+    };
+};
+scenario wrapped_i_control_conditional__opc_blt__reg0__reg0__rel_addr12__
+{
+    instructions
+    {
+        i_label_backward_jump_always_not_taken(label_backward_jump_always_not_taken = label_backward_jump_always_not_taken);
+        program_instruction ::* [1..3];
+        i_control_conditional__opc_blt__reg0__reg0__rel_addr12__(imm_12_0 = label_backward_jump_always_not_taken);
+    };
+    constraints
+    {
+        max_depth = 2;
+    };
+};
+scenario wrapped_i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__
+{
+    instructions
+    {
+        i_label_backward_jump_always_not_taken(label_backward_jump_always_not_taken = label_backward_jump_always_not_taken);
+        program_instruction ::* [1..3];
+        i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__(imm_12_0 = label_backward_jump_always_not_taken);
+    };
+    constraints
+    {
+        max_depth = 2;
+    };
+};
+scenario wrapped_i_control_conditional__opc_bltu__regs__reg0__rel_addr12__
+{
+    instructions
+    {
+        i_label_backward_jump_always_not_taken(label_backward_jump_always_not_taken = label_backward_jump_always_not_taken);
+        program_instruction ::* [1..3];
+        i_control_conditional__opc_bltu__regs__reg0__rel_addr12__(imm_12_0 = label_backward_jump_always_not_taken);
+    };
+    constraints
+    {
+        max_depth = 2;
+    };
+};
+scenario wrapped_i_control_conditional__opc_bne__reg0__reg0__rel_addr12__
+{
+    instructions
+    {
+        i_label_backward_jump_always_not_taken(label_backward_jump_always_not_taken = label_backward_jump_always_not_taken);
+        program_instruction ::* [1..3];
+        i_control_conditional__opc_bne__reg0__reg0__rel_addr12__(imm_12_0 = label_backward_jump_always_not_taken);
+    };
+    constraints
+    {
+        max_depth = 2;
+    };
+};
+
+set program_instruction += 
+    wrapped_i_control_conditional__opc_blt__reg0__reg0__rel_addr12__,
+    wrapped_i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__,
+    wrapped_i_control_conditional__opc_bltu__regs__reg0__rel_addr12__,
+    wrapped_i_control_conditional__opc_bne__reg0__reg0__rel_addr12__
+    
+{
+    constraints
+    {
+        weights
+        {
+            wrapped_i_control_conditional__opc_blt__reg0__reg0__rel_addr12__ = 1;
+            wrapped_i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__ = 1;
+            wrapped_i_control_conditional__opc_bltu__regs__reg0__rel_addr12__ = 1;
+            wrapped_i_control_conditional__opc_bne__reg0__reg0__rel_addr12__ = 1;
+        };
+    };
+};
+
+#endif //_BRANCHES_

@@ -1,0 +1,63 @@
+#ifndef _FENCE_
+#define _FENCE_
+
+//----------------------------------------------------------------------------------------------------------
+
+// use for suppress of generation all fence instruction
+// repl_port - replaced port
+#define OVERRIDE_I_FENCE_TYPE(repl_port) \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_i_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_io_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_ior_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_iorw_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_iow_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_ir_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_irw_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_iw_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_o_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_or_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_orw_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_ow_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_r_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_rw_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_w_fence__ = 0; \
+        override i_fence__opc_fence__opc_##repl_port##_fence__opc_hint_fence__ = 0
+
+// disable by one macro FENCE instruction for all port types
+#define OVERRIDE_I_FENCE_TYPE_ALL \
+        OVERRIDE_I_FENCE_TYPE(i); \
+        OVERRIDE_I_FENCE_TYPE(io); \
+        OVERRIDE_I_FENCE_TYPE(ior); \
+        OVERRIDE_I_FENCE_TYPE(iorw); \
+        OVERRIDE_I_FENCE_TYPE(iow); \
+        OVERRIDE_I_FENCE_TYPE(ir); \
+        OVERRIDE_I_FENCE_TYPE(irw); \
+        OVERRIDE_I_FENCE_TYPE(iw); \
+        OVERRIDE_I_FENCE_TYPE(o); \
+        OVERRIDE_I_FENCE_TYPE(or); \
+        OVERRIDE_I_FENCE_TYPE(orw); \
+        OVERRIDE_I_FENCE_TYPE(ow); \
+        OVERRIDE_I_FENCE_TYPE(r); \
+        OVERRIDE_I_FENCE_TYPE(rw); \
+        OVERRIDE_I_FENCE_TYPE(w)
+
+//----------------------------------------------------------------------------------------------------------
+
+// update program instruction root
+// turn-off all operation instructions for registers
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_FENCE_TYPE_ALL;
+            override i_fencei__opc_fencei__ = 0;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_FENCE_

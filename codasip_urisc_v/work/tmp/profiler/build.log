@@ -1,0 +1,8 @@
+[1/6] Building CXX object CMakeFiles/profiler.dir/profiler_builder.cpp.o
+[2/6] Building CXX object CMakeFiles/profiler.dir/codasip_profiler_MI15codasip_urisc_v_Profiler.cpp.o
+[3/6] Building CXX object CMakeFiles/profiler.dir/codasip_profiler_MI15codasip_urisc_v_Decoders.cpp.o
+[4/6] Building CXX object CMakeFiles/profiler.dir/codasip_profiler_decoder_0.cpp.o
+[5/6] Linking CXX executable codasip_urisc_v-ia-profiler
+[5/6] Install the project...
+-- Install configuration: "Release"
+-- Installing: /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-profiler

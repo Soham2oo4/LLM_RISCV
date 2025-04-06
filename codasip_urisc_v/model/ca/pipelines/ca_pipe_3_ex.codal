@@ -1,0 +1,801 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "ca_defines.hcodal"
+
+register bit[FU_UNIT_W] r_ex1_fu { pipeline = pipe.EX1; };
+register bit[RF_ADDR_W] r_ex1_rd_addr { pipeline = pipe.EX1; };
+register bit[ADDR_W] r_ex1_instr_addr { pipeline = pipe.EX1; };
+
+event ex : pipeline(pipe.EX)
+{
+    use alu.compute as alu_compute;
+    use bru.compute as bru_compute;
+    use lsu.compute_addr_check as lsu_addr_check;
+    use lsu.compute_req as lsu_req;
+    use lsu.compute_fin as lsu_fin;
+    use fft_fpu.compute as fft_fpu_compute;
+    use fft_fpu.outputs as fft_fpu_outputs;
+    use csr.compute as csr_compute;
+    use crf.csr_read as crf_phase1_csr_read;
+    use crf.csr_function as crf_phase1_csr_function;
+    use crf.int_exc as crf_phase1_int_exc;
+    use crf.csr_write as crf_phase2_csr_write;
+    use crf.crf_out as crf_phase2_crf_out;
+    use crf.write_instret as crf_phase2_write_instret;
+#ifdef OPTION_EXTENSION_M
+    use mul.compute as mul_compute;
+    use div.div_compute as div_compute;
+    use div.div_outputs as div_outputs;
+#endif
+#ifdef OPTION_OCD
+    use ocd.compute as ocd_compute;
+    use ocd.ocd_output as ocd_output;
+#endif
+    use ira.outputs as ira_outputs;
+    use ira.update as ira_update;
+
+    semantics
+    {
+        uint_<FU_OP_W> csr_op;
+        // Here we have two stall signals (because of I2O trace breaking)
+        uint1 ex1_stall, ex1_I2O_free_stall, ex0_excint_delay;
+        uint1 ex_data_hazard;
+        uint1 ex_struct_hazard;
+        uint1 csr_hazard;
+        uint_<FU_UNIT_W> ex1_fu_act;
+        uint1 start_op;
+        // Fences
+        uint1 ex1_fence;
+        uint1 ex1_fencei;
+        uint1 ex1_fence_fencei;
+        uint1 ex1_fence_finished;
+#ifdef OPTION_OCD
+        // Fences
+        uint1 ex0_fence;
+        uint1 ex0_fencei;
+        uint1 ex0_fence_fencei;
+        uint1 fence_safe_ocd;
+#endif
+        // Collecting exceptions
+        uint_<EXC_TYPE_W> exc_type;
+        uint_<ADDR_W> exc_tval;
+        uint1 exc_valid;
+        // Interrupts
+        uint1 write_ex1_on_pending_int;
+        uint1 interrupt_pending;
+        // Address for LSU
+        UXLEN_T lsu_addr;
+        // Instruction address
+        UXLEN_T instr_addr;
+        // Instruction valid
+        uint1 instr_valid;
+        uint1 instr_valid_I2O_free;
+        // Operands
+        UXLEN_T rs1_data, rs2_data;
+        uint_<RF_ADDR_W> rs1_addr, rs2_addr;
+        // EX - muxing information for valid instruction by using and gating
+        uint_<RF_ADDR_W> rd_addr;
+        uint_<FU_OP_W>   ex_op;
+        uint_<FU_UNIT_W> ex_fu;
+
+#ifdef OPTION_OCD
+        ocd_output();
+#endif
+
+        rd_addr = r_ex_rd_addr & (r_ex_instr_valid ::* RF_ADDR_W);
+        ex_op = r_ex_op & ((r_ex_instr_valid
+#ifdef OPTION_OCD
+            & ~ocd.s_ocd_step_mode_o
+#endif
+            ) ::* FU_OP_W);
+        ex_fu = r_ex_fu & ((r_ex_instr_valid
+#ifdef OPTION_OCD
+            & ~ocd.s_ocd_step_mode_o
+#endif
+            ) ::* FU_UNIT_W);
+
+        rs1_addr = (r_ex_instr_valid) ? r_ex_rs1_addr : (uint_<RF_ADDR_W>)0;
+        rs2_addr = (r_ex_instr_valid) ? r_ex_rs2_addr : (uint_<RF_ADDR_W>)0;
+
+        // rs1
+        switch (r_ex_fu_s1_source)
+        {
+            case FU_OP_REG:
+                rs1_data = rf_gpr.r1[rs1_addr];
+                // Ensure x0 to be hard-wired zero.
+                codasip_assert((rs1_addr != 0u) || (rs1_data == 0u),
+                               "x0_zero_r1: Value of the x0 register must be always zero, actual value=%0x", rs1_data);
+                break;
+            case FU_OP_IMM:
+                rs1_data = r_ex_imm;
+                break;
+            case FU_OP_PC:
+                rs1_data = r_ex_instr_addr;
+                break;
+            case FU_OP_NONE:
+            default:
+                rs1_data = 0;
+                break;
+        }
+
+        // rs2
+        switch (r_ex_fu_s2_source)
+        {
+            case FU_OP_REG:
+                rs2_data = rf_gpr.r2[rs2_addr];
+                // Ensure x0 to be hard-wired zero.
+                codasip_assert((rs2_addr != 0u) || (rs2_data == 0u),
+                               "x0_zero_r2: Value of the x0 register must be always zero, actual value=%0x", rs2_data);
+                break;
+            case FU_OP_IMM:
+                rs2_data = r_ex_imm;
+                break;
+            case FU_OP_NONE:
+            default:
+                rs2_data = 0;
+                break;
+        }
+
+        // Issue failure if unknown values occur on address/data while reading from the register file.
+        codasip_sverilog_assert(
+            "rf_gpr_r1_RA_not_X: assert property (\n"
+            "    (rf_gpr_r1_RE == 1'b1) |-> !$isunknown(%0)\n"
+            ")\n"
+            "else $fatal(32'sd2, \"rf_gpr_r1_RA_not_X: Unknown value of the read address occurred while reading from rf_gpr.r1!\", %0);\n",
+            rs1_addr);
+        codasip_sverilog_assert(
+            "rf_gpr_r1_RDATA_not_X: assert property (\n"
+            "    (rf_gpr_r1_RE == 1'b1) |-> !$isunknown(%0)\n"
+            ")\n"
+            "else $fatal(32'sd2, \"rf_gpr_r1_RDATA_not_X: Unknown value occurred while reading from rf_gpr.r1[%%0d] = %%0x!\", %1, %0);\n",
+            rs1_data, rs1_addr);
+
+        codasip_sverilog_assert(
+            "rf_gpr_r2_RA_not_X: assert property (\n"
+            "    (rf_gpr_r2_RE == 1'b1) |-> !$isunknown(%0)\n"
+            ")\n"
+            "else $fatal(32'sd2, \"rf_gpr_r2_RA_not_X: Unknown value of the read address occurred while reading from rf_gpr.r2!\", %0);\n",
+            rs2_addr);
+        codasip_sverilog_assert(
+            "rf_gpr_r2_RDATA_not_X: assert property (\n"
+            "    (rf_gpr_r2_RE == 1'b1) |-> !$isunknown(%0)\n"
+            ")\n"
+            "else $fatal(32'sd2, \"rf_gpr_r2_RDATA_not_X: Unknown value occurred while reading from rf_gpr.r2[%%0d] = %%0x!\", %1, %0);\n",
+            rs2_data, rs2_addr);
+
+        // Data phase of LSU
+        lsu_fin();
+
+        fft_fpu_outputs();
+
+#ifdef OPTION_EXTENSION_M
+        div_outputs();
+#endif
+
+#ifdef OPTION_OCD
+        ex0_fence = r_ex_op == OP_FENCE;
+        ex0_fencei = r_ex_op == OP_FENCE_I;
+        ex0_fence_fencei = ex0_fence | ex0_fencei;
+#endif
+
+        ex1_fence = lsu.s_fin_op_o == OP_FENCE;
+        ex1_fencei = lsu.s_fin_op_o == OP_FENCE_I;
+        ex1_fence_fencei = ex1_fence | ex1_fencei;
+
+        // Address check of LSU
+        lsu.s_op_i = (ex1_fence_fencei) ? OP_ADD : ex_op;
+        lsu.s_instr_addr_i = r_ex_instr_addr;
+        lsu.s_wdata_i = rs2_data;
+        lsu.s_addr_i = r_ex_lsu_addr;
+        lsu.s_rd_addr_i = rd_addr;
+        lsu.s_syscall_addr_i = r_syscall_addr;
+        lsu_addr_check();
+
+        ex1_fence_finished = ex1_fence & ~lsu.s_req_busy_o;
+
+        // Control / pipeline handling
+        // Hazard detection
+
+        // - data hazard - load-to-use
+        ex_data_hazard = r_ex1_fu == FU_LSU & (r_ex_rs1_addr == lsu.s_fin_rd_addr_o |
+            r_ex_rs2_addr == lsu.s_fin_rd_addr_o) & lsu.s_fin_rd_we_o;
+
+        // - structural hazard
+        ex_struct_hazard = ex1_fence_fencei;
+
+        // Stall EX0 when there is a CSR instruction in EX and when there also is an instruction in EX1.
+        // Otherwise there can be a collision between those two instructions.
+        csr_hazard = (ex_fu == FU_CSR) && (r_ex1_fu != FU_NONE);
+
+        // Interrupts / exceptions
+        ira_outputs();
+
+        // FUs:
+        // ALU
+        {
+            uint1            alu_act;
+            uint_<FU_OP_W>  alu_and_op;
+            UXLEN_T           alu_and_rs;
+            // Power opt - and-gating
+            alu_act = (ex_fu == FU_ALU || ex_fu == FU_BRU);
+            alu_and_op = alu_act ::* FU_OP_W;
+            alu_and_rs = alu_act ::* XLEN;
+            // ALU integration
+            alu.s_op_i = ex_op & alu_and_op;
+            alu.s_s1_data_i = rs1_data & alu_and_rs;
+            alu.s_s2_data_i = rs2_data & alu_and_rs;
+
+            if (alu_act)
+            {
+                alu_compute();
+            }
+        }
+        // BRU
+        {
+            uint1 bru_act;
+            uint_<FU_OP_W> bru_and_op;
+            uint_<ADDR_W> bru_and_addr;
+            uint_<RF_ADDR_W> bru_and_rf_addr;
+            // Power opt - and-gating
+            bru_act = ex_fu == FU_BRU;
+            bru_and_op = bru_act ::* FU_OP_W;
+            bru_and_addr = bru_act ::* ADDR_W;
+            bru_and_rf_addr = bru_act ::* RF_ADDR_W;
+            // BRU integration
+            bru.s_op_i = ex_op & bru_and_op;
+            bru.s_rs1_data_i = rs1_data & bru_and_addr;
+            bru.s_imm_i = r_ex_imm & bru_and_addr;
+            bru.s_instr_addr_i = r_ex_instr_addr & bru_and_addr;
+            bru.s_take_branch_i = alu.s_take_branch_o;
+            if (bru_act)
+            {
+                bru_compute();
+            }
+        }
+
+        // Propagate exception
+        if (lsu.s_fin_exc_valid_o)
+        {
+            exc_type = lsu.s_fin_exc_type_o;
+            exc_valid = true;
+            exc_tval = lsu.s_fin_exc_tval_o;
+        }
+        else if (r_ex_exc_valid)
+        {
+            exc_type = r_ex_exc_type;
+            exc_valid = true;
+            exc_tval = r_ex_exc_tval;
+        }
+        else if (bru.s_exc_valid_o)
+        {
+            exc_type = bru.s_exc_type_o;
+            exc_valid = true;
+            exc_tval = bru.s_exc_tval_o;
+        }
+        else if (lsu.s_req_exc_valid_o)
+        {
+            exc_type = lsu.s_req_exc_type_o;
+            exc_valid = true;
+            exc_tval = lsu.s_req_exc_tval_o;
+        }
+        else
+        {
+            exc_type = r_ex_exc_type;
+            exc_valid = false;
+            exc_tval = r_ex_exc_tval;
+        }
+        ex0_excint_delay = (r_ex1_fu != FU_NONE) & exc_valid & ~lsu.s_fin_exc_valid_o;
+
+        // EX1 stall
+        switch (r_ex1_fu)
+        {
+            case FU_FFT_FPU:  ex1_stall = fft_fpu.s_busy_o; break;
+            case FU_LSU:
+                ex1_stall = lsu.s_fin_busy_o;
+                break;
+#ifdef OPTION_EXTENSION_M
+            case FU_DIV:
+                ex1_stall = div.s_busy_o;
+                break;
+#endif
+            default:
+                ex1_stall = false;
+                break;
+        }
+        // EX1 stall
+        switch (r_ex1_fu)
+        {
+#ifdef OPTION_EXTENSION_M
+            case FU_DIV:
+                ex1_I2O_free_stall = div.s_busy_o;
+                break;
+#endif
+            case FU_FFT_FPU:  ex1_I2O_free_stall = fft_fpu.s_busy_o; break;
+            default:
+                ex1_I2O_free_stall = false;
+                break;
+        }
+
+        interrupt_pending =
+            (r_csr_mstatus[CSR_MSTATUS_MIE])
+            && ((r_csr_mip & r_csr_mie) != 0)
+#ifdef OPTION_OCD
+            // Mask out pending interrupts when OCD is busy
+            && ~ocd.s_ocd_progbuf_mode_o
+            && ~ocd.s_ocd_busy_o
+#endif
+            ;
+
+        // Safe to execute new instruction
+        start_op =
+#ifdef OPTION_OCD
+            ~ocd.s_ocd_step_mode_o &
+#endif
+            ~ex1_stall &
+            ~exc_valid &
+            ~ex_data_hazard &
+            ~ex0_excint_delay &
+            ~ex_struct_hazard &
+            ~interrupt_pending;
+
+        // Activate multicycle FU
+        switch (ex_fu)
+        {
+#if defined(OPTION_ENABLE_CACHES)
+            case FU_CSR:
+                ex1_fu_act = (start_op && (ex_op == OP_FENCE_I | ex_op == OP_FENCE)) ? FU_LSU : FU_NONE;
+                break;
+#endif
+            case FU_FFT_FPU:  ex1_fu_act = (start_op) ? FU_FFT_FPU : FU_NONE; break;
+            case FU_LSU:
+                ex1_fu_act = (start_op) ? FU_LSU : FU_NONE;
+                break;
+#ifdef OPTION_EXTENSION_M
+            case FU_DIV:
+                ex1_fu_act = (start_op) ? FU_DIV : FU_NONE;
+                break;
+#endif
+            default:
+                ex1_fu_act = FU_NONE;
+                break;
+        }
+
+        // Update EX1
+        r_ex1_fu = ex1_fu_act;
+        r_ex1_rd_addr = rd_addr;
+        r_ex1_instr_addr = r_ex_instr_addr;
+
+        // Instruction
+        instr_addr = (lsu.s_fin_exc_valid_o | ex1_fence_fencei) ? lsu.s_fin_instr_addr_o : r_ex_instr_addr;
+        instr_valid_I2O_free = r_ex_instr_valid & ~ex1_I2O_free_stall & ~ex_data_hazard;
+        instr_valid = r_ex_instr_valid & ~ex1_stall & ~ex_data_hazard & ~csr_hazard & ~ex0_excint_delay;
+
+        csr_op = (csr_hazard | lsu.s_req_busy_o) ? OP_ADD : ex_op;
+
+        // CSR
+        csr.s_op_i = csr_op;
+        csr.s_csr_addr_i = r_ex_csr_addr;
+        csr.s_csr_wdata_i = rs1_data;
+        csr.s_csr_s1_addr_i = r_ex_rs1_addr;
+        csr.s_csr_s1_source_i = r_ex_fu_s1_source;
+        csr_compute();
+
+        // CRF
+        crf.s_int_addr_i = ira.s_int_addr_o;
+        crf.s_int_safe_to_take_i = r_ex1_fu != FU_LSU & ~ex1_fence_fencei;
+        crf.s_op_i = csr_op;
+        crf.s_instr_addr_i = instr_addr;
+        crf.s_instr_valid_i =
+#ifdef OPTION_OCD
+            ~ocd.s_ocd_step_mode_o &
+#endif
+            instr_valid &
+            (ex1_fu_act == FU_NONE) &
+            ~ex1_fence_fencei &
+            ~interrupt_pending;
+        crf.s_instr_valid_excint_i =
+            // Do not take interrupts while processing fences
+            ~ex1_fence_fencei &
+            // Take NMI
+            ((r_ex1_fu == FU_LSU & lsu.s_fin_exc_valid_o) | (instr_valid_I2O_free & (r_ex1_fu == FU_NONE)));
+        crf.s_csr_addr_i = csr.s_csr_addr_o;
+        crf.s_csr_wdata_i = csr.s_csr_wdata_o;
+
+        crf.s_csr_re_i = (csr.s_csr_re_o & (ex_fu == FU_CSR));
+        crf.s_csr_we_i = (csr.s_csr_we_o & (ex_fu == FU_CSR));
+        crf.s_csr_valid_i = (csr.s_csr_valid_o & (ex_fu == FU_CSR));
+        crf.s_tip_i = p_mtip;
+        crf.s_sip_i = p_msip;
+        crf.s_eip_i = p_meip;
+        crf.s_nmi_i = (lsu.s_fin_exc_valid_o & (lsu.s_fin_exc_type_o == NMI_BUS_ERROR)) |
+            (r_ex_exc_valid & (r_ex_exc_type == NMI_BUS_ERROR)) | r_nmi_i;
+        crf.s_nmi_mtval_i = (lsu.s_fin_exc_valid_o & (lsu.s_fin_exc_type_o == NMI_BUS_ERROR)) ? lsu.s_fin_exc_tval_o :
+            r_nmi_i ? r_nmi_mtval : r_ex_exc_tval;
+        crf.s_exc_valid_i = exc_valid;
+        crf.s_exc_type_i = exc_type;
+        crf.s_exc_tval_i = exc_tval;
+        // CSR read, xRET, ebreak, ecall, wfi, interrupt, exception
+        crf_phase1_csr_read();
+        crf_phase1_csr_function();
+        crf_phase1_int_exc();
+
+#ifdef OPTION_OCD
+        // This helps with stopping on / stepping over fence instructions:
+        // * Do not signal valid instruction when fence is being processed in EX1 stage.
+        // * When fence is in ex0 and lsu req is not busy, fence has already finished or haven't started yet,
+        //   so it is safe to make a step.
+        // * If no fence is in EX stage, it is always safe to make a step from the fence point of view.
+        fence_safe_ocd =
+            (ex1_fence_fencei) ? false :
+            (ex0_fence_fencei) ? ~lsu.s_req_busy_o :
+            true;
+
+        /// OCD
+        ocd.s_dm_active_i = s_dm_active;
+        ocd.s_dm_halt_i = s_dm_halt;
+        ocd.s_dm_progbuf_en_i = s_dm_progbuf_en;
+        ocd.s_instr_addr_i = r_ex_instr_addr;
+        ocd.s_instr_valid_i = r_ex_instr_valid & (r_ex1_fu == FU_NONE) & fence_safe_ocd;
+        ocd.s_exc_valid_i = crf.s_exc_valid_o;
+        ocd.s_exc_type_i = crf.s_exc_type_o;
+        ocd_compute();
+
+        s_dm_progbuf_exc = ocd.s_dm_progbuf_exc_o;
+        s_dm_progbuf_done = ocd.s_dm_progbuf_done_o;
+        s_hart_halted = ocd.s_hart_halted_o;
+        crf.s_ocd_debug_mode_req_i = ocd.s_ocd_debug_mode_req_o;
+        crf.s_ocd_progbuf_mode_i = ocd.s_ocd_progbuf_mode_o;
+        crf.s_ocd_user_mode_req_i = ocd.s_ocd_user_mod_req_o;
+        crf.s_ocd_flush_i = ocd.s_ocd_flush_o;
+        crf.s_ocd_dcsr_i = ocd.s_ocd_dcsr_o;
+        crf.s_ocd_dpc_i = ocd.s_ocd_dpc_o;
+        crf.s_ocd_busy_i = ocd.s_ocd_busy_o;
+        s_progbuf_mode_active = ocd.s_ocd_progbuf_mode_o;
+#endif
+
+        // Instret handling for instruction in ex1 => second write port
+        switch (r_ex1_fu)
+        {
+            case FU_FFT_FPU: crf.s_instr_1_valid_i = fft_fpu.s_rd_valid_o; break;
+            case FU_LSU: crf.s_instr_1_valid_i = ~lsu.s_fin_busy_o & ~lsu.s_fin_exc_valid_o; break;
+#ifdef OPTION_EXTENSION_M
+            case FU_DIV: crf.s_instr_1_valid_i = div.s_rd_valid_o; break;
+#endif
+            default: crf.s_instr_1_valid_i = false; break;
+        };
+        crf.s_fu1_i = r_ex1_fu;
+
+        // CSR write
+        crf_phase2_csr_write();
+        crf_phase2_write_instret();
+        crf_phase2_crf_out();
+
+        lsu.s_clear_i = (ex1_I2O_free_stall | ex_data_hazard | crf.s_flush_o | r_ex_exc_valid | crf.s_int_stall_o) & ~ex1_fence_fencei;
+        lsu_req();
+
+        // Jump / branch handling
+        s_ex_branch_target_addr = bru.s_branch_target_addr_o;
+        s_ex_branch_miss        = bru.s_branch_miss_o & start_op & ~crf.s_int_stall_o;
+
+        // Pipeline control - Clear whole pipeline
+        s_flush = crf.s_flush_o | s_ex_branch_miss | ex1_fence_finished;
+
+        // Handling address for fence after pipeline flush
+        s_ex_fence_valid = ex1_fence_finished;
+
+        /// Other FUs
+#ifdef OPTION_EXTENSION_M
+        // Multiplier unit
+        {
+            uint1 mul_act;
+            uint_<FU_OP_W> mul_and_op;
+            UXLEN_T mul_and_rs;
+            mul_act = (ex_fu == FU_MUL);
+            // power opt - and gating
+            mul_and_op = mul_act ::* FU_OP_W;
+            mul_and_rs = mul_act ::* XLEN;
+            // MUL integration
+            mul.s_op_i = ex_op & mul_and_op;
+            mul.s_s1_data_i = rs1_data & mul_and_rs;
+            mul.s_s2_data_i = rs2_data & mul_and_rs;
+
+            if (mul_act)
+            {
+                mul_compute();
+            }
+        }
+        // Divider unit
+        {
+            uint1 div_act, div_ce;
+            uint_<FU_OP_W> div_and_op;
+            UXLEN_T div_and_rs;
+            // power opt - and gating + clock gatings
+            div_act = ((ex_fu == FU_DIV) & start_op) | (r_ex1_fu == FU_DIV);
+            // remove long comb path from clock gating logic
+            div_ce = (ex_fu == FU_DIV) | (r_ex1_fu == FU_DIV);
+            div_and_op = div_act ::* FU_OP_W;
+            div_and_rs = div_act ::* XLEN;
+            // DIV integration
+            div.s_op_i = ex_op & div_and_op;
+            div.s_s1_data_i = rs1_data & div_and_rs;
+            div.s_s2_data_i = rs2_data & div_and_rs;
+            div.s_flush_i = (s_flush | crf.s_int_stall_o) & div_ce;
+            div.s_div_ce_i = div_ce;
+
+            if (div_act)
+            {
+                div_compute();
+            }
+        }
+#endif
+
+        // FFT_FPU
+        {
+            bool fft_fpu_act;
+            uint_<FU_OP_W> fft_fpu_and_op;
+            uint_<XLEN> fft_fpu_and_rs;
+            bool fft_fpu_ce;
+
+            fft_fpu_act = (ex_fu == FU_FFT_FPU & start_op | r_ex1_fu == FU_FFT_FPU);
+            // power opt - clock gating for smul
+            // remove long comb path from clock gating logic
+            fft_fpu_ce = (ex_fu == FU_FFT_FPU | r_ex1_fu == FU_FFT_FPU);
+
+            fft_fpu.s_flush_i = (s_flush | crf.s_int_stall_o) & fft_fpu_ce;
+            fft_fpu.s_fft_ce_i = fft_fpu_ce;
+            // power opt - and gating
+            fft_fpu_and_op = fft_fpu_act ::* FU_OP_W;
+            fft_fpu_and_rs = fft_fpu_act ::* XLEN;
+            // MUL integration
+            fft_fpu.s_op_i = ex_op & fft_fpu_and_op;
+            fft_fpu.s_s1_data_i = rs1_data & fft_fpu_and_rs;
+            fft_fpu.s_s2_data_i = rs2_data & fft_fpu_and_rs;
+
+            if (fft_fpu_act)
+                fft_fpu_compute();
+        }
+
+        // MUX for results from single-cycle units
+        switch (ex_fu)
+        {
+            case FU_ALU:
+                s_rd0_addr = rd_addr;
+                s_rd0_data = alu.s_rd_data_o;
+                s_rd0_we = ~r_ex_exc_valid;
+                break;
+            case FU_BRU:
+                s_rd0_addr = rd_addr;
+                s_rd0_data = bru.s_rd_data_o;
+                s_rd0_we = bru.s_rd_we_o & ~r_ex_exc_valid;
+                break;
+            case FU_CSR:
+                s_rd0_addr = rd_addr;
+                s_rd0_data = crf.s_rdata_o;
+                s_rd0_we = csr.s_csr_rd_we_o;
+                break;
+#ifdef OPTION_EXTENSION_M
+            case FU_MUL:
+                s_rd0_addr = rd_addr;
+                s_rd0_data = mul.s_rd_data_o;
+                s_rd0_we = ~r_ex_exc_valid;
+                break;
+#endif
+            default:
+                s_rd0_addr = 0;
+                s_rd0_data = 0;
+                s_rd0_we = false;
+                break;
+        }
+
+        // MUX for results from multi-cycle units
+        switch (r_ex1_fu)
+        {
+            case FU_FFT_FPU:
+                s_rd1_addr = r_ex1_rd_addr;
+                s_rd1_data = fft_fpu.s_rd_data_o;
+                s_rd1_we = fft_fpu.s_rd_valid_o;
+                break;
+            case FU_LSU:
+                s_rd1_addr = lsu.s_fin_rd_addr_o;
+                s_rd1_data = lsu.s_fin_rd_data_o;
+                s_rd1_we = lsu.s_fin_rd_we_o & lsu.s_fin_rd_valid_o & ~lsu.s_fin_exc_valid_o;
+                break;
+#ifdef OPTION_EXTENSION_M
+            case FU_DIV:
+                s_rd1_addr = r_ex1_rd_addr;
+                s_rd1_data = div.s_rd_data_o;
+                s_rd1_we = div.s_rd_valid_o;
+                break;
+#endif
+            default:
+                s_rd1_addr = 0;
+                s_rd1_data = 0;
+                s_rd1_we = false;
+                break;
+        };
+
+        // Hazard unit
+        // p0 - instruction causes hazard by writing result
+        switch (ex_fu)
+        {
+            case FU_BRU: s_ex_p0_we = bru.s_rd_we_o; break;
+            case FU_CSR: s_ex_p0_we = csr.s_csr_rd_we_o; break;
+            case FU_LSU: s_ex_p0_we = lsu.s_is_load; break;
+#ifdef OPTION_EXTENSION_M
+            case FU_MUL: s_ex_p0_we = true; break;
+            case FU_DIV: s_ex_p0_we = true; break;
+            case FU_FFT_FPU: s_ex_p0_we = true; break;
+#endif
+            // ALU, B-unit are forwarded = no hazard
+            default:    s_ex_p0_we = false; break;
+        }
+        // Forwarded results
+        s_ex_rd_addr = rd_addr;
+        s_ex_rd_data = alu.s_rd_data_o;
+        s_ex_rd_we   = (ex_fu == FU_ALU) & ~r_ex_exc_valid;
+        // Hazard detection
+        s_ex_p0_addr = rd_addr;
+        s_ex_p1_addr = s_rd1_addr;
+        s_ex_p1_we   = s_rd1_we;
+
+#ifdef OPTION_OCD
+        s_ex_progbuf_mode = ocd.s_ocd_progbuf_mode_o;
+#endif
+
+        // Pipeline control - EX stage
+        s_ex_clear = false;
+        s_ex_stall =
+            // Block pipeline on pending interrupt
+            crf.s_int_stall_o |
+#ifdef OPTION_OCD
+            ocd.s_ocd_busy_o |
+            // Block pipeline when the core steps over a multi-cycle instruction
+            (ocd.s_ocd_step_mode_o & (r_ex1_fu != FU_NONE)) |
+#endif
+            ex1_stall |
+            ex_data_hazard |
+            ex_struct_hazard |
+            csr_hazard | lsu.s_req_busy_o |
+            crf.s_wfi_o |
+            ex0_excint_delay;
+
+        if (r_wfi_ce == 1)
+        {
+            r_wfi_ce = ~crf.s_wfi_o;
+        }
+
+        // EX1 stage
+        s_ex1_stall = ex1_stall;
+        s_ex1_clear = false;
+
+        /// IRA - Interrupt return address
+        // Should the instruction be retired? -> On pending interrupts retire only LSU instructions
+        write_ex1_on_pending_int = crf.s_int_stall_o ? (r_ex1_fu == FU_LSU) : true;
+
+        // ex0
+        ira.s_ex0_retired_i = crf.s_instr_valid_i & ~crf.s_int_stall_o;
+        ira.s_ex0_instr_addr_i = r_ex_instr_addr;
+        ira.s_ex0_is_branch_i = (ex_fu == FU_BRU);
+        ira.s_ex0_branch_target_i = s_ex_branch_target_addr;
+        ira.s_ex0_is_csr_i = crf.s_csr_valid_o | s_ex_fence_valid;
+        ira.s_ex0_csr_addr_i = crf.s_csr_addr_o;
+        // ex1
+        ira.s_ex1_retired_i = crf.s_instr_1_valid_i & write_ex1_on_pending_int;
+        ira.s_ex1_instr_addr_i = r_ex1_instr_addr;
+#ifdef OPTION_OCD
+        // debug
+        ira.s_ocd_addr_i = ocd.s_ocd_addr_o;
+        ira.s_ocd_valid_i = ocd.s_ocd_valid_o;
+        ira.s_ocd_stop_count_i = ocd.s_ocd_progbuf_mode_o;
+#endif
+        ira_update();
+
+        #pragma simulator
+        {
+            if (crf.s_int_flush_o)
+            {
+                codasip_print(TRACE_LEVEL, "Taking interrupt, execution will resume at addr %04x\n", ira.s_int_addr_o);
+            }
+            else if (crf.s_int_stall_o)
+            {
+                codasip_print(TRACE_LEVEL, "Interrupt pending %032b\n", (r_csr_mip & r_csr_mie));
+            }
+        }
+
+        // Write back
+        // Safe to write?
+        s_rd0_write =
+            ~s_ex_stall &
+#ifdef OPTION_OCD
+            ~ocd.s_ocd_debug_mode_req_o &
+#endif
+            ~crf.s_exc_valid_o &
+            ~crf.s_int_flush_o &
+            ~crf.s_int_stall_o &
+            ~r_ex_exc_valid;
+
+        s_rd1_write =
+            (r_ex1_fu != FU_NONE) &
+            ~(s_rd0_write & s_rd0_we & (s_rd0_addr == s_rd1_addr)) &
+            write_ex1_on_pending_int;
+
+        // Write results from ex1 first due to consistency on CA simulator
+        if (s_rd1_write & s_rd1_we & (s_rd1_addr != 0))
+        {
+            rf_gpr.w1[s_rd1_addr] = s_rd1_data;
+        }
+        #pragma simulator
+        {
+            // Consistency on CA simulator:
+            // When there are two writes on the same address, the write from EX1 is skipped
+            // (see condition for "s_rd1_write" above).
+            // Perform the write on CA sim anyway to ensure consistency with IA.
+            uint1 rd1_write_skipped;
+
+            rd1_write_skipped =
+                (r_ex1_fu != FU_NONE) &
+                (s_rd0_write & s_rd0_we & s_rd0_addr == s_rd1_addr);
+
+            if (rd1_write_skipped & s_rd1_we & (s_rd1_addr != 0))
+            {
+                rf_gpr.w1[s_rd1_addr] = s_rd1_data;
+            }
+        }
+        // Write results from ex0
+        if (s_rd0_write & s_rd0_we & (s_rd0_addr != 0))
+        {
+            rf_gpr.w0[s_rd0_addr] = s_rd0_data;
+        }
+
+        /// PERF
+        s_perf_branch_miss = s_ex_branch_miss;
+        s_perf_lsu_stall = lsu.s_fin_busy_o;
+#ifdef OPTION_EXTENSION_M
+        s_perf_div_stall = div.s_busy_o;
+#endif
+        s_perf_csr_flush = crf.s_csr_flush_o;
+        s_perf_exc_flush = crf.s_exc_flush_o;
+        s_perf_int_flush = crf.s_int_flush_o;
+        s_perf_we = crf.s_perf_we_o;
+        s_perf_wdata = crf.s_perf_wdata_o;
+        s_perf_waddr = crf.s_perf_waddr_o;
+
+        // Read NMI port into registers
+        if (crf.s_take_nmi_o)
+        {
+            // When NMI is registered and taken by the core, set the flag back to low
+            r_nmi_i = 0;
+        }
+        else
+        {
+            // Otherwise latch the NMI flag from this port
+            r_nmi_i |= p_nmi;
+        }
+
+        if (!r_nmi_i && p_nmi)
+        {
+            // Read the mtval from this port only when NMI is first registered
+            r_nmi_mtval = p_nmi_mtval;
+        }
+    };
+};

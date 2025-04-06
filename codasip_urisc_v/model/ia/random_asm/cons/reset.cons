@@ -1,0 +1,243 @@
+#ifndef _RESET_
+#define _RESET_
+
+//----------------------------------------------------------------------------------------------------------
+
+// assign value by the EQU directive as symbol (not be changed or redefined)
+element set_symbol
+{
+    assembly
+    {
+        // usefull for ensure not disable global interrupts
+        SET_SYMBOL(MSTATUS_MASK_S)
+        SET_SYMBOL(MSTATUS_MASK_C)
+        // usefull for ensure not delegate machine exception
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// setup required dependencies to properly run program
+element reset_handler
+{
+    assembly
+    {
+        ".global _reset_handler\n"
+        "_reset_handler:                                   // control initialization once at the begining\n"
+        set_trap_handler
+        set_enable_irq
+#if defined(INTERRUPTS)
+        set_first_mpicmask
+#endif
+#if defined(VIRTUAL_PAGE_UTILIZE)
+        set_satp_mode
+#endif
+        start_in_mode
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// trap vector (machine, supervisor, user) configuration base field address with direct mode setting
+element set_trap_handler
+{
+    assembly
+    {
+        SET_TRAP_HANDLER("_trap_handler", mtvec, "M-mode")
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+// turn on separate bits available for the individual privilege mode register
+element set_enable_irq
+{
+    assembly
+    {
+        SET_ENABLE_IRQ(uimm_0_mie_init, mie, "MEIE, MSIE, MTIE")
+    };
+};
+variables
+{
+    // init of interrupt enable for M-mode
+    REG_DATA_TYPE uimm_0_mie_init
+    {
+        constraints
+        {
+            weights
+            {
+                0x888 = 1;
+#if !defined(INTERRUPTS)
+                0x008 = 1;
+                0x080 = 1;
+                0x800 = 1;
+                0x088 = 1;
+                0x808 = 1;
+                0x880 = 1;
+                0x000 = 1;
+#endif
+                default / 0;
+            };
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(VIRTUAL_PAGE_UTILIZE)
+//----------------------------------------------------------------------------------------------------------
+
+// setup address translation for deditaced scheme
+element set_satp_mode
+{
+    assembly
+    {
+#if OPTION_XLEN == 64
+        SET_SATP_MODE(satp_mode, 60, "_pte_l0")
+#else
+        SET_SATP_MODE(satp_mode, 30, "_pte_l0")
+#endif
+        ".balign 0x1000\n"
+        "_pte_l0:\n"
+        // bits [7:0] meaning: D A G U  X W R V
+        //              0xDF = 1 1 0 1  1 1 1 1
+        ".quad 0xDF\n"
+    };
+};
+variables
+{
+#if OPTION_XLEN == 64
+    uint4 satp_mode
+    {
+        constraints
+        {
+            weights
+            {
+                0 = 1;
+#if defined(PAGE_SCHEME_SV39)
+                8 = 1;
+#endif
+#if defined(PAGE_SCHEME_SV48)
+                9 = 1;
+#endif
+                default / 0;
+            };
+        };
+    };
+#else
+    uint1 satp_mode
+    {
+        constraints
+        {
+            weights
+            {
+                0 = 1;
+#if defined(PAGE_SCHEME_SV32)
+                1 = 1;
+#endif
+                default / 0;
+            };
+        };
+    };
+#endif
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(PRV_MODE_START)
+//----------------------------------------------------------------------------------------------------------
+
+// activate all possible interrupt stack bits by first xret instruction with previous set
+element global_enable_irq
+{
+    assembly
+    {
+        GLOBAL_ENABLE_IRQ(0x80, "MPIE")
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// start execution in privilege mode (machine, supervisor, user)
+set start_in_mode =
+    start_in_u_mode,
+    start_in_m_mode
+{
+    constraints
+    {
+        weights
+        {
+            start_in_u_mode = 1;
+            start_in_m_mode = 1;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// provide possibility to use different return function for user mode
+set start_in_u_mode =
+    apply_u_mode_mret;
+
+element apply_u_mode_mret
+{
+    assembly
+    {
+        START_IN_MODE("U-mode", 0b00000, mepc, mret)
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// provide possibility to use different return function for supervisor mode
+
+//----------------------------------------------------------------------------------------------------------
+
+// provide possibility to use different return function for machine mode
+set start_in_m_mode =
+    apply_m_mode_mret;
+
+element apply_m_mode_mret
+{
+    assembly
+    {
+        START_IN_MODE("M-mode", 0b11000, mepc, mret)
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#else
+//----------------------------------------------------------------------------------------------------------
+
+// activate all possible interrupt enable direct bits set
+element global_enable_irq
+{
+    assembly
+    {
+        GLOBAL_ENABLE_IRQ(0x08, "MIE")
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// start execution in privilege mode (machine only)
+element start_in_mode
+{
+    assembly
+    {
+#if defined(INTERRUPTS)
+// druring driven interrupts must initialize xPIE
+        START_IN_MODE("M-mode", 0x80, "MPIE")
+#else
+        START_IN_MODE("M-mode", 0x00, "zero")
+#endif
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_RESET_

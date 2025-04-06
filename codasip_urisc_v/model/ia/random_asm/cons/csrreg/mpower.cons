@@ -1,0 +1,9 @@
+#ifndef _MPOWER_
+#define _MPOWER_
+
+// mpower [Machine Power Management Unit]: register contains step sequence for wake-up (must properly follow) from sleep mode or reset
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MPOWER_

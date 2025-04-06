@@ -1,0 +1,275 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The Divider unit (DIV) implements signed and unsigned division and remainder operations using the Restoring Division Algorithm.
+ */
+
+#ifdef OPTION_EXTENSION_M
+
+#include "ca_defines.hcodal"
+
+// FSM states
+enum : uint2
+{
+    DIV_IDLE = 0,
+    DIV_COMPUTE,
+    DIV_ZERO,
+};
+
+module div
+{
+    // Inputs
+    signal bit[FU_OP_W] s_op_i;
+    signal bit[OPTION_XLEN] s_s1_data_i;
+    signal bit[OPTION_XLEN] s_s2_data_i;
+    signal bit[1] s_flush_i;
+    signal bit[1] s_div_ce_i;
+
+    // Outputs
+    signal bit[OPTION_XLEN] s_rd_data_o;
+    signal bit[1] s_rd_valid_o;
+    signal bit[1] s_busy_o;
+
+    // Decalrations of registers:
+
+    // State of the div unit
+    register bit[2] r_state { clock_enable = s_div_ce_i; };
+    // How many cycles to the finish
+    register bit[clog2(OPTION_XLEN) + 1] r_counter { clock_enable = s_div_ce_i; };
+    // Operation type DIV/REM/...
+    register bit[FU_OP_W] r_op { clock_enable = s_div_ce_i; };
+    // Should we change the sign
+    register bit[1] r_sign { clock_enable = s_div_ce_i; };
+    // Divisor/denominator
+    register bit[OPTION_XLEN + 1] r_den { clock_enable = s_div_ce_i; };
+    // Quotient (result of the division)
+    register bit[OPTION_XLEN + 1] r_div { clock_enable = s_div_ce_i; };
+    // Remainder (after the division)
+    register bit[OPTION_XLEN + 1] r_rem { clock_enable = s_div_ce_i; };
+
+    event div_outputs
+    {
+        semantics
+        {
+            uint_<OPTION_XLEN+1> result, result_raw;
+
+            // Busy when we enter the computation
+            s_busy_o = (r_state != DIV_IDLE);
+            // Valid in the last round of division
+            s_rd_valid_o = (r_state == DIV_COMPUTE) & (r_counter == 0);
+
+#if OPTION_XLEN==64
+            result_raw = (r_op == OP_DIV | r_op == OP_DIVU | r_op == OP_DIVW | r_op == OP_DIVUW) ? r_div : r_rem;
+            result = ((r_op == OP_REMW | r_op == OP_REMUW | r_op == OP_DIVW | r_op == OP_DIVUW) & ~r_sign)
+                ? (uint65)(int65)(int32)result_raw
+                : (uint65)result_raw;
+#else
+            result_raw = (r_op == OP_DIV | r_op == OP_DIVU) ? r_div : r_rem;
+            result = (uint33)result_raw;
+#endif
+
+            // Provide the result
+            s_rd_data_o = r_sign ? -result : result;
+        };
+    };
+
+    event div_compute
+    {
+        semantics
+        {
+            switch (r_state)
+            {
+                case DIV_IDLE:
+                    if ((s_op_i == OP_DIV | s_op_i == OP_DIVU |
+                        s_op_i == OP_REM | s_op_i == OP_REMU
+#if OPTION_XLEN == 64
+                        // Instructions that only exist on RV64
+                        | s_op_i == OP_DIVW | s_op_i == OP_DIVUW |
+                        s_op_i == OP_REMW | s_op_i == OP_REMUW
+#endif
+                        ) & ~s_flush_i)
+                    {
+                        uint_<OPTION_XLEN+1> denominator, dividend;
+                        uint_<clog2(OPTION_XLEN)+1> div_msb;
+                        uint1 rs1_sign, rs2_sign, div_by_zero;
+
+                        // prepare operands
+                        switch (s_op_i)
+                        {
+                            case OP_DIV:
+                            case OP_REM:
+                                rs1_sign = s_s1_data_i[OPTION_XLEN-1 .. OPTION_XLEN-1];
+                                rs2_sign = s_s2_data_i[OPTION_XLEN-1 .. OPTION_XLEN-1];
+
+                                dividend = rs1_sign
+                                    ? (uint_<OPTION_XLEN+1>)(uint_<OPTION_XLEN>)(-(int_<OPTION_XLEN>)s_s1_data_i)
+                                    : (uint_<OPTION_XLEN+1>)s_s1_data_i;
+                                denominator = rs2_sign
+                                    ? (uint_<OPTION_XLEN+1>)(uint_<OPTION_XLEN>)(-(int_<OPTION_XLEN>)s_s2_data_i)
+                                    : (uint_<OPTION_XLEN+1>)s_s2_data_i;
+                                break;
+
+#if OPTION_XLEN == 64
+                            // These instructions only exist in RV64
+                            case OP_DIVW:
+                            case OP_REMW:
+                                rs1_sign = s_s1_data_i[31..31];
+                                rs2_sign = s_s2_data_i[31..31];
+
+                                dividend = rs1_sign
+                                    ? (uint65)(uint32)(-(int32)s_s1_data_i[31..0])
+                                    : (uint65)s_s1_data_i[31..0];
+                                denominator = rs2_sign
+                                    ? (uint65)(uint32)(-(int32)s_s2_data_i[31..0])
+                                    : (uint65)s_s2_data_i[31..0];
+                                break;
+#endif
+
+                            case OP_DIVU:
+                            case OP_REMU:
+                                rs1_sign = 0;
+                                rs2_sign = 0;
+
+                                dividend = s_s1_data_i;
+                                denominator = s_s2_data_i;
+                                break;
+
+#if OPTION_XLEN==64
+                            // These instructions only exist in RV64
+                            case OP_DIVUW:
+                            case OP_REMUW:
+                                rs1_sign = 0;
+                                rs2_sign = 0;
+
+                                dividend = s_s1_data_i[31..0];
+                                denominator = s_s2_data_i[31..0];
+                                break;
+#endif
+
+                            default:
+                                rs1_sign = 0;
+                                rs2_sign = 0;
+
+                                dividend = 0;
+                                denominator = 0;
+
+                                codasip_assert(0, "DIV module-unknown operation");
+                                break;
+                        }
+
+                        // Set correct sign extension, taking into account the type of the instruction.
+#if OPTION_XLEN == 64
+                        r_sign = ~(s_s2_data_i[31 .. 0] == 0 & (s_op_i == OP_DIVW)) &
+                            ~(s_s2_data_i == 0 & (s_op_i == OP_DIV)) &
+                            ((s_op_i == OP_REM || s_op_i == OP_REMW) ? rs1_sign : rs1_sign != rs2_sign);
+#else
+                        r_sign = ~(s_s2_data_i == 0 & (s_op_i == OP_DIV)) &
+                            ((s_op_i == OP_REM) ? rs1_sign : rs1_sign != rs2_sign);
+#endif
+
+                    // Detect division by zero
+                    div_by_zero = (denominator == 0);
+
+                    // Optimization - count leading zeros (CLZ) of the dividend, don't shift div in case of div-by-zero
+                    #if OPTION_XLEN==64
+                        div_msb = div_by_zero ? (uint7)0 : codasip_ctlz_uint65(dividend);
+                    #else
+                        div_msb = div_by_zero ? (uint6)0 : codasip_ctlz_uint33(dividend);
+                    #endif
+
+                        // Align the dividend to first non-zero MSB
+                        r_div = ( uint_<OPTION_XLEN+1> )(dividend << (uint_<clog2(OPTION_XLEN)+1>)div_msb);
+                        r_den = (uint_<OPTION_XLEN+1>)(denominator);
+
+                        // CLZ: Zero result optimization - reduce the number of iterations by shifting the dividend.
+                        r_counter = (uint_<clog2(OPTION_XLEN)+1>)(OPTION_XLEN+1) -div_msb;
+
+                        r_op = s_op_i;
+                        // Initialize the remainder.
+                        r_rem = 0;
+                        // In case of division by zero, go to "zero" state, then to "compute" state.
+                        r_state = div_by_zero ? DIV_ZERO : DIV_COMPUTE;
+                    }
+                    break;
+
+                case DIV_COMPUTE:
+                    // Check for early exit
+                    if (s_flush_i)
+                    {
+                        r_state = DIV_IDLE;
+                    }
+                    // Perform the compuation
+                    else if (r_counter != 0)
+                    {
+                        uint_<((OPTION_XLEN+1)<<1)> rem_div_1;
+                        uint_<OPTION_XLEN+2> diff_1;
+                        uint_<OPTION_XLEN+1> div_1, rem_1;
+
+                        // 1st iteration
+                        rem_div_1 = (r_rem :: r_div) << 1;
+                        diff_1 = (int_<OPTION_XLEN+2>)rem_div_1[((OPTION_XLEN+1)<<1)-1 .. OPTION_XLEN+1] - r_den;
+
+                        if (diff_1[(OPTION_XLEN+1) .. (OPTION_XLEN+1)] == 0)
+                        {
+                            uint_<((OPTION_XLEN+1)<<1)> rem_div_fixed_1;
+
+                            rem_div_fixed_1 = diff_1[(OPTION_XLEN) .. 0] :: rem_div_1[(OPTION_XLEN)..1] :: (uint1)1;
+                            div_1 = rem_div_fixed_1[(OPTION_XLEN) .. 0];
+                            rem_1 = rem_div_fixed_1[(((OPTION_XLEN+1)<<1)-1) .. (OPTION_XLEN+1)];
+                        }
+                        else
+                        {
+                            div_1 = rem_div_1[(OPTION_XLEN) .. 0];
+                            rem_1 = rem_div_1[(((OPTION_XLEN+1)<<1)-1) .. (OPTION_XLEN+1)];
+                        }
+
+                        // Store results to registers
+                        r_div = div_1;
+                        r_rem = rem_1;
+                        r_counter -= (uint_<clog2(OPTION_XLEN)+1>)1;
+                    }
+                    else
+                    {
+                        // We have the result!
+                        r_state = DIV_IDLE;
+                    }
+                    break;
+
+                case DIV_ZERO:
+                    // In case of division by zero - RISC-V unprivileged ISA V20191213, Table 7.1
+                    r_div = (uint_<OPTION_XLEN>)((uint1) 1 ::* OPTION_XLEN);
+
+                    r_rem = r_div;
+                    r_counter = 0;
+                    r_state = s_flush_i ? DIV_IDLE : DIV_COMPUTE;
+                    break;
+
+                default:
+                    // Reset to idle state
+                    r_state = DIV_IDLE;
+                    break;
+            }
+        };
+    };
+};
+#endif

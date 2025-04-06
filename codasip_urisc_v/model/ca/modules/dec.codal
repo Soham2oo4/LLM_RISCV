@@ -1,0 +1,754 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The decoder takes 32-bit RISC-V instructions and decodes opcodes, immediate values and operand addresses.
+ * It then issues control signals to other components that will process the instruction further.
+ */
+
+#include "isa.hcodal"
+#include "opcodes.hcodal"
+#include "opcodes_hackaton.hcodal"
+#include "ca_defines.hcodal"
+#include "dec_defines.hcodal"
+
+module dec
+{
+    // Inputs
+    signal bit[INSTR_W]     s_instr_i;
+
+#ifdef OPTION_OCD
+    signal bit[1]           s_ocd_progbuf_mode_i;
+#endif
+
+    // Outputs
+    signal bit[XLEN]        s_imm_o;
+    signal bit[CSR_W]       s_csr_addr_o;
+    signal bit[FU_OP_W]     s_op_o;
+    signal bit[RF_ADDR_W]   s_rs1_addr_o,
+                            s_rs2_addr_o,
+                            s_rd_addr_o;
+    signal bit[FU_UNIT_W]   s_fu_o;
+    signal bit[EXC_TYPE_W]  s_exc_type_o;
+    signal bit[ADDR_W]      s_exc_tval_o;
+    signal bit[FU_SOURCE_W] s_fu_s2_source_o,
+                            s_fu_s1_source_o;
+    signal bit[1]           s_exc_valid_o;
+
+#ifdef OPTION_OCD
+    signal bit[1]           s_instr_illegal_on_dbg;
+#endif
+
+    // Internal signals
+    signal bit[IMM_TYPE_W]  s_imm_type;
+    signal bit[1]           s_illegal_instr;
+
+    event compute
+    {
+        use i_dec;
+        semantics
+        {
+            uint32 imm_i, imm_s, imm_u, imm_uj, imm_sb, imm_csr;
+
+            i_dec(s_instr_i, s_illegal_instr);
+
+            imm_i = (uint32)(int12)(s_instr_i[IMM_I_FRAG0]);
+            imm_s = (uint32)(int12)(s_instr_i[IMM_S_FRAG1] :: s_instr_i[IMM_S_FRAG0]);
+            imm_u = (uint32)(s_instr_i[IMM_U_FRAG0] :: (uint12)0);
+            imm_sb = (uint32)(int13)(
+                s_instr_i[IMM_SB_FRAG3] ::
+                s_instr_i[IMM_SB_FRAG2] ::
+                s_instr_i[IMM_SB_FRAG1] ::
+                s_instr_i[IMM_SB_FRAG0] ::
+                (uint1)0);
+            imm_uj = (int32)(int21)(
+                s_instr_i[IMM_UJ_FRAG3] ::
+                s_instr_i[IMM_UJ_FRAG2] ::
+                s_instr_i[IMM_UJ_FRAG1] ::
+                s_instr_i[IMM_UJ_FRAG0] ::
+                (uint1)0);
+            imm_csr = s_instr_i[RS1_ADDR_FRAG];
+
+            switch (s_imm_type)
+            {
+                case IMM_I:   s_imm_o = (XLEN_T)(int32)imm_i; break;
+                case IMM_S:   s_imm_o = (XLEN_T)(int32)imm_s; break;
+                case IMM_SB:  s_imm_o = (XLEN_T)(int32)imm_sb; break;
+                case IMM_U:   s_imm_o = (XLEN_T)(int32)imm_u; break;
+                case IMM_UJ:  s_imm_o = (XLEN_T)(int32)imm_uj; break;
+                case IMM_CSR: s_imm_o = (XLEN_T)(int32)imm_csr; break;
+                default:      s_imm_o = (XLEN_T) 0; break;
+            }
+
+            // Evaluate source and destination register addresses
+            s_rs1_addr_o = s_instr_i[RS1_ADDR_FRAG];
+            s_rs2_addr_o = s_instr_i[RS2_ADDR_FRAG];
+            s_rd_addr_o = s_instr_i[DST_ADDR_FRAG];
+
+            s_csr_addr_o = s_instr_i[CSR_ADDR_FRAG];
+
+            // Exception
+            s_exc_valid_o = s_illegal_instr
+#ifdef OPTION_OCD
+                || (s_instr_illegal_on_dbg && s_ocd_progbuf_mode_i)
+#endif
+                ;
+            s_exc_type_o = ILLEGAL_INST;
+            s_exc_tval_o = s_instr_i;
+
+        };
+    };
+
+    set i_dec = i_hw_fft_float;
+    element i_hw_fft_float
+    {
+        use opc_fft_float_i as opc;
+
+        assembly { opc };
+        binary { 0:bit[7] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc bit[RF_GPR_ADDR] OPC_XX };
+
+        semantics
+        {
+            s_fu_o = FU_FFT_FPU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_XX_FFT_FLOAT_ADD: s_op_o = OP_FFT_FLOAT_ADD; break;
+                case OPC_XX_FFT_FLOAT_MUL: s_op_o = OP_FFT_FLOAT_MUL; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_fft_butterfly_calc;
+    element i_hw_fft_butterfly_calc
+    {
+        use opc_butterfly_i as opc;
+
+        assembly { opc };
+        binary { 0:bit[7] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc bit[RF_GPR_ADDR] OPC_XX };
+
+        semantics
+        {
+            s_fu_o = FU_FFT_FPU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_XX_FFT_BTFL_CALC: s_op_o = OP_FFT_BUTTERFLY; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_fft_butterfly_flw;
+    element i_hw_fft_butterfly_flw
+    {
+        use opc_btfl_lw_i as opc;
+
+        assembly { opc };
+        binary { opc 0:bit[5] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] OPC_XX_FFT_BTFL_FLW 0:bit[5] OPC_XX };
+
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_XX_E_R: s_op_o = OP_FFT_BUTTERFLY_LOAD_E; break;
+                case OPC_XX_O_R: s_op_o = OP_FFT_BUTTERFLY_LOAD_O; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_fft_butterfly_fsw;
+    element i_hw_fft_butterfly_fsw
+    {
+        use opc_btfl_sw_i as opc;
+
+        assembly { opc };
+        binary { opc 0:bit[15] OPC_XX_FFT_BTFL_FSW bit[RF_GPR_ADDR] OPC_XX };
+
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_NONE;
+            s_fu_s2_source_o = FU_NONE;
+
+            switch (opc)
+            {
+                case OPC_XX_E_R: s_op_o = OP_FFT_BUTTERFLY_STORE_E_R; break;
+                case OPC_XX_E_I: s_op_o = OP_FFT_BUTTERFLY_STORE_E_I; break;
+                case OPC_XX_O_R: s_op_o = OP_FFT_BUTTERFLY_STORE_O_R; break;
+                case OPC_XX_O_I: s_op_o = OP_FFT_BUTTERFLY_STORE_O_I; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_comp_2reg_imm;
+    element i_hw_comp_2reg_imm
+    {
+        use opc_comp_2reg_imm as opc;
+        assembly { opc };
+        binary { bit[IMM12_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_I;
+
+            switch (opc)
+            {
+                case OPC_I_ADDI: s_op_o = OP_ADD; break;
+                case OPC_I_SLTI: s_op_o = OP_SLT; break;
+                case OPC_I_SLTIU: s_op_o = OP_SLTU; break;
+                case OPC_I_ANDI: s_op_o = OP_AND; break;
+                case OPC_I_ORI: s_op_o = OP_OR; break;
+                case OPC_I_XORI: s_op_o = OP_XOR; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_comp_2reg_imm_shift;
+    element i_hw_comp_2reg_imm_shift
+    {
+        use opc_comp_2reg_imm_shift as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG_SHIFT] bit[SHIFT_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_I;
+
+            switch (opc)
+            {
+                case OPC_SI_SLLI: s_op_o = OP_SLL; break;
+                case OPC_SI_SRLI: s_op_o = OP_SRL; break;
+                case OPC_SI_SRAI: s_op_o = OP_SRA; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_lui;
+    element i_hw_lui
+    {
+        use opc_lui as opc;
+        assembly { opc };
+        binary { bit[IMM20_W] bit[RF_GPR_ADDR] opc };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_U;
+            s_op_o = OP_ADD;
+        };
+    };
+
+    set i_dec += i_hw_auipc;
+    element i_hw_auipc
+    {
+        use opc_auipc as opc;
+        assembly { opc };
+        binary { bit[IMM20_W] bit[RF_GPR_ADDR] opc };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_PC;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_U;
+            s_op_o = OP_ADD;
+#ifdef OPTION_OCD
+            s_instr_illegal_on_dbg = true;
+#endif
+        };
+    };
+
+    set i_dec += i_hw_comp_3reg;
+    element i_hw_comp_3reg
+    {
+        use opc_comp_3reg as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG2] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                // ALU unit
+                case OPC_R_ADD:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_ADD;
+                    break;
+                case OPC_R_SLT:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SLT;
+                    break;
+                case OPC_R_SLTU:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SLTU;
+                    break;
+                case OPC_R_AND:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_AND;
+                    break;
+                case OPC_R_OR:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_OR;
+                    break;
+                case OPC_R_XOR:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_XOR;
+                    break;
+                case OPC_R_SLL:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SLL;
+                    break;
+                case OPC_R_SRL:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SRL;
+                    break;
+                case OPC_R_SUB:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SUB;
+                    break;
+                case OPC_R_SRA:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SRA;
+                    break;
+#ifdef OPTION_EXTENSION_M
+                // MUL unit
+                case OPC_R_MUL:
+                    s_fu_o = FU_MUL;
+                    s_op_o = OP_MUL;
+                    break;
+                case OPC_R_MULH:
+                    s_fu_o = FU_MUL;
+                    s_op_o = OP_MULH;
+                    break;
+                case OPC_R_MULHU:
+                    s_fu_o = FU_MUL;
+                    s_op_o = OP_MULHU;
+                    break;
+                case OPC_R_MULHSU:
+                    s_fu_o = FU_MUL;
+                    s_op_o = OP_MULHSU;
+                    break;
+                // DIV unit
+                case OPC_R_DIV:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_DIV;
+                    break;
+                case OPC_R_DIVU:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_DIVU;
+                    break;
+                case OPC_R_REM:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_REM;
+                    break;
+                case OPC_R_REMU:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_REMU;
+                    break;
+#endif // OPTION_EXTENSION_M
+            }
+        };
+    };
+
+    set i_dec += i_hw_jal;
+    element i_hw_jal
+    {
+        use opc_jal as opc;
+        assembly { opc };
+        binary { bit[IMM20_W] bit[RF_GPR_ADDR] opc };
+        semantics
+        {
+            s_fu_o = FU_BRU;
+            s_fu_s1_source_o = FU_OP_PC;
+            s_imm_type = IMM_UJ;
+            s_op_o = OP_JAL;
+#ifdef OPTION_OCD
+            s_instr_illegal_on_dbg = true;
+#endif
+        };
+    };
+
+    set i_dec += i_hw_jalr;
+    element i_hw_jalr
+    {
+        use opc_jalr as opc;
+        assembly { opc };
+        binary { bit[IMM12_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_BRU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_imm_type = IMM_I;
+            s_op_o = OP_JALR;
+#ifdef OPTION_OCD
+            s_instr_illegal_on_dbg = true;
+#endif
+        };
+    };
+
+    set i_dec += i_hw_control_conditional;
+    element i_hw_control_conditional
+    {
+        use opc_control_conditional as opc;
+        assembly { opc };
+        binary { bit[IMM7_W] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[IMM5_W] opc[OPC_FRAG0]};
+        semantics
+        {
+            s_fu_o = FU_BRU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+            s_imm_type = IMM_SB;
+
+            switch (opc)
+            {
+                case OPC_S_BEQ: s_op_o = OP_EQ; break;
+                case OPC_S_BNE: s_op_o = OP_NE; break;
+                case OPC_S_BLT: s_op_o = OP_LT; break;
+                case OPC_S_BLTU: s_op_o = OP_LTU; break;
+                case OPC_S_BGE: s_op_o = OP_GE; break;
+                case OPC_S_BGEU: s_op_o = OP_GEU; break;
+            }
+#ifdef OPTION_OCD
+            s_instr_illegal_on_dbg = true;
+#endif
+        };
+    };
+
+    set i_dec += i_hw_load;
+    element i_hw_load
+    {
+        use opc_loads as opc;
+        assembly { opc };
+        binary { bit[IMM12_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_LSU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_NONE;
+            s_imm_type = IMM_I;
+
+            switch (opc)
+            {
+#if OPTION_XLEN == 64
+                case OPC_I_LD: s_op_o = OP_LD; break;
+                case OPC_I_LWU: s_op_o = OP_LWU; break;
+#endif // OPTION_XLEN == 64
+                case OPC_I_LB: s_op_o = OP_LB; break;
+                case OPC_I_LH: s_op_o = OP_LH; break;
+                case OPC_I_LW: s_op_o = OP_LW; break;
+                case OPC_I_LBU: s_op_o = OP_LBU; break;
+                case OPC_I_LHU: s_op_o = OP_LHU; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_store;
+    element i_hw_store
+    {
+        use opc_stores as opc;
+        assembly { opc };
+        binary { bit[IMM7_W] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[IMM5_W] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_LSU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+            s_imm_type = IMM_S;
+
+            switch (opc)
+            {
+#if OPTION_XLEN == 64
+                case OPC_S_SD: s_op_o = OP_SD; break;
+#endif // OPTION_XLEN == 64
+                case OPC_S_SB: s_op_o = OP_SB; break;
+                case OPC_S_SH: s_op_o = OP_SH; break;
+                case OPC_S_SW: s_op_o = OP_SW; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_fence;
+    element i_hw_fence
+    {
+        use opc_fence as opc;
+        use opc_fence_param as param1, param2;
+        assembly { opc param1 param2};
+        binary { bit[FENCE_FM_W] param2 param1 bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+            s_op_o = (param2 == OPC_FENCE_HINT || param1 == OPC_FENCE_HINT) ? OP_ADD : OP_FENCE;
+        };
+    };
+
+    set i_dec += i_hw_fencei;
+    element i_hw_fencei
+    {
+        use opc_fencei as opc;
+        assembly { opc };
+        binary { bit[IMM12_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+            s_op_o = OP_FENCE_I;
+        };
+    };
+
+    set i_dec += i_hw_ecall;
+    element i_hw_ecall
+    {
+        use opc_ecall as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+            s_op_o = OP_ECALL;
+        };
+    };
+
+    set i_dec += i_hw_ebreak;
+    element i_hw_ebreak
+    {
+        use opc_ebreak as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+            s_op_o = OP_EBREAK;
+        };
+    };
+
+    DEF_OPC_GROUP(opc_control_registers, csrrw_hw, "csrrw", OPC_I_CSRRW)
+    DEF_OPC_GROUP(opc_control_registers, csrrs_hw, "csrrs", OPC_I_CSRRS)
+    DEF_OPC_GROUP(opc_control_registers, csrrc_hw, "csrrc", OPC_I_CSRRC)
+
+    set i_dec += i_hw_control_registers;
+    element i_hw_control_registers
+    {
+        use opc_control_registers as opc;
+        use op_csr as csr;
+        assembly { opc csr };
+        binary { csr bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            #pragma simulator
+            {
+                uint12 tmp1;
+                tmp1 = csr;
+            }
+            s_fu_o = FU_CSR;
+            s_fu_s1_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_I_CSRRW: s_op_o = OP_CSRRW; break;
+                case OPC_I_CSRRS: s_op_o = OP_CSRRS; break;
+                case OPC_I_CSRRC: s_op_o = OP_CSRRC; break;
+            }
+        };
+    };
+
+    DEF_OPC_GROUP(opc_control_registers_i, csrrwi_hw, "csrrwi", OPC_I_CSRRWI)
+    DEF_OPC_GROUP(opc_control_registers_i, csrrsi_hw, "csrrsi", OPC_I_CSRRSI)
+    DEF_OPC_GROUP(opc_control_registers_i, csrrci_hw, "csrrci", OPC_I_CSRRCI)
+
+    set i_dec += i_hw_control_registers_i;
+    element i_hw_control_registers_i
+    {
+        use opc_control_registers_i as opc;
+        use op_csr as csr;
+        assembly { opc csr };
+        binary { csr bit[IMM5_W] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            #pragma simulator
+            {
+                uint12 tmp1;
+                tmp1 = csr;
+            }
+            s_fu_o = FU_CSR;
+            s_fu_s1_source_o = FU_OP_IMM;
+            s_imm_type = IMM_CSR;
+
+            switch (opc)
+            {
+                case OPC_I_CSRRWI: s_op_o = OP_CSRRW; break;
+                case OPC_I_CSRRSI: s_op_o = OP_CSRRS; break;
+                case OPC_I_CSRRCI: s_op_o = OP_CSRRC; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_xret;
+    element i_hw_xret
+    {
+        use opc_xret as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+
+            switch (opc)
+            {
+                case OPC_SYS_MRET: s_op_o = OP_MRET; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_wfi;
+    element i_hw_wfi
+    {
+        assembly { "wfi" };
+        binary { OPC_SYS_WFI[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] OPC_SYS_WFI[OPC_FRAG1]
+            0:bit[RF_GPR_ADDR] OPC_SYS_WFI[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_CSR;
+            s_op_o = OP_WFI;
+        };
+    };
+
+#if OPTION_XLEN == 64
+    set i_dec += i_hw_addiw;
+    element i_hw_addiw
+    {
+        use opc_addiw as opc;
+        assembly { opc };
+        binary { bit[IMM12_W] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_I;
+            s_op_o = OP_ADDW;
+        };
+    };
+
+    set i_dec += i_hw_2reg_imm_shiftw;
+    element i_hw_2reg_imm_shiftw
+    {
+        use opc_comp_2reg_imm_shift32 as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG2] bit[SHIFT_W - 1] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_IMM;
+            s_imm_type = IMM_I;
+
+            switch (opc)
+            {
+                case OPC_SI_SLLIW: s_op_o = OP_SLLW; break;
+                case OPC_SI_SRLIW: s_op_o = OP_SRLW; break;
+                case OPC_SI_SRAIW: s_op_o = OP_SRAW; break;
+            }
+        };
+    };
+
+    set i_dec += i_hw_comp_3regw;
+    element i_hw_comp_3regw
+    {
+        use opc_comp_3reg_32 as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG2] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_R_ADDW:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_ADDW;
+                    break;
+                case OPC_R_SUBW:
+                    s_fu_o = FU_ALU;
+                    s_op_o = OP_SUBW;
+                    break;
+#ifdef OPTION_EXTENSION_M
+                case OPC_R_MULW:
+                    s_fu_o = FU_MUL;
+                    s_op_o = OP_MULW;
+                    break;
+                case OPC_R_DIVW:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_DIVW;
+                    break;
+                case OPC_R_DIVUW:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_DIVUW;
+                    break;
+                case OPC_R_REMW:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_REMW;
+                    break;
+                case OPC_R_REMUW:
+                    s_fu_o = FU_DIV;
+                    s_op_o = OP_REMUW;
+                    break;
+#endif // OPTION_EXTENSION_M
+            }
+        };
+    };
+
+    set i_dec += i_hw_comp_3reg_shiftw;
+    element i_hw_comp_3reg_shiftw
+    {
+        use opc_comp_shift_3reg_32 as opc;
+        assembly { opc };
+        binary { opc[OPC_FRAG2] bit[RF_GPR_ADDR] bit[RF_GPR_ADDR] opc[OPC_FRAG1] bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+        semantics
+        {
+            s_fu_o = FU_ALU;
+            s_fu_s1_source_o = FU_OP_REG;
+            s_fu_s2_source_o = FU_OP_REG;
+
+            switch (opc)
+            {
+                case OPC_R_SLLW: s_op_o = OP_SLLW; break;
+                case OPC_R_SRLW: s_op_o = OP_SRLW; break;
+                case OPC_R_SRAW: s_op_o = OP_SRAW; break;
+            }
+        };
+    };
+#endif // OPTION_XLEN == 64
+
+};

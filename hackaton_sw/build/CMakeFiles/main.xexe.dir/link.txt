@@ -1,0 +1,1 @@
+/home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-clang -O3 -g3   -g  -lnxssys -lm -lcomp -WI,--defsym,_HEAP_SIZE=0x400000,--defsym,_STACK_SIZE=0x400000 -rdynamic CMakeFiles/main.xexe.dir/src/main.c.o  -o main.xexe 

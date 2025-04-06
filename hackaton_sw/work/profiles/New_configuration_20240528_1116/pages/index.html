@@ -1,0 +1,1272 @@
+<!--
+/*
+ * Codasip s.r.o.
+ * 
+ * CONFIDENTIAL 
+ *
+ * Copyright 2019 Codasip s.r.o.
+ * 
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of 
+ * Codasip s.r.o. and its suppliers, if any. 
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to 
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the 
+ * technical concepts may be patent pending.  
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this 
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained 
+ * in Codasip license agreement under which you obtained this file.
+ * 
+ */
+
+ /**
+  * @author Jakub Varadinek
+  */
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Codasip - profiling result</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/style.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/codasip.css" rel="stylesheet" type="text/css">
+    <link href="../css/loadings.css" rel="stylesheet" type="text/css"> 
+    <link href="../css/angular-chart.min.css" rel="stylesheet" type="text/css"> 
+
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/angular.min.js"></script>
+</head>
+
+<body>
+
+    <!-- Template for information section -->
+    <script type="text/ng-template" id="infoSection.html">
+        <div class="row">
+            <div class="col-md-4">
+            <dl class="dl-horizontal">
+                <dt><span class="label label-primary">Executable:</span></dt>
+                <dd>{{::asip.executable}}</dd>
+                <dt><span class="label label-primary">Clock Cycles:</span></dt>
+                <dd>{{::asip.clock_cycles}}</dd>
+                <dt><span class="label label-primary">Sampling Rate:</span></dt>
+                <dd>{{::asip.sampling_rate}}</dd>
+            </dl>
+            </div>
+            <div class="col-md-8">
+            <dl class="dl-horizontal">
+                <dt><span class="label label-primary">Architecture:</span></dt>
+                <dd>{{::mainController.getArchitecture()}}</dd>
+                <dt><span class="label label-primary">Studio Version:</span></dt>
+                <dd>{{::mainController.getStudioVersion()}}</dd>
+                <dt><span class="label label-primary">Created:</span></dt>
+                <dd>{{::mainController.getDate()}}</dd>
+            </dl>
+            </div>
+        </div>
+    </script>  
+
+    <!-- Univerzal Pie chart for Codasip data controlled by codasipChart directive -->
+    <script type="text/ng-template" id="CodasipChart.html">
+        <canvas height="125px" id="doughnut" class="chart chart-doughnut" data-asip="{{::asipId}}" data-decoder="{{::decoderId}}"
+          chart-data="data" chart-labels="labels" chart-colours="colors" chart-options="options" chart-click="chartClick">
+        </canvas> 
+        <chart-legend>
+            <ul class="pie-legend">
+                <li ng-repeat="label in labels"><span ng-style="{'background-color': colors[$index]}"></span>{{::label}}</li>
+            </ul>
+        </chart-legend>
+    </script>
+    
+    <!-- Template for Codal Coverage Tab -->
+    <script type="text/ng-template" id="CodalCoverageTab.html">
+        <h3>Codal Coverage</h3>
+
+        <div class="row" ng-if="::(asip.cc_table_data != undefined && asip.cc_table_data.length > 0)">
+            <!-- Summary Panel -->
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-table-panel{{::asip._id}}">
+                                Summary
+                            </a>
+                        </h3>
+                    </div>
+
+                    <div class="panel-body panel-collapse collapse in">                        
+                        <div class="well well-sm">
+                            <h4>Line Coverage: <span ng-bind-html="asip.cc_general.cc_line_percent"></span>%</h4>
+                            <h4>Condition Coverage: <span ng-bind-html="asip.cc_general.cc_condition_percent"></span>%</h4>
+                            <h4>Expression Coverage: <span ng-bind-html="asip.cc_general.cc_expression_percent"></span>%</h4>
+                        </div>
+
+                        <!-- Codal Line Coverage Chart Panel -->
+                        <div ng-if="::(asip.cc_lines_chart_data != undefined && asip.cc_lines_chart_data.length > 0)" class="col-sm-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-line-coverage-chart-panel{{::asip._id}}">
+                                        Codal Line Coverage Chart
+                                    </a>
+                                    </h3>
+                                </div>
+
+                                <div id="#codal-line-coverage-chart-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                                    <codasip-chart data-asip="{{::asip._id}}" data-chart-type="codalLineCoverage"></codasip-chart>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <!-- Codal Condition Coverage Chart Panel -->
+                        <div ng-if="::(asip.cc_conditions_chart_data != undefined && asip.cc_conditions_chart_data.length > 0)" class="col-sm-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-condition-coverage-chart-panel{{::asip._id}}">
+                                        Codal Condition Coverage Chart
+                                    </a>
+                                    </h3>
+                                </div>
+
+                                <div id="#codal-condition-coverage-chart-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                                    <codasip-chart data-asip="{{::asip._id}}" data-chart-type="codalConditionCoverage"></codasip-chart>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <!-- Codal Expression Coverage Chart Panel -->
+                        <div ng-if="::(asip.cc_expressions_chart_data != undefined && asip.cc_expressions_chart_data.length > 0)" class="col-sm-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                    <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-expession-coverage-chart-panel{{::asip._id}}">
+                                        Codal Expression Coverage Chart
+                                    </a>
+                                    </h3>
+                                </div>
+
+                                <div id="#codal-expession-coverage-chart-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                                    <codasip-chart data-asip="{{::asip._id}}" data-chart-type="codalExpressionCoverage"></codasip-chart>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Codal coverage navigation -->
+                <ul class="nav nav-pills" role="tablist" id="generate-details-tabs">
+                    <li class="active"><a data-target="#codal-line-coverage{{::asip._id}}" role="tab" data-toggle="tab">Line Coverage</a></li>
+                    <li><a data-target="#codal-branch-coverage{{::asip._id}}" role="tab" data-toggle="tab">Condition Coverage</a></li>
+                    <li><a data-target="#codal-expression-coverage{{::asip._id}}" role="tab" data-toggle="tab">Expression Coverage</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Vertical spacing -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tab-content col-lg-12">
+                <!-- Line Coverage -->
+                <div class="tab-pane fade active in" id="codal-line-coverage{{::asip._id}}">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-lines-table-panel{{::asip._id}}">
+                                    Line Coverage
+                                </a>
+                            </h3>
+                        </div>
+                        <div id="codal-coverage-lines-table-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                            <div ng-class="{'table-responsive scrolltable': {{::asip.cc_table_data.length}} > 10}"> 
+                            <table id="codal-coverage-lines-table{{::asip._id}}" st-table="asip.cc_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="_short_location">
+                                            <span ="location">Location</span>
+                                            <input class="codasip-search" placeholder="search location" st-search="_short_location" />
+                                        </th>
+                                        <th st-sort="data">Content</th>
+                                        <th st-sort="count">Count</th>
+                                        <th class="hidden">Usage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="'tr_{{::rowData.usage}}'" ng-repeat="rowData in asip.cc_table_data">
+                                        <td ng-if="mainController.isRunningInIDEjs()">
+                                            <a href="#" ng-click='linkIDEFunc(rowData.location)' ng-bind-html="::rowData._short_location">
+                                            </a>m
+                                        </td>
+                                        <td ng-if="mainController.isRunningInIDEjs() == false" ng-bind-html="::rowData._short_location"></td>
+                                        <td ng-bind-html="::rowData.data"></td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.usage" class="hidden"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Branch Coverage -->
+                <div class="tab-pane fade" id="codal-branch-coverage{{::asip._id}}" ng-controller="ScrollController">
+
+                    <!-- Conditions -->
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-conditions-table-panel{{::asip._id}}">
+                                    Conditions
+                                </a>
+                            </h3>
+                        </div>
+
+                        <div id="codal-coverage-conditions-table-panel{{::asip._id}}" class="panel-body panel-collapse collapse in"
+                            ng-class="{'table-responsive scrolltable': {{::asip.cc_conditions_table_data.length}} > 10}">
+                            <table id="codal-coverage-conditions-table{{::asip._id}}" st-table="asip.cc_conditions_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="id">ID</th>
+                                        <th st-sort="count">Total Hits</th>
+                                        <th st-sort="branches_count">Branches Total</th>
+                                        <th st-sort="covered_branches_count">Covered Branches</th>
+                                        <th st-sort="percent">Covered Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="'tr_{{::rowData.usage}}'" ng-repeat="rowData in asip.cc_conditions_table_data">
+                                        <td>
+                                            <a href="" 
+                                                id="codal-coverage-conditions-table{{::asip._id}}-{{::rowData.id}}"
+                                                ng-click="scrollTo('codal-coverage-branches-table-panel-'+asip._id+'-'+rowData.id)">{{::rowData.id}}</a>
+                                            </td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.branches_count"></td>
+                                        <td>{{::rowData.covered_branches_count}}</td>
+                                        <td>{{::rowData.percent}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Branches -->
+                    <div class="row">
+                        <div ng-repeat="conditionData in asip.cc_conditions_table_data" class="col-lg-6"> 
+                            <div id="codal-coverage-branches-table-panel-{{::asip._id}}-{{::conditionData.id}}" class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-branches-table-panel-body-{{::asip._id}}-{{::conditionData.id}}">
+                                            Branches for condition <a href="" ng-click="scrollTo('codal-coverage-conditions-table'+asip._id+'-'+conditionData.id)">#{{::conditionData.id}}</a>
+                                        </a>
+                                    </h3>
+                                </div>
+
+                                <div id="codal-coverage-branches-table-panel-body-{{::asip._id}}-{{::conditionData.id}}" class="panel-body panel-collapse collapse in"
+                                    ng-class="{'table-responsive scrolltable': {{::conditionData.branches_table_data.length}} > 10}" >
+                                    <div class="well well-sm">
+                                        <p>Condition: <b><span ng-bind-html="::conditionData.data"></span></b></p>
+                                        <p>Location: 
+                                            <span ng-if="mainController.isRunningInIDEjs()">
+                                                <a href="#" ng-click='linkIDEFunc(conditionData.location)' ng-bind-html="::conditionData.location">
+                                                </a>
+                                            </span>
+                                            <span ng-if="mainController.isRunningInIDEjs() == false" ng-bind-html="::conditionData.location"></span>
+                                        </p>
+
+                                        <p>Total Condition Hits: <span ng-bind-html="::conditionData.count"></span></p>
+                                        <p>Covered Branches: <span ng-bind-html="::conditionData.covered_branches_count"></span> / <span ng-bind-html="::conditionData.branches_count"></span></p>
+                                    </div>
+
+                                    <table id="codal-coverage-branches-table-{{::asip._id}}-{{::conditionData.id}}" st-table="conditionData.branches_table_data" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="id">Branch</th>
+                                                <th st-sort="line">Line</th>
+                                                <th st-sort="count">Hits</th>
+                                                <th st-sort="percent">Percent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in conditionData.branches_table_data">
+                                                <td ng-bind-html="::rowData.id"></td>
+                                                <td ng-bind-html="::rowData.line"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                                <td ng-bind-html="::rowData.percent"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Expression Coverage -->
+                <div class="tab-pane fade" id="codal-expression-coverage{{::asip._id}}" ng-controller="ScrollController">
+
+                <!-- Expressions --> 
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-expressions-table-panel{{::asip._id}}">
+                                    Exressions
+                                </a>
+                            </h3>
+                        </div>
+
+                        <div id="codal-coverage-expressions-table-panel{{::asip._id}}" class="panel-body panel-collapse collapse in"
+                            ng-class="{'table-responsive scrolltable': {{::asip.cc_expressions_table_data.length}} > 10}">
+                            <table id="codal-coverage-expressions-table{{::asip._id}}" st-table="asip.cc_expressions_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="id">ID</th>
+                                        <th st-sort="count">Total Hits</th>
+                                        <th st-sort="combinations_count">Total Combinations</th>
+                                        <th st-sort="covered_combinations_count">Covered Combinations</th>
+                                        <th st-sort="percent">Covered Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-class="'tr_{{::rowData.usage}}'" ng-repeat="rowData in asip.cc_expressions_table_data">
+                                        <td>
+                                            <a href="" 
+                                                id="codal-coverage-expressions-table{{::asip._id}}-{{::rowData.id}}"
+                                                ng-click="scrollTo('codal-coverage-terms-table-panel-'+asip._id+'-'+rowData.id)">{{::rowData.id}}</a>
+                                        </td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.combinations_count"></td>
+                                        <td ng-bind-html="::rowData.covered_combinations_count"></td>
+                                        <td ng-bind-html="::rowData.percent"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Terms -->
+                    <div class="row">
+                        <div ng-repeat="expressionData in asip.cc_expressions_table_data" class="col-lg-6"> 
+                            <div id="codal-coverage-terms-table-panel-{{::asip._id}}-{{::expressionData.id}}" class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <a class="accordion-toggle" data-toggle="collapse" data-target="#codal-coverage-terms-table-panel-body-{{::asip._id}}-{{::expressionData.id}}">
+                                            Terms for expression <a href="" ng-click="scrollTo('codal-coverage-expressions-table'+asip._id+'-'+expressionData.id)">#{{::expressionData.id}}</a>
+                                        </a>
+                                    </h3>
+                                </div>
+
+                                <div id="codal-coverage-terms-table-panel-body-{{::asip._id}}-{{::expressionData.id}}" class="panel-body panel-collapse collapse in"
+                                    ng-class="{'table-responsive scrolltable': {{::expressionData.combinations_table_data.length}} > 10}" >
+                                    <div class="well well-sm">
+                                        <p>Expression: <b><span ng-bind-html="::expressionData.data"></span></b></p>
+                                        <p>Location: 
+                                            <span ng-if="mainController.isRunningInIDEjs()">
+                                                <a href="#" ng-click='linkIDEFunc(expressionData.location)' ng-bind-html="::expressionData.location">
+                                                </a>
+                                            </span>
+                                            <span ng-if="mainController.isRunningInIDEjs() == false" ng-bind-html="::expressionData.location"></span>
+                                        </p>
+                                        <p>Total Expression Hits: <span ng-bind-html="::expressionData.count"></span></p>
+                                        <p>Covered Combinations: <span ng-bind-html="::expressionData.covered_combinations_count"></span> / <span ng-bind-html="::expressionData.combinations_count"></span></p>
+                                        <p ng-repeat="term in expressionData.terms track by $index">Term {{$index}}: {{term}}</p>
+                                    </div>
+
+                                    <table ng-if="expressionData.combinations_table_data.length > 0"
+                                        id="codal-coverage-terms-table-{{::asip._id}}-{{::expressionData.id}}" 
+                                        st-table="expressionData.combinations_table_data" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="id">ID</th>
+                                                <th ng-repeat="term in expressionData.terms track by $index" ng-bind-html="$index"></th>
+                                                <th st-sort="count">Hits</th>
+                                                <th st-sort="percent">Percent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in expressionData.combinations_table_data">
+                                                <td ng-bind-html="::rowData.id"></td>
+                                                <td ng-repeat="term in ::rowData.terms track by $index" ng-bind-html="term"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                                <td ng-bind-html="::rowData.percent"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Template for Source Code Tab -->
+    <script type="text/ng-template" id="SourceCodeTab.html">
+        <h3>Source Code</h3>
+        <div class="panel panel-primary">
+            <div class="panel-heading"></div>
+            <div class="panel-body" style="border: 1px solid black;margin: 15px; padding: 0px" ng-controller="FilesCtrl as fc">
+                <div class="row" >
+                    <div class="col-md-3">
+                        <div data-asip="{{::asip._id}}" js-tree="fc.treeConfig" tree="treeInstance" ng-model="asip.source_files.file_tree"
+                            tree-events="loaded:treeLoaded;activate_node:treeActivateNode">
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <div ui-ace="{ onLoad : aceLoaded }" readonly></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!-- Template for Source Code Coverage Tab -->
+    <script type="text/ng-template" id="SourceCodeCoverageTab.html">
+        <h3>Source Code Coverage</h3>
+        <div class="row">
+            <!-- Samples per Symbol Panel -->
+            <div ng-if="::(asip.symbols_table_data != undefined && asip.symbols_table_data.length > 0)" class="col-lg-5">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#symbols-panel{{::asip._id}}">Samples per Symbol</a>
+                        </h3>
+                    </div>
+                    <div id="symbols-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.symbols_table_data.length}} > 10}"> 
+                            <table id="symbols-table{{::asip._id}}" st-table="asip.symbols_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="symbol">Symbol</th>
+                                        <th st-sort="address">Address</th>
+                                        <th st-sort="count">Instructions</th>
+                                        <th st-sort="percent">Instructions Percent</th>
+                                        <th st-sort="cycle_count">Cycles</th>
+                                        <th st-sort="cycle_percent">Cycles Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in asip.symbols_table_data">
+                                        <td ng-bind-html="::rowData.symbol"></td>
+                                        <td class="hex-address" ng-bind-html="::rowData.address"></td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.percent | percent"></td>
+                                        <td ng-bind-html="::rowData.cycle_count"></td>
+                                        <td ng-bind-html="::rowData.cycle_percent | percent"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Flat Model Panel -->
+            <div ng-if="::(asip.flat_model_table_data != undefined && asip.flat_model_table_data.length > 0)" class="col-lg-7">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#flat-model-panel{{::asip._id}}">Flat Model (from Call Stack)</a>
+                        </h3>
+                    </div>
+                    <div id="flat-model-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.flat_model_table_data.length}} > 10}"> 
+                            <table id="flat-model-table{{::asip._id}}" st-table="asip.flat_model_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="function">Function</th>
+                                        <th st-sort="address">Address</th>
+                                        <th st-sort="percent">Cumulative Percent</th>
+                                        <th st-sort="cumulative_cycles">Cumulative Clock Cycles</th>
+                                        <th st-sort="self_cycles">Self Clock Cycles</th>
+                                        <th st-sort="count">Count</th>
+                                        <th st-sort="usage" class="hidden">Usage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in asip.flat_model_table_data">
+                                        <td ng-bind-html="::rowData.function"></td>
+                                        <td ng-bind-html="::rowData.address"></td>
+                                        <td ng-bind-html="::rowData.percent"></td>
+                                        <td ng-bind-html="::rowData.cumulative_cycles"></td>
+                                        <td ng-bind-html="::rowData.self_cycles"></td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.ausageddress" class="hidden"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Call Graph Panel -->
+            <div ng-if="::(asip.call_graph_table_data != undefined && asip.call_graph_table_data.length > 0)" class="col-lg-7">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#call-graph-panel{{::asip._id}}">Call Graph (from Call Stack)</a>
+                        </h3>
+                    </div>
+                    <div id="call-graph-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.call_graph_table_data.length}} > 10}"> 
+                            <table id="call-graph-table{{::asip._id}}" st-table="asip.call_graph_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="percent">Percent</th>
+                                        <th st-sort="index">Index</th>
+                                        <th st-sort="function">Function</th>
+                                        <th st-sort="address">Address</th>
+                                        <th st-sort="children_cycles">Children Clock Cycles</th>
+                                        <th st-sort="self_cycles">Self Clock Cycles</th>
+                                        <th st-sort="called">Called</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in asip.call_graph_table_data">
+                                        <td ng-bind-html="::rowData.percent | percent"></td>
+                                        <td ng-bind-html="::rowData.index"></td>
+                                        <td ng-bind-html="::rowData.function"></td>
+                                        <td ng-bind-html="::rowData.address"></td>
+                                        <td ng-bind-html="::rowData.children_cycles"></td>
+                                        <td ng-bind-html="::rowData.self_cycles"></td>
+                                        <td ng-bind-html="::rowData.called"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Source Code Coverage Chart Panel -->
+            <div ng-if="::(asip.scc_chart_data != undefined && asip.scc_chart_data.length > 0)" class="col-lg-5">
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#source-coverage-panel{{::asip._id}}">
+                                Source Code Coverage Chart
+                            </a>
+                            </h3>
+                        </div>
+
+                        <div id="source-coverage-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                            <codasip-chart data-asip="{{::asip._id}}" data-chart-type="sourceCodeCoverage"></codasip-chart>
+                        </div>
+                </div>
+            </div>        
+            <!-- Blocks Panel -->
+            <div ng-if="::(asip.blocks_table_data != undefined && asip.blocks_table_data.length > 0)" class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#blocks-panel{{::asip._id}}">Blocks</a>
+                        </h3>
+                    </div>
+                    <div id="blocks-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.blocks_table_data.length}} > 10}"> 
+                            <table id="blocks-table{{::asip._id}}" st-table="asip.blocks_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="name">Name</th>
+                                        <th st-sort="blocks_best">Best Case [clock cycles]</th>
+                                        <th st-sort="blocks_average">Average Case [clock cycles]</th>
+                                        <th st-sort="blocks_worst">Worst Case [clock cycles]</th>
+                                        <th st-sort="blocks_total">Total [clock cycles]</th>
+                                        <th st-sort="blocks_hits">Hits</th>
+                                        <th st-sort="blocks_start_addr">Start Address(es)</th>
+                                        <th st-sort="blocks_end_addr">End Address(es)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="asData in asip.blocks_table_data">
+                                        <td ng-bind-html="::asData.name"></td>
+                                        <td ng-bind-html="::asData.blocks_best"></td>
+                                        <td ng-bind-html="::asData.blocks_average"></td>
+                                        <td ng-bind-html="::asData.blocks_worst"></td>
+                                        <td ng-bind-html="::asData.blocks_total"></td>
+                                        <td ng-bind-html="::asData.blocks_hits"></td>
+                                        <td ng-bind-html="::asData.blocks_start_addr"></td>
+                                        <td ng-bind-html="::asData.blocks_end_addr"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Address Spaces Panel -->
+            <div ng-if="::(asip.ass_table_data != undefined && asip.ass_table_data.length > 0)" class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#address-spaces-panel{{::asip._id}}">Address Spaces</a>
+                        </h3>
+                    </div>
+                    <div id="address-spaces-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-repeat="rowData in asip.ass_table_data" class="col-lg-12">
+                        <div ng-class="{'table-responsive scrolltable': {{::rowData.as_table_data.length}} > 10}"> 
+                            <table id="address-spaces-table{{::asip._id}}" st-table="rowData.as_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th ng-bind-html="::rowData.name" colspan="6" style="text-align: center;"></th>
+                                    </tr>
+                                    <tr>
+                                        <th st-sort="name">Address Range</th>
+                                        <th st-sort="sections">Sections</th>
+                                        <th st-sort="reads">Hits (reads)</th>
+                                        <th st-sort="writes">Hits (writes)</th>
+                                        <th st-sort="count">Hits</th>
+                                        <th st-sort="percent">Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="asData in rowData.as_table_data">
+                                        <td class="hex-address" ng-bind-html="::asData.name"></td>
+                                        <td ng-bind-html="::asData.sections"></td>
+                                        <td ng-bind-html="::asData.reads"></td>
+                                        <td ng-bind-html="::asData.writes"></td>
+                                        <td ng-bind-html="::asData.count"></td>
+                                        <td ng-bind-html="::asData.percent | percent"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr />
+                        </div>
+                    </div>
+                </div>
+            </div>               
+        </div>
+    </script>
+    
+    <!-- Template for Resource Coverage Tab -->
+    <script type="text/ng-template" id="ResourceCoverageTab.html">
+         <h3>Resources Coverage</h3>
+         <div class="row">
+            <!-- Basic Resources Panel -->
+            <div ng-if="::(asip.basic_resources_table_data != undefined && asip.basic_resources_table_data.length > 0)" class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#resources-panel{{::asip._id}}">Basic Resources</a>
+                        </h3>
+                    </div>
+                    <div id="resources-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.basic_resources_table_data.length}} > 10}"> 
+                            <table id="resources-table{{::asip._id}}" st-table="asip.basic_resources_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="resource">
+                                            <span>Resource</span>
+                                            <input class="codasip-search" placeholder="search resource" st-search="resource" />
+                                        </th>
+                                        <th st-sort="read">Read</th>
+                                        <th st-sort="write">Write</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in asip.basic_resources_table_data">
+                                        <td ng-bind-html="::rowData.resource"></td>
+                                        <td ng-bind-html="::rowData.read"></td>
+                                        <td ng-bind-html="::rowData.write"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Caches Panel -->
+            <div ng-if="::(asip.caches_table_data != undefined && asip.caches_table_data.length > 0)" class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#cache-panel{{::asip._id}}">Caches</a>
+                        </h3>
+                    </div>
+                    <div id="cache-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::asip.caches_table_data.length}} > 10}"> 
+                            <table id="cache-table{{::asip._id}}" st-table="asip.caches_table_data" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="cache">Cache</th>
+                                        <th st-sort="hits">Hits</th>
+                                        <th st-sort="miss">Miss</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in asip.caches_table_data">
+                                        <td ng-bind-html="::rowData.cache"></td>
+                                        <td ng-bind-html="::rowData.hits"></td>
+                                        <td ng-bind-html="::rowData.miss"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+
+         <!-- Pipelines Panel -->
+         <div ng-if="::(asip.pipelines_table_data != undefined && asip.pipelines_table_data.length > 0)" class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#pipelines-panel{{::asip._id}}">Pipelines</a>
+                        </h3>
+                    </div>
+                    <div id="pipelines-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-repeat="rowData in asip.pipelines_table_data" class="col-lg-4">
+                            <div ng-class="{'table-responsive scrolltable': {{::rowData.stages.length}} > 10}"> 
+                                <table st-table="rowData.stages" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th ng-bind-html="::rowData.pipeline" colspan="3" style="text-align: center;"></th>
+                                        </tr>
+                                        <tr>
+                                            <th st-sort="stage">Stage</th>
+                                            <th st-sort="stall">Stall</th>
+                                            <th st-sort="clear">Clear</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="stg in rowData.stages">
+                                            <td ng-bind-html="::stg.stage"></td>
+                                            <td ng-bind-html="::stg.stall"></td>
+                                            <td ng-bind-html="::stg.clear"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+    </script>
+
+    <!-- Template for PPA Tab -->
+    <script type="text/ng-template" id="PpaTab.html">
+         <h3>PPA (Perfomance, Power, and Area analysis)</h3>
+         <div class="row">
+           
+            <!-- Performance -->
+            <div ng-if="::(asip.ppa_data.ppa_perf_data != undefined)" class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#ppa-performance-panel{{::asip._id}}">Performance</a>
+                        </h3>
+                    </div>
+                    <div id="ppa-performance-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                    <div class="well well-sm">
+                    <h4>Clock cycles: {{::asip.ppa_data.ppa_perf_data.count}}</h4>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Area -->
+            <div ng-if="::(asip.ppa_data.ppa_area_data != undefined)" class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#ppa-area-panel{{::asip._id}}">Area [Area Units (AU)]</a>
+                        </h3>
+                    </div>
+                    <div id="ppa-area-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                    
+                    <div class="well well-sm">
+                    <h4>Total Area: {{::asip.ppa_data.ppa_area_data.total_area}} AU</h4>
+                    <h4>Area sequential: {{::asip.ppa_data.ppa_area_data.sequential_area}} ({{::asip.ppa_data.ppa_area_data.sequential_area_percent}}%) AU</h4>
+                    <h4>Area logic: {{::asip.ppa_data.ppa_area_data.logic_area}} ({{::asip.ppa_data.ppa_area_data.logic_area_percent}}%) AU</h4>
+                    </div>
+
+                    <div ng-class="{'table-responsive scrolltable': {{::asip.ppa_data.ppa_area_data.ppa_area_table_data.length}} > 20}"> 
+                        <table id="ppa-area-table{{::asip._id}}" st-table="asip.ppa_data.ppa_area_data.ppa_area_table_data" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th st-sort="design-path">
+                                        <span>Design Path</span>
+                                        <input class="codasip-search" placeholder="search id" st-search="id" />
+                                    </th>
+                                    <th st-sort="total_area">Total Area</th>
+                                    <th st-sort="total_area_percent">Percent</th>
+                                    <th st-sort="sequential_area">Area Sequential</th>
+                                    <th st-sort="sequential_area_percent">Percent</th>
+                                    <th st-sort="logic_area">Area Logic</th>
+                                    <th st-sort="logic_area_percent">Percent</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rowData in asip.ppa_data.ppa_area_data.ppa_area_table_data">
+                                    <td ng-bind-html="::rowData.id"></td>
+                                    <td ng-bind-html="::rowData.total_area"></td>
+                                    <td ng-bind-html="::rowData.total_area_percent | percent"></td>
+                                    <td ng-bind-html="::rowData.sequential_area"></td>
+                                    <td ng-bind-html="::rowData.sequential_area_percent | percent"></td>
+                                    <td ng-bind-html="::rowData.logic_area"></td>
+                                    <td ng-bind-html="::rowData.logic_area_percent | percent"></td>
+                                    <td ng-bind-html="::rowData.details_text"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Power -->
+            <div ng-if="::(asip.ppa_data.ppa_power_data != undefined)" class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#ppa-power-panel{{::asip._id}}">Power [Power Units (PU)]</a>
+                        </h3>
+                    </div>
+                    <div id="ppa-power-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                    
+                    <div class="well well-sm">
+                    <h4>Total Consumption: {{::asip.ppa_data.ppa_power_data.power}} PU</h4>
+                    <h4>Consumption per Cycle: {{::asip.ppa_data.ppa_power_data.power_per_cycle}} PU</h4>
+                    </div>
+
+                    <div ng-class="{'table-responsive scrolltable': {{::asip.ppa_data.ppa_power_data.ppa_power_table_data.length}} > 20}"> 
+                        <table id="ppa_power-table{{::asip._id}}" st-table="asip.ppa_data.ppa_power_data.ppa_power_table_data" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th st-sort="design-path">
+                                        <span>Design Path</span>
+                                        <input class="codasip-search" placeholder="search id" st-search="id" />
+                                    </th>
+                                    <th st-sort="activity">Activity</th>
+                                    <th st-sort="activity_percent">Percent</th>
+                                    <th st-sort="power_percent">Relative Consumption</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rowData in asip.ppa_data.ppa_power_data.ppa_power_table_data">
+                                    <td ng-bind-html="::rowData.id"></td>
+                                    <td ng-bind-html="::rowData.activity"></td>
+                                    <td ng-bind-html="::rowData.activity_percent | percent"></td>
+                                    <td ng-bind-html="::rowData.power_percent | percent"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Area Configuration -->
+            <div ng-if="::(asip.ppa_data.ppa_area_data != undefined && asip.ppa_data.ppa_area_data.weights_table_data != undefined)" class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#ppa-area-weights-panel{{::asip._id}}">Area Weights</a>
+                        </h3>
+                    </div>
+                    <div id="ppa-area-weights-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                    
+                    <div ng-class="{'table-responsive scrolltable': {{::asip.ppa_data.ppa_area_data.weights_table_data.length}} > 20}"> 
+                        <table id="ppa_area_weights-table{{::asip._id}}" st-table="asip.ppa_data.ppa_area_data.weights_table_data" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th st-sort="design-path">
+                                        <span>Construct</span>
+                                        <input class="codasip-search" placeholder="search id" st-search="id" />
+                                    </th>
+                                    <th st-sort="activity">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rowData in asip.ppa_data.ppa_area_data.weights_table_data">
+                                    <td ng-bind-html="::rowData.id"></td>
+                                    <td ng-bind-html="::rowData.weight"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <!-- Power Configuration -->
+            <div ng-if="::(asip.ppa_data.ppa_power_data != undefined && asip.ppa_data.ppa_power_data.weights_table_data != undefined)" class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#ppa-power-weights-panel{{::asip._id}}">Power Weights</a>
+                        </h3>
+                    </div>
+                    <div id="ppa-power-weights-panel{{::asip._id}}" class="panel-body panel-collapse collapse in">
+                    
+                    <div ng-class="{'table-responsive scrolltable': {{::asip.ppa_data.ppa_power_data.weights_table_data.length}} > 20}"> 
+                        <table id="ppa_power_weights-table{{::asip._id}}" st-table="asip.ppa_data.ppa_power_data.weights_table_data" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th st-sort="design-path">
+                                        <span>Construct</span>
+                                        <input class="codasip-search" placeholder="search id" st-search="id" />
+                                    </th>
+                                    <th st-sort="activity">Weight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="rowData in asip.ppa_data.ppa_power_data.weights_table_data">
+                                    <td ng-bind-html="::rowData.id"></td>
+                                    <td ng-bind-html="::rowData.weight"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                        
+                    </div>
+                </div>
+            </div>
+            
+         </div>
+    </script>
+
+
+    <!-- Template for Instruction Set Coverage Tab -->
+    <script type="text/ng-template" id="InstructionSetCoverageTab.html">
+        <h3>Instruction Set Coverage <small>{{::decoder.name}}</small></h3>
+        <div class="row">
+            <!-- Top by Usage Panel -->
+            <div ng-if="::(decoder.usage_table_data != undefined && decoder.usage_table_data.length > 0)" class="col-lg-7">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#top-by-usage{{::decoder._id}}">Top by Usage</a>
+                        </h3>
+                    </div>
+                    <div id="top-by-usage{{::decoder._id}}" class="panel-body panel-collapse collapse in">
+                        <div ng-class="{'table-responsive scrolltable': {{::decoder.usage_table_data.length}} > 10}"> 
+                            <table id="top-by-usage-table{{::decoder._id}}" st-table="decoder.usage_table_data" 
+                                    class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="instruction">Instruction</th>
+                                        <th st-sort="count">Count</th>
+                                        <th st-sort="percent">Percent</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="rowData in decoder.usage_table_data" ng-class="'tr_{{::rowData.usage}}'">
+                                        <td ng-bind-html="::rowData.instruction"></td>
+                                        <td ng-bind-html="::rowData.count"></td>
+                                        <td ng-bind-html="::rowData.percent | percent"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Instruction Set Coverage Chart Panel -->
+            <div class="col-lg-5">
+                <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#instruction-set-panel{{::decoder._id}}">
+                                Instruction Set Coverage Chart
+                            </a>
+                            </h3>
+                        </div>
+
+                        <div id="instruction-set-panel{{::decoder._id}}" class="panel-body panel-collapse collapse in">
+                            <codasip-chart data-asip="{{::asip._id}}" data-decoder="{{::decoder._id}}" data-chart-type="instructionSetCoverage">
+                            </codasip-chart>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Details Panel -->
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                        <a class="accordion-toggle" data-toggle="collapse" data-target="#details-panel{{::decoder._id}}">
+                            Details
+                        </a>
+                        </h3>
+                    </div>
+                    <div id="details-panel{{::decoder._id}}" class="panel-body panel-collapse collapse in">
+                        <div class="well well-sm">
+                        <h4>{{::decoder.details_text}}</h4>
+                        </div>
+                        <ul class="nav nav-pills" role="tablist" id="generate-details-tabs">
+                            <li class="active"><a data-target="#used-instructions{{::decoder._id}}" role="tab" data-toggle="tab">Used Instruction</a></li>
+                            <li><a data-target="#unused-instructions{{::decoder._id}}" role="tab" data-toggle="tab">Unused Instruction</a></li>
+                            <li ng-repeat="rowData in decoder.operands_tables">
+                                <a data-target="#operands{{::decoder._id}}_id{{::rowData.id}}" role="tab" data-toggle="tab">
+                                    Operand '{{::rowData.name}}'
+                                </a>
+                            </li>
+                            <li ng-repeat="rowData in decoder.sequences_tables">
+                                <a data-target="#sequences{{::decoder._id}}_length{{::rowData.length}}" role="tab" data-toggle="tab">
+                                    Sequence length {{::rowData.length}}
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <!-- Used Instruction Tab -->
+                            <div class="tab-pane fade active in" id="used-instructions{{::decoder._id}}">
+                                <div ng-class="{'table-responsive scrolltable': {{::decoder.detail_table_data_used.length}} > 10}"> 
+                                    <table id="details-table-used{{::decoder._id}}" st-table="decoder.detail_table_data_used" 
+                                            class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="instruction">
+                                                    <span>Instruction</span>
+                                                    <input class="codasip-search" placeholder="search instruction" st-search="instruction" />
+                                                </th>
+                                                <th st-sort="count">Count</th>
+                                                <th st-sort="percent">Percent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in decoder.detail_table_data_used" ng-class="'tr_{{::rowData.usage}}'">
+                                                <td ng-bind-html="::rowData.instruction"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                                <td ng-bind-html="::rowData.percent | percent"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Unused Instruction Tab -->
+                            <div class="tab-pane fade" id="unused-instructions{{::decoder._id}}">
+                                <div ng-class="{'table-responsive scrolltable': {{::decoder.detail_table_data_unused.length}} > 10}"> 
+                                    <table id="details-table-unused{{::decoder._id}}" st-table="decoder.detail_table_data_unused" 
+                                            class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="instruction">
+                                                    <span>Instruction</span>
+                                                    <input class="codasip-search" placeholder="search instruction" st-search="instruction" />
+                                                </th>
+                                                <th st-sort="count">Count</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in decoder.detail_table_data_unused">
+                                                <td ng-bind-html="::rowData.instruction"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <!-- Operands Tab -->
+                            <div ng-repeat="op in decoder.operands_tables" class="tab-pane fade" 
+                                id="operands{{::decoder._id}}_id{{::op.id}}">
+                                <div class="table-responsive scrolltable"> 
+                                    <table st-table="op.operands_table_data" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="operand">Operand</th>
+                                                <th st-sort="count">Used</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in op.operands_table_data">
+                                                <td ng-bind-html="::rowData.operand"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Sequences Tab -->
+                            <div ng-repeat="seq in decoder.sequences_tables" class="tab-pane fade" 
+                                id="sequences{{::decoder._id}}_length{{::seq.length}}">
+                                <div class="well well-sm">
+                                    <h5>{{seq.sequences_text}}</h5>
+                                </div>
+                                <div class="table-responsive scrolltable"> 
+                                    <table st-table="seq.sequences_table_data" class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th st-sort="sequence">Sequence</th>
+                                                <th st-sort="count">Count</th>
+                                                <th st-sort="percent">Percent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="rowData in seq.sequences_table_data">
+                                                <td ng-bind-html="::rowData.sequence"></td>
+                                                <td ng-bind-html="::rowData.count"></td>
+                                                <td ng-bind-html="::rowData.percent | percent"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    
+    <!-- BEGIN: App-Loading Screen. -->
+    <div ng-if="false" class="m-app-loading">
+        <div class="animated-container">
+            <div class="loading-animation">
+                <div class="spinner" ></div>
+            </div>
+            <div class="messaging">
+                <h1>
+                    Loading..
+                </h1>
+                <p>
+                    Preparing Codasip Profiler Report.
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- END: App-Loading Screen. -->
+
+    <div ng-cloak class="container-fluid" ng-controller="MainController as mainController">
+       
+       <nav class="navbar navbar-default">
+          <div class="container-fluid">
+            
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Codasip Profiler</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="navbar-collapse">
+              <ul class="nav navbar-nav">
+                <li ng-class="{'active': $first}" ng-repeat="asip in mainController.getASIPs()">
+                  <a data-toggle="tab" data-target="#{{::asip._id}}">{{::asip.name}}</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        <div class="tab-content">
+            <div ng-repeat="asip in mainController.getASIPs()" ng-class="{'active in': $first}" id="{{::asip._id}}" class="tab-pane fade">
+                <h1 class="page-header">{{::asip.name}} - Profiling Result</h1>
+                <div ng-include="'infoSection.html'" class="well well-sm">
+                </div>
+                <ul class="nav nav-tabs">
+                    <li ng-if="::(mainController.isInstructionSetCoverageTabEnabled(asip))" class="dropdown active">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Instruction Set Coverage<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="decoder in asip.decoders" ng-class="{'active': $first}">
+                                <a data-toggle="pill" data-target="#{{::decoder._id}}">{{::decoder.name}}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><a ng-if="::(mainController.isSourceCodeCoverageTabEnabled(asip))" data-toggle="pill" data-target="#scc-content-{{::asip._id}}">
+                        Source Code Coverage</a>
+                    </li>
+                    <li><a ng-if="::(mainController.isCodalCoverageTabEnabled(asip))" data-toggle="pill" data-target="#cc-content-{{::asip._id}}">
+                        Codal Coverage</a>
+                    </li>
+                    <li><a ng-if="::(mainController.isResourcesCoverageTabEnabled(asip))" data-toggle="pill" data-target="#resources-content-{{::asip._id}}">
+                        Resources Coverage</a>
+                    </li>
+                    <li><a ng-if="::(mainController.isSourceCodeTabEnabled(asip))" data-toggle="pill" data-target="#source-code-content-{{::asip._id}}">
+                        Source Code</a>
+                    </li>
+                    <li><a ng-if="::(mainController.isPpaTabEnabled(asip))" data-toggle="pill" data-target="#ppa-content-{{::asip._id}}">
+                        PPA</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div ng-repeat="decoder in asip.decoders" ng-include="'InstructionSetCoverageTab.html'"
+                         ng-class="{'active in': $first}" id="{{::decoder._id}}" class="tab-pane fade">
+                    </div>
+                    <div ng-if="::(mainController.isSourceCodeCoverageTabEnabled(asip))" ng-include="'SourceCodeCoverageTab.html'" id="scc-content-{{::asip._id}}" class="tab-pane fade">
+                    </div>
+                    <div ng-if="::(mainController.isCodalCoverageTabEnabled(asip))" ng-include="'CodalCoverageTab.html'" id="cc-content-{{::asip._id}}" class="tab-pane fade">
+                    </div>
+                    <div ng-if="::(mainController.isResourcesCoverageTabEnabled(asip))" ng-include="'ResourceCoverageTab.html'" id="resources-content-{{::asip._id}}" class="tab-pane fade">
+                    </div>
+                    <div ng-if="::(mainController.isSourceCodeTabEnabled(asip))" ng-include="'SourceCodeTab.html'" id="source-code-content-{{::asip._id}}" class="tab-pane fade">
+                    </div>
+                    <div ng-if="::(mainController.isPpaTabEnabled(asip))" ng-include="'PpaTab.html'" id="ppa-content-{{::asip._id}}" class="tab-pane fade">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</body>
+    <script src="../js/jstree.min.js"></script>
+    <script src="../js/ngJsTree.min.js"></script>
+    <script src="../js/Chart.min.js"></script>
+    <script src="../js/angular-chart.min.js"></script>
+   
+    <script src="../js/angular-sanitize.min.js"></script>
+    <script src="../js/angular-strap.min.js"></script>
+    <script src="../js/angular-strap.tpl.min.js"></script>
+    <script src="../js/ace/ace.js"></script>
+    <script src="../js/ui-ace.min.js"></script>
+    <script src="../js/smart-table.min.js"></script>  
+    <script src="../js/bootstrap.min.js"></script>
+
+    <script src="../js/ui-bootstrap-tpls-1.2.1.min.js"></script>
+    <script src="../js/codasip-data.js"></script>
+    <script src="../js/codasip-controllers.js"></script>
+
+    <script>
+        //Fix - charts not render correctly when placed in hidden tab.
+        function fireResize() {
+            var evt = document.createEvent("HTMLEvents");
+            evt.initEvent("resize", false, true);
+            window.dispatchEvent(evt);
+        }
+
+        $(fireResize);
+
+        $(document).on('shown.bs.tab', function (e) {
+           fireResize();
+        });
+    </script>
+</html>

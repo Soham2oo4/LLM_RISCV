@@ -1,0 +1,40 @@
+#ifndef _NMI_
+#define _NMI_
+
+// nmi [Non-Maskable Interrupts]: signaling NMI interrupt pending (in LSB bit position)
+// platform specific machine read-only register (MRO)
+
+#if defined(OVERRIDE_EXPLICIT_NMI)
+#if OVERRIDE_EXPLICIT_NMI != 0xFF
+#define OVERRIDE_NMI_HOW OVERRIDE_EXPLICIT_NMI
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_NMI_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_NMI_HOW)(, nmi);
+        };
+    };
+};
+
+#if OVERRIDE_NMI_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(nmi);
+#endif
+
+#if OVERRIDE_NMI_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(nmi);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_NMI_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_NMI_

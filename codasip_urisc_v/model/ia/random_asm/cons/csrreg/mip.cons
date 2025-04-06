@@ -1,0 +1,41 @@
+#ifndef _MIP_
+#define _MIP_
+
+// mip [Machine Interrupt Register]: containing information on pending break
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MIP)
+#if OVERRIDE_EXPLICIT_MIP != 0xFF
+#define OVERRIDE_MIP_HOW OVERRIDE_EXPLICIT_MIP
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MIP_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MIP_HOW)(, mip);
+        };
+    };
+};
+
+#if OVERRIDE_MIP_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mip);
+#endif
+
+#if OVERRIDE_MIP_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mip);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MIP_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MIP_

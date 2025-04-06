@@ -1,0 +1,188 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#pragma once
+
+// Fragments of immediates in RISC-V binary encoding
+#define CSR_W           12
+#define IMM_I_FRAG0     31..20
+#define IMM_S_FRAG0     11..7
+#define IMM_S_FRAG1     31..25
+#define IMM_U_FRAG0     31..12
+#define IMM_SB_FRAG0    11..8
+#define IMM_SB_FRAG1    30..25
+#define IMM_SB_FRAG2    7..7
+#define IMM_SB_FRAG3    31..31
+#define IMM_UJ_FRAG0    30..21
+#define IMM_UJ_FRAG1    20..20
+#define IMM_UJ_FRAG2    19..12
+#define IMM_UJ_FRAG3    31..31
+
+// Register address fragments in RISC-V binary encoding
+#define RS1_ADDR_FRAG   19..15
+#define RS2_ADDR_FRAG   24..20
+#define DST_ADDR_FRAG   11..7
+#define CSR_ADDR_FRAG   31..20
+
+#define RF_ADDR_W RF_GPR_ADDR
+
+// Definition of unit operations
+enum fu_op : uint8
+{
+    // ALU, branch
+    OP_ADD,
+    OP_SUB,
+    OP_SLT,
+    OP_SLTU,
+    OP_AND,
+    OP_OR,
+    OP_XOR,
+    OP_SLL,
+    OP_SRL,
+    OP_SRA,
+    OP_EQ,
+    OP_NE,
+    OP_LT,
+    OP_LTU,
+    OP_GE,
+    OP_GEU,
+#if OPTION_XLEN == 64
+    OP_ADDW,
+    OP_SUBW,
+    OP_SLLW,
+    OP_SRLW,
+    OP_SRAW,
+#endif // OPTION_XLEN == 64
+
+    // Loads/stores
+    OP_LB,
+    OP_LH,
+    OP_LW,
+    OP_LBU,
+    OP_LHU,
+#if OPTION_XLEN == 64
+    OP_LWU,
+    OP_LD,
+    OP_SD,
+#endif // OPTION_XLEN == 64
+    OP_SB,
+    OP_SH,
+    OP_SW,
+    OP_FLD,
+    OP_FLW,
+    OP_FSD,
+    OP_FSW,
+    OP_FENCE,
+    OP_FENCE_I,
+
+    // CSR
+    OP_CSRRW,
+    OP_CSRRS,
+    OP_CSRRC,
+    OP_EBREAK,
+    OP_ECALL,
+    OP_SRET,
+    OP_MRET,
+    OP_URET,
+    OP_DRET,
+    OP_SFENCE_VMA,
+    OP_WFI,
+
+    // Division/remainder
+    OP_DIV,
+    OP_DIVU,
+    OP_REM,
+    OP_REMU,
+#if OPTION_XLEN == 64
+    OP_DIVW,
+    OP_DIVUW,
+    OP_REMW,
+    OP_REMUW,
+#endif // OPTION_XLEN == 64
+
+    // Multiplication
+    OP_MUL,
+    OP_MULH,
+    OP_MULHSU,
+    OP_MULHU,
+#if OPTION_XLEN == 64
+    OP_MULW,
+#endif // OPTION_XLEN == 64
+
+    // Calls/jumps
+    OP_JALR,
+    OP_JAL,
+
+    //FFT
+    OP_FFT_FLOAT_ADD,
+    OP_FFT_FLOAT_MUL,
+    OP_FFT_BUTTERFLY,
+    OP_FFT_BUTTERFLY_LOAD_E,
+    OP_FFT_BUTTERFLY_LOAD_O,
+    OP_FFT_BUTTERFLY_STORE_E_R,
+    OP_FFT_BUTTERFLY_STORE_E_I,
+    OP_FFT_BUTTERFLY_STORE_O_R,
+    OP_FFT_BUTTERFLY_STORE_O_I,
+
+};
+
+#define FU_OP_W bitsizeof(enum fu_op)
+
+// MUX for immediate value selection
+enum imm_type: uint3
+{
+    IMM_NONE,
+    IMM_I,
+    IMM_S,
+    IMM_SB,
+    IMM_U,
+    IMM_UJ,
+    IMM_CSR,
+};
+
+#define IMM_TYPE_W bitsizeof(enum imm_type)
+
+// MUX for source operand selection
+enum units_source: uint2
+{
+    FU_OP_NONE,
+    FU_OP_REG,
+    FU_OP_IMM,
+    FU_OP_PC
+};
+
+#define FU_SOURCE_W bitsizeof(enum units_source)
+
+// MUX for output selection from functional units
+enum units_id: uint3
+{
+    FU_NONE,
+    FU_ALU,
+    FU_LSU,
+    FU_BRU,
+    FU_DIV,
+    FU_MUL,
+    FU_CSR,
+    FU_FFT_FPU,
+};
+
+#define FU_UNIT_W bitsizeof(enum units_id)

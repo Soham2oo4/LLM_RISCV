@@ -1,0 +1,41 @@
+#ifndef _MARCHID_
+#define _MARCHID_
+
+// marchid [Machine Architecture ID Register]: encoding the base microarchitecture of the hart
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MARCHID)
+#if OVERRIDE_EXPLICIT_MARCHID != 0xFF
+#define OVERRIDE_MARCHID_HOW OVERRIDE_EXPLICIT_MARCHID
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MARCHID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MARCHID_HOW)(, marchid);
+        };
+    };
+};
+
+#if OVERRIDE_MARCHID_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(marchid);
+#endif
+
+#if OVERRIDE_MARCHID_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(marchid);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MARCHID_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MARCHID_

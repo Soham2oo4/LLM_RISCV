@@ -1,0 +1,29 @@
+Compiling the C compiler identification source file "CMakeCCompilerId.c" failed.
+Compiler: /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-clang 
+Build flags: 
+Id flags:  
+
+The output was:
+1
+codasip_urisc_v-ia-lld: error: unable to find library -lc
+codasip_urisc_v-ia-clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+
+Checking whether the ASM compiler is GNU using "--version" did not match "(GNU assembler)|(GCC)|(Free Software Foundation)":
+LLVM (http://llvm.org/):
+  LLVM version 9.0.1
+  Optimized build with assertions.
+  Default target: x86_64-unknown-linux-gnu
+  Host CPU: skylake-avx512
+
+  Registered Targets:
+    codasip   - Target generated for codasip_urisc_v.ia.
+      Codasip Studio version: 9.4.2
+      Project: codasip_urisc_v.ia
+      Date: 2025-04-06 06:40:46
+      Copyright (C) 2025 Codasip s.r.o.
+    extractor - Target created for semantics extraction.
+clang version 9.0.1 (ssh://git@gitlab.codasip.com/codasip-studio/llvm-project.git de721e516e0cf84aa99255d0f6f37c402af48983)
+Target: codasip-codasip_urisc_v_ia
+Thread model: posix
+InstalledDir: /home/project/codasip_urisc_v/work/ia/sdk/bin

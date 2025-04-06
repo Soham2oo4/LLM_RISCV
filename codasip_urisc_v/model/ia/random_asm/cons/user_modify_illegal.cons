@@ -1,0 +1,290 @@
+#ifndef _USER_MODIFY_ILLEGAL_
+#define _USER_MODIFY_ILLEGAL_
+
+//----------------------------------------------------------------------------------------------------------
+
+// substitute command for macro below
+// illegal register used only in instruction load_imm64
+// repl_illegal - replaced illegal register
+#if OPTION_XLEN == 64
+#define ADD_ILLEGAL(repl_illegal) #repl_illegal,
+#else
+#define ADD_ILLEGAL(repl_illegal)
+#endif
+
+// substitute scenario when modify constraints (add illegal register) with operand outlined yet
+// repl_type - replaced type of operation name
+// repl_inst - replaced instruction
+// repl_rest - replaced rest of operation name
+// repl_illegal - replaced illegal register (added new)
+// repl_src - replaced operand source (already set) must be the same as overiden
+#define CONSTRAINTS_MODIFY_ILLEGAL(repl_type, repl_inst, repl_rest, repl_illegal, repl_src) \
+scenario wrapped_i_##repl_type##__opc_##repl_inst##__##repl_rest##__ \
+{ \
+    constraints \
+    { \
+        override illegal = { ADD_ILLEGAL(repl_illegal) repl_src }; \
+    }; \
+}
+
+// use for suppress of generation wrapped instruction
+// repl_type - replaced type of operation name
+// repl_inst - replaced instruction
+// repl_rest - replaced rest of operation name
+#define OVERRIDE_WRAPPED_I_HANDLED(repl_type, repl_inst, repl_rest) \
+        override wrapped_i_##repl_type##__opc_##repl_inst##__##repl_rest##__ = 0
+
+//----------------------------------------------------------------------------------------------------------
+// load instructions: restrict registers
+//----------------------------------------------------------------------------------------------------------
+
+// use for manage load control instruction with registers
+// repl_inst - replaced instruction
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_MANAGE(repl_inst, repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(load, repl_inst, regs__simm12_simple__regs, repl_illegal, regs_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(load, repl_inst, reg0__simm12_simple__regs, repl_illegal, regs_src_0)
+
+// modify by one macro all load control instruction
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_MODIFY(repl_illegal) \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadb, repl_illegal); \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadbu, repl_illegal); \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadh, repl_illegal); \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadhu, repl_illegal); \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadw, repl_illegal)
+
+#if OPTION_XLEN == 64
+// modify by one macro all load control instruction when length = 64
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_LEN64_MODIFY(repl_illegal) \
+        SCENARIO_WRAPPED_I_load_MANAGE(load, repl_illegal); \
+        SCENARIO_WRAPPED_I_load_MANAGE(loadwu, repl_illegal)
+#endif
+
+// modify by one macro all load control instruction when extension C
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_EXT_C_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(loadwsp, loadwsp, regs__imm6_s2, repl_illegal, "sp"); \
+        CONSTRAINTS_MODIFY_ILLEGAL(lsw_comp, loadwreg, regs_comp__imm5_s2__regs_comp, repl_illegal, regs_comp_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(lsw_comp, storewreg, regs_comp__imm5_s2__regs_comp, repl_illegal, regs_comp_src_1)
+
+#if OPTION_XLEN == 64
+// modify by one macro all load control instruction when extension C and length = 64
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_EXT_C_LEN64_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(loaddsp, loaddsp, regs__imm6_s3, repl_illegal, "sp"); \
+        CONSTRAINTS_MODIFY_ILLEGAL(lsd_comp, loaddreg, regs_comp__imm5_s3__regs_comp, repl_illegal, regs_comp_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(lsd_comp, storedreg, regs_comp__imm5_s3__regs_comp, repl_illegal, regs_comp_src_1)
+#endif
+
+// modify by one macro load control instruction when extension F
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_EXT_F_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(load_f, load_f, regs_f__simm12_simple__regs, repl_illegal, regs_src_0)
+
+#if OPTION_XLEN == 32
+// modify by one macro load control instruction when extension F and length = 32
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_EXT_F_LEN32_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(loadflwsp, loadflwsp, regs_f__imm6_s2, repl_illegal, "sp")
+#endif
+
+#if OPTION_XLEN == 32
+// modify by one macro load control instruction when extension C and extension F and length = 32
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_load_EXT_C_EXT_F_LEN32_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(flsw_comp, loadflsw, reg_f_comp__imm5_s2__regs_comp, repl_illegal, regs_comp_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(loadflwsp, loadflwsp, regs_f__imm6_s2, repl_illegal, "sp")
+#endif
+
+#if OPTION_XLEN == 64
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// use for handle wrapped load operation with zero register
+// repl_inst - replaced instruction
+#define OVERRIDE_WRAPPED_I_load_MANAGE(repl_inst) \
+        OVERRIDE_WRAPPED_I_HANDLED(load, repl_inst, regs__simm12_simple__reg0); \
+        OVERRIDE_WRAPPED_I_HANDLED(load, repl_inst, reg0__simm12_simple__reg0)
+
+// disable by one macro wrapped load operation
+// (addressing by x0 register is forbidden)
+#define OVERRIDE_WRAPPED_I_load \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadb); \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadbu); \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadh); \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadhu); \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadw)
+
+#if OPTION_XLEN == 64
+// disable by one macro wrapped load operation when length = 64
+// (addressing by x0 register is forbidden)
+#define OVERRIDE_WRAPPED_I_load_LEN64 \
+        OVERRIDE_WRAPPED_I_load_MANAGE(load); \
+        OVERRIDE_WRAPPED_I_load_MANAGE(loadwu)
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+// store instructions: restrict registers
+//----------------------------------------------------------------------------------------------------------
+
+// use for manage store control instruction with registers
+// repl_inst - replaced instruction
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_MANAGE(repl_inst, repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(store, repl_inst, regs__simm12_simple__regs, repl_illegal, regs_src_1); \
+        CONSTRAINTS_MODIFY_ILLEGAL(store, repl_inst, reg0__simm12_simple__regs, repl_illegal, regs_src_0)
+
+// modify by one macro all store control instruction
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_MODIFY(repl_illegal) \
+        SCENARIO_WRAPPED_I_store_MANAGE(storeb, repl_illegal); \
+        SCENARIO_WRAPPED_I_store_MANAGE(storeh, repl_illegal); \
+        SCENARIO_WRAPPED_I_store_MANAGE(storew, repl_illegal)
+
+#if OPTION_XLEN == 64
+// modify by one macro all store control instruction when length = 64
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_LEN64_MODIFY(repl_illegal) \
+        SCENARIO_WRAPPED_I_store_MANAGE(store, repl_illegal)
+#endif
+
+// modify by one macro all store control instruction when extension C
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_EXT_C_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(storewsp, storewsp, regs__imm6_s2, repl_illegal, "sp"); \
+        CONSTRAINTS_MODIFY_ILLEGAL(storewsp, storewsp, reg0__imm6_s2, repl_illegal, "sp")
+
+#if OPTION_XLEN == 64
+// modify by one macro all store control instruction when extension C and length = 64
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_EXT_C_LEN64_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(storedsp, storedsp, regs__imm6_s3, repl_illegal, "sp"); \
+        CONSTRAINTS_MODIFY_ILLEGAL(storedsp, storedsp, reg0__imm6_s3, repl_illegal, "sp")
+#endif
+
+// modify by one macro store control instruction when extension F
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_EXT_F_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(store_f, store_f, regs_f__simm12_simple__regs, repl_illegal, regs_src_1)
+
+#if OPTION_XLEN == 32
+// modify by one macro store control instruction when extension F and length = 32
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_EXT_F_LEN32_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(storefswsp, storefswsp, regs_f__imm6_s2, repl_illegal, "sp")
+#endif
+
+#if OPTION_XLEN == 32
+// modify by one macro store control instruction when extension C and extension F and length = 32
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_store_EXT_C_EXT_F_LEN32_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(flsw_comp, storeflsw, reg_f_comp__imm5_s2__regs_comp, repl_illegal, regs_comp_src_1); \
+        CONSTRAINTS_MODIFY_ILLEGAL(storefswsp, storefswsp, regs_f__imm6_s2, repl_illegal, "sp")
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// use for handle wrapped store operation with zero register
+// repl_inst - replaced instruction
+#define OVERRIDE_WRAPPED_I_store_MANAGE(repl_inst) \
+        OVERRIDE_WRAPPED_I_HANDLED(store, repl_inst, regs__simm12_simple__reg0); \
+        OVERRIDE_WRAPPED_I_HANDLED(store, repl_inst, reg0__simm12_simple__reg0)
+
+// disable by one macro wrapped store operation
+// (addressing by x0 register is forbidden)
+#define OVERRIDE_WRAPPED_I_store \
+        OVERRIDE_WRAPPED_I_store_MANAGE(storeb); \
+        OVERRIDE_WRAPPED_I_store_MANAGE(storeh); \
+        OVERRIDE_WRAPPED_I_store_MANAGE(storew)
+
+#if OPTION_XLEN == 64
+// disable by one macro wrapped store operation when length = 64
+// (addressing by x0 register is forbidden)
+#define OVERRIDE_WRAPPED_I_store_LEN64 \
+        OVERRIDE_WRAPPED_I_store_MANAGE(store)
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+// jump instructions: restrict registers
+//----------------------------------------------------------------------------------------------------------
+
+// modify by one macro all jump control instruction
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_jump_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(jalr, jalr, regs__regs__simm12_simple, repl_illegal, regs_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(jalr, jalr, reg0__regs__simm12_simple, repl_illegal, regs_src_0)
+
+// modify by one macro all jump control instruction when extension C
+// repl_illegal - replaced illegal register
+#define SCENARIO_WRAPPED_I_jump_EXT_C_MODIFY(repl_illegal) \
+        CONSTRAINTS_MODIFY_ILLEGAL(jalr_comp, jr_comp, regs, repl_illegal, regs_src_0); \
+        CONSTRAINTS_MODIFY_ILLEGAL(jalr_comp, jalr_comp, regs, repl_illegal, regs_src_0)
+
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+
+// turn-off scenario for wrapped load/store/amo/a_loads/a_stores required instructions
+// memory data section is behind program and spread from defined address in CODASIP_PROGRAM_SIZE
+// imm12 bits value in combination with reg0 can not hold enought big address to point on it
+// the same situation without prepared scenarion for wrapped jump
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_WRAPPED_I_load;
+            OVERRIDE_WRAPPED_I_store;
+#if OPTION_XLEN == 64
+            OVERRIDE_WRAPPED_I_load_LEN64;
+            OVERRIDE_WRAPPED_I_store_LEN64;
+#endif
+            override i_jalr__opc_jalr__reg0__reg0__simm12_simple__ = 0;
+            override i_jalr__opc_jalr__regs__reg0__simm12_simple__ = 0;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// due instructions overriden wrapped load/store must be totaly switch-off all variable used for
+// if it's forbidden, randomgen print error during itself check run
+
+variables
+{
+    override uint11 uimm_11_load_range_0_0;
+    override uint11 uimm_11_store_range_0_0;
+    override uint11 uimm_11_divisible_2_load_range_0_0;
+    override uint11 uimm_11_divisible_2_store_range_0_0;
+    override uint11 uimm_11_divisible_4_load_range_0_0;
+    override uint11 uimm_11_divisible_4_store_range_0_0;
+#if OPTION_XLEN == 64 || defined(false)
+    override uint11 uimm_11_divisible_8_load_range_0_0;
+    override uint11 uimm_11_divisible_8_store_range_0_0;
+#endif
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// for load/store/jump/amo/a_loads/a_stores required instruction:
+// modify constraints (add illegal register) to be banned as source (used for temporary computation)
+
+SCENARIO_WRAPPED_I_load_MODIFY(APPLY_REGISTER);
+SCENARIO_WRAPPED_I_store_MODIFY(APPLY_REGISTER);
+SCENARIO_WRAPPED_I_jump_MODIFY(APPLY_REGISTER);
+
+
+#if OPTION_XLEN == 64
+SCENARIO_WRAPPED_I_load_LEN64_MODIFY(APPLY_REGISTER);
+SCENARIO_WRAPPED_I_store_LEN64_MODIFY(APPLY_REGISTER);
+#endif
+
+
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_USER_MODIFY_ILLEGAL_

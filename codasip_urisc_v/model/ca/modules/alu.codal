@@ -1,0 +1,235 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The Arithmetic-Logic Unit (ALU) is a combinational logic module.
+ * It computes arithmetic and logical operations. It also evaluates branches.
+ */
+
+#include "ca_defines.hcodal"
+
+#if OPTION_XLEN == 64
+// RV64
+#define SHIFT_AMOUNT_RV32    5..0
+#define SHIFT_AMOUNT_RV64    4..0
+#define SIGN_RV32           63..63
+#define SIGN_RV64           31..31
+#define BIT_REVERSE codasip_bitreverse_uint64
+#else
+// RV32
+#define SHIFT_AMOUNT_RV32    4..0
+#define SIGN_RV32           31..31
+#define BIT_REVERSE codasip_bitreverse_uint32
+#endif
+
+#define WORD_RV32           31..0
+
+module alu
+{
+    // Inputs, data-ports dependent on XLEN
+    signal bit[FU_OP_W]     s_op_i;
+    signal bit[OPTION_XLEN] s_s1_data_i;
+    signal bit[OPTION_XLEN] s_s2_data_i;
+
+    // Outputs
+    signal bit[OPTION_XLEN] s_rd_data_o;
+    signal bit[1]           s_take_branch_o;
+
+    // Compute - main logic of the module
+    event compute
+    {
+        semantics
+        {
+            uint1 less, equal;                                    // operand for comparison operation
+            int_<OPTION_XLEN+1> ltop1, ltop2, op1, op2, rev_op;   // extended operands for comparison
+            uint1 sign;                                           // sign for comparison operations
+            uint_<OPTION_XLEN> addsub, addop2;                    // add/sub result
+            uint1 is_sub;                                         // identify if op is sub or add
+            uint1 is_left;                                        // is op SLL(W) or not
+            int_<OPTION_XLEN+1> extop, shop, shift;               // intermediate operands for shift
+            int_<OPTION_XLEN> shrd;
+#if OPTION_XLEN == 64
+            int_<OPTION_XLEN+1> op1_w, op2_w, cut_op;
+            uint1 type_w;
+            uint6 shamt;                                          // shift amount for 64bit
+#else
+            uint5 shamt;                                          // shift amount for 32bit
+#endif // OPTION_XLEN == 64
+
+            // Sign for "arithmetic right shift", "less then", "greater or equal" operations.
+#if OPTION_XLEN == 64
+            sign = (s_op_i == OP_SRAW | s_op_i == OP_SRA | s_op_i == OP_SLT | s_op_i == OP_LT | s_op_i == OP_GE);
+#else
+            sign = (s_op_i == OP_SRA | s_op_i == OP_SLT | s_op_i == OP_LT | s_op_i == OP_GE);
+#endif
+            // Crop operands
+#if OPTION_XLEN == 64
+            type_w = s_op_i == OP_SLLW | s_op_i == OP_SRLW | s_op_i == OP_SRAW | s_op_i == OP_ADDW | s_op_i == OP_SUBW;
+            // Extend to XLEN_T+1 bit and do the comparison
+            op1_w = (int_<OPTION_XLEN+1>)(int33)((sign & s_s1_data_i[SIGN_RV64]) :: s_s1_data_i[WORD_RV32]);
+            op2_w = (int_<OPTION_XLEN+1>)(int33)((sign & s_s1_data_i[SIGN_RV64]) :: s_s2_data_i[WORD_RV32]);
+#endif
+            op1 = (int_<OPTION_XLEN+1>)((sign & s_s1_data_i[SIGN_RV32]) :: s_s1_data_i);
+            op2 = (int_<OPTION_XLEN+1>)((sign & s_s2_data_i[SIGN_RV32]) :: s_s2_data_i);
+
+#if OPTION_XLEN == 64
+            ltop1 = type_w ? op1_w : op1;
+            ltop2 = type_w ? op2_w : op2;
+#else
+            ltop1 = op1;
+            ltop2 = op2;
+#endif
+
+            less = ltop1 < ltop2;
+            equal = s_s1_data_i == s_s2_data_i;
+
+            // Branch processing
+            switch (s_op_i)
+            {
+                // Less than (signed, unsigned)
+                case OP_LT:
+                case OP_LTU:
+                    s_take_branch_o = less;
+                    break;
+                // Greater or equal (signed, unsigned)
+                case OP_GE:
+                case OP_GEU:
+                    s_take_branch_o = ~less;
+                    break;
+                // Equal
+                case OP_EQ:
+                    s_take_branch_o = equal;
+                    break;
+                // Not equal
+                case OP_NE:
+                    s_take_branch_o = ~equal;
+                    break;
+                // Jump in the case of other values
+                default:
+                    s_take_branch_o = 1;
+                    break;
+            }
+
+            // Addition and subtraction
+#if OPTION_XLEN == 64
+            is_sub = (s_op_i == OP_SUBW | s_op_i == OP_SUB);
+#else
+            is_sub = (s_op_i == OP_SUB);
+#endif
+            addop2 = is_sub ? -s_s2_data_i : s_s2_data_i;
+            addsub = s_s1_data_i + addop2;
+
+            // Shift
+            // Check for left shift
+#if OPTION_XLEN == 64
+            is_left = (s_op_i == OP_SLLW | s_op_i == OP_SLL);
+#else
+            is_left = (s_op_i == OP_SLL);
+#endif
+
+            rev_op = (int_<OPTION_XLEN+1>)(UXLEN_T)BIT_REVERSE(ltop1[OPTION_XLEN-1 .. 0]);
+            // Prepare data for shift, both 32bit and 64bit
+            shop = is_left ? rev_op : ltop1;
+#if OPTION_XLEN == 64
+            shamt = type_w ? s_s2_data_i[SHIFT_AMOUNT_RV64] : s_s2_data_i[SHIFT_AMOUNT_RV32];
+#else
+            shamt = s_s2_data_i[SHIFT_AMOUNT_RV32];
+#endif
+            shift = (int_<OPTION_XLEN>)(shop >> shamt);
+            shrd = is_left ? (int_<OPTION_XLEN+1>)(UXLEN_T)BIT_REVERSE(shift[OPTION_XLEN-1 .. 0]) : shift;
+
+            // ALU
+            switch (s_op_i)
+            {
+                // Logic operations
+                case OP_AND:
+                    s_rd_data_o = s_s1_data_i & s_s2_data_i;
+                    break;
+                case OP_OR:
+                    s_rd_data_o = s_s1_data_i | s_s2_data_i;
+                    break;
+                case OP_XOR:
+                    s_rd_data_o = s_s1_data_i ^ s_s2_data_i;
+                    break;
+
+                // Shift operations
+                // SLL, SRAL, SRA
+                case OP_SLL:
+                case OP_SRL:
+                case OP_SRA:
+                    s_rd_data_o = shrd;
+                    break;
+
+#if OPTION_XLEN == 64
+                // SLLW, SRLW, SRAW are present only in RV64
+                case OP_SLLW:
+                case OP_SRLW:
+                case OP_SRAW:
+                    s_rd_data_o = (int64)(int32)shrd[WORD_RV32];
+                    break;
+#endif
+
+                // Addition and substraction
+                case OP_ADD:
+                case OP_SUB:
+                    s_rd_data_o = addsub;
+                    break;
+
+#if OPTION_XLEN == 64
+                // ADDW and SUBW are present only in RV64
+                case OP_ADDW:
+                case OP_SUBW:
+                    s_rd_data_o = (int64)(int32)addsub[WORD_RV32];
+                    break;
+#endif
+
+                // Comparison
+                case OP_SLT:
+                case OP_SLTU:
+                    s_rd_data_o = less;
+                    break;
+
+                //FFT_FSW
+                case OP_FFT_BUTTERFLY_STORE_E_R: s_rd_data_o = E_R; break;
+                case OP_FFT_BUTTERFLY_STORE_E_I: s_rd_data_o = E_I; break;
+                case OP_FFT_BUTTERFLY_STORE_O_R: s_rd_data_o = O_R; break;
+                case OP_FFT_BUTTERFLY_STORE_O_I: s_rd_data_o = O_I; break;
+
+                case OP_FFT_BUTTERFLY_LOAD_E:
+                    E_R = s_s1_data_i;
+                    E_I = s_s2_data_i;
+                    s_rd_data_o = 0;
+                    break;
+                case OP_FFT_BUTTERFLY_LOAD_O:
+                    O_R = s_s1_data_i;
+                    O_I = s_s2_data_i;
+                    s_rd_data_o = 0;
+                    break;
+
+                // Default output is 0
+                default:
+                    s_rd_data_o = 0;
+                    break;
+            }
+        };
+    };
+};

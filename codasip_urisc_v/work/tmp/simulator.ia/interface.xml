@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><codasip:root codasip:xml_version="3.5.2" xmlns:codasip="&quot;http://www.codasip.com/&quot;"><codasip:file_table><codasip:file codasip:path="/home/project/codasip_urisc_v/model/share/testbenches/simple_testbench.codal" codasip:id="m_memory:0"/></codasip:file_table><codasip:memory codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:id="MI8m_memory"><codasip:doxygen>/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+</codasip:doxygen><codasip:interface codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:id="MI7if_ldst"><codasip:bits codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:address_bit_width="32" codasip:word_bit_width="32" codasip:lau_bit_width="8"/><codasip:endianness codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:value="LITTLE"/><codasip:type codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:value="AHB3_LITE:SLAVE"/><codasip:flag codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:value="RW"/><codasip:alignment codasip:file="m_memory:0" codasip:line="34" codasip:column="9"><codasip:data_alignment codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:alignment_bit_width="8"/><codasip:data_alignment codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:alignment_bit_width="16"/><codasip:data_alignment codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:alignment_bit_width="32"/><codasip:address_alignment codasip:file="m_memory:0" codasip:line="34" codasip:column="9" codasip:alignment_bit_width="32"/></codasip:alignment></codasip:interface><codasip:interface codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:id="MI8if_fetch"><codasip:bits codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:address_bit_width="32" codasip:word_bit_width="32" codasip:lau_bit_width="8"/><codasip:endianness codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:value="LITTLE"/><codasip:type codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:value="AHB3_LITE:SLAVE"/><codasip:flag codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:value="R"/><codasip:alignment codasip:file="m_memory:0" codasip:line="43" codasip:column="9"><codasip:data_alignment codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:alignment_bit_width="8"/><codasip:data_alignment codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:alignment_bit_width="16"/><codasip:data_alignment codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:alignment_bit_width="32"/><codasip:address_alignment codasip:file="m_memory:0" codasip:line="43" codasip:column="9" codasip:alignment_bit_width="32"/></codasip:alignment></codasip:interface><codasip:bits codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:address_bit_width="32" codasip:word_bit_width="32" codasip:lau_bit_width="8"/><codasip:endianness codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:value="LITTLE"/><codasip:size codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:value="2147483648"/><codasip:latencies_read codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:value="1"/><codasip:latencies_write codasip:file="m_memory:0" codasip:line="29" codasip:column="5" codasip:value="1"/></codasip:memory></codasip:root>

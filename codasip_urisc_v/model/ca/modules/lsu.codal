@@ -1,0 +1,661 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The Load-Store Unit (LSU) manages memory operations. Instructions are executed in two phases - address and data phase.
+ * Information about the executed instruction are saved in the internal FIN registers.
+ * Instructions are pipelined, so if an operation is in the data phase, another operation could be in the address phase.
+ */
+
+#include "common.hcodal"
+#include "ca_defines.hcodal"
+#include "dec_defines.hcodal"
+
+enum lsu_state : uint4
+{
+    READY,
+    DCACHE_FLUSH,
+    DCACHE_INVALIDATE,
+    ICACHE_INVALIDATE,
+};
+
+inline uint1 misalign_check(XLEN_T addres, uint2 size)
+{
+    switch (size)
+    {
+        case 0: return 0;
+        case 1: return addres[0 .. 0];
+        case 2: return (addres[1 .. 0] != (uint2)0);
+        case 3: return (addres[2 .. 0] != (uint3)0);
+    }
+}
+
+module lsu
+{
+    pipeline pl_lsu
+    {
+        REQ,FIN
+    };
+
+    // Inputs
+    signal bit[FU_OP_W] s_op_i;
+    // - data for write (store)
+    signal bit[DATA_W] s_wdata_i;
+    // - address for ldst operation
+    signal bit[ADDR_W] s_addr_i;
+    // - address of the instruction
+    signal bit[ADDR_W] s_instr_addr_i;
+    signal bit[RF_ADDR_W] s_rd_addr_i;
+    // - stop the transaction due to interrupt, OCD, exception, etc.
+    signal bit[1] s_clear_i;
+    signal bit[ADDR_W] s_syscall_addr_i;
+
+    /// Outputs
+    // - request phase (address phase)
+    signal bit[EXC_TYPE_W] s_req_exc_type_o;
+    signal bit[1] s_req_exc_valid_o;
+    signal bit[1] s_req_busy_o;
+    signal bit[ADDR_W] s_req_exc_tval_o;
+    /// - finish phase (data phase)
+    signal bit[FU_OP_W] s_fin_op_o;
+    signal bit[DATA_W] s_fin_rd_data_o;
+    // - address of the instruction
+    signal bit[ADDR_W] s_fin_instr_addr_o;
+    signal bit[RF_ADDR_W] s_fin_rd_addr_o;
+    signal bit[1] s_fin_rd_valid_o;
+    signal bit[1] s_fin_rd_we_o;
+    // - bus info
+    signal bit[1] s_fin_busy_o;
+    // - store fault signaling frem fin phase
+    signal bit[1] s_fin_exc_valid_o;
+    signal bit[ADDR_W] s_fin_exc_tval_o;
+    signal bit[EXC_TYPE_W] s_fin_exc_type_o;
+
+    // Internal wires
+    signal bit[1] s_exc_valid;
+    signal bit[1] s_is_load;
+    signal bit[1] s_is_store;
+    signal bit[1] s_is_fence;
+    signal bit[1] s_is_fence_i;
+    signal bit[1] s_fin_busy;
+    signal bit[ADDR_W] s_req_addr;
+    signal bit[DATA_W] s_req_wdata;
+    signal bit[FU_OP_W] s_req_op;
+    signal bit[1] s_req_do_load;
+
+    // Clock enable
+    signal bit[1] s_lsu_ce;
+    signal bit[1] s_load_ce;
+    signal bit[1] s_store_ce;
+
+    // Internal registers
+    register bit[FU_OP_W] r_op { pipeline = pl_lsu.FIN; clock_enable = s_lsu_ce; };
+    register bit[ADDR_W] r_data_addr { pipeline = pl_lsu.FIN; clock_enable = s_lsu_ce; };
+    register bit[ADDR_W] r_instr_addr { pipeline = pl_lsu.FIN; clock_enable = s_lsu_ce; };
+    register bit[RF_ADDR_W] r_rd_addr { pipeline = pl_lsu.FIN; clock_enable = s_load_ce; };
+    register bit[2] r_hsize { pipeline = pl_lsu.FIN; clock_enable = s_lsu_ce; };
+    register bit[DATA_W] r_wdata { pipeline = pl_lsu.FIN; clock_enable = s_store_ce; };
+    register bit[1] r_is_store { pipeline = pl_lsu.FIN; clock_enable = s_store_ce; };
+    register bit[1] r_is_load { pipeline = pl_lsu.FIN; clock_enable = s_load_ce; };
+    register bit[1] r_valid { pipeline = pl_lsu.FIN; clock_enable = s_load_ce ; };
+    register bit[bitsizeof(enum lsu_state)] r_state{ pipeline = pl_lsu.FIN; };
+    register bit[1] r_hresp;
+
+#ifdef OPTION_ENABLE_CACHES
+    // For multicycle operations, keep the inputs
+    register bit[FU_OP_W] r_i_op{ pipeline = pl_lsu.FIN; };
+#endif
+
+    // Syscall-related signals and registers
+    signal bit[1] s_syscall_done, s_sys_pending, s_sys_faulty_halt_attempt;
+    register bit[1] r_sys_pending;
+    register bit[1] r_sys_halt;
+#ifndef OPTION_OCD
+    register bit[3] r_syscall_delay;
+    register bit[DATA_W] r_sys_wdata {clock_enable = s_store_ce;};
+#endif
+
+    event compute_addr_check
+    {
+        use compute_req_fsm;
+        semantics
+        {
+            uint2 size;
+            uint1 misaligned;
+            uint1 lsu_op_valid;
+
+            // Categorize operations
+            switch (s_op_i)
+            {
+                case OP_LB:
+                case OP_LH:
+                case OP_LW:
+                case OP_LBU:
+                case OP_LHU:
+#if OPTION_XLEN == 64
+                case OP_LWU:
+                case OP_LD:
+#endif
+                    s_is_load = 1;
+                    s_is_store = 0;
+                    s_is_fence = 0;
+                    s_is_fence_i = 0;
+                    break;
+                case OP_SB:
+                case OP_SH:
+                case OP_SW:
+#if OPTION_XLEN == 64
+                case OP_SD:
+#endif
+                    s_is_load = 0;
+                    s_is_store = 1;
+                    s_is_fence = 0;
+                    s_is_fence_i = 0;
+                    break;
+                case OP_FENCE:
+                    s_is_load = 0;
+                    s_is_store = 0;
+                    s_is_fence = 1;
+                    s_is_fence_i = 0;
+                    break;
+                case OP_FENCE_I:
+                    s_is_load = 0;
+                    s_is_store = 0;
+                    s_is_fence = 0;
+                    s_is_fence_i = 1;
+                    break;
+                default:
+                    s_is_load = 0;
+                    s_is_store = 0;
+                    s_is_fence = 0;
+                    s_is_fence_i = 0;
+                    break;
+            };
+
+            lsu_op_valid = s_is_load | s_is_store | s_is_fence | s_is_fence_i;
+
+            // Clock enable
+            s_lsu_ce = lsu_op_valid | r_is_load | r_is_store
+#ifdef OPTION_ENABLE_CACHES
+                | r_i_op == OP_FENCE | r_i_op == OP_FENCE_I
+#endif
+                ;
+            s_load_ce = s_is_load | r_is_load;
+            s_store_ce = s_is_store | s_is_fence | s_is_fence_i | r_is_store
+#ifdef OPTION_ENABLE_CACHES
+                | r_i_op == OP_FENCE | r_i_op == OP_FENCE_I
+#endif
+                ;
+
+            // Misaligned address detection
+            // Set size of data:
+            switch (s_op_i)
+            {
+                case OP_SH:
+                case OP_LH:
+                case OP_LHU:
+                    size = 1;
+                    break;
+
+                case OP_SW:
+                case OP_LW:
+#if OPTION_XLEN == 64
+                case OP_LWU:
+#endif
+                    size = 2;
+                    break;
+
+#if OPTION_XLEN == 64
+                case OP_SD:
+                case OP_LD:
+                    size = 3;
+                    break;
+#endif
+
+                default:
+                    // OP_SB, OP_LB, OP_LBU
+                    size = 0;
+                    break;
+            }
+
+            misaligned = misalign_check(s_addr_i, size);
+
+            // Exception is valid only for LS operations
+            s_exc_valid = misaligned & (s_is_store | s_is_load);
+            s_req_exc_type_o = s_is_load ? MISALIGNED_LOAD : MISALIGNED_STORE;
+            s_req_exc_valid_o = s_exc_valid;
+            s_req_exc_tval_o = s_addr_i;
+
+            compute_req_fsm();
+        };
+    };
+
+    event compute_req_fsm
+    {
+        semantics
+        {
+            uint1 do_store, do_load, op_busy;
+            uint1 do_fence, do_fence_i, fence_busy;
+            uint_<ADDR_W> addr;
+            uint_<DATA_W> wdata;
+            uint_<FU_OP_W> op;
+
+            // Perform the current operation if we have address and there is no exception
+            do_store = s_is_store & ~s_exc_valid;
+            do_load = s_is_load & ~s_exc_valid;
+            do_fence = s_is_fence;
+            do_fence_i = s_is_fence_i;
+
+            // Prepare operation for AHB addr phase
+            switch (r_state)
+            {
+                case READY:
+                    // Wait to do regular LOADs
+                    if (do_load)
+                    {
+                        addr = s_addr_i;
+                        op = s_op_i;
+                        wdata = 0;
+                        fence_busy = false;
+                    }
+
+                    // Fence OP
+                    else if (do_fence | do_fence_i)
+                    {
+#ifdef OPTION_ENABLE_CACHES
+#if OPTION_XLEN == 64
+                        op = OP_SD;
+#else
+                        op = OP_SW;
+#endif // OPTION_XLEN == 64
+                        addr = ML1CACHE_FLUSH_ALL_ADDR; // Perform flush
+                        r_i_op = s_op_i;
+                        wdata = 1;
+                        fence_busy = true;
+#else // OPTION_ENABLE_CACHES
+                        addr = 0;
+                        op = s_op_i;
+                        wdata = 0;
+                        fence_busy = false;
+#endif // OPTION_ENABLE_CACHES
+                    }
+
+                    // Write OP
+                    else if (do_store)
+                    {
+                        addr = s_addr_i;
+                        op = s_op_i;
+                        fence_busy = false;
+                        wdata = s_wdata_i;
+                    }
+
+                    // Exception or nop
+                    else
+                    {
+                        addr = 0;
+                        op = 0;
+                        wdata = 0;
+                        fence_busy = false;
+                    }
+
+                    // Stall the whole pipeline
+                    op_busy = fence_busy;
+                    r_op = s_op_i;
+                    r_rd_addr = s_rd_addr_i;
+                    r_state =
+#ifdef OPTION_ENABLE_CACHES
+                        (do_fence | do_fence_i) ? DCACHE_FLUSH :
+#endif // OPTION_ENABLE_CACHES
+                        READY;
+                    break; // case READY
+
+#ifdef OPTION_ENABLE_CACHES
+                case DCACHE_FLUSH:
+                    addr = ML1CACHE_FLUSH_ALL_ADDR;
+                    op = 0;
+                    wdata = 0;
+                    op_busy = true;
+                    if (!s_fin_busy)
+                    {
+                        if (r_i_op == OP_FENCE)
+                        {
+                            r_state = READY;
+                            // Return the original instruction
+                            r_op = r_i_op;
+                        }
+                        else
+                        {
+                            r_state =
+#ifdef OPTION_OCD
+                                DCACHE_INVALIDATE;
+#else
+                                ICACHE_INVALIDATE;
+#endif // OPTION_OCD
+                            r_op = r_i_op;
+                        }
+                    }
+                    break;
+
+#ifdef OPTION_OCD
+                case DCACHE_INVALIDATE:
+                    op_busy = true;
+                    addr = ML1CACHE_D_INVALIDATE_ALL_ADDR;
+                    wdata = 1;
+#if OPTION_XLEN == 64
+                    op = OP_SD;
+#else
+                    op = OP_SW;
+#endif // OPTION_XLEN == 64
+                    r_op = r_i_op;
+                    if ( !s_fin_busy )
+                    {
+                        r_state = ICACHE_INVALIDATE;
+                    }
+                    break;
+#endif // OPTION_OCD
+
+                case ICACHE_INVALIDATE:
+                    addr = ML1CACHE_I_INVALIDATE_ALL_ADDR;
+                    wdata = 1;
+#if OPTION_XLEN == 64
+                    op = OP_SD;
+#else
+                    op = OP_SW;
+#endif // OPTION_XLEN == 64
+                    r_op = r_i_op;
+                    if (!s_fin_busy)
+                    {
+                        r_state = READY;
+                    }
+                    op_busy = true;
+                    break;
+#endif // OPTION_ENABLE_CACHES
+
+                default:
+                    addr = 0;
+                    op_busy = false;
+                    op = 0;
+                    r_op = 0;
+                    wdata = 0;
+                    break;
+            }
+
+            /// outputs
+            s_req_busy_o = op_busy;
+
+            #pragma simulator
+            {
+                s_req_busy_o |= r_sys_pending;
+            }
+            s_req_addr = addr;
+            s_req_op = op;
+            s_req_wdata = wdata;
+            s_req_do_load = do_load;
+        };
+    };
+
+    event compute_req
+    {
+        semantics
+        {
+            // AHB interface
+            uint2 htrans, hsize;
+            uint4 hprot;
+            uint1 hwrite, htrans_req, terminate, clear_fin;
+            uint1 req_rd_we, req_valid;
+
+            uint_<ADDR_W> addr;
+            uint_<DATA_W> wdata, write_data;
+            uint1 do_load;
+
+            addr = s_req_addr;
+            wdata = s_req_wdata;
+            do_load = s_req_do_load;
+
+            // Handle the final operation that will be done this cycle
+            switch (s_req_op)
+            {
+                case OP_SB:
+                    hsize = CP_AHB_SIZE_8;
+                    hwrite = CP_AHB_WRITE;
+                    req_valid = true;
+                    break;
+                case OP_LBU:
+                case OP_LB:
+                    hsize = CP_AHB_SIZE_8;
+                    hwrite = CP_AHB_READ;
+                    req_valid = true;
+                    break;
+                case OP_SH:
+                    hsize = CP_AHB_SIZE_16;
+                    hwrite = CP_AHB_WRITE;
+                    req_valid = true;
+                    break;
+                case OP_LHU:
+                case OP_LH:
+                    hsize = CP_AHB_SIZE_16;
+                    hwrite = CP_AHB_READ;
+                    req_valid = true;
+                    break;
+                case OP_SW:
+                    hsize = CP_AHB_SIZE_32;
+                    hwrite = CP_AHB_WRITE;
+                    req_valid = true;
+                    break;
+#if OPTION_XLEN == 64
+                case OP_LWU:
+#endif
+                case OP_LW:
+                    hsize = CP_AHB_SIZE_32;
+                    hwrite = CP_AHB_READ;
+                    req_valid = true;
+                    break;
+#if OPTION_XLEN == 64
+                case OP_SD:
+                    hsize = CP_AHB_SIZE_64;
+                    hwrite = CP_AHB_WRITE;
+                    req_valid = true;
+                    break;
+#endif
+#if OPTION_XLEN == 64
+                case OP_LD:
+                    hsize = CP_AHB_SIZE_64;
+                    hwrite = CP_AHB_READ;
+                    req_valid = true;
+                    break;
+#endif
+                default:
+                    // Fence
+                    hsize = 0;
+                    hwrite = CP_AHB_READ;
+                    req_valid = false;
+                    break;
+            }
+
+            // Decide whether to initiate transfer request or not
+            terminate = s_exc_valid | r_hresp | s_clear_i;
+            htrans_req = req_valid & ~terminate;
+            htrans = htrans_req ? CP_AHB_NONSEQ : CP_AHB_IDLE;
+
+            // Set cacheability and bufferability to 1.
+            // Other than that the access is of "privileged" & "data" type.
+            hprot = (CP_AHB_CACHEABLE | CP_AHB_BUFFERABLE | CP_AHB_PRIVILEGED | CP_AHB_DATA_ACCESS);
+
+            ldst_interface.transport(CP_PHS_ADDRESS, htrans, hwrite, addr, hsize, hprot);
+
+            if (~r_sys_halt && htrans_req && (addr == s_syscall_addr_i) && hwrite && (wdata == 0x1))
+            {
+                r_sys_halt = true;
+            }
+            else if (s_sys_faulty_halt_attempt)
+            {
+                r_sys_halt = false;
+            }
+
+            // Syscall
+            s_sys_pending = (~r_sys_halt && htrans_req && (addr == s_syscall_addr_i) && hwrite && (wdata != 0x1));
+            if (r_sys_pending)
+            {
+                // De-assert r_sys_pending in case a flush
+                r_sys_pending = ~s_syscall_done;
+            }
+            else if (s_sys_pending)
+            {
+                r_sys_pending = true;
+#ifndef OPTION_OCD
+                #pragma simulator
+                {
+                    r_sys_wdata = wdata;
+                }
+#endif
+            }
+            write_data = ldst_interface.encode_data(wdata, addr, hsize);
+
+            // Outputs
+            // Tell dispatch to stall ID if there is an ongoing AMO operation.
+            // Propogate data to FIN phase.
+            r_data_addr = addr;
+            r_instr_addr = r_state == READY ? s_instr_addr_i : r_instr_addr ;
+            r_hsize = hsize;
+            r_wdata = write_data;
+            r_is_store = (hwrite == CP_AHB_WRITE);
+            r_is_load = (hwrite == CP_AHB_READ) && req_valid;
+
+            r_valid = do_load;
+            #pragma simulator
+            {
+                if (hwrite == CP_AHB_WRITE)
+                {
+                    codasip_print(TRACE_LEVEL,"At add: %05x writing: %x, busy: %d\n", addr, write_data, s_fin_busy);
+                }
+            }
+            clear_fin = r_state == READY & (terminate | (~req_valid));
+            // Stall when there is a fired load or store waiting to write (regardless of flush)
+            if ((r_is_store || r_is_load) && s_fin_busy )
+            {
+                pl_lsu.FIN.stall();
+            }
+            else if (clear_fin)
+            {
+                pl_lsu.FIN.clear();
+            }
+        };
+    };
+
+    event compute_fin
+    {
+        use halt;
+        semantics
+        {
+            uint1 hready, hresp;
+            uint_<DATA_W> hrdata_raw, hrdata, read_data;
+            uint1 data_valid;
+
+            ldst_interface.transport(CP_PHS_DATA, hready, hresp, hrdata_raw, r_wdata);
+            #pragma simulator
+            {
+                if (r_is_store)
+                {
+                    codasip_print(TRACE_LEVEL,"At add: %05x writing: %x\n", r_data_addr, r_wdata);
+                }
+            }
+
+            // Data read from slave
+            hrdata = ldst_interface.decode_data(hrdata_raw, r_data_addr, r_hsize);
+
+            switch (r_op)
+            {
+                case OP_LBU: read_data = (uint_<DATA_W>)(uint8)hrdata; break;
+                case OP_LHU: read_data = (uint_<DATA_W>)(uint16)hrdata; break;
+#if OPTION_XLEN == 64
+                case OP_LWU: read_data = (uint_<DATA_W>)(uint32)hrdata; break;
+#endif
+                case OP_LB:  read_data = (int_<DATA_W>)(int8)hrdata; break;
+                case OP_LH:  read_data = (int_<DATA_W>)(int16)hrdata; break;
+                case OP_LW:  read_data = (int_<DATA_W>)(int32)hrdata; break;
+#if OPTION_XLEN == 64
+                case OP_LD:  read_data = hrdata; break;
+#endif
+                default:     read_data = (uint_<DATA_W>)0; break;
+            }
+
+            // Delay error clear by one cycle, then raise NMI_BUS_ERROR exception
+            r_hresp = hresp & ~hready;
+
+            // Bus busy, stall
+            s_fin_busy = !hready;
+
+            // Syscall handling - halt
+            if (r_sys_halt)
+            {
+                if (hready & ~hresp)
+                {
+                    halt();
+                }
+                else if (hresp)
+                {
+                    s_sys_faulty_halt_attempt = true;
+                }
+            }
+
+            // Syscall handling - other syscalls (simulator only)
+            if (r_sys_pending)
+            {
+                if (hready)
+                {
+                    s_syscall_done = true;
+#ifndef OPTION_OCD
+                    #pragma simulator
+                    {
+                        r_syscall_delay += 1;
+                        if (r_syscall_delay == 3)
+                        {
+                            r_syscall_delay = 0;
+                            codasip_syscall(r_sys_wdata);
+                        }
+                        else
+                        {
+                            s_syscall_done = false;
+                        }
+                    }
+#endif // OPTION_OCD
+                }
+            }
+
+            // HRESP caused error -> signal NMI
+            s_fin_exc_type_o = NMI_BUS_ERROR;
+            s_fin_exc_tval_o = r_data_addr;
+            s_fin_exc_valid_o = r_hresp;
+
+            // Outputs of Data phase
+            s_fin_op_o = r_op;
+            // - is data valid?
+            s_fin_rd_valid_o = r_valid & ~s_fin_busy & ~r_hresp;
+            // - data and address info
+            s_fin_rd_data_o = read_data;
+            s_fin_rd_we_o = r_is_load && (r_rd_addr != 0);
+            s_fin_rd_addr_o = r_rd_addr ;
+            s_fin_instr_addr_o = r_instr_addr;
+            s_fin_busy_o = s_fin_busy;
+        };
+    };
+};

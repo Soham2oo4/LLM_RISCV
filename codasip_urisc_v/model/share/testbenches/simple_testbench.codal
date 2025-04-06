@@ -1,0 +1,94 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "config.hcodal"
+
+// General testbench for all the cores so that all ports are connected
+testbench
+{
+    // Main memory
+    memory m_memory
+    {
+        size = OPTION_MEMORY_SIZE;
+
+        // Memory load/store interface
+        interface if_ldst
+        {
+            type = AHB3_LITE:SLAVE;
+            bits = { ADDR_W, DATA_W, LAU_W };
+            endianness = LITTLE;
+            flag = RW;
+        };
+
+        // Memory fetch interface
+        interface if_fetch
+        {
+            type = AHB3_LITE:SLAVE;
+            bits = { ADDR_W, DATA_W, LAU_W };
+            endianness = LITTLE;
+            flag = R;
+        };
+    };
+
+#if defined(OPTION_OCD) && defined(OPTION_ENABLE_SYSBUS_ACCESS)
+    // Arbiter for standard load/store access and sysbus access to the main memory
+    arbiter a_sysbus
+    {
+        priority = {if_sysbus, if_ldst};
+
+        // Input interfaces for sysbus and load/store
+        interface if_ldst, if_sysbus
+        {
+            type = AHB3_LITE:MIRRORED_MASTER;
+            bits = { ADDR_W, DATA_W, LAU_W };
+            endianness = LITTLE;
+            flag = RW;
+        };
+
+        // Output interface to main memory
+        interface if_memory
+        {
+            type = AHB3_LITE:MASTER;
+            bits = { ADDR_W, DATA_W, LAU_W };
+            endianness = LITTLE;
+            flag = RW;
+        };
+    };
+
+    // Connections of a_sysbus
+    connect if_ldst => a_sysbus.if_ldst;
+    connect if_sysbus => a_sysbus.if_sysbus;
+    connect a_sysbus.if_memory => m_memory.if_ldst;
+#else
+    // If_sysbus is not present, therefore no arbiter is needed.
+    // If_ldst goes directly to the main memory.
+    connect if_ldst => m_memory.if_ldst;
+#endif
+
+    connect if_fetch => m_memory.if_fetch;
+
+    // Connection for boot address port (sampled by the CPU once after reset).
+    connect OPTION_BOOT_START => p_boot_addr;
+
+    connect 0 => p_nmi;
+    connect 0 => p_nmi_mtval;
+};

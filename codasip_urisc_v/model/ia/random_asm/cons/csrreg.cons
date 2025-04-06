@@ -1,0 +1,782 @@
+#ifndef _CSRREG_
+#define _CSRREG_
+
+// how to override:
+// 0 - all
+// 1 - read (allow write-only)
+// 2 - write (allow read-only)
+// 3 - read-only
+// 4 - write-only
+// 5 - write special (csrrw and csrrwi)
+
+// type:   | instruction:             |    | 0  1  2  3  4  5
+// ----------------------------------------------------------
+// III.    | csrrc  regs, CSR, x0     | RO | *  *     *
+// IV.     | csrrc    x0, CSR, x0     | RO | *  *     *
+// VII.    | csrrs  regs, CSR, x0     | RO | *  *     *
+// VIII.   | csrrs    x0, CSR, x0     | RO | *  *     *
+// XIII. a | csrrci regs, CSR, imm5=0 | RO | *  *     *
+// XIV.  a | csrrci   x0, CSR, imm5=0 | RO | *  *     *
+// XV.   a | csrrsi regs, CSR, imm5=0 | RO | *  *     *
+// XVI.  a | csrrsi   x0, CSR, imm5=0 | RO | *  *     *
+// ----------------------------------------------------------
+// X.      | csrrw    x0, CSR, regs   | WO | *     *     *  *
+// XII.    | csrrw    x0, CSR, x0     | WO | *     *     *  *
+// XVIII.  | csrrwi   x0, CSR, imm5   | WO | *     *     *  *
+// ----------------------------------------------------------
+// I.      | csrrc  regs, CSR, regs   | RW | *  *  *
+// II.     | csrrc    x0, CSR, regs   | RW | *  *  *
+// V.      | csrrs  regs, CSR, regs   | RW | *  *  *
+// VI.     | csrrs    x0, CSR, regs   | RW | *  *  *
+// XIII. b | csrrci regs, CSR, imm5≠0 | RW | *  *  *
+// XIV.  b | csrrci   x0, CSR, imm5≠0 | RW | *  *  *
+// XV.   b | csrrsi regs, CSR, imm5≠0 | RW | *  *  *
+// XVI.  b | csrrsi   x0, CSR, imm5≠0 | RW | *  *  *
+// IX.     | csrrw  regs, CSR, regs   | RW | *  *  *        *
+// XI.     | csrrw  regs, CSR, x0     | RW | *  *  *        *
+// XVII.   | csrrwi regs, CSR, imm5   | RW | *  *  *        *
+
+//----------------------------------------------------------------------------------------------------------
+// Macros I_CONTROL_REGISTERS* are used to create element names which will be added to program_instruction set.
+//----------------------------------------------------------------------------------------------------------
+
+// create the name of one element for the given CSR instruction and the operands
+// repl_pfx - prefix name
+// repl_typ - type of instruction [reg | imm]
+// repl_csr - CSR instruction [csrrc(i) | csrrs(i) | csrrw(i)]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [reg0 | regs | imm5]
+#define I_CONTROL_REGISTERS(repl_pfx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src) \
+        repl_pfx##i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__
+
+// create element names for the given CSR instruction using the register name with any source operand except x0
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_REGS(repl_pfx, repl_csr, repl_reg) \
+        I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, regs), \
+        I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs)
+
+// create element names for the given CSR instruction using the register name with x0 as source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_REG0(repl_pfx, repl_csr, repl_reg) \
+        I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, reg0), \
+        I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, reg0)
+
+// create element names for the given CSR instruction using the register name with an immediate source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_csr, repl_reg) \
+        I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, regs, repl_reg, imm5), \
+        I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, reg0, repl_reg, imm5)
+
+// create element names for all possible instructions (complete combinated set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg)
+
+// create element names for Read CSR instructions (of complete set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, reg0, repl_reg, regs), \
+        I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, reg0, repl_reg, reg0), \
+        I_CONTROL_REGISTERS(repl_pfx, imm, csrrwi, reg0, repl_reg, imm5)
+
+// create element names for Write CSR instructions (of complete set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg)
+
+// create element names for Read-Only CSR instructions (of complete set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg)
+
+// create element names for Write-Only CSR instructions (of complete set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg), \
+        I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, regs, repl_reg, regs), \
+        I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, regs, repl_reg, reg0), \
+        I_CONTROL_REGISTERS(repl_pfx, imm, csrrwi, regs, repl_reg, imm5)
+
+// create element names for Write Special CSR instructions (of complete set) for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg), \
+        I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg)
+
+// concatenate the token code into string of next calling macro name to execute switch case
+#define I_CONTROL_REGISTERS_HOW(x) I_CONTROL_REGISTERS_HOW_(x)
+#define I_CONTROL_REGISTERS_HOW_(x) I_CONTROL_REGISTERS_HOW_##x
+
+// perform the appropriate procedure (of complete set) based on the call
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_HOW_0(repl_pfx, repl_reg) I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg)
+#define I_CONTROL_REGISTERS_HOW_1(repl_pfx, repl_reg) I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg)
+#define I_CONTROL_REGISTERS_HOW_2(repl_pfx, repl_reg) I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg)
+#define I_CONTROL_REGISTERS_HOW_3(repl_pfx, repl_reg) I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg)
+#define I_CONTROL_REGISTERS_HOW_4(repl_pfx, repl_reg) I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg)
+#define I_CONTROL_REGISTERS_HOW_5(repl_pfx, repl_reg) I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg)
+
+// create element names for exactly specified instructions (partial set) using the register name with any source operand except x0
+// these constrained elements will replace previously defined elements in created scenario
+// repl_pfx - prefix name
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_ALL_FIX(repl_pfx, repl_reg) \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg), \
+        I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg)
+
+// create one element name for the given CSR instruction using the register name with x0 as destination
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define I_CONTROL_REGISTERS_EXTRA(repl_pfx, repl_csr, repl_reg) \
+        I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs)
+
+//----------------------------------------------------------------------------------------------------------
+// Macros OVERRIDE_I_CONTROL_REGISTERS* are used to suppress element generation.
+//----------------------------------------------------------------------------------------------------------
+
+// suppress generation of one element identified by the given CSR instruction and the operands
+// repl_pfx - prefix name
+// repl_typ - type of instruction [reg | imm]
+// repl_csr - CSR instruction [csrrc(i) | csrrs(i) | csrrw(i)]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [reg0 | regs | imm5]
+#define OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src) \
+        override repl_pfx##i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__ = 0
+
+// suppress generation of elements identified by the given CSR instruction using the register name with any source operand except x0
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_csr, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, regs); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs)
+
+// suppress generation of elements identified by the given CSR instruction using the register name with x0 as source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, repl_csr, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, reg0); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, reg0)
+
+// suppress generation of elements identified by the given CSR instruction using the register name with an immediate source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_csr, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, regs, repl_reg, imm5); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, reg0, repl_reg, imm5)
+
+// suppress generation of all possible elements (complete combinated set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg)
+
+// suppress generation of Read CSR elements (of complete set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, regs, repl_reg, regs); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, regs, repl_reg, reg0); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, imm, csrrwi, regs, repl_reg, imm5)
+
+// suppress generation of Write CSR elements (of complete set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg)
+
+// suppress generation of Read-Only CSR elements (of complete set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg)
+
+// suppress generation of Write-Only CSR elements (of complete set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, reg0, repl_reg, regs); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, reg0, repl_reg, reg0); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, imm, csrrwi, reg0, repl_reg, imm5)
+
+// suppress generation of Write Special CSR elements (of complete set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg)
+
+// concatenate the token code into string of next calling macro name to execute switch case
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW(x) OVERRIDE_I_CONTROL_REGISTERS_HOW_(x)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_(x) OVERRIDE_I_CONTROL_REGISTERS_HOW_##x
+
+// perform the appropriate procedure (of complete set) based on the call
+// when override Write (how=2) MUST also follow changing instructions use immediate operand ONLY ZERO value!
+// when override Read-Only (how=3) MUST also follow changing instructions use immediate operand NONE ZERO value!
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_0(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_1(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_2(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_3(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_4(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_5(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg)
+
+// suppress generation of exactly specified elements (partial 'FIX' set) identified by the given register name
+// these constrained elements (with any source operand except x0) will replace previously defined elements in created scenario
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg)
+
+// suppress generation of Read CSR elements (of partial 'FIX' set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_READ_FIX(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, regs, repl_reg, regs)
+
+// suppress generation of Write CSR elements (of partial 'FIX' set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE_FIX(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg)
+
+// suppress generation of Read-Only CSR elements (of partial 'FIX' set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_READ_ONLY_FIX(repl_pfx, repl_reg) \
+        override i_blank__ = 0
+
+// suppress generation of Write-Only CSR elements (of partial 'FIX' set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE_ONLY_FIX(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, csrrw, reg0, repl_reg, regs)
+
+// suppress generation of Write Special CSR elements (of partial 'FIX' set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_WRITE_SPEC_FIX(repl_pfx, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg); \
+        OVERRIDE_I_CONTROL_REGISTERS_IMM5(, csrrwi, repl_reg)
+
+// concatenate the token code into string of next calling macro name to execute switch case
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX(x) OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_(x)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_(x) OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_##x
+
+// perform the appropriate procedure (of partial 'FIX' set) based on the call
+// when override Write (how=2) MUST also follow changing instructions use immediate operand ONLY ZERO value!
+// when override Read-Only (how=3) MUST also follow changing instructions use immediate operand NONE ZERO value!
+// repl_pfx - prefix name
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_0(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_1(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_READ_FIX(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_2(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE_FIX(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_3(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_READ_ONLY_FIX(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_4(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE_ONLY_FIX(repl_pfx, repl_reg)
+#define OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX_5(repl_pfx, repl_reg) OVERRIDE_I_CONTROL_REGISTERS_WRITE_SPEC_FIX(repl_pfx, repl_reg)
+
+// suppress generation of one element identified by the given CSR instruction using the register name with x0 as destination
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+#define OVERRIDE_I_CONTROL_REGISTERS_EXTRA(repl_pfx, repl_csr, repl_reg) \
+        OVERRIDE_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs)
+
+//----------------------------------------------------------------------------------------------------------
+// Macros ADJUST_I_CONTROL_REGISTERS* are used to adjust weights generation in definition.
+//----------------------------------------------------------------------------------------------------------
+
+// adjust weights of one element identified by the given CSR instruction and the operands
+// repl_pfx - prefix name
+// repl_typ - type of instruction [reg | imm]
+// repl_csr - CSR instruction [csrrc(i) | csrrs(i) | csrrw(i)]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [reg0 | regs | imm5]
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS(repl_pfx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src, repl_val) \
+        repl_pfx##i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__ = repl_val
+
+// adjust weights of elements identified by the given CSR instruction using the register name with any source operand except x0
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_csr, repl_reg, repl_val) \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, regs, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs, repl_val)
+
+// adjust weights of elements identified by the given CSR instruction using the register name with x0 as source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS_REG0(repl_pfx, repl_csr, repl_reg, repl_val) \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, regs, repl_reg, reg0, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, reg0, repl_val)
+
+// adjust weights of elements identified by the given CSR instruction using the register name with an immediate source operand
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_csr, repl_reg, repl_val) \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, regs, repl_reg, imm5, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, imm, repl_csr, reg0, repl_reg, imm5, repl_val)
+
+// adjust weights of all possible elements (complete combinated set) identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg, repl_val) \
+        ADJUST_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrc, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrs, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_REGS(repl_pfx, csrrw, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrc, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrs, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_REG0(repl_pfx, csrrw, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrci, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrsi, repl_reg, repl_val); \
+        ADJUST_I_CONTROL_REGISTERS_IMM5(repl_pfx, csrrwi, repl_reg, repl_val)
+
+// adjust weights of one element identified by the given CSR instruction using the register name with x0 as destination
+// repl_pfx - prefix name
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_val - weights value
+#define ADJUST_I_CONTROL_REGISTERS_EXTRA(repl_pfx, repl_csr, repl_reg, repl_val) \
+        ADJUST_I_CONTROL_REGISTERS(repl_pfx, reg, repl_csr, reg0, repl_reg, regs, repl_val)
+
+//----------------------------------------------------------------------------------------------------------
+// Macros CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS* are general macros to be used with any padding instruction.
+//----------------------------------------------------------------------------------------------------------
+
+// When it's required to generate some padding instruction after another one, the wrapping scenario can be used to achieve this.
+// An example is generating nop or c.nop instructions after each access to the CSR register.
+
+// create scenario that appends after element instructions for multiple times
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_typ - type of instruction [reg | imm]
+// repl_csr - CSR instruction [csrrc(i) | csrrs(i) | csrrw(i)]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [reg0 | regs | imm5]
+// repl_ins - instruction generated after
+// repl_num - number of instruction after
+#define CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src, repl_ins, repl_num) \
+scenario repl_scx##i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__ \
+{ \
+    instructions \
+    { \
+        I_CONTROL_REGISTERS(repl_pfx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src); \
+        repl_ins ::* repl_num; \
+    }; \
+}
+
+// create scenarios that generate after element with any registers as source
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_ins - instruction generated after
+// repl_num - number of instruction after
+#define CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, repl_ins, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, regs, repl_reg, regs, repl_ins, repl_num); \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, regs, repl_ins, repl_num)
+
+// create scenarios that generate after element with zero register as source
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_ins - instruction generated after
+// repl_num - number of instruction after
+#define CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REG0(repl_pfx, repl_scx, repl_csr, repl_reg, repl_ins, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, regs, repl_reg, reg0, repl_ins, repl_num); \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, reg0, repl_ins, repl_num)
+
+// create scenarios that generate after element with immediate operand
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+// repl_ins - instruction generated after
+// repl_num - number of instruction after
+#define CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_scx, repl_csr, repl_reg, repl_ins, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, imm, repl_csr, regs, repl_reg, imm5, repl_ins, repl_num); \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, imm, repl_csr, reg0, repl_reg, imm5, repl_ins, repl_num)
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(GENERATE_AFTER_NOP)
+//----------------------------------------------------------------------------------------------------------
+
+// Macros GENERATE_AFTER_NOP* is used to generate after CSR control the padding instruction NOPs.
+#define INSTR_AFTER_NOP i_nop__opc_nop__
+
+// scenarios generate NOPs after control with registers as source
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP, repl_num)
+
+// scenarios generate NOPs after control with zero register as source
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_REG0(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REG0(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP, repl_num)
+
+// scenarios generate NOPs after control with immediate operand
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_IMM5(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP, repl_num)
+
+// complete combinated set generate NOPs after control (without prefix)
+// repl_scx - prefix name of the next scenario
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_ALL(repl_scx, repl_reg, repl_num) \
+        GENERATE_AFTER_NOP_REGS(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REGS(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REGS(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrci, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrsi, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrwi, repl_reg, repl_num)
+
+// complete combinated set generate NOPs after control (exactly specified with prefix)
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_ALL_FIX(repl_pfx, repl_scx, repl_reg, repl_num) \
+        GENERATE_AFTER_NOP_REGS(repl_pfx, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REGS(repl_pfx, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REGS(repl_pfx, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_REG0(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrci, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrsi, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_IMM5(, repl_scx, csrrwi, repl_reg, repl_num)
+
+// scenario generate NOPs after one control with x0 as destination
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_EXTRA(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, regs, INSTR_AFTER_NOP, repl_num)
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(GENERATE_AFTER_NOP_COMP)
+//----------------------------------------------------------------------------------------------------------
+
+// Macros GENERATE_AFTER_NOP_COMP* is used to generate after CSR control the padding instruction compressed NOPs.
+#define INSTR_AFTER_NOP_COMP i_nop_comp__opc_nop_comp__
+
+// scenarios generate compressed NOPs after control with registers (as source)
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP_COMP, repl_num)
+
+// scenarios generate compressed NOPs after control with zero register (as source)
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_REG0(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_REG0(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP_COMP, repl_num)
+
+// scenarios generate compressed NOPs after control with immediate operand
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_IMM5(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS_IMM5(repl_pfx, repl_scx, repl_csr, repl_reg, INSTR_AFTER_NOP_COMP, repl_num)
+
+// complete combinated set generate compressed NOPs after control (without prefix)
+// repl_scx - prefix name of the next scenario
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_ALL(repl_scx, repl_reg, repl_num) \
+        GENERATE_AFTER_NOP_COMP_REGS(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REGS(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REGS(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrci, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrsi, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrwi, repl_reg, repl_num)
+
+// complete combinated set generate compressed NOPs after control (exactly specified with prefix)
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_ALL_FIX(repl_pfx, repl_scx, repl_reg, repl_num) \
+        GENERATE_AFTER_NOP_COMP_REGS(repl_pfx, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REGS(repl_pfx, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REGS(repl_pfx, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrc, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrs, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_REG0(, repl_scx, csrrw, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrci, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrsi, repl_reg, repl_num); \
+        GENERATE_AFTER_NOP_COMP_IMM5(, repl_scx, csrrwi, repl_reg, repl_num)
+
+// scenario generate compressed NOPs after one control with x0 as destination
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of the next scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_num - number of instruction after
+#define GENERATE_AFTER_NOP_COMP_EXTRA(repl_pfx, repl_scx, repl_csr, repl_reg, repl_num) \
+        CREATE_SCENARIO_AFTER_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, regs, INSTR_AFTER_NOP_COMP, repl_num)
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// substitute command for macro below
+// illegal register used only in instruction load_imm64
+#if OPTION_XLEN == 64
+#define DEAL_WITH_ILLEGAL \
+    constraints \
+    { \
+        illegal = { TO_STRING(APPLY_REGISTER) }; \
+    };
+#else
+#define DEAL_WITH_ILLEGAL
+#endif
+
+// create scenario statement which load randomized value into gpr register, after then use it for element instruction
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of wrapped scenario
+// repl_typ - type of instruction [reg]
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [regs]
+// repl_itm - intermediate hold [regs_unknown_0, regs_unknown_1]
+// repl_var - variable name
+#define CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS(repl_pfx, repl_scx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src, repl_itm, repl_var) \
+scenario repl_scx##i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__ \
+{ \
+    instructions \
+    { \
+        load_value_comment(E_LI_OPRD = repl_var); \
+        E_LI_INSTR(regs_dst_0 = repl_itm, E_LI_OPRD = repl_var); \
+        I_CONTROL_REGISTERS(repl_pfx, repl_typ, repl_csr, repl_dst, repl_reg, repl_src)(repl_itm = repl_itm); \
+    }; \
+    DEAL_WITH_ILLEGAL \
+}
+
+// create scenarios use randomized value for element with registers as source
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of wrapped scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_var - variable name
+#define CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, repl_csr, repl_reg, repl_var) \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, regs, repl_reg, regs, regs_unknown_1, repl_var); \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, regs, regs_unknown_0, repl_var)
+
+// create scenarios use randomized value for element with registers as source (exactly specified instructions)
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of wrapped scenario
+// repl_reg - register name
+// repl_var - variable name
+#define CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS_FIX(repl_pfx, repl_scx, repl_reg, repl_var) \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, csrrc, repl_reg, repl_var); \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, csrrs, repl_reg, repl_var); \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(repl_pfx, repl_scx, csrrw, repl_reg, repl_var)
+
+// create one scenario use randomized value for element with x0 as destination
+// repl_pfx - prefix name of the current element
+// repl_scx - prefix name of wrapped scenario
+// repl_csr - CSR instruction [csrrc | csrrs | csrrw]
+// repl_reg - register name
+// repl_var - variable name
+#define CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_EXTRA(repl_pfx, repl_scx, repl_csr, repl_reg, repl_var) \
+        CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS(repl_pfx, repl_scx, reg, repl_csr, reg0, repl_reg, regs, regs_unknown_0, repl_var)
+
+//----------------------------------------------------------------------------------------------------------
+
+// renew element statement which handling randomized value for immediate operand
+// repl_typ - type of instruction [imm]
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_dst - destination operand [reg0 | regs]
+// repl_reg - register name
+// repl_src - source operand [imm5]
+// repl_itm - intermediate hold ["x0" | regs_unknown_0]
+// repl_var - variable name
+// ... - (variadic argument) for instruction (depends on instruction) with mask symbol definition
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS(repl_typ, repl_csr, repl_dst, repl_reg, repl_src, repl_itm, repl_var, ...) \
+element i_control_registers_##repl_typ##__opc_##repl_csr##__##repl_dst##__csr_##repl_reg##__##repl_src##__ \
+{ \
+    override assembly { #repl_csr " " repl_itm ", " #repl_reg ", " repl_var __VA_ARGS__ }; \
+}
+
+// renew elements use randomized value for immediate operand
+// repl_csr - CSR instruction [csrrci | csrrsi | csrrwi]
+// repl_reg - register name
+// repl_var - variable name
+// ... - (variadic argument) for instruction (depends on instruction) with mask symbol definition
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(repl_csr, repl_reg, repl_var, ...) \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS(imm, repl_csr, regs, repl_reg, imm5, regs_unknown_0, repl_var, __VA_ARGS__); \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS(imm, repl_csr, reg0, repl_reg, imm5, "x0", repl_var, __VA_ARGS__)
+
+// renew elements use randomized value for immediate operand (exactly specified instructions)
+// repl_reg - register name
+// repl_var - variable name
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_FIX(repl_reg, repl_var) \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrci, repl_reg, repl_var); \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrsi, repl_reg, repl_var); \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrwi, repl_reg, repl_var)
+
+//----------------------------------------------------------------------------------------------------------
+
+// renew elements for clear and set CSR use with immediate operand TUNE variable
+// repl_reg - register name
+// repl_var - variable name
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_TUNEZERO(repl_reg, repl_var) \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrci, repl_reg, repl_var); \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrsi, repl_reg, repl_var)
+
+// renew elements for clear and set CSR use with immediate operand ONLY ZERO value!
+// repl_reg - register name
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(repl_reg) \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_TUNEZERO(repl_reg, uimm_5_0_onlyzero)
+
+// renew elements for clear and set CSR use with immediate operand NONE ZERO value!
+// repl_reg - register name
+#define CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(repl_reg) \
+        CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_TUNEZERO(repl_reg, uimm_5_0_nonezero)
+
+//----------------------------------------------------------------------------------------------------------
+
+#include "hpmreg.cons"
+#include "csrreg/cycle.cons"
+#include "csrreg/dcsr.cons"
+#include "csrreg/dpc.cons"
+#include "csrreg/fence.cons"
+#include "csrreg/hpmcounter.cons"
+#include "csrreg/instret.cons"
+#include "csrreg/marchid.cons"
+#include "csrreg/mcause.cons"
+#include "csrreg/mcountinhibit.cons"
+#include "csrreg/mepc.cons"
+#include "csrreg/mhartid.cons"
+#include "csrreg/mhpmevent.cons"
+#include "csrreg/mie.cons"
+#include "csrreg/mimpid.cons"
+#include "csrreg/mip.cons"
+#include "csrreg/misa.cons"
+#include "csrreg/ml1cache_start.cons"
+#include "csrreg/mpower.cons"
+#include "csrreg/mscratch.cons"
+#include "csrreg/mstatus.cons"
+#include "csrreg/mtval.cons"
+#include "csrreg/mtvec.cons"
+#include "csrreg/mvendorid.cons"
+#include "csrreg/nmi.cons"
+#include "csrreg/nmi_mtval.cons"
+#include "csrreg/tcontrol.cons"
+#include "csrreg/tdata.cons"
+#include "csrreg/tinfo.cons"
+#include "csrreg/tselect.cons"
+
+#endif //_CSRREG_

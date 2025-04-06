@@ -1,0 +1,103 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "config.hcodal"
+#include "opcodes.hcodal"
+#include "isa.hcodal"
+
+// Foad 32-bit immediate to rf_gpr
+// (sign extended on RV64).
+emulation e_movi32 : ignore(RANDOMGEN)
+{
+    use c_lui_hi as lui;
+    use c_addi_lo as addi;
+
+    signed attribute bit[IMM32_W] address;
+
+    instructions
+    {
+        lui(imm = address);
+        addi(imm = address, src = lui.dst, dst = lui.dst);
+    };
+
+    semantics
+    {
+        rf_gpr_write(addi.dst, address);
+    };
+};
+
+#if OPTION_XLEN == 64
+
+// Load 32-bit immediate to rf_gpr32
+emulation e_movi32_32 : ignore(RANDOMGEN)
+{
+    use c_lui_hi_32 as lui;
+    use c_addi_lo_32 as addi;
+
+    signed attribute bit[IMM32_W] address;
+
+    instructions
+    {
+        lui(imm = address);
+        addi(imm = address, src = lui.dst, dst = lui.dst);
+    };
+
+    semantics
+    {
+        rf_gpr32_write(addi.dst, address);
+    };
+};
+
+// Zero-extend value from rf_gpr32 to rf_gpr.
+emulation e_zext : ignore(RANDOMGEN)
+{
+    use i_comp_2reg_imm_shift_32_64 as sll0;
+    use i_comp_2reg_imm_shift as srl0;
+
+    instructions
+    {
+        sll0(imm = shift_imm(shift = 32), opc = opc_slli, dst = regs, src = regs32);
+        srl0(dst = sll0(dst), src = sll0(dst), imm = shift_imm(shift = 32), opc = opc_srli);
+    };
+
+    semantics
+    {
+        rf_gpr_write(srl0.dst, ZEXT_XLEN(rf_gpr32_read(sll0.src)));
+    };
+};
+
+// Truncate value from rf_gpr to rf_gpr32.
+emulation e_trunc : ignore(RANDOMGEN)
+{
+    use i_sext_alias_trunc as sext;
+
+    instructions
+    {
+        sext(dst = regs32, src = regs);
+    };
+
+    semantics
+    {
+        rf_gpr32_write_sext(sext.dst, (uint32)rf_gpr_read(sext.src));
+    };
+};
+#endif // OPTION_XLEN == 64

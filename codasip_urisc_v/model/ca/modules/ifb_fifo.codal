@@ -1,0 +1,185 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * FIFO for the IFB unit.
+ */
+
+#include "ifb_defines.hcodal"
+
+#define FIFO_ADDR_LEN (clog2(FIFO_NUM_ITEMS))
+
+module ifb
+{
+    module fifo
+    {
+        // Inputs
+        signal bit[1] s_clear_i;
+        signal bit[1] s_re_i;
+        signal bit[1] s_we_i;
+        signal bit[FIFO_ITEM_W] s_d_i;
+
+        // Outputs
+        signal bit[1] s_empty_o;
+        signal bit[1] s_full_o;
+        signal bit[FIFO_ITEM_W] s_q_o;
+
+        // Internal resources
+        register_file bit[FIFO_ITEM_W] rf_fifo
+        {
+            dataport r { flag = R; };
+            dataport w { flag = W; };
+            size = FIFO_NUM_ITEMS;
+            reset = false;
+        };
+        register bit[FIFO_ADDR_LEN] r_read_ptr;
+        register bit[FIFO_ADDR_LEN] r_write_ptr;
+        signal bit[FIFO_ADDR_LEN] s_read_ptr_inc;
+        signal bit[FIFO_ADDR_LEN] s_read_ptr_inc2;
+        signal bit[FIFO_ADDR_LEN] s_write_ptr_inc;
+        signal bit[FIFO_ADDR_LEN] s_write_ptr_inc2;
+        register bit[1] r_empty {default = 1;};
+        register bit[1] r_full;
+        register bit[1] r_aempty;
+        register bit[1] r_afull;
+        signal bit[1] s_pop;
+        signal bit[1] s_push;
+        signal bit[1] s_afull_next;
+        signal bit[1] s_aempty_next;
+
+        event outputs
+        {
+            semantics
+            {
+                // Assign registers to output signals
+                s_empty_o = r_empty;
+                s_full_o = r_full;
+                s_q_o = rf_fifo.r[r_read_ptr];
+            };
+        };
+
+        event update
+        {
+            semantics
+            {
+                // Allow "pop" only when the queue is not empty. Clear (flush) takes priority.
+                s_pop = ((~r_empty) & (s_re_i & (~s_clear_i)));
+                // Allow "push" only when the queue is not full. Clear (flush) takes priority.
+                s_push = ((~r_full) & (s_we_i & (~s_clear_i)));
+                // Increment pointers for the circular buffer
+                s_read_ptr_inc = r_read_ptr + (uint_<FIFO_ADDR_LEN>)1;
+                s_read_ptr_inc2 = r_read_ptr + (uint_<FIFO_ADDR_LEN>)2;
+                s_write_ptr_inc = r_write_ptr + (uint_<FIFO_ADDR_LEN>)1;
+                s_write_ptr_inc2 = r_write_ptr + (uint_<FIFO_ADDR_LEN>)2;
+                // Almost-full & almost-empty on next push/pop operation
+                s_aempty_next = (s_read_ptr_inc2 == r_write_ptr);
+                s_afull_next = (s_write_ptr_inc2 == r_read_ptr);
+
+                if (s_clear_i)
+                {
+                    // Clear --> FIFO becomes empty
+                    r_empty = true;
+                    // Clear --> not full
+                    r_full = false;
+                    // Clear --> not almost empty
+                    r_aempty = false;
+                    // Clear --> not almost full
+                    r_afull = false;
+                }
+                else
+                {
+                    // Pop of the last element --> becomes empty
+                    if (r_aempty & s_pop & (~s_push))
+                    {
+                        r_empty = true;
+                    }
+                    // Push without pop --> becomes non-empty
+                    else if (~s_pop & s_push)
+                    {
+                        r_empty = false;
+                    }
+
+                    // Push to the last free slot --> becomes full
+                    if (r_afull & (~s_pop) & (s_push))
+                    {
+                        r_full = true;
+                    }
+                    // Pop without push --> no longer full
+                    else if (s_pop & (~s_push))
+                    {
+                        r_full = false;
+                    }
+
+                    // Push to empty --> becomes almost empty
+                    if (r_empty & s_push)
+                    {
+                        r_aempty = true;
+                    }
+                    // Pop without push --> maybe almost empty
+                    else if (s_pop & (~s_push))
+                    {
+                        r_aempty = s_aempty_next;
+                    }
+                    // Push without pop --> no longer almost empty
+                    else if ((~s_pop) & (s_push))
+                    {
+                        r_aempty = false;
+                    }
+
+                    // Pop from full --> becomes almost full
+                    if (r_full & s_pop)
+                    {
+                        r_afull = true;
+                    }
+                    // Pop without push --> no longer almost full
+                    else if (s_pop & (~s_push))
+                    {
+                        r_afull = false;
+                    }
+                    // Push without pop --> almost full if only two slots remain
+                    else if ((~s_pop) & (s_push))
+                    {
+                        r_afull = s_afull_next;
+                    }
+                }
+
+                // Write to circular buffer
+                if (s_push)
+                {
+                    rf_fifo.w[r_write_ptr] = s_d_i;
+                }
+
+                // Update read pointer
+                if (s_pop | s_clear_i)
+                {
+                    r_read_ptr = (s_clear_i) ? (uint_<FIFO_ADDR_LEN>)0 : s_read_ptr_inc;
+                }
+
+                // Update write pointer
+                if (s_push | s_clear_i)
+                {
+                    r_write_ptr = (s_clear_i) ? (uint_<FIFO_ADDR_LEN>)0 : s_write_ptr_inc;
+                }
+            };
+        };
+    };
+};

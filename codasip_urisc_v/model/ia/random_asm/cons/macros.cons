@@ -1,0 +1,965 @@
+#ifndef _MACROS_
+#define _MACROS_
+
+//----------------------------------------------------------------------------------------------------------
+
+// Adjust the range of the data memory section depending on the options being processed.
+// Counted size by randomgen and option offset ( CODASIP_PROGRAM_SIZE + OPTION_BOOT_START )
+// could not be used until all elements (e.g. program_start) will have correctly constrainted size.
+#define ADDR_SPACE ( 0x00010000 )..( OPTION_MEMORY_SIZE - 1 )
+
+// correctly obtained min and max addresses of data memory
+#define ADDR_SPACE_LOAD_MIN ( 0x00010000 )
+#define ADDR_SPACE_LOAD_MAX ( OPTION_MEMORY_SIZE - 1 )
+#define ADDR_SPACE_STORE_MIN ( 0x00010000 )
+#define ADDR_SPACE_STORE_MAX ( OPTION_MEMORY_SIZE - 1 )
+
+//----------------------------------------------------------------------------------------------------------
+
+// difference data width, instructions for loading, MSB bit shift location to indicate the interrupt
+#if OPTION_XLEN == 64
+#define REG_DATA_TYPE uint64
+#define E_LI_OPRD uimm_64_0
+#define E_LI_INSTR load_imm64__regs__regs__regs__regs__regs__regs__regs__
+#define E_LI_ALIAS li64
+#define MSB_CAUSE_IRQ 63
+#else
+#define REG_DATA_TYPE uint32
+#define E_LI_OPRD uimm_32_0
+#define E_LI_INSTR load_imm32__regs__regs__regs__
+#define E_LI_ALIAS li
+#define MSB_CAUSE_IRQ 31
+#endif
+
+// macro used for handling loading of immediates on RV32 and RV64
+#if OPTION_XLEN == 64
+#define LOAD_IMMEDIATE(reg_src, immediate) load_imm64__regs__regs__regs__regs__regs__regs__regs__(regs_dst_0 = reg_src, uimm_64_0 = immediate)
+#else
+#define LOAD_IMMEDIATE(reg_src, immediate) load_imm32__regs__regs__regs__(regs_dst_0 = reg_src, uimm_32_0 = immediate)
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// random value inside load address space with alignment
+#if defined(OPTION_ENABLE_CACHES)
+#if OPTION_XLEN == 64
+#define ACCURATE_ADDR uimm_64_divisible_8_load_range_0_0
+#else
+#define ACCURATE_ADDR uimm_32_divisible_4_load_range_0_0
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// auxiliary register rf_gpr[a]=x10=a0 used for intermediate working (not tracking by consistency checker)
+#define TEMP_REGISTER a0
+
+// variant limits register count, obtained from /model/ia/compiler/user_semantics.sem
+#define MAX_REGISTER x31
+#define APPLY_REGISTER x28
+
+//----------------------------------------------------------------------------------------------------------
+
+// cover complicated conditions by one symbol
+#if (defined(PRV_MODE_CHANGE) || defined(false) || defined(false))
+#define ENVIRON_CALL
+#endif
+
+// implemented register that capture instruction bits on illegal instruction
+
+// implemented available virtual-memory schemes
+
+// expectation to control address translation and protection
+
+//----------------------------------------------------------------------------------------------------------
+
+// put NOPs after required CSR registers instruction
+#define GENERATE_AFTER_NOP
+#define GENERATE_AFTER_NOP_COMP
+
+// append defined number NOPs operation
+#define MIE_NOP_NUM      3
+#define MSTATUS_NOP_NUM  3
+
+#define MPICFLAG_NOP_NUM 3
+#define MPICMASK_NOP_NUM 3
+// find out just first PICs register which it's holding non-zero value
+#define MPICFLAG_FIND_FIRST
+
+// for different core that should be required individual NOPs operation
+#define NOP_AFTER_PROGRAM 64
+#ifndef NOP_AFTER_PROGRAM
+#define NOP_AFTER_PROGRAM 0
+#endif
+#define NOP_AFTER_SYSCALL 4
+
+//----------------------------------------------------------------------------------------------------------
+
+#define STRINGIFY(x) #x
+#define TO_STRING(x) STRINGIFY(x)
+
+//----------------------------------------------------------------------------------------------------------
+
+// proceed by label when equal zero (reg == 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BEQZ(gpr_reg, str_label) \
+        "    beqz " TO_STRING(gpr_reg) ", " str_label "\n"
+
+// proceed by label when not equal zero (reg != 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BNEZ(gpr_reg, str_label) \
+        "    bnez " TO_STRING(gpr_reg) ", " str_label "\n"
+
+// proceed by label when less than zero (reg < 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BLTZ(gpr_reg, str_label) \
+        "    bltz " TO_STRING(gpr_reg) ", " str_label "\n"
+
+// proceed by label when less than or equal zero (reg <= 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BLEZ(gpr_reg, str_label) \
+        "    blez " TO_STRING(gpr_reg) ", " str_label "\n"
+
+// proceed by label when great than zero (reg > 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BGTZ(gpr_reg, str_label) \
+        "    bgtz " TO_STRING(gpr_reg) ", " str_label "\n"
+
+// proceed by label when great than or equal zero (reg >= 0)
+// gpr_reg - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BGEZ(gpr_reg, str_label) \
+        "    bgez " TO_STRING(gpr_reg) ", " str_label "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// proceed by label when equal (reg_1 == reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BEQ(gpr_reg_1, gpr_reg_2, str_label) \
+        "    beq " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+// proceed by label when not equal (reg_1 != reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BNE(gpr_reg_1, gpr_reg_2, str_label) \
+        "    bne " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+// proceed by label when less than (reg_1 < reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BLT(gpr_reg_1, gpr_reg_2, str_label) \
+        "    blt " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+// proceed by label when less than or equal (reg_1 <= reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BLE(gpr_reg_1, gpr_reg_2, str_label) \
+        "    ble " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+// proceed by label when great than (reg_1 > reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BGT(gpr_reg_1, gpr_reg_2, str_label) \
+        "    bgt " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+// proceed by label when great than or equal (reg_1 >= reg_2)
+// gpr_reg_1 - rf_gpr register
+// gpr_reg_2 - rf_gpr register
+// str_label - label address to continue
+#define MACRO_BGE(gpr_reg_1, gpr_reg_2, str_label) \
+        "    bge " TO_STRING(gpr_reg_1) ", " TO_STRING(gpr_reg_2) ", " str_label "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// read into rf_gpr register from CSR register
+// gpr_reg - destination rf_gpr register
+// csr_reg - source CSR register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_READ_CSR(gpr_reg, csr_reg, ...) \
+        "    csrr " TO_STRING(gpr_reg) ", " TO_STRING(csr_reg) __VA_ARGS__ "\n"
+
+// write from rf_gpr register into CSR register
+// csr_reg - destination CSR register
+// gpr_reg - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_WRITE_CSR(csr_reg, gpr_reg, ...) \
+        "    csrw " TO_STRING(csr_reg) ", " TO_STRING(gpr_reg) __VA_ARGS__ "\n"
+
+// write immediate into CSR register
+// csr_reg - destination CSR register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_WRITE_CSR_IMM(csr_reg, imm_val, ...) \
+        "    csrwi " TO_STRING(csr_reg) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// clear CSR register value apply from rf_gpr register
+// csr_reg - destination CSR register
+// gpr_reg - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_CLEAR_CSR(csr_reg, gpr_reg, ...) \
+        "    csrc " TO_STRING(csr_reg) ", " TO_STRING(gpr_reg) __VA_ARGS__ "\n"
+
+// clear CSR register immediate value
+// csr_reg - destination CSR register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_CLEAR_CSR_IMM(csr_reg, imm_val, ...) \
+        "    csrci " TO_STRING(csr_reg) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// set CSR register value apply from rf_gpr register
+// csr_reg - destination CSR register
+// gpr_reg - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SET_CSR(csr_reg, gpr_reg, ...) \
+        "    csrs " TO_STRING(csr_reg) ", " TO_STRING(gpr_reg) __VA_ARGS__ "\n"
+
+// set CSR register immediate value
+// csr_reg - destination CSR register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SET_CSR_IMM(csr_reg, imm_val, ...) \
+        "    csrsi " TO_STRING(csr_reg) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation 'ADD'
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ADD(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    add " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation 'ADD' immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ADDI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    addi " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation 'ADD' immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ADDI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    addi " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation 'AND'
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_AND(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    and " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation 'AND' immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ANDI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    andi " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation 'AND' immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ANDI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    andi " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation 'XOR'
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_XOR(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    xor " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation 'XOR' immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_XORI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    xori " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation 'XOR' immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_XORI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    xori " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation 'OR'
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_OR(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    or " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation 'OR' immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ORI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    ori " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation 'OR' immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_ORI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    ori " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation shift left
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SLL(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    sll " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation shift left immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SLLI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    slli " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation shift left immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SLLI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    slli " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation shift right
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src_1 - source rf_gpr register
+// gpr_reg_src_2 - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SRL(gpr_reg_dst, gpr_reg_src_1, gpr_reg_src_2, ...) \
+        "    srl " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src_1) ", " TO_STRING(gpr_reg_src_2) __VA_ARGS__ "\n"
+
+// operation shift right immediate
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SRLI(gpr_reg_dst, gpr_reg_src, imm_val, ...) \
+        "    srli " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation shift right immediate using variable
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SRLI_VAR(gpr_reg_dst, gpr_reg_src, imm_var, ...) \
+        "    srli " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) ", " imm_var __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation two's complement
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_NEG(gpr_reg_dst, gpr_reg_src, ...) \
+        "    neg " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) __VA_ARGS__ "\n"
+
+// operation logical negation
+// gpr_reg_dst - destination rf_gpr register
+// gpr_reg_src - source rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_NOT(gpr_reg_dst, gpr_reg_src, ...) \
+        "    not " TO_STRING(gpr_reg_dst) ", " TO_STRING(gpr_reg_src) __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation jump to symbol
+// str_label - label address to relocate
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_JUMP(str_label, ...) \
+        "    la a0, " str_label __VA_ARGS__ "\n" \
+        "    jr a0"  __VA_ARGS__ "\n"
+
+// operation jump to value in register
+// gpr_reg - value to relocate in rf_gpr register
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_JUMP_REGISTER(gpr_reg, ...) \
+        "    jr " TO_STRING(gpr_reg) __VA_ARGS__ "\n"
+
+// operation synchronize instruction and data
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_FENCE(...) \
+        "    fence.i" __VA_ARGS__ "\n"
+
+// operation executing xRET instruction
+// xret - determine function returns
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_XRET(xret, ...) \
+        "    " TO_STRING(xret) __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// load content byte into rf_gpr register from address in next rf_gpr register
+// gpr_reg - loaded into rf_gpr register
+// gpr_reg_addr - register which hold address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_BYTE(gpr_reg, gpr_reg_addr, ...) \
+        "    lb " TO_STRING(gpr_reg) ", ( " TO_STRING(gpr_reg_addr) " )" __VA_ARGS__ "\n"
+
+// store content byte from rf_gpr register into address in next rf_gpr register
+// gpr_reg - stored from rf_gpr register
+// gpr_reg_addr - register which hold address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_STORE_BYTE(gpr_reg, gpr_reg_addr, ...) \
+        "    sb " TO_STRING(gpr_reg) ", ( " TO_STRING(gpr_reg_addr) " )" __VA_ARGS__ "\n"
+
+// store content byte from rf_gpr register into address in label combination with next rf_gpr register
+// gpr_reg - stored from rf_gpr register
+// str_label - label address [offset]
+// gpr_reg_addr - register which hold address [base]
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_STORE_BYTE_LABEL(gpr_reg, str_label, gpr_reg_addr, ...) \
+        "    sb " TO_STRING(gpr_reg) ", " str_label ", " TO_STRING(gpr_reg_addr) __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// load content word into rf_gpr register from address in next rf_gpr register
+// gpr_reg - loaded into rf_gpr register
+// gpr_reg_addr - register which hold address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_WORD(gpr_reg, gpr_reg_addr, ...) \
+        "    lw " TO_STRING(gpr_reg) ", ( " TO_STRING(gpr_reg_addr) " )" __VA_ARGS__ "\n"
+
+// store content word from rf_gpr register into address in next rf_gpr register
+// gpr_reg - stored from rf_gpr register
+// gpr_reg_addr - register which hold address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_STORE_WORD(gpr_reg, gpr_reg_addr, ...) \
+        "    sw " TO_STRING(gpr_reg) ", ( " TO_STRING(gpr_reg_addr) " )" __VA_ARGS__ "\n"
+
+// store content word from rf_gpr register into address in label combination with next rf_gpr register
+// gpr_reg - stored from rf_gpr register
+// str_label - label address [offset]
+// gpr_reg_addr - register which hold address [base]
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_STORE_WORD_LABEL(gpr_reg, str_label, gpr_reg_addr, ...) \
+        "    sw " TO_STRING(gpr_reg) ", " str_label ", " TO_STRING(gpr_reg_addr) __VA_ARGS__ "\n"
+
+// store-conditional word from gpr_src to address at gpr_addr with result in gpr_dest
+// gpr_dest - return operation result (zero if successful, otherwise failure)
+// gpr_src - value to be stored from register
+// gpr_addr - register which hold address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_STORE_COND_WORD(gpr_dest, gpr_src, gpr_addr, ...) \
+        "    sc.w " TO_STRING(gpr_dest) ", " TO_STRING(gpr_src) ", ( " TO_STRING(gpr_addr) " )" __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation load address
+// gpr_reg - loaded into rf_gpr register
+// str_label - label address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_ADDR(gpr_reg, str_label, ...) \
+        "    la " TO_STRING(gpr_reg) ", " str_label __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation load immediate
+// gpr_reg - loaded into rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_IMM(gpr_reg, imm_val, ...) \
+        "    " TO_STRING(E_LI_ALIAS) " " TO_STRING(gpr_reg) ", " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation load immediate using variable
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_IMM_VAR(gpr_reg, imm_var, ...) \
+        "    " TO_STRING(E_LI_ALIAS) " " TO_STRING(gpr_reg) ", " imm_var __VA_ARGS__ "\n"
+
+// operation load immediate using variable OR-ed with mask
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// use_mask - dedicated mask to variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_IMM_VAR_OR_MASK(gpr_reg, imm_var, use_mask, ...) \
+        "    " TO_STRING(E_LI_ALIAS) " " TO_STRING(gpr_reg) ", " imm_var " | " use_mask __VA_ARGS__ "\n"
+
+// operation load immediate using variable AND-ed with mask
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// use_mask - dedicated mask to variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_LOAD_IMM_VAR_AND_MASK(gpr_reg, imm_var, use_mask, ...) \
+        "    " TO_STRING(E_LI_ALIAS) " " TO_STRING(gpr_reg) ", " imm_var " & " use_mask __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// operation load immediate [12bits]
+// gpr_reg - loaded into rf_gpr register
+// imm_val - immediate value
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_INIT_IMM(gpr_reg, imm_val, ...) \
+        "    addi " TO_STRING(gpr_reg) ", x0, " TO_STRING(imm_val) __VA_ARGS__ "\n"
+
+// operation load immediate [12bits] using variable
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_INIT_IMM_VAR(gpr_reg, imm_var, ...) \
+        "    addi " TO_STRING(gpr_reg) ", x0, " imm_var __VA_ARGS__ "\n"
+
+// operation load immediate [12bits] using variable OR-ed with mask
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// use_mask - dedicated mask to variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_INIT_IMM_VAR_OR_MASK(gpr_reg, imm_var, use_mask, ...) \
+        "    addi " TO_STRING(gpr_reg) ", x0, " imm_var " | " use_mask __VA_ARGS__ "\n"
+
+// operation load immediate [12bits] using variable AND-ed with mask
+// gpr_reg - loaded into rf_gpr register
+// imm_var - properly randomized variable
+// use_mask - dedicated mask to variable
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_INIT_IMM_VAR_AND_MASK(gpr_reg, imm_var, use_mask, ...) \
+        "    addi " TO_STRING(gpr_reg) ", x0, " imm_var " & " use_mask __VA_ARGS__ "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// create allocable read-only section and moves the begin of duty memory to absolute address
+// use_name - determine section name
+// use_addr - variable holding number
+#define MACRO_SECTION_READONLY(use_name, use_addr) \
+        ".section ." TO_STRING(use_name) ", \"a\"\n" \
+        ".abs_org " use_addr "\n"
+
+// create allocable writeable section and moves the begin of duty memory to absolute address
+// use_name - determine section name
+// use_addr - variable holding number
+#define MACRO_SECTION_WRITEABLE(use_name, use_addr) \
+        ".section ." TO_STRING(use_name) ", \"aw\"\n" \
+        ".abs_org " use_addr "\n"
+
+// create allocable executable section and moves the begin of duty memory to absolute address
+// use_name - determine section name
+// use_addr - variable holding number
+#define MACRO_SECTION_EXECUTABLE(use_name, use_addr) \
+        ".section ." TO_STRING(use_name) ", \"ax\"\n" \
+        ".abs_org " use_addr "\n"
+
+// create section label represents the current value of location counter
+// str_label - label address
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_SECTION_SPECIFY(str_label, ...) \
+        str_label ":" __VA_ARGS__ "\n"
+
+// advances the location counter of the current section to new address relative to the beginning of the section
+// fill the space between the current end of the section and the requested address with default zero value
+// use_addr - variable holding number
+#define MACRO_SECTION_ORGANIZE(use_addr) \
+        ".org " use_addr "\n"
+
+//----------------------------------------------------------------------------------------------------------
+
+// read code indicating exception or interrupt into temporary register
+// gpr_reg - rf_gpr register
+// csr_reg - cause register
+#define MACRO_RELOAD(gpr_reg, csr_reg) \
+        MACRO_READ_CSR(gpr_reg, csr_reg, "                               // re-load code indicating event caused the trap")
+
+// match code in temporary register to number
+// gpr_reg - rf_gpr register
+// imm_val - checked number
+// ... - (variadic argument) continue string padding and comment
+#define MACRO_COMPARE(gpr_reg, imm_val, ...) \
+        MACRO_XORI(gpr_reg, gpr_reg, imm_val, __VA_ARGS__)
+
+//----------------------------------------------------------------------------------------------------------
+
+// provided value of symbol to the expression
+// use_mask - target for assembly defined constant
+#define SET_SYMBOL(use_mask) \
+        ".equ " #use_mask ", " TO_STRING(use_mask) "\n"
+
+// prepare responsive vector register with address
+// str_trap - label address for trap
+// csr_reg - correct vector register
+// str_mode - string in comments show mode
+#define SET_TRAP_HANDLER(str_trap, csr_reg, str_mode) \
+        MACRO_LOAD_ADDR(TEMP_REGISTER, str_trap) \
+        MACRO_WRITE_CSR(csr_reg, TEMP_REGISTER, "                                // load routine vector address for " str_mode)
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+// enable potential bits in interrupt register
+// imm_var - properly randomized variable
+// csr_reg - specific interrupt register
+// str_bits - string in comments signalize bits
+#define SET_ENABLE_IRQ(imm_var, csr_reg, str_bits) \
+        MACRO_LOAD_IMM_VAR(TEMP_REGISTER, imm_var) \
+        MACRO_WRITE_CSR(csr_reg, TEMP_REGISTER, "                                  // random enable bits " str_bits)
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(VIRTUAL_PAGE_UTILIZE)
+//----------------------------------------------------------------------------------------------------------
+
+// start address translation, configure virtual-memory system
+// imm_var - properly randomized variable
+// imm_val - shift amount
+// str_label - label address for page-table entry
+#define SET_SATP_MODE(imm_var, imm_val, str_label) \
+        MACRO_INIT_IMM_VAR(TEMP_REGISTER, imm_var, "                                // 0 -> no translation or protection, 8 -> Sv39") \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, imm_val, "                               // field select virtual paging scheme MODE") \
+        MACRO_LOAD_ADDR(t0, str_label, "                                // load address page-table entry PTE level 0") \
+        MACRO_SRLI(t0, t0, 12, "                               // physical page number PPN (root divided by 4 KiB)") \
+        MACRO_OR(TEMP_REGISTER, TEMP_REGISTER, t0) \
+        MACRO_WRITE_CSR(satp, TEMP_REGISTER, "                                 // MODE and PPN") \
+        MACRO_JUMP("_start_in_mode", "                              // run virtual translation process")
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// prepare bits in register to enable global interrupt
+// imm_val - immediate value to be OR-ed
+// str_bits - string in comments signalize bits
+#define GLOBAL_ENABLE_IRQ(imm_val, str_bits) \
+        MACRO_ORI(TEMP_REGISTER, TEMP_REGISTER, imm_val, "                              // enable global interrupt " str_bits)
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(PRV_MODE_START)
+//----------------------------------------------------------------------------------------------------------
+
+// correct start in defined privilege mode
+// str_mode - string in comments show mode
+// req_mode - required portion of bits (number)
+// csr_reg - program counter register
+// fnc_ret - function cause returns to the program
+#define START_IN_MODE(str_mode, req_mode, csr_reg, fnc_ret) \
+        MACRO_SECTION_SPECIFY("_start_in_mode", "                                   // * " str_mode " *") \
+        MACRO_INIT_IMM(TEMP_REGISTER, req_mode, "                          // prepare MPP/SPP") \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, 8, "                                // move to accurate position") \
+        global_enable_irq \
+        MACRO_SET_CSR(mstatus, TEMP_REGISTER, "                              // set content bits") \
+        MACRO_LOAD_ADDR(TEMP_REGISTER, "_program") \
+        MACRO_WRITE_CSR(csr_reg, TEMP_REGISTER, "                                 // load start into program counter") \
+        MACRO_XRET(fnc_ret)
+
+//----------------------------------------------------------------------------------------------------------
+#else
+//----------------------------------------------------------------------------------------------------------
+
+// correct start in defined privilege mode
+// str_mode - string in comments show mode
+// req_init - required number to init
+// str_bits - string in comments signalize bits
+#define START_IN_MODE(str_mode, req_init, str_bits) \
+        MACRO_SECTION_SPECIFY("_start_in_mode", "                                   // * " str_mode " *") \
+        MACRO_INIT_IMM(TEMP_REGISTER, req_init, "                             // prepare " str_bits) \
+        global_enable_irq \
+        MACRO_SET_CSR(mstatus, TEMP_REGISTER, "                              // set content bits") \
+        MACRO_JUMP("_program", "                                    // jump to program address")
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(PRV_MODE_CHANGE)
+//----------------------------------------------------------------------------------------------------------
+
+// procedure routine for changing privilege mode
+// csr_reg - status register
+// req_mode - required portion of bits (variable)
+// imm_val - shift amount
+// str_bits - string in comments signalize bits
+#define CHANGE_TO_MODE(csr_reg, req_mode, imm_val, str_bits) \
+        MACRO_INIT_IMM_VAR(TEMP_REGISTER, req_mode, "                                // random acquired new " str_bits) \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, imm_val, "                              // move to accurate position") \
+        MACRO_SET_CSR(csr_reg, TEMP_REGISTER, "                              // change content")
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// efective method to clean rf_gpr register
+// gpr_reg - rf_gpr register to be zero-ed
+#define CLEAN_GPR(gpr_reg) \
+        MACRO_XOR(gpr_reg, gpr_reg, gpr_reg)
+
+// save in syscall address demanding value
+// need two registers
+// - for data to be stored [gpr_reg]
+// - for loading desired base memory address [t0]
+// allways combine codasip_syscall[11:5] as well as immediate offset[4:0]
+// gpr_reg - rf_gpr register
+// imm_val - saved value
+#define SYSCALL_STORE(gpr_reg, imm_val) \
+        MACRO_INIT_IMM(gpr_reg, imm_val) \
+        MACRO_STORE_WORD_LABEL(gpr_reg, "codasip_syscall", t0)
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_ENABLE_CACHES)
+//----------------------------------------------------------------------------------------------------------
+
+// finish technique with cache
+// - flush 1.st could be ready immediately
+// - load address in accurate range and alignment
+// - load and next store value at the same address which does not change value
+// - flush 2.nd cause really wait for 1.st to be done
+// gpr_reg - rf_gpr register
+// imm_var - properly randomized variable
+#define CACHE_FLUSH(gpr_reg, imm_var) \
+        MACRO_FENCE() \
+        MACRO_LOAD_IMM_VAR(t0, imm_var) \
+        MACRO_LOAD_WORD(gpr_reg, t0) \
+        MACRO_STORE_WORD(gpr_reg, t0) \
+        MACRO_FENCE()
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// write value into scratch register
+// csr_reg - scratch register
+#define BACKUP(csr_reg) \
+        MACRO_WRITE_CSR(csr_reg, TEMP_REGISTER, "                             // backup value rf_gpr[a], needed for additional computation")
+
+// read value from scratch register
+// csr_reg - scratch register
+#define RESTORE(csr_reg) \
+        MACRO_READ_CSR(TEMP_REGISTER, csr_reg, "                             // restore value in rf_gpr[a], was used as temporary storage")
+
+// clean cause indicating exception or interrupt
+// csr_reg - cause register
+#define CLEAN_CAUSE(csr_reg) \
+        MACRO_WRITE_CSR(csr_reg, x0, "                               // clean code to ensure next proper flow")
+
+// dummy store-conditional to clear any existing reservation
+// str_label - label for dummy address
+#define DUMMY_SC(str_label) \
+        MACRO_LOAD_ADDR(TEMP_REGISTER, str_label, "                         // load address for dummy SC") \
+        MACRO_STORE_COND_WORD(x0, x0, TEMP_REGISTER, "                           // dummy SC to clear any existing reservation")
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(DEVELOP)
+//----------------------------------------------------------------------------------------------------------
+
+// process to get the right code for misaligned
+// str_label - label address to continue
+#define MISALIGNED_TEST(str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -0, "                               // instruction address misaligned") \
+        MACRO_BLEZ(TEMP_REGISTER, str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -4, "                               // load address misaligned") \
+        MACRO_BLEZ(TEMP_REGISTER, str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -2, "                               // store address misaligned")
+
+// decide to continue or load cause again
+// csr_reg - cause register
+// str_label - label address to continue
+#define MISALIGNED(csr_reg, str_label) \
+        MACRO_BEQZ(TEMP_REGISTER, str_label) \
+        MACRO_RELOAD(TEMP_REGISTER, csr_reg)
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(REPLIER)
+//----------------------------------------------------------------------------------------------------------
+
+// process to get the right code for access fault
+// str_label - label address to continue
+#define ACCESS_FAULT_TEST(str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -1, "                               // access fault on fetch interface") \
+        MACRO_BLEZ(TEMP_REGISTER, str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -4, "                               // read fault (load access) on ldst interface") \
+        MACRO_BLEZ(TEMP_REGISTER, str_label) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -2, "                               // write fault (store access) on ldst interface")
+
+// decide to continue or load cause again
+// csr_reg - cause register
+// str_label - label address to continue
+#define ACCESS_FAULT(csr_reg, str_label) \
+        MACRO_BEQZ(TEMP_REGISTER, str_label) \
+        MACRO_RELOAD(TEMP_REGISTER, csr_reg)
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// decide to continue or load cause again
+// csr_reg - cause register
+// str_label - label address to continue
+#define DETECT_HWLOOP(csr_reg, str_label) \
+        MACRO_COMPARE(TEMP_REGISTER, 10, "                               // level overflow due maximal level of HWLOOP nesting exceeded") \
+        MACRO_BEQZ(TEMP_REGISTER, str_label) \
+        MACRO_RELOAD(TEMP_REGISTER, csr_reg)
+
+//----------------------------------------------------------------------------------------------------------
+
+// decide to continue or load cause again
+// str_label - label address to continue
+#define ILLEGAL_INSTRUCTION(str_label) \
+        MACRO_COMPARE(TEMP_REGISTER, 2, "                                // treatment of illegal instruction caused by invalid attempts") \
+        MACRO_BNEZ(TEMP_REGISTER, str_label)
+
+//----------------------------------------------------------------------------------------------------------
+
+// load instruction special supplied value (feature optionaly provided)
+// csr_reg - exception-specific information register
+#define LOAD_SPECIAL(csr_reg) \
+        MACRO_READ_CSR(TEMP_REGISTER, csr_reg, "                                // accelerate the overhead by emulating instruction")
+
+// load instruction general by register address
+// csr_reg - program counter register
+#define LOAD_GENERAL(csr_reg) \
+        MACRO_READ_CSR(TEMP_REGISTER, csr_reg, "                                 // points to the address of faulting instruction") \
+        MACRO_LOAD_BYTE(TEMP_REGISTER, TEMP_REGISTER, "                                 // load content from program memory")
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+// check kind of compression for loaded instruction
+// str_label - label address to continue
+#define CHECK_COMPRESSION(str_label) \
+        MACRO_ANDI(TEMP_REGISTER, TEMP_REGISTER, 0b11, "                             // find out compression type encoded in the lowest two bits") \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -3, "                               // compressed instruction does not have bits set") \
+        MACRO_BNEZ(TEMP_REGISTER, str_label)
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+// increase required count of address into register
+// csr_reg - program counter register
+// imm_val - sum up number
+#define INCREMENT_ADDR(csr_reg, imm_val) \
+        MACRO_READ_CSR(TEMP_REGISTER, csr_reg, "                                 // read actual counter") \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, imm_val, "                                // increase returning address") \
+        MACRO_WRITE_CSR(csr_reg, TEMP_REGISTER, "                                 // write edited back")
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(ENVIRON_CALL) || defined(S_ENVIRON_CALL) || defined(U_ENVIRON_CALL)
+//----------------------------------------------------------------------------------------------------------
+
+// check code indicating enviromental call
+// csr_reg - cause register
+// str_mode - string in comments show mode
+// num_code - number code to check
+// str_label - label address to continue
+#define CHECK_ENVIRON_CALL(csr_reg, str_mode, num_code, str_label) \
+        MACRO_RELOAD(TEMP_REGISTER, csr_reg) \
+        MACRO_COMPARE(TEMP_REGISTER, num_code, "                              // processing of environment call from " str_mode) \
+        MACRO_BEQZ(TEMP_REGISTER, str_label)
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#if defined(VIRTUAL_PAGE_UTILIZE)
+//----------------------------------------------------------------------------------------------------------
+
+// check code indicating page fault
+// csr_reg - cause register
+// num_code - number code to check
+// str_label - label address to continue
+#define CHECK_PAGE_FAULT(csr_reg, num_code, str_label) \
+        MACRO_RELOAD(TEMP_REGISTER, csr_reg) \
+        MACRO_COMPARE(TEMP_REGISTER, num_code, "                              // instruction page fault") \
+        MACRO_BEQZ(TEMP_REGISTER, str_label)
+
+// set SUM bit also access pages
+// csr_reg - status register
+#define PAGE_FAULT(csr_reg) \
+        MACRO_INIT_IMM(TEMP_REGISTER, 1, "                                // activate SUM bit") \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, 18, "                               // move to accurate position") \
+        MACRO_SET_CSR(csr_reg, TEMP_REGISTER, "                              // change content")
+
+//----------------------------------------------------------------------------------------------------------
+#endif
+//----------------------------------------------------------------------------------------------------------
+
+// check code indicating exception or interrupt
+// csr_reg - cause register
+// str_label - label address to continue
+#define CHECK_IRQ(csr_reg, str_label) \
+        MACRO_READ_CSR(TEMP_REGISTER, csr_reg, "                               // determine code indicating event caused the trap") \
+        MACRO_BLTZ(TEMP_REGISTER, str_label)
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+// distinguish between interrupt
+// str_software - label address for software
+// str_timer - label address for timer
+// str_external - label address external
+#define TRAP_HANDLER_IRQ(str_software, str_timer, str_external) \
+        MACRO_ANDI(TEMP_REGISTER, TEMP_REGISTER, 0xFF, "                             // remove the interrupt MSB bit") \
+        MACRO_SRLI(TEMP_REGISTER, TEMP_REGISTER, 2, "                                // [1st nibble] caused by software triggered") \
+        MACRO_BEQZ(TEMP_REGISTER, str_software) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -1, "                               // [2nd nibble] caused by timer") \
+        MACRO_BEQZ(TEMP_REGISTER, str_timer) \
+        MACRO_ADDI(TEMP_REGISTER, TEMP_REGISTER, -1, "                               // [3rd nibble] caused by external controller") \
+        MACRO_BEQZ(TEMP_REGISTER, str_external)
+
+// clear defined bits in 1st nibble for software triggered interrupt
+// csr_reg - correct pending register
+// imm_val - immediate value for clear
+// str_bits - string in comments signalize bits
+#define SOFTWARE_IRQ(csr_reg, imm_val, str_bits) \
+        MACRO_INIT_IMM(TEMP_REGISTER, imm_val, "                              // prepare bits " str_bits) \
+        MACRO_CLEAR_CSR(csr_reg, TEMP_REGISTER, "                                  // clear required index positions")
+
+// clear defined bits in 2nd nibble for external controller interrupt
+// csr_reg - correct pending register
+// imm_val - immediate value for clear
+// str_bits - string in comments signalize bits
+#define TIMER_IRQ(csr_reg, imm_val, str_bits) \
+        MACRO_INIT_IMM(TEMP_REGISTER, imm_val, "                              // prepare bits " str_bits) \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, 4, "                                // move to 2nd nibble") \
+        MACRO_CLEAR_CSR(csr_reg, TEMP_REGISTER, "                                  // clear required index positions")
+
+// clear defined bits in 3rd nibble for timer interrupt
+// csr_reg - correct pending register
+// imm_val - immediate value for clear
+// str_bits - string in comments signalize bits
+#define EXTERNAL_IRQ(csr_reg, imm_val, str_bits) \
+        MACRO_INIT_IMM(TEMP_REGISTER, imm_val, "                              // prepare bits " str_bits) \
+        MACRO_SLLI(TEMP_REGISTER, TEMP_REGISTER, 8, "                                // move to 3rd nibble") \
+        MACRO_CLEAR_CSR(csr_reg, TEMP_REGISTER, "                                  // clear required index positions")
+
+#endif // _MACROS_

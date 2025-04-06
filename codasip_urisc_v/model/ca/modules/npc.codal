@@ -1,0 +1,105 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The Next Program Counter (NPC) computes the next PC and address for the IFU.
+ * The NPC unit contains a priority encoder that selects the proper input for the address.
+ */
+#define NPC_ADDR_FRAG       OPTION_XLEN-1..2
+#define ADDR_OFFSET         (uint2)0b00
+#define NPC_ADDR_HIGH       OPTION_XLEN-2
+
+module npc
+{
+    // Inputs
+    signal bit[OPTION_XLEN] s_pc_addr_i;
+    signal bit[OPTION_XLEN] s_trap_addr_i;
+    signal bit[OPTION_XLEN] s_branch_addr_i;
+#ifdef OPTION_OCD
+    signal bit[OPTION_XLEN] s_ocd_addr_i;
+#endif
+    signal bit[OPTION_XLEN] s_csr_addr_i;
+    signal bit[1] s_trap_valid_i;
+    signal bit[1] s_branch_valid_i;
+#ifdef OPTION_OCD
+    signal bit[1] s_ocd_valid_i;
+#endif
+    signal bit[1] s_csr_valid_i;
+    signal bit[1] s_stall_i;
+
+    // Outputs
+    signal bit[OPTION_XLEN] s_ifu_addr_o;
+    signal bit[OPTION_XLEN] s_pc_addr_o;
+
+    // Compute next PC
+    event get_next_addr
+    {
+        semantics
+        {
+            int_<OPTION_XLEN> npc_adder;
+            uint_<NPC_ADDR_HIGH> npc_source;
+            npc_source = (uint_<NPC_ADDR_HIGH>)(s_pc_addr_i)[NPC_ADDR_FRAG];
+            npc_adder = (uint_<OPTION_XLEN>)(npc_source + (uint1)0b1 :: ADDR_OFFSET);
+
+#ifdef OPTION_OCD
+            if (s_ocd_valid_i)
+            {
+                s_pc_addr_o = s_ocd_addr_i;
+            }
+            else
+#endif
+            if (s_trap_valid_i)
+            {
+                s_pc_addr_o = s_trap_addr_i;
+            }
+            else if (s_csr_valid_i)
+            {
+                s_pc_addr_o = s_csr_addr_i;
+            }
+            else if (s_branch_valid_i)
+            {
+                s_pc_addr_o = s_branch_addr_i;
+            }
+            else if (s_stall_i)
+            {
+                s_pc_addr_o = s_pc_addr_i;
+            }
+            else
+            {
+                s_pc_addr_o = npc_adder;
+            }
+        };
+    };
+
+    // Return current PC or BP addr
+    event get_ifu_addr
+    {
+        semantics
+        {
+            uint_<OPTION_XLEN-1> ifu_addr;
+            ifu_addr = s_pc_addr_i[OPTION_XLEN-1..1];
+            // Align address
+            s_ifu_addr_o = ifu_addr :: (uint1) 0;
+
+        };
+    };
+};

@@ -1,0 +1,239 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#pragma once
+
+#include "config.hcodal"
+
+// Basic formats of RISC-V instructions:
+// R - type
+// +---------+--------+--------+--------+--------+------+
+// |  31..25 | 24..20 | 19..15 | 14..12 | 11..7  | 6..0 |
+// |  OPC    | SRC2_W | SRC1_W | OPC    | DST_W  | OPC  |
+// +---------+--------+--------+--------+--------+------+
+// I - type
+// +---------+--------+--------+--------+--------+------+
+// |  31..20          | 19..15 | 14..12 | 11..7  | 6..0 |
+// |  IMM12_W         | SRC1_W | OPC    | DST_W  | OPC  |
+// +---------+--------+--------+--------+--------+------+
+// S - type
+// +---------+--------+--------+--------+--------+------+
+// |  31..25 | 24..20 | 19..15 | 14..12 | 11..7  | 6..0 |
+// |  IMM7_W | SRC2_W | SRC1_W | OPC    | IMM5_W | OPC  |
+// +---------+--------+--------+--------+--------+------+
+// U - type
+// +---------+--------+--------+--------+--------+------+
+// |  31..12                            | 11..7  | 6..0 |
+// |  IMM20_W                           | DST_W  | OPC  |
+// +---------+--------+--------+--------+--------+------+
+
+#define OPC7_W   7
+#define IMM32_W 32
+#define IMM20_W 20
+#define IMM12_W 12
+#define IMM8_W   8
+#define IMM7_W   7
+#define IMM5_W   5
+#if OPTION_XLEN == 64
+#define SHIFT_W  6
+#else
+#define SHIFT_W  5
+#endif
+#define FENCE_FM_W 4
+
+// Positions of opcode fragments
+#define OPC_FRAG0        6..0
+#define OPC_FRAG1        9..7
+#define OPC_FRAG2       16..10
+
+#if OPTION_XLEN == 64
+#define OPC_FRAG_SHIFT 15..10
+#else
+#define OPC_FRAG_SHIFT 16..10
+#endif
+#define OPC_FRAG_SYS   21..10
+
+// 7b opcodes - U type
+enum : uint7
+{
+    OPC_U_HALT   = 0x01,
+    OPC_U_LUI    = 0x37,
+    OPC_U_AUIPC  = 0x17,
+    OPC_U_JAL    = 0x6f,
+    OPC_U_OP     = 0x33, // used in instruction print function
+#if OPTION_XLEN == 64
+    OPC_U_OP32   = 0x3b, // used in instruction print function
+    OPC_U_IMM32  = 0x1b, // used in instruction print function
+#endif
+    OPC_U_IMM    = 0x13, // used in instruction print function
+    OPC_U_JALR   = 0x67, // used in instruction print function
+    OPC_U_BRANCH = 0x63, // used in instruction print function
+    OPC_U_STORE  = 0x23, // used in instruction print function
+    OPC_U_LOAD   = 0x03, // used in instruction print function
+    OPC_U_SYSTEM = 0x73, // used in instruction print function
+    OPC_U_FENCE  = 0x0f, // used in instruction print function
+};
+
+// 10b opcodes - I type
+//             - S type
+enum : uint10
+{
+    OPC_I_ADDI   = 0x013,
+#if OPTION_XLEN == 64
+    OPC_I_ADDIW  = 0x01b,
+    OPC_I_LWU    = 0x303,
+    OPC_I_LD     = 0x183,
+    OPC_S_SD     = 0x1a3,
+#endif
+    OPC_I_SLTI   = 0x113,
+    OPC_I_SLTIU  = 0x193,
+    OPC_I_ANDI   = 0x393,
+    OPC_I_ORI    = 0x313,
+    OPC_I_XORI   = 0x213,
+    OPC_I_JALR   = 0x067,
+    OPC_I_LB     = 0x003,
+    OPC_I_LH     = 0x083,
+    OPC_I_LW     = 0x103,
+    OPC_I_LBU    = 0x203,
+    OPC_I_LHU    = 0x283,
+    OPC_I_FENCEI = 0x08f,
+    OPC_I_CSRRW  = 0x0f3,
+    OPC_I_CSRRS  = 0x173,
+    OPC_I_CSRRC  = 0x1f3,
+    OPC_I_CSRRWI = 0x2f3,
+    OPC_I_CSRRSI = 0x373,
+    OPC_I_CSRRCI = 0x3f3,
+    OPC_S_BEQ    = 0x063,
+    OPC_S_BNE    = 0x0e3,
+    OPC_S_BLT    = 0x263,
+    OPC_S_BLTU   = 0x363,
+    OPC_S_BGE    = 0x2e3,
+    OPC_S_BGEU   = 0x3e3,
+    OPC_S_SB     = 0x023,
+    OPC_S_SH     = 0x0a3,
+    OPC_S_SW     = 0x123,
+};
+
+// 14b opcode - fence
+enum : uint10
+{
+    OPC_F_FENCE = 0x00f,
+};
+
+#if OPTION_XLEN == 64
+// 16b opcodes - I type (shift)
+enum : uint16
+{
+    OPC_SI_SLLI = 0x0093,
+    OPC_SI_SRLI = 0x0293,
+    OPC_SI_SRAI = 0x4293,
+};
+#else   // OPTION_XLEN == 32
+// 17b opcodes - I type (shift)
+enum : uint17
+{
+    OPC_SI_SLLI = 0x00093,
+    OPC_SI_SRLI = 0x00293,
+    OPC_SI_SRAI = 0x08293,
+};
+#endif
+
+// 17b opcodes - I type (shift 32b)
+//             - R type
+enum : uint17
+{
+#if OPTION_XLEN == 64
+    OPC_SI_SLLIW = 0x0009b,
+    OPC_SI_SRLIW = 0x0029b,
+    OPC_SI_SRAIW = 0x0829b,
+    OPC_R_ADDW   = 0x0003b,
+    OPC_R_SLLW   = 0x000bb,
+    OPC_R_SRLW   = 0x002bb,
+    OPC_R_SRAW   = 0x082bb,
+    OPC_R_SUBW   = 0x0803b,
+#ifdef OPTION_EXTENSION_M
+    OPC_R_MULW   = 0x0043b,
+    OPC_R_DIVW   = 0x0063b,
+    OPC_R_DIVUW  = 0x006bb,
+    OPC_R_REMW   = 0x0073b,
+    OPC_R_REMUW  = 0x007bb,
+#endif
+#endif
+#ifdef OPTION_EXTENSION_M
+    OPC_R_MUL    = 0x00433,
+    OPC_R_MULH   = 0x004b3,
+    OPC_R_MULHSU = 0x00533,
+    OPC_R_MULHU  = 0x005b3,
+    OPC_R_DIV    = 0x00633,
+    OPC_R_DIVU   = 0x006b3,
+    OPC_R_REM    = 0x00733,
+    OPC_R_REMU   = 0x007b3,
+#endif
+    OPC_R_ADD    = 0x00033,
+    OPC_R_SLT    = 0x00133,
+    OPC_R_SLTU   = 0x001b3,
+    OPC_R_AND    = 0x003b3,
+    OPC_R_OR     = 0x00333,
+    OPC_R_XOR    = 0x00233,
+    OPC_R_SLL    = 0x000b3,
+    OPC_R_SRL    = 0x002b3,
+    OPC_R_SRA    = 0x082b3,
+    OPC_R_SUB    = 0x08033,
+};
+
+enum : uint4
+{
+    OPC_FENCE_IORW = 0b1111,
+    OPC_FENCE_IOR  = 0b1110,
+    OPC_FENCE_IOW  = 0b1101,
+    OPC_FENCE_IO   = 0b1100,
+    OPC_FENCE_IRW  = 0b1011,
+    OPC_FENCE_IR   = 0b1010,
+    OPC_FENCE_IW   = 0b1001,
+    OPC_FENCE_I    = 0b1000,
+    OPC_FENCE_ORW  = 0b0111,
+    OPC_FENCE_OR   = 0b0110,
+    OPC_FENCE_OW   = 0b0101,
+    OPC_FENCE_O    = 0b0100,
+    OPC_FENCE_RW   = 0b0011,
+    OPC_FENCE_R    = 0b0010,
+    OPC_FENCE_W    = 0b0001,
+    OPC_FENCE_HINT = 0b0000,
+};
+
+// 22b opcodes - system instructions
+enum : uint22
+{
+    OPC_SYS_ECALL      = 0x000073,
+    OPC_SYS_EBREAK     = 0x000473,
+    OPC_SYS_WFI        = 0x041473,
+    OPC_SYS_MRET       = 0x0c0873,
+    OPC_SYS_RDCYCLE    = 0x300173,
+    OPC_SYS_RDTIME     = 0x300573,
+    OPC_SYS_RDINSTRET  = 0x300973,
+#if OPTION_XLEN == 32
+    OPC_SYS_RDCYCLEH   = 0x320173,
+    OPC_SYS_RDTIMEH    = 0x320573,
+    OPC_SYS_RDINSTRETH = 0x320973,
+#endif
+    OPC_SYS_UNIMP      = 0x3000FF,
+};

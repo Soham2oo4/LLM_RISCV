@@ -1,0 +1,58 @@
+#ifndef _CYCLE_
+#define _CYCLE_
+
+// mcycle [Machine Cycle Counter]: the number of cycles the hart has executed since some arbitrary time in the past
+// cycle [User Cycle Counter]: read-only view at mcycle and have the same limited use
+
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_CYCLE)
+#if OVERRIDE_EXPLICIT_CYCLE != 0xFF
+#define OVERRIDE_CYCLE_HOW OVERRIDE_EXPLICIT_CYCLE
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_CYCLE_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_CYCLE_HOW)(, mcycle);
+#if OPTION_XLEN == 32
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_CYCLE_HOW)(, mcycleh);
+#endif
+        };
+    };
+};
+
+#if OVERRIDE_CYCLE_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mcycle);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(cycle);
+#if OPTION_XLEN == 32
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mcycleh);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(cycleh);
+#endif
+#endif
+
+#if OVERRIDE_CYCLE_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mcycle);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(cycle);
+#if OPTION_XLEN == 32
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mcycleh);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(cycleh);
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_CYCLE_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_CYCLE_

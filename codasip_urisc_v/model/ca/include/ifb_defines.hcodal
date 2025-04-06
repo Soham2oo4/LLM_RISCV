@@ -1,0 +1,52 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#pragma once
+
+#include "ca_defines.hcodal"
+
+// Buffer write width - max. number of instructions in one instruction packet
+#define INSTR_PER_FETCH  (FETCH_WIDTH / 32)
+
+// Signal widths
+#define TAKEN_W        1
+#define EXC_VALID_W    1
+#define EXC_TVAL_W     ADDR_W
+
+// Signal indexes for output
+#define EXC_TVAL_SB    (EXC_TVAL_W - 1)
+
+#define EXC_VALID_SB   (EXC_VALID_W - 1)
+
+#define EXC_TYPE_SB    (EXC_TYPE_W + EXC_VALID_SB)
+#define VALID_SB       (INSTR_PER_FETCH + EXC_TYPE_SB)
+#define DATA_SB        (FETCH_WIDTH + VALID_SB)
+#define ADDR_SB        (ADDR_W + DATA_SB)
+#define TAKEN_SB       (TAKEN_W + ADDR_SB)
+#define BP_ADDR_SB     (ADDR_W + TAKEN_SB)
+
+// Width of one FIFO entry (based on data widths)
+#define IFB_ENTRY_W    (ADDR_W + FETCH_WIDTH + INSTR_PER_FETCH + EXC_TYPE_W + EXC_VALID_W)
+
+// FIFO settings
+#define FIFO_NUM_ITEMS    4
+#define FIFO_ITEM_W       IFB_ENTRY_W

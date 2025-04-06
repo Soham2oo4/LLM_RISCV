@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<codasip:profiler xmlns:codasip="http://www.codasip.com/">
+    <codasip:header codasip:studio="9.4.2" codasip:architecture="sssc_12" codasip:time="1690885448"/>
+    <codasip:asip codasip:executable="fft_test.xexe"/>
+    <codasip:codal>
+        <codasip:files>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\decoders\ca_C_decoder.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="1756">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1757">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\decoders\ca_decoder.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="312">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="313">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="314">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="315">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="316">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="317">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="478">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="479">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="480">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="481">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="482">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="483">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="484">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="485">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="923">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="924">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1489">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1492">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1495">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1498">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1499">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1500">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1501">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1504">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1505">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1506">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1507">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1510">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1511">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1512">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1513">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1518">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1521">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1524">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1525">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1528">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1531">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1537">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1540">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1560">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1565">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1570">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1579">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1582">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1604">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1607">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1610">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1613">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1614">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1615">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1616">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1619">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1620">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1621">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1622">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1625">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1626">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1627">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1628">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1633">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1636">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1639">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1640">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1643">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1646">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1652">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1655">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1675">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1680">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1685">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1694">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1697">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1718">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1721">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1724">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1727">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1728">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1729">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1730">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1731">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1732">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1735">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1736">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1737">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1738">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1739">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1740">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1745">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1748">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1751">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1752">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1755">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1758">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1764">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1767">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1787">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1792">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1797">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1806">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1827">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1830">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1833">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1837">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1838">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1839">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1840">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1841">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1847">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1850">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1853">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1854">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1857">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1860">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1866">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1869">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1889">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1894">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1899">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="1908">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\alu_events.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="22">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="28">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="40">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\if_events.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="476">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="479">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="492">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="493">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="503">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="504">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="507">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="508">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\inst_parsing_events.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="394">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="430">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="431">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="432">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="433">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="434">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="435">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="436">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="437">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="438">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="443">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="444">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="445">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="446">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="447">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="448">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="449">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="450">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="451">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="456">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="457">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="458">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="459">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="460">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="461">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="462">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="463">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="464">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="469">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="470">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="471">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="472">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="473">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="474">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="475">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="476">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="477">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="482">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="483">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="484">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="485">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="486">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="487">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="488">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="489">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="490">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="495">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="496">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="497">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="498">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="499">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="500">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="501">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="502">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="503">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="508">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="509">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="510">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="511">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="512">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="513">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="514">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="515">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="516">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="534">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="536">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="537">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="538">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="539">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="540">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="541">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="542">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="543">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="547">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="550">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="551">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="552">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="553">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="554">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="555">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="556">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="557">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\interrupts.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="61">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="62">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="68">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="69">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="82">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="83">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="87">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="88">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="98">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="100">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="101">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="111">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="112">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="115">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="116">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="122">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="123">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="128">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="130">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="134">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="137">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="145">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="164">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="181">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="190">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="201">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="202">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="203">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="212">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="215">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="216">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="219">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="220">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="226">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="227">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="230">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="231">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="234">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="248">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\serial_multiplier.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="174">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\ca\pipelines\write_rgb_events.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="44">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="54">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\share\isa\isa.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="82">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="140">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="557">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="736">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="737">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="738">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="782">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="783">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="784">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="829">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                    <codasip:line codasip:number="880">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+            <codasip:file codasip:path="c:\users\tadej.murovic\documents\ssc_dsp\sssc_12\model\share\isa\isa_C.codal">
+                <codasip:lines>
+                    <codasip:line codasip:number="502">
+                        <codasip:annotation codasip:samples="0" codasip:percent="0" codasip:highlight="&quot;NONE&quot;"/>
+                    </codasip:line>
+                </codasip:lines>
+            </codasip:file>
+        </codasip:files>
+    </codasip:codal>
+</codasip:profiler>

@@ -1,0 +1,2 @@
+/home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-lldb
+/home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-lldb-mi

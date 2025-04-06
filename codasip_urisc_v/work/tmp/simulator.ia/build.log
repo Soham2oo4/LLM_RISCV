@@ -1,0 +1,9 @@
+[1/7] Building CXX object CMakeFiles/isimulator.dir/tools/src/simulator_helpers.cpp.o
+[2/7] Building CXX object CMakeFiles/isimulator.dir/tools/src/syscalls.cpp.o
+[3/7] Building CXX object CMakeFiles/isimulator.dir/codasip_resources_MemoryCore_codasip_memory_m_memory_t.cpp.o
+[4/7] Building CXX object CMakeFiles/isimulator.dir/tools/src/simulator.cpp.o
+[5/7] Building CXX object CMakeFiles/isimulator.dir/codasip_simulator_MI15codasip_urisc_v_Sim.cpp.o
+[6/7] Linking CXX executable codasip_urisc_v-ia-isimulator
+[6/7] Install the project...
+-- Install configuration: "Release"
+-- Installing: /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-isimulator

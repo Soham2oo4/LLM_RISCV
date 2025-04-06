@@ -1,0 +1,41 @@
+#ifndef _MSCRATCH_
+#define _MSCRATCH_
+
+// mscratch [Machine Scratch Register]: use to hold pointer to hart-local dedicated machine context space and swapped with working register
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MSCRATCH)
+#if OVERRIDE_EXPLICIT_MSCRATCH != 0xFF
+#define OVERRIDE_MSCRATCH_HOW OVERRIDE_EXPLICIT_MSCRATCH
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MSCRATCH_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MSCRATCH_HOW)(, mscratch);
+        };
+    };
+};
+
+#if OVERRIDE_MSCRATCH_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mscratch);
+#endif
+
+#if OVERRIDE_MSCRATCH_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mscratch);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MSCRATCH_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MSCRATCH_

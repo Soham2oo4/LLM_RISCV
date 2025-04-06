@@ -1,0 +1,100 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * Triggers from the trigger module (TM) are used to detect events that cause transition from "user mode" to "debug mode".
+ * Triggers are set through debug CSR registers. 
+ *
+ * The core supports RISC-V Address Match Triggers (tdata1.type=2) which can work as:
+ * - breakpoints, which fire when an instruction on a specific PC address is about to be executed
+ * - watchpoints, which fire on a load/store instruction accessing a specific memory address
+ */
+
+#ifdef OPTION_OCD
+#include "ca_defines.hcodal"
+
+module tgm
+{
+    // Inputs
+    signal bit[ADDR_W] s_fetch_addr_i;
+    signal bit[XLEN] s_ldst_addr_i;
+    signal bit[FU_OP_W] s_ldst_cmd_i;
+    signal bit[1] s_progbuf_mode_i;
+
+    // Outputs
+    signal bit[1] s_trigger_fire_o;
+    signal bit[5] s_trigger_action_o;
+
+    event ocd_trigger
+    {
+        $$for(i = 0; i < TRIGGER_COUNT; i++)
+            use tg_$$(i).trigger_mcontrol as tg_$$(i)_trigger_mcontrol;
+        $$endfor()
+
+        semantics
+        {
+            uint2 ldst_oper;
+
+            ldst_oper = (
+#if OPTION_XLEN == 32
+                ((s_ldst_cmd_i <= OP_LHU) &&
+#else
+                ((s_ldst_cmd_i <= OP_LD) &&
+#endif
+
+                (s_ldst_cmd_i >= OP_LB))) ? LDST_OPER_LOAD : (
+#if OPTION_XLEN == 32
+                ((s_ldst_cmd_i >= OP_SB) &&
+#else
+                ((s_ldst_cmd_i >= OP_SD) &&
+#endif
+                (s_ldst_cmd_i <= OP_SW))) ? LDST_OPER_STORE :
+                LDST_OPER_NONE;
+
+            $$for(i = 0; i < TRIGGER_COUNT; i++)
+                tg_$$(i).s_fetch_addr_i = s_fetch_addr_i;
+                tg_$$(i).s_ldst_addr_i = s_ldst_addr_i;
+                tg_$$(i).s_ldst_oper_i = ldst_oper;
+                tg_$$(i)_trigger_mcontrol();
+            $$endfor()
+
+            // Find out if any trigger fires.
+            // Trigger should not fire in progbuf mode.
+            s_trigger_fire_o = ~s_progbuf_mode_i & (
+                $$for(i = TRIGGER_COUNT-1; i > 0; i--)
+                    tg_$$(i).s_trigger_fire_o |
+                $$endfor()
+                tg_0.s_trigger_fire_o);
+
+            // Find out the trigger action.
+            // If multiple actions (exception & debug mode entry) are triggered,
+            // the entry to the debug mode has precedence (and the exception is ignored).
+            s_trigger_action_o = (
+                $$for(i = TRIGGER_COUNT-1; i > 0; i--)
+                    tg_$$(i).s_trigger_action_o & tg_$$(i).s_trigger_fire_o |
+                $$endfor()
+                tg_0.s_trigger_action_o & tg_0.s_trigger_fire_o) ? TGM_DM : TGM_BREAK;
+        };
+    };
+};
+
+#endif // defined(OPTION_OCD)

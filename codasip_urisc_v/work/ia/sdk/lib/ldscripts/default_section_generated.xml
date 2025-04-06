@@ -1,0 +1,42 @@
+<!DOCTYPE Linker_Placement_File>
+<Root name="Default linker script, for normal executables" >
+<SymbolDef name="Symbol definitions">
+<Symbol name="_HEAP_SIZE" default_value="0x0"/>
+<Symbol name="_SCS_SIZE" default_value="0x0"/>
+<Symbol name="_TEXT_START_ADDR" default_value="0x0"/>
+<Symbol name="_STACK_SIZE" default_value="0x2000"/>
+</SymbolDef>
+<MemorySegment name="if_ldst_if_fetch">
+<ProgramSection name=".text" start="_TEXT_START_ADDR" address_symbol="_ftext" end_symbol="_etext" inputsections=" KEEP (*(SORT(.crt*))); *(.text); *(.text.*); *(.gnu.linkonce.t.*); KEEP (*(.text_jump_padding));"/>
+<ProgramSection name=".init_location"/>
+<ProgramSection name=".init" alignment="4" keep="Yes" fill="0"/>
+<ProgramSection name=".fini_location"/>
+<ProgramSection name=".fini" alignment="4" keep="Yes" fill="0"/>
+<ProgramSection name=".ctors_location"/>
+<ProgramSection name=".ctors" alignment="4" address_symbol="__CTOR_LIST__;___CTOR_LIST__" address_symbol_provide="Yes" keep="Yes" end_symbol="__CTOR_END__;___CTOR_END__" end_symbol_provide="Yes" inputsections=" KEEP (*(SORT(.ctors.*)));"/>
+<ProgramSection name=".dtors_location"/>
+<ProgramSection name=".dtors" alignment="4" address_symbol="__DTOR_LIST__;___DTOR_LIST__" address_symbol_provide="Yes" keep="Yes" end_symbol="__DTOR_END__;___DTOR_END__" end_symbol_provide="Yes" inputsections=" KEEP (*(SORT(.dtors.*)));"/>
+<ProgramSection name=".eh_frame_location"/>
+<ProgramSection name=".eh_frame" alignment="4" address_symbol="__eh_frame_start" keep="Yes" end_symbol="__eh_frame_end"/>
+<ProgramSection name=".eh_frame_hdr_location"/>
+<ProgramSection name=".eh_frame_hdr" alignment="4" keep="Yes"/>
+<ProgramSection name=".gcc_except_table_location"/>
+<ProgramSection name=".gcc_except_table" alignment="4"/>
+<ProgramSection name=".rodata_location"/>
+<ProgramSection name=".rodata" alignment="4" address_symbol="_frodata" end_symbol="_erodata" inputsections=" *(.rodata); *(.rodata.*); *(.gnu.linkonce.r.*);"/>
+<ProgramSection name=".data_location"/>
+<ProgramSection name=".data" alignment="4" address_symbol="_fdata" end_symbol="_edata" inputsections=" *(.data); *(.data.*); *(.gnu.linkonce.d.*);"/>
+<ProgramSection name=".sdata_location"/>
+<ProgramSection name=".sdata" alignment="4" inputsections=" *(.sdata); *(.sdata.*); *(.gnu.linkonce.s.*);"/>
+<ProgramSection name=".sbss_location"/>
+<ProgramSection name=".sbss" alignment="4" address_symbol="__sbss_start" address_symbol_provide="Yes" end_symbol="__sbss_end" end_symbol_provide="Yes" inputsections=" *(.sbss); *(.sbss.*); *(.gnu.linkonce.sb.*);"/>
+<ProgramSection name=".bss_location"/>
+<ProgramSection name=".bss" alignment="4" address_symbol="__bss_start" address_symbol_provide="Yes" end_symbol="__bss_end" end_symbol_provide="Yes" inputsections=" *(.bss); *(.bss.*); *(.gnu.linkonce.b.*); *(COMMON); . = ALIGN(4);"/>
+<ProgramSection name=".scs_location"/>
+<ProgramSection name=".scs" alignment="16" load="No" size="_SCS_SIZE"/>
+<ProgramSection name=".heap_location"/>
+<ProgramSection name=".heap" alignment="4" address_symbol="_heap" load="No" size="_HEAP_SIZE" end_symbol="_heap_end"/>
+<ProgramSection name=".stack_location"/>
+<ProgramSection name=".stack" alignment="16" size="_STACK_SIZE" address_symbol="_stack_end" load="No" end_symbol="_stack" inputsections=" . = ALIGN(16);"/>
+</MemorySegment>
+</Root>

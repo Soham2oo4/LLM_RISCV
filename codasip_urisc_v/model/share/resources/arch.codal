@@ -1,0 +1,206 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "common.hcodal"
+
+#ifndef __CA_MODEL__
+register bit[1] r_wfi;
+#endif
+
+#ifdef __CA_MODEL__
+arch register bit[XLEN] r_csr_mhpmevent3  { default = TOTAL_FLUSH; aacr = CSR_MHPMEVENT3; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent4  { default = CSR_FLUSH;   aacr = CSR_MHPMEVENT4; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent5  { default = EXC_FLUSH;   aacr = CSR_MHPMEVENT5; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent6  { default = INT_FLUSH;   aacr = CSR_MHPMEVENT6; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent9  { default = BRANCH_MISS; aacr = CSR_MHPMEVENT9; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent10 { default = DATA_STALL;  aacr = CSR_MHPMEVENT10; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent12 { default = DIV_STALL;   aacr = CSR_MHPMEVENT12; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent13 { default = IFU_STALL;   aacr = CSR_MHPMEVENT13; write_mask = 0; };
+arch register bit[XLEN] r_csr_mhpmevent14 { default = LSU_STALL;   aacr = CSR_MHPMEVENT14; write_mask = 0; };
+#endif
+
+#ifdef __CA_MODEL__
+#ifdef OPTION_OCD
+arch register bit[32] r_csr_dcsr
+{
+    default = 0x40000403;
+    aacr = CSR_DCSR;
+    clock_enable = s_dm_active;
+};
+arch register bit[XLEN] r_csr_dpc
+{
+    default = OPTION_BOOT_START;
+    aacr = CSR_DPC;
+    clock_enable = s_dm_active;
+};
+#endif
+#endif
+
+#ifdef OPTION_OCD
+#ifdef __IA_MODEL__
+arch register bit[XLEN] r_csr_tselect { aacr = CSR_TSELECT; };
+arch register bit[XLEN] r_csr_tcontrol { default = 0x0; aacr = CSR_TCONTROL; };
+#else
+arch register bit[XLEN] r_csr_tselect { clock_enable = s_dm_active; aacr = CSR_TSELECT; };
+arch register bit[XLEN] r_csr_tcontrol { clock_enable = s_dm_active; default = 0x0; aacr = CSR_TCONTROL; };
+#endif
+
+arch register_file bit[XLEN] r_csr_tdata1
+{
+    dataport r, r0, r1, r2, r3
+    { flag = R; };
+    dataport w { flag = W; };
+    size = TRIGGER_COUNT;
+    default = CSR_TDATA1_DEFAULT_VALUE;
+    aacr = CSR_TDATA1;
+#ifdef __CA_MODEL__
+    clock_enable = s_dm_active;
+#endif
+    reset = true;
+};
+
+arch register_file bit[XLEN] r_csr_tdata2
+{
+    dataport r, r0, r1 ,r2 ,r3
+    { flag = R; };
+    dataport w { flag = W; };
+    size = TRIGGER_COUNT;
+    default = 0x0;
+    aacr = CSR_TDATA2;
+#ifdef __CA_MODEL__
+    clock_enable = s_dm_active;
+#endif
+    reset = true;
+};
+#endif
+arch register bit[64] r_csr_minstret { aacr = CSR_MINSTRET; };
+arch register bit[64] r_csr_mcycle   { aacr = CSR_MCYCLE; };
+arch register bit[32] r_csr_mcountinhibit{ write_mask = MCOUNTINHIBIT_WRITE_MASK; aacr = CSR_MCOUNTINHIBIT; };
+
+arch register bit[XLEN] r_csr_mhartid { default = 0x00000000; aacr = CSR_MHARTID; write_mask = 0; };
+
+// signals for signaling NMI to CSR file
+arch register bit[1] r_csr_nmi { default = 0; };
+arch register bit[XLEN] r_csr_nmi_mtval;
+
+arch register bit[XLEN] r_nmi_handler { default = 0x1004; write_mask = 0; };
+
+#define MIP_MIE_WRITE_MASK  write_mask = 0x888
+arch register bit[XLEN] r_csr_mip { MIP_MIE_WRITE_MASK; aacr = CSR_MIP; };
+arch register bit[XLEN] r_csr_mie { MIP_MIE_WRITE_MASK; aacr = CSR_MIE; };
+#undef MIP_MIE_WRITE_MASK
+
+#if defined(OPTION_ENABLE_CACHES)
+register bit[ADDR_W] r_csr_ml1cache_start { default = CACHE_BASE; write_mask = 0; };
+#endif
+
+arch register bit[XLEN] r_csr_mtval      { aacr = CSR_MTVAL; };
+arch register bit[XLEN] r_csr_mepc       { aacr = CSR_MEPC; };
+arch register bit[XLEN] r_csr_mcause     { aacr = CSR_MCAUSE; };
+arch register bit[XLEN] r_csr_mscratch   { aacr = CSR_MSCRATCH; };
+arch register bit[XLEN] r_csr_mtvec      { aacr = CSR_MTVEC; };
+arch register bit[XLEN] r_csr_mstatus    { default = DEFAULT_MSTATUS; aacr = CSR_MSTATUS; };
+arch register bit[XLEN] r_csr_misa       { default = MISA_VALUE; aacr = CSR_MISA; write_mask = 0; };
+
+#ifdef OPTION_ENABLE_CACHES
+#define CACHES_MARCHID_BITS 3
+#else
+#define CACHES_MARCHID_BITS 0
+#endif
+
+#define DEFAULT_MARCHID                                                             \
+    ((UXLEN_T) 1 << OPTION_XLEN - 1) | (      /* Set MSB for commercial arch id */    \
+    (uint2)CACHES_MARCHID_BITS ::           /* I and D caches */                    \
+    (uint2)1 ::                             /* AHB interface */                     \
+    (uint4)0                                /* UARCH uRISC-V 2.0 */                 \
+    )
+
+arch register bit[XLEN] r_csr_marchid    { default = DEFAULT_MARCHID; aacr = CSR_MARCHID; write_mask = 0; };
+
+// register detecting reset assertion
+register bit[1] r_reset_init { default = 1; };
+register bit[XLEN] r_syscall_addr;
+
+pc register bit[XLEN] r_PC // 64b
+{
+    default = OPTION_BOOT_START;
+};
+
+arch register_file bit[DATA_W] rf_gpr // 64b
+{
+    dataport r0 { flag = R; };
+    dataport w1 { flag = W; };
+    dataport r1, r2 { flag = R; };
+    dataport w0 { flag = W; };
+    size = RF_GPR_SIZE; // 32 (31 + zero)
+    reset = true;
+    aacr = 0x1000 .. (0x1000 + RF_GPR_SIZE - 1);
+    dwarf = 0 .. (RF_GPR_SIZE - 1); // index range
+};
+
+#if OPTION_XLEN == 64
+alias register_file bit[DATA_W/2] rf_gpr32 // 32b
+{
+    size = RF_GPR_SIZE; // 32 (31 + zero)
+    overlap = rf_gpr[0][31..0];
+};
+#endif
+
+address_space as_all
+{
+    type = ALL;
+    bits = { ADDR_W, DATA_W, LAU_W };
+    endianness = LITTLE;
+
+    interfaces =
+    {
+        DATA: ldst_interface,
+    #if defined(OPTION_OCD) && defined(OPTION_ENABLE_SYSBUS_ACCESS)
+        DATA: if_sysbus,
+    #endif
+        PROGRAM: fetch_interface
+    };
+};
+
+schedule_class sc_loads
+{
+    latency = LOAD_LATENCY;
+};
+
+schedule_class sc_stores
+{
+    latency = STORE_LATENCY;
+};
+
+schedule_class sc_multiply
+{
+    latency = MUL_LATENCY;
+};
+
+schedule_class sc_divide
+{
+    latency = DIV_LATENCY;
+};
+
+// WFI CE register
+register bit[1] r_wfi_ce { default = 1; };
+

@@ -1,0 +1,721 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "config.hcodal"
+#include "common.hcodal"
+#include "opcodes.hcodal"
+#include "isa.hcodal"
+
+/**
+ * Fetch a valid instruction and prepare it for the execution.
+ */
+uint_<INSTR_W> fetch_instr(const UXLEN_T vaddr)
+{
+    uint_<INSTR_W> instr;
+
+    instr = fetch_interface_read(vaddr, INSTR_LAU_SIZE);
+
+    if (r_fetch_hresp != CP_AHB_OKAY)
+    {
+        take_trap((uint1) 1 :: (uint_<XLEN-1>) M_INT_NMI, vaddr, KEEP_PC);
+        r_fetch_fault = 1;
+        return NOP;
+    }
+
+    return instr;
+}
+
+UXLEN_T rf_gpr_read(const uint5 i)
+{
+    UXLEN_T val;
+    if (i > 0)
+    {
+        val = rf_gpr[i];
+#if OPTION_XLEN == 32
+        traceprintf("r%02d->%08x ", i, val);
+#else
+        traceprintf("r%02d->%016x ", i, val);
+#endif
+    }
+    else
+    {
+        // Register x0 - fixed zero
+        val = 0;
+    }
+    return val;
+}
+
+void rf_gpr_write(const uint5 i, const UXLEN_T val)
+{
+    // Do not write to x0 (fixed zero)
+    if (i != 0)
+    {
+        #pragma simulator
+        {
+#if OPTION_XLEN == 32
+            traceprintf("r%02d<-%08x ", i, val);
+#else
+            traceprintf("r%02d<-%016x ", i, val);
+#endif
+            rf_gpr[i] = val;
+            codasip_assert(~r_illegal_instr, "GPR can be written only if instruction is not illegal. r_illegal_instr: %d", r_illegal_instr);
+        }
+        #pragma compiler
+        {
+            rf_gpr[i] = val;
+        }
+    }
+}
+
+#if OPTION_XLEN == 64
+uint32 rf_gpr32_read(const uint5 i)
+{
+    uint32 val;
+    if (i)
+    {
+        val = rf_gpr32[i];
+        traceprintf("r%02d->%08x ", i, val);
+    }
+    else
+    {
+        val = 0;
+    }
+    return val;
+}
+
+void rf_gpr32_write(const uint5 i, const uint32 val)
+{
+    if (i != 0)
+    {
+        rf_gpr32[i] = val;
+        traceprintf("r%02d<-%016x ", i, SEXT_XLEN(SEXT32(val)));
+    }
+
+}
+
+void rf_gpr32_write_sext(const uint5 i, const uint32 val)
+{
+    if (i != 0)
+    {
+        #pragma compiler
+        {
+            rf_gpr32[i] = val;
+        }
+        #pragma simulator
+        {
+            // needs to be sign-extended
+            rf_gpr_write(i, SEXT_XLEN(SEXT32(val)));
+        }
+    }
+}
+#endif
+
+
+UXLEN_T fetch_interface_read(const UXLEN_T haddr, uint3 hsize)
+{
+    UXLEN_T result;
+    uint1 hresp;
+    uint2 hprot;
+    hprot = 0b11;
+    result = fetch_interface.read(haddr, hsize, hresp, hprot :: (uint2)CP_AHB_PRIVILEGED, CP_AHB_UNLOCK);
+    r_fetch_hresp = hresp;
+    return result;
+}
+
+UXLEN_T ldst_interface_read(const UXLEN_T haddr, UXLEN_T hsize)
+{
+    UXLEN_T result;
+    uint1 hresp;
+    uint2 hprot;
+    hprot = 0b11;
+    result = ldst_interface.read(haddr, hsize, hresp, hprot :: (uint2)CP_AHB_PROT_DEFAULT, CP_AHB_UNLOCK);
+    r_ldst_hresp = hresp;
+    return result;
+}
+
+void ldst_interface_write(const UXLEN_T wdata, const UXLEN_T haddr, UXLEN_T hsize)
+{
+    uint1 hresp;
+    uint2 hprot;
+    hprot = 0b11;
+    ldst_interface.write(wdata, haddr, hsize, hresp, hprot :: (uint2)CP_AHB_PROT_DEFAULT, CP_AHB_UNLOCK);
+    r_ldst_hresp = hresp;
+}
+
+UXLEN_T load_val(const uint32 opc, const UXLEN_T address)
+{
+    UXLEN_T result;
+    uint32 sbc;
+
+    result = 0;
+
+    // Check address alignment before accessing the memory bus
+    switch (opc)
+    {
+        // Half-word
+        case OPC_I_LH:
+        case OPC_I_LHU:
+            sbc = HWORD_BYTES;
+            break;
+        // Word
+        case OPC_I_LW:
+#if OPTION_XLEN == 64
+        case OPC_I_LWU:
+#endif
+            sbc = WORD_BYTES;
+            break;
+        // Double
+#if OPTION_XLEN == 64
+        case OPC_I_LD:
+
+            sbc = LWORD_BYTES;
+            break;
+#endif
+        // Bytes, for OPC_I_LB, OPC_I_LBU
+        default:
+            sbc = BYTE;
+            break;
+    }
+
+    if (check_mem_access(sbc, address))
+    {
+        take_trap(MISALIGNED_LOAD, address, DEC_PC);
+        r_pf_mem_error = 1;
+        return 0;
+    }
+
+    switch (opc)
+    {
+        case OPC_I_LB:
+            result = SEXT_XLEN((int8)ldst_interface_read(address, BYTE));
+            break;
+        case OPC_I_LBU:
+            result = ZEXT_XLEN((uint8)ldst_interface_read(address, BYTE));
+            break;
+        case OPC_I_LH:
+            result = SEXT_XLEN((int16)ldst_interface_read(address, HWORD_BYTES));
+            break;
+        case OPC_I_LHU:
+            result = ZEXT_XLEN((uint16)ldst_interface_read(address, HWORD_BYTES));
+            break;
+        case OPC_I_LW:
+            result = SEXT_XLEN((int32)ldst_interface_read(address, WORD_BYTES));
+            break;
+#if OPTION_XLEN == 64
+        case OPC_I_LWU:
+            result = ZEXT_XLEN((uint32)ldst_interface_read(address, WORD_BYTES));
+            break;
+        case OPC_I_LD:
+            result = ldst_interface_read(address, LWORD_BYTES);
+            break;
+#endif
+        default:
+            eprintf("load_val() - unknown opcode (0x%X)", opc);
+            break;
+    }
+
+    // Error while accessing memory
+    if (r_ldst_hresp != CP_AHB_OKAY)
+    {
+        UXLEN_T error_cause; // read error cause
+        switch (opc)
+        {
+            case OPC_I_LB:
+            case OPC_I_LBU:
+            case OPC_I_LH:
+            case OPC_I_LHU:
+            case OPC_I_LW:
+#if OPTION_XLEN == 64
+            case OPC_I_LWU:
+            case OPC_I_LD:
+#endif
+                error_cause = (uint1) 1 :: (uint_<XLEN-1>) M_INT_NMI;
+                take_trap(error_cause, address, DEC_PC);
+                r_pf_mem_error = 1;
+                return 0;
+            default:
+                eprintf("load_val() - unknown opcode (0x%X)", opc);
+                break;
+        }
+    }
+
+    // Otherwise, read was successful (or errors were ignored)
+#if OPTION_XLEN == 32
+    traceprintf("LD(%08x)[%09x] ", address, address);
+#else
+    traceprintf("LD(%016x)[%016x] ", address, address);
+#endif
+    return result;
+}
+
+void write_val(const uint32 opc, const UXLEN_T address, const UXLEN_T val)
+{
+    UXLEN_T error_cause; // write error cause
+    uint32 sbc;
+
+    switch (opc)
+    {
+        case OPC_S_SH:
+            sbc = HWORD_BYTES;
+            break;
+        case OPC_S_SW:
+            sbc = WORD_BYTES;
+            break;
+#if OPTION_XLEN == 64
+        case OPC_S_SD:
+            sbc = LWORD_BYTES;
+            break;
+#endif
+        default:
+            sbc = BYTE;
+            break;
+    }
+
+    // Check address alignment before accessing the memory bus
+    if (check_mem_access(sbc, address))
+    {
+        take_trap(MISALIGNED_STORE, address, DEC_PC);
+        r_pf_mem_error = 1;
+        return;
+    }
+
+    switch (opc)
+    {
+        case OPC_S_SB:
+            ldst_interface_write(val & DATA_BYTE_MASK, address, BYTE);
+            break;
+        case OPC_S_SH:
+            ldst_interface_write(val & DATA_HWORD_MASK, address, HWORD_BYTES);
+            break;
+        case OPC_S_SW:
+            ldst_interface_write(val & DATA_WORD_MASK, address, WORD_BYTES);
+            break;
+#if OPTION_XLEN == 64
+        case OPC_S_SD:
+            ldst_interface_write(val, address, LWORD_BYTES);
+            break;
+#endif
+        default:
+            eprintf("write_val() - unknown opcode (0x%X)", opc);
+            break;
+    }
+
+    // If there was no error, return early
+    if (r_ldst_hresp == CP_AHB_OKAY)
+    {
+#if OPTION_XLEN == 32
+        traceprintf("ST(%08x)[%09x]:=%08x ", address, address, val);
+#else
+        traceprintf("ST(%016x)[%016x]:=%016x ", address, address, val);
+#endif
+        #pragma simulator
+        {
+            if (address == r_syscall_addr)
+            {
+                if (val == 1)
+                {
+                    halt();
+                }
+                else if (val > 1)
+                {
+                    codasip_syscall(val);
+                    r_PC += INSTR_LAU_SIZE;
+                }
+            }
+        }
+        return;
+    }
+
+    // Otherwise, determine the error
+    error_cause = (uint1) 1 :: (uint_<XLEN-1>) M_INT_NMI; // the default access error
+
+    take_trap(error_cause, address, DEC_PC);
+    r_pf_mem_error = 1;
+}
+
+UXLEN_T compute(const uint32 opc, const UXLEN_T op1, const UXLEN_T op2)
+{
+    UXLEN_T result;
+    result = 0;
+    switch (opc)
+    {
+#ifdef OPTION_EXTENSION_M
+        case OPC_R_DIV:
+            #pragma compiler
+            {
+                result = SEXT_XLEN(op1) / SEXT_XLEN(op2);
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    if ((op2 == -1) & (op1 == MIN_SIGN_NUM))
+                    {
+                        result = MIN_SIGN_NUM;
+                    }
+                    else
+                    {
+                        result = SEXT_XLEN(op1) / SEXT_XLEN(op2);
+                    }
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            break;
+        case OPC_R_DIVU:
+            #pragma compiler
+            {
+                result = op1 / op2;
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    result = op1 / op2;
+                }
+                else
+                {
+                    result = - 1;
+                }
+            }
+            break;
+        case OPC_R_REM:
+            #pragma compiler
+            {
+                result = SEXT_XLEN(op1) % SEXT_XLEN(op2);
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    if ((op2 == -1) & (op1 == MIN_SIGN_NUM))
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        result = SEXT_XLEN(op1) % SEXT_XLEN(op2);
+                    }
+                }
+                else
+                {
+                    result = op1;
+                }
+            }
+            break;
+
+        case OPC_R_REMU:
+            #pragma compiler
+            {
+                result = op1 % op2;
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    result = op1 % op2;
+                }
+                else
+                {
+                    result = op1;
+                }
+            }
+            break;
+        case OPC_R_MUL:
+            result = SEXT_XLEN(op1) * SEXT_XLEN(op2);
+            break;
+        case OPC_R_MULH:
+            result = ((int_<XLEN * 2>)SEXT_XLEN(op1) * (int_<XLEN * 2>)SEXT_XLEN(op2)) >> XLEN;
+            break;
+        case OPC_R_MULHSU:
+            result = ((int_<XLEN * 2>)SEXT_XLEN(op1) * (uint_<XLEN * 2>)op2) >> XLEN;
+            break;
+        case OPC_R_MULHU:
+            result = ((uint_<XLEN * 2>)op1 * (uint_<XLEN * 2>)op2) >> XLEN;
+            break;
+#endif
+        case OPC_R_ADD:
+        case OPC_I_ADDI:
+            result = SEXT_XLEN(op1) + SEXT_XLEN(op2);
+            break;
+        case OPC_R_SUB:
+            result = SEXT_XLEN(op1) - SEXT_XLEN(op2);
+            break;
+        case OPC_R_AND:
+        case OPC_I_ANDI:
+            result = op1 & op2;
+            break;
+        case OPC_R_OR:
+        case OPC_I_ORI:
+            result = op1 | op2;
+            break;
+        case OPC_R_XOR:
+        case OPC_I_XORI:
+            result = op1 ^ op2;
+            break;
+        case OPC_R_SLT:
+        case OPC_I_SLTI:
+            if (SEXT_XLEN(op1) < SEXT_XLEN(op2))
+            {
+                result = 1;
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        case OPC_R_SLTU:
+        case OPC_I_SLTIU:
+            if (op1 < op2)
+            {
+                result = 1;
+            }
+            else
+            {
+                result = 0;
+            }
+            break;
+        case OPC_R_SLL:
+        case OPC_SI_SLLI:
+            result = op1 << (SHIFT_T)op2;
+            break;
+        case OPC_R_SRA:
+        case OPC_SI_SRAI:
+            result = SEXT_XLEN(op1) >> (SHIFT_T)op2;
+            break;
+        case OPC_R_SRL:
+        case OPC_SI_SRLI:
+            result = ZEXT_XLEN(op1) >> (SHIFT_T)op2;
+            break;
+        case OPC_S_BEQ:
+            result = (op1 == op2);
+            break;
+        case OPC_S_BNE:
+            result = (op1 != op2);
+            break;
+        case OPC_S_BLT:
+            result = (SEXT_XLEN(op1) < SEXT_XLEN(op2));
+            break;
+        case OPC_S_BLTU:
+            result = (op1 < op2);
+            break;
+        case OPC_S_BGE:
+            result = (SEXT_XLEN(op1) >= SEXT_XLEN(op2));
+            break;
+        case OPC_S_BGEU:
+            result = (op1 >= op2);
+            break;
+        default:
+            #pragma simulator
+            {
+                eprintf("compute() - unknown opcode (0x%X)", opc);
+            }
+            break;
+    }
+    return result;
+}
+
+#if OPTION_XLEN == 64
+uint32 compute32(const uint32 opc, const uint32 op1, const uint32 op2)
+{
+    uint32 result;
+    result = 0;
+    switch (opc)
+    {
+        case OPC_R_SLLW:
+        case OPC_SI_SLLIW:
+            result = op1 << (op2 & 0x1f);
+            break;
+        case OPC_R_SRAW:
+        case OPC_SI_SRAIW:
+            result = (int32)op1 >> (uint5)op2;
+            break;
+        case OPC_R_SRLW:
+        case OPC_SI_SRLIW:
+            result = op1 >> (uint5)op2;
+            break;
+#ifdef OPTION_EXTENSION_M
+        case OPC_R_DIVW:
+            #pragma compiler
+            {
+                result = SEXT32((int32)op1 / (int32)op2);
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    if ((op2 == -1) & (op1 == 0x80000000u))
+                    {
+                        result = MIN_SIGN_NUM_32;
+                    }
+                    else
+                    {
+                        result = SEXT32((int32)op1 / (int32)op2);
+                    }
+                }
+                else
+                {
+                    result = -1;
+                }
+            }
+            break;
+        case OPC_R_DIVUW:
+            #pragma compiler
+            {
+                result = op1 / op2;
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    result = op1 / op2;
+                }
+                else
+                {
+                    result = - 1;
+                }
+            }
+            break;
+        case OPC_R_REMW:
+            #pragma compiler
+            {
+                result = SEXT32((int32)op1 % (int32)op2);
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    if ((op2 == -1) & (op1 == 0x80000000u))
+                    {
+                        result = 0;
+                    }
+                    else
+                    {
+                        result = SEXT32((int32)op1 % (int32)op2);
+                    }
+                }
+                else
+                {
+                    result = op1;
+                }
+            }
+            break;
+        case OPC_R_REMUW:
+            #pragma compiler
+            {
+                result = op1 % op2;
+            }
+            #pragma simulator
+            {
+                if (op2)
+                {
+                    result = op1 % op2;
+                }
+                else
+                {
+                    result = op1;
+                }
+            }
+            break;
+        case OPC_R_MULW:
+            result = op1 * op2;
+            break;
+#endif // ifdef OPTION_EXTENSION_M
+        case OPC_R_ADDW:
+        case OPC_I_ADDIW:
+            result = (int32)op1 + (int32)op2;
+            break;
+        case OPC_R_SUBW:
+            result = (int32)op1 - (int32)op2;
+            break;
+        default:
+            result = 0;
+            eprintf("compute32() - unknown opcode (0x%X)", opc);
+            break;
+    }
+    return result;
+}
+#endif // OPTION_XLEN == 64
+
+void halt()
+{
+    uint64 retval;
+    codasip_halt();
+
+    retval = rf_gpr_read(REG_RETVAL);
+    iprintf("halt() activated, return value 0x%X (%d)\n", retval, retval);
+    iprintf("r_csr_mcause is %d\n", r_csr_mcause);
+    codasip_store_exit_code(retval);
+
+#ifdef PRINT_HALT
+    {
+        codasip_print(0, "\n============================= Registers ==========================\n");
+        int i;
+        for (i = 0; i < RF_GPR_SIZE; i += 4)
+        {
+            codasip_print(0, "r%02d = 0x%08X\tr%02d = 0x%08X\t", i,   rf_gpr[(uint5)i],
+                i+1, rf_gpr[(uint5)(i+1)]);
+            codasip_print(0, "r%02d = 0x%08X\tr%02d = 0x%08X\n", i+2, rf_gpr[(uint5)(i+2)],
+                i+3, rf_gpr[(uint5)(i+3)]);
+        }
+        codasip_print(0, "\nPC = 0x%08X = %d\n", r_PC, r_PC);
+        codasip_print(0, "\n==================================================================\n");
+    }
+#endif
+
+    #pragma simulator
+    {
+        uint32 start_addr, end_addr, address;
+
+        start_addr = codasip_symbol_address("codasip_signature_start");
+        end_addr = codasip_symbol_address("codasip_signature_end");
+
+        for (address = start_addr; address < end_addr; address = address + 16)
+        {
+            codasip_print(SIGNATURE_LEVEL, "%08x",   ldst_interface.read(address + 12, WORD_BYTES));
+            codasip_print(SIGNATURE_LEVEL, "%08x",   ldst_interface.read(address +  8, WORD_BYTES));
+            codasip_print(SIGNATURE_LEVEL, "%08x",   ldst_interface.read(address +  4, WORD_BYTES));
+            codasip_print(SIGNATURE_LEVEL, "%08x\n", ldst_interface.read(address +  0, WORD_BYTES));
+        }
+    }
+}
+
+
+uint1 check_mem_access(const uint32 sbc, const UXLEN_T address)
+{
+    #pragma simulator
+    {
+        return
+#if OPTION_XLEN == 64
+            ((sbc == LWORD_BYTES) && (address & LWORD_SBC_MASK)) ||
+#endif
+            ((sbc == WORD_BYTES)  && (address & WORD_SBC_MASK)) ||
+            ((sbc == HWORD_BYTES) && (address & HWORD_SBC_MASK));
+    }
+    #pragma compiler
+    {
+        return false;
+    }
+}
+

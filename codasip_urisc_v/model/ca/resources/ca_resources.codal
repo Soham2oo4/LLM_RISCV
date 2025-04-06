@@ -1,0 +1,122 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "config.hcodal"
+#include "ca_defines.hcodal"
+
+pipeline pipe
+{
+    FE, ID, EX, EX1
+};
+
+/**************** REGISTERS ****************/
+
+/********* FE1 *********/
+
+/********* ID **********/
+
+/********* EX *********/
+register bit[XLEN] r_ex_instr_addr { pipeline = pipe.EX; };
+register bit[1] r_ex_instr_valid { pipeline = pipe.EX; };
+register bit[FU_OP_W] r_ex_op { pipeline = pipe.EX; };
+register bit[FU_UNIT_W] r_ex_fu { pipeline = pipe.EX; };
+register bit[FU_SOURCE_W] r_ex_fu_s1_source { pipeline = pipe.EX; };
+register bit[FU_SOURCE_W] r_ex_fu_s2_source { pipeline = pipe.EX; };
+register bit[RF_ADDR_W] r_ex_rs1_addr { pipeline = pipe.EX; };
+register bit[RF_ADDR_W] r_ex_rs2_addr { pipeline = pipe.EX; };
+register bit[RF_ADDR_W] r_ex_rd_addr { pipeline = pipe.EX; };
+register bit[XLEN] r_ex_imm { pipeline = pipe.EX; };
+register bit[ADDR_W] r_ex_lsu_addr { pipeline = pipe.EX; };
+register bit[CSR_ADDR_W] r_ex_csr_addr { pipeline = pipe.EX; };
+register bit[EXC_TYPE_W] r_ex_exc_type { pipeline = pipe.EX; };
+register bit[1] r_ex_exc_valid { pipeline = pipe.EX; };
+register bit[ADDR_W] r_ex_exc_tval { pipeline = pipe.EX; };
+
+// signals for signaling NMI to CSR file
+register bit[1] r_nmi_i { default = 0; };
+register bit[XLEN] r_nmi_mtval;
+
+
+/***************** SIGNALS *****************/
+
+/********* FE **********/
+signal bit [1] s_fe_flush;
+signal bit [1] s_perf_ifu_stall;
+
+/********* ID **********/
+signal bit[XLEN] s_id_instr_addr;
+signal bit[1] s_id_clear;
+signal bit[1] s_id_stall;
+signal bit[1] s_perf_data_stall;
+
+/********* EX **********/
+signal bit[RF_ADDR_W] s_rd0_addr,
+    s_rd1_addr;
+signal bit[DATA_W] s_rd0_data,
+    s_rd1_data;
+signal bit[1] s_rd0_we,
+    s_rd1_we,
+    s_rd0_write,
+    s_rd1_write;
+signal bit[RF_ADDR_W] s_ex_rd_addr,
+    s_ex_p0_addr,
+    s_ex_p1_addr;
+signal bit[DATA_W] s_ex_rd_data;
+signal bit[1] s_ex_rd_we,
+    s_ex_p0_we,
+    s_ex_p1_we;
+signal bit[1] s_ex_stall,
+    s_ex_clear,
+    s_ex1_stall,
+    s_ex1_clear;
+signal bit[1] s_flush;
+signal bit[1] s_ex_fence_valid;
+
+signal bit[XLEN] s_ex_branch_target_addr;
+signal bit[1] s_ex_branch_miss;
+#ifdef OPTION_OCD
+signal bit[1] s_ex_progbuf_mode;
+#endif
+
+/*** Perf ****/
+signal bit[1] s_perf_branch_miss;
+signal bit[1] s_perf_lsu_stall;
+#ifdef OPTION_EXTENSION_M
+signal bit[1] s_perf_div_stall;
+#endif
+signal bit[1] s_perf_csr_flush;
+signal bit[1] s_perf_exc_flush;
+signal bit[1] s_perf_int_flush;
+signal bit[2] s_perf_we;
+signal bit[XLEN] s_perf_wdata;
+signal bit[12] s_perf_waddr;
+
+/*** OCD resources ****/
+#ifdef OPTION_OCD
+signal bit[1] s_dm_active;
+signal bit[1] s_dm_halt;
+signal bit[1] s_dm_progbuf_en;
+signal bit[1] s_dm_progbuf_exc;
+signal bit[1] s_dm_progbuf_done;
+signal bit[1] s_hart_halted;
+signal bit[1] s_progbuf_mode_active;
+#endif

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.codasip.core.config.sdk.exe.debug.1056273783">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.codasip.core.config.sdk.exe.debug.1056273783" moduleId="org.eclipse.cdt.core.settings" name="Debug">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.codasip.codespace.core.CODASIP_GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.codasip.core.config.sdk.exe.debug.1056273783" name="Debug" parent="com.codasip.core.config.sdk.exe.debug">
+					<folderInfo id="com.codasip.core.config.sdk.exe.debug.1056273783." name="/" resourcePath="">
+						<toolChain id="com.codasip.core.toolchain.sdk.exe.debug.913767661" name="Codasip SDK" superClass="com.codasip.core.toolchain.sdk.exe.debug">
+							<option defaultValue="toolchain:codasip_urisc_v.ia" id="com.codasip.core.option.sdk.249184409" name="SDK" superClass="com.codasip.core.option.sdk" useByScannerDiscovery="true" value="toolchain:codasip_urisc_v.ia" valueType="string"/>
+							<option id="com.codasip.core.option.sdkLibrary.208913581" name="Newlib SDK Library" superClass="com.codasip.core.option.sdkLibrary" useByScannerDiscovery="false" value="newlib" valueType="string"/>
+							<option id="com.codasip.core.option.sdkPath.1198776719" name="Path to SDK" superClass="com.codasip.core.option.sdkPath" useByScannerDiscovery="false" value="C:\Users\tadej.murovic\Documents\ssc_dsp\codasip_urisc_v\work\ia\sdk\sdk.xml" valueType="string"/>
+							<targetPlatform archList="all" binaryParser="com.codasip.codespace.core.CODASIP_GNU_ELF" id="com.codasip.target.sdk.168623858" isAbstract="false" name="Codasip SDK Target" osList="all" superClass="com.codasip.target.sdk"/>
+							<builder buildPath="${workspace_loc:/fft_test}/Debug" id="com.codasip.core.builder.sdk.1360290769" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Codasip SDK Builder" superClass="com.codasip.core.builder.sdk"/>
+							<tool id="com.codasip.core.tool.c.compiler.1776738604" name="Codasip C Compiler" superClass="com.codasip.core.tool.c.compiler">
+								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.option.optimization.level.1391191540" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.c.optimization.level.most" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.max" id="gnu.c.compiler.option.debugging.level.784690871" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.1043495586" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__INT32"/>
+								</option>
+								<option id="gnu.c.compiler.option.misc.other.1442789930" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c" valueType="string"/>
+								<option id="gnu.c.compiler.option.dialect.std.447843295" name="Language standard" superClass="gnu.c.compiler.option.dialect.std" useByScannerDiscovery="true" value="gnu.c.compiler.dialect.default" valueType="enumerated"/>
+								<option id="gnu.c.compiler.option.optimization.flags.551765282" name="Other optimization flags" superClass="gnu.c.compiler.option.optimization.flags" useByScannerDiscovery="false" value="-fno-unroll-loops" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.691167724" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.cpp.compiler.2124843217" name="Codasip C++ Compiler" superClass="com.codasip.core.tool.cpp.compiler">
+								<option id="gnu.cpp.compiler.option.optimization.level.557996106" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.option.debugging.level.161081560" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+							</tool>
+							<tool id="com.codasip.core.tool.lsp.1506554679" name="Codasip Linker Support Package" superClass="com.codasip.core.tool.lsp"/>
+							<tool id="com.codasip.core.tool.c.linker.557997235" name="Codasip C Linker" superClass="com.codasip.core.tool.c.linker">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.libs.763136898" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="sim"/>
+									<listOptionValue builtIn="false" value="m"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.other.893035721" name="Other options (-Xlinker [option])" superClass="gnu.c.link.option.other" useByScannerDiscovery="false" valueType="stringList">
+									<listOptionValue builtIn="false" value="--defsym=_STACK_SIZE=0x2000"/>
+									<listOptionValue builtIn="false" value="--defsym=_HEAP_SIZE=0xf0000"/>
+								</option>
+							</tool>
+							<tool id="com.codasip.core.tool.cpp.linker.112213555" name="Codasip C++ Linker" superClass="com.codasip.core.tool.cpp.linker"/>
+							<tool id="com.codasip.core.tool.archiver.357978648" name="Codasip Archiver" superClass="com.codasip.core.tool.archiver"/>
+							<tool id="com.codasip.core.tool.assembler.92657954" name="Codasip Assembler" superClass="com.codasip.core.tool.assembler">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1812009293" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.c.preprocessor.1901515809" name="Codasip Assembler Preprocessor" superClass="com.codasip.core.tool.c.preprocessor">
+								<option id="codasip.c.preprocessor.option.debugging.level.586280744" name="Debug Level" superClass="codasip.c.preprocessor.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated"/>
+								<inputType id="com.codasip.core.tool.c.preprocessor.input.2032719521" superClass="com.codasip.core.tool.c.preprocessor.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.printsize.1791209178" name="Codasip Print Binary Size" superClass="com.codasip.core.tool.printsize"/>
+							<tool id="com.codasip.core.tool.printfuncsize.672841215" name="Codasip Print Function(s) Size" superClass="com.codasip.core.tool.printfuncsize"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+		<cconfiguration id="com.codasip.core.config.sdk.exe.release.1783370971">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.codasip.core.config.sdk.exe.release.1783370971" moduleId="org.eclipse.cdt.core.settings" name="Release">
+				<externalSettings/>
+				<extensions>
+					<extension id="com.codasip.codespace.core.CODASIP_GNU_ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.release" cleanCommand="rm -rf" description="" id="com.codasip.core.config.sdk.exe.release.1783370971" name="Release" parent="com.codasip.core.config.sdk.exe.release">
+					<folderInfo id="com.codasip.core.config.sdk.exe.release.1783370971." name="/" resourcePath="">
+						<toolChain id="com.codasip.core.toolchain.sdk.exe.release.754597899" name="Codasip SDK" superClass="com.codasip.core.toolchain.sdk.exe.release">
+							<option defaultValue="toolchain:codasip_urisc_v.ia" id="com.codasip.core.option.sdk.234948257" name="SDK" superClass="com.codasip.core.option.sdk" value="toolchain:codasip_urisc_v.ia" valueType="string"/>
+							<option id="com.codasip.core.option.sdkLibrary.279671411" name="Newlib SDK Library" superClass="com.codasip.core.option.sdkLibrary" value="newlib" valueType="string"/>
+							<option id="com.codasip.core.option.sdkPath.1376726038" name="Path to SDK" superClass="com.codasip.core.option.sdkPath" value="C:\Users\tadej.murovic\Documents\ssc_dsp\codasip_urisc_v\work\ia\sdk\sdk.xml" valueType="string"/>
+							<targetPlatform archList="all" binaryParser="com.codasip.codespace.core.CODASIP_GNU_ELF" id="com.codasip.target.sdk.2085685440" isAbstract="false" name="Codasip SDK Target" osList="all" superClass="com.codasip.target.sdk"/>
+							<builder buildPath="${workspace_loc:/fft_test}/Release" id="com.codasip.core.builder.sdk.1448000883" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Codasip SDK Builder" superClass="com.codasip.core.builder.sdk"/>
+							<tool id="com.codasip.core.tool.c.compiler.975078836" name="Codasip C Compiler" superClass="com.codasip.core.tool.c.compiler">
+								<option defaultValue="gnu.c.optimization.level.most" id="gnu.c.compiler.option.optimization.level.538143109" name="Optimization Level" superClass="gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option defaultValue="gnu.c.debugging.level.none" id="gnu.c.compiler.option.debugging.level.967906345" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.preprocessor.def.symbols.1074347575" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="__INT32"/>
+								</option>
+								<option id="gnu.c.compiler.option.misc.other.2042252758" name="Other flags" superClass="gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-c" valueType="string"/>
+								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.57942893" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.cpp.compiler.1697974711" name="Codasip C++ Compiler" superClass="com.codasip.core.tool.cpp.compiler">
+								<option id="gnu.cpp.compiler.option.optimization.level.69926433" name="Optimization Level" superClass="gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
+								<option defaultValue="gnu.cpp.compiler.debugging.level.none" id="gnu.cpp.compiler.option.debugging.level.197872512" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
+							</tool>
+							<tool id="com.codasip.core.tool.lsp.1042628086" name="Codasip Linker Support Package" superClass="com.codasip.core.tool.lsp"/>
+							<tool id="com.codasip.core.tool.c.linker.2035597749" name="Codasip C Linker" superClass="com.codasip.core.tool.c.linker">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.libs.1957208546" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" valueType="libs">
+									<listOptionValue builtIn="false" value="sim"/>
+									<listOptionValue builtIn="false" value="m"/>
+								</option>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.link.option.other.1359560020" name="Other options (-Xlinker [option])" superClass="gnu.c.link.option.other" useByScannerDiscovery="false" valueType="stringList">
+									<listOptionValue builtIn="false" value="--defsym=_STACK_SIZE=0x2000"/>
+									<listOptionValue builtIn="false" value="--defsym=_HEAP_SIZE=0x2000"/>
+								</option>
+							</tool>
+							<tool id="com.codasip.core.tool.cpp.linker.613405158" name="Codasip C++ Linker" superClass="com.codasip.core.tool.cpp.linker"/>
+							<tool id="com.codasip.core.tool.archiver.1399769063" name="Codasip Archiver" superClass="com.codasip.core.tool.archiver"/>
+							<tool id="com.codasip.core.tool.assembler.1992599754" name="Codasip Assembler" superClass="com.codasip.core.tool.assembler">
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1795317391" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.c.preprocessor.1308346234" name="Codasip Assembler Preprocessor" superClass="com.codasip.core.tool.c.preprocessor">
+								<option id="codasip.c.preprocessor.option.debugging.level.707227546" name="Debug Level" superClass="codasip.c.preprocessor.option.debugging.level" value="codasip.c.debugging.level.none" valueType="enumerated"/>
+								<inputType id="com.codasip.core.tool.c.preprocessor.input.337848522" superClass="com.codasip.core.tool.c.preprocessor.input"/>
+							</tool>
+							<tool id="com.codasip.core.tool.printsize.479359374" name="Codasip Print Binary Size" superClass="com.codasip.core.tool.printsize"/>
+							<tool id="com.codasip.core.tool.printfuncsize.1671881310" name="Codasip Print Function(s) Size" superClass="com.codasip.core.tool.printfuncsize"/>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="fft_test.com.codasip.core.project.sdk.exe.69906867" name="Executable" projectType="com.codasip.core.project.sdk.exe"/>
+	</storageModule>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.codasip.core.config.sdk.exe.debug.1056273783;com.codasip.core.config.sdk.exe.debug.1056273783.;com.codasip.core.tool.c.compiler.1776738604;cdt.managedbuild.tool.gnu.c.compiler.input.691167724">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.codasip.core.config.sdk.exe.release.1783370971;com.codasip.core.config.sdk.exe.release.1783370971.;com.codasip.core.tool.c.compiler.975078836;cdt.managedbuild.tool.gnu.c.compiler.input.57942893">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Debug">
+			<resource resourceType="PROJECT" workspacePath="/fft_test"/>
+		</configuration>
+		<configuration configurationName="Release">
+			<resource resourceType="PROJECT" workspacePath="/fft_test"/>
+		</configuration>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
+</cproject>

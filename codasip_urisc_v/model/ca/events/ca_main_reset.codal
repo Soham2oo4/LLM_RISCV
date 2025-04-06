@@ -1,0 +1,422 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "ca_defines.hcodal"
+
+event reset
+{
+    semantics
+    {
+        #pragma simulator
+        {
+            codasip_print(TRACE_LEVEL, "                | ");
+            codasip_print(PRINT_LVL_IFU, "IFU:                  | ");
+            codasip_print(PRINT_LVL_IFB, "IFB:                      | ");
+            codasip_print(TRACE_LEVEL, "ID:                                   | EX:                        |\n");
+
+            codasip_print(TRACE_LEVEL, "Cycle: address  | ");
+            codasip_print(PRINT_LVL_IFU, "addr [valid] (data)   | ");
+            codasip_print(PRINT_LVL_IFB, "addr [valid] (data) (e|f) | ");
+            codasip_print(TRACE_LEVEL, "Dissasembler                          | ");
+            codasip_print(TRACE_LEVEL, "instr addr (valid) FU0 FU1 | write port 0, write port 1\n");
+
+            codasip_print(TRACE_LEVEL, "----------------+-");
+            codasip_print(PRINT_LVL_IFU, "----------------------+-");
+            codasip_print(PRINT_LVL_IFB, "--------------------------+-");
+            codasip_print(TRACE_LEVEL, "--------------------------------------+----------------------------+---------------------------\n");
+        }
+
+        COS[0] = 0x3f800000;
+        COS[1] = 0x3f7fec43;
+        COS[2] = 0x3f7fb10f;
+        COS[3] = 0x3f7f4e6d;
+        COS[4] = 0x3f7ec46d;
+        COS[5] = 0x3f7e1324;
+        COS[6] = 0x3f7d3aac;
+        COS[7] = 0x3f7c3b28;
+        COS[8] = 0x3f7b14be;
+        COS[9] = 0x3f79c79d;
+        COS[10] = 0x3f7853f8;
+        COS[11] = 0x3f76ba07;
+        COS[12] = 0x3f74fa0b;
+        COS[13] = 0x3f731447;
+        COS[14] = 0x3f710908;
+        COS[15] = 0x3f6ed89e;
+        COS[16] = 0x3f6c835e;
+        COS[17] = 0x3f6a09a7;
+        COS[18] = 0x3f676bd8;
+        COS[19] = 0x3f64aa59;
+        COS[20] = 0x3f61c598;
+        COS[21] = 0x3f5ebe05;
+        COS[22] = 0x3f5b941a;
+        COS[23] = 0x3f584853;
+        COS[24] = 0x3f54db31;
+        COS[25] = 0x3f514d3d;
+        COS[26] = 0x3f4d9f02;
+        COS[27] = 0x3f49d112;
+        COS[28] = 0x3f45e403;
+        COS[29] = 0x3f41d870;
+        COS[30] = 0x3f3daef9;
+        COS[31] = 0x3f396842;
+        COS[32] = 0x3f3504f3;
+        COS[33] = 0x3f3085bb;
+        COS[34] = 0x3f2beb4a;
+        COS[35] = 0x3f273656;
+        COS[36] = 0x3f226799;
+        COS[37] = 0x3f1d7fd1;
+        COS[38] = 0x3f187fc0;
+        COS[39] = 0x3f13682a;
+        COS[40] = 0x3f0e39da;
+        COS[41] = 0x3f08f59b;
+        COS[42] = 0x3f039c3d;
+        COS[43] = 0x3efc5d27;
+        COS[44] = 0x3ef15aea;
+        COS[45] = 0x3ee63375;
+        COS[46] = 0x3edae880;
+        COS[47] = 0x3ecf7bca;
+        COS[48] = 0x3ec3ef15;
+        COS[49] = 0x3eb8442a;
+        COS[50] = 0x3eac7cd4;
+        COS[51] = 0x3ea09ae5;
+        COS[52] = 0x3e94a031;
+        COS[53] = 0x3e888e93;
+        COS[54] = 0x3e78cfcc;
+        COS[55] = 0x3e605c13;
+        COS[56] = 0x3e47c5c2;
+        COS[57] = 0x3e2f10a2;
+        COS[58] = 0x3e164083;
+        COS[59] = 0x3dfab273;
+        COS[60] = 0x3dc8bd36;
+        COS[61] = 0x3d96a905;
+        COS[62] = 0x3d48fb30;
+        COS[63] = 0x3cc90ab0;
+        COS[64] = 0x248d3132;
+        COS[65] = 0xbcc90ab0;
+        COS[66] = 0xbd48fb30;
+        COS[67] = 0xbd96a905;
+        COS[68] = 0xbdc8bd36;
+        COS[69] = 0xbdfab273;
+        COS[70] = 0xbe164083;
+        COS[71] = 0xbe2f10a2;
+        COS[72] = 0xbe47c5c2;
+        COS[73] = 0xbe605c13;
+        COS[74] = 0xbe78cfcc;
+        COS[75] = 0xbe888e93;
+        COS[76] = 0xbe94a031;
+        COS[77] = 0xbea09ae5;
+        COS[78] = 0xbeac7cd4;
+        COS[79] = 0xbeb8442a;
+        COS[80] = 0xbec3ef15;
+        COS[81] = 0xbecf7bca;
+        COS[82] = 0xbedae880;
+        COS[83] = 0xbee63375;
+        COS[84] = 0xbef15aea;
+        COS[85] = 0xbefc5d27;
+        COS[86] = 0xbf039c3d;
+        COS[87] = 0xbf08f59b;
+        COS[88] = 0xbf0e39da;
+        COS[89] = 0xbf13682a;
+        COS[90] = 0xbf187fc0;
+        COS[91] = 0xbf1d7fd1;
+        COS[92] = 0xbf226799;
+        COS[93] = 0xbf273656;
+        COS[94] = 0xbf2beb4a;
+        COS[95] = 0xbf3085bb;
+        COS[96] = 0xbf3504f3;
+        COS[97] = 0xbf396842;
+        COS[98] = 0xbf3daef9;
+        COS[99] = 0xbf41d870;
+        COS[100] = 0xbf45e403;
+        COS[101] = 0xbf49d112;
+        COS[102] = 0xbf4d9f02;
+        COS[103] = 0xbf514d3d;
+        COS[104] = 0xbf54db31;
+        COS[105] = 0xbf584853;
+        COS[106] = 0xbf5b941a;
+        COS[107] = 0xbf5ebe05;
+        COS[108] = 0xbf61c598;
+        COS[109] = 0xbf64aa59;
+        COS[110] = 0xbf676bd8;
+        COS[111] = 0xbf6a09a7;
+        COS[112] = 0xbf6c835e;
+        COS[113] = 0xbf6ed89e;
+        COS[114] = 0xbf710908;
+        COS[115] = 0xbf731447;
+        COS[116] = 0xbf74fa0b;
+        COS[117] = 0xbf76ba07;
+        COS[118] = 0xbf7853f8;
+        COS[119] = 0xbf79c79d;
+        COS[120] = 0xbf7b14be;
+        COS[121] = 0xbf7c3b28;
+        COS[122] = 0xbf7d3aac;
+        COS[123] = 0xbf7e1324;
+        COS[124] = 0xbf7ec46d;
+        COS[125] = 0xbf7f4e6d;
+        COS[126] = 0xbf7fb10f;
+        COS[127] = 0xbf7fec43;
+
+        SIN[0] = 0x0;
+        SIN[1] = 0x3cc90ab0;
+        SIN[2] = 0x3d48fb30;
+        SIN[3] = 0x3d96a905;
+        SIN[4] = 0x3dc8bd36;
+        SIN[5] = 0x3dfab273;
+        SIN[6] = 0x3e164083;
+        SIN[7] = 0x3e2f10a2;
+        SIN[8] = 0x3e47c5c2;
+        SIN[9] = 0x3e605c13;
+        SIN[10] = 0x3e78cfcc;
+        SIN[11] = 0x3e888e93;
+        SIN[12] = 0x3e94a031;
+        SIN[13] = 0x3ea09ae5;
+        SIN[14] = 0x3eac7cd4;
+        SIN[15] = 0x3eb8442a;
+        SIN[16] = 0x3ec3ef15;
+        SIN[17] = 0x3ecf7bca;
+        SIN[18] = 0x3edae880;
+        SIN[19] = 0x3ee63375;
+        SIN[20] = 0x3ef15aea;
+        SIN[21] = 0x3efc5d27;
+        SIN[22] = 0x3f039c3d;
+        SIN[23] = 0x3f08f59b;
+        SIN[24] = 0x3f0e39da;
+        SIN[25] = 0x3f13682a;
+        SIN[26] = 0x3f187fc0;
+        SIN[27] = 0x3f1d7fd1;
+        SIN[28] = 0x3f226799;
+        SIN[29] = 0x3f273656;
+        SIN[30] = 0x3f2beb4a;
+        SIN[31] = 0x3f3085bb;
+        SIN[32] = 0x3f3504f3;
+        SIN[33] = 0x3f396842;
+        SIN[34] = 0x3f3daef9;
+        SIN[35] = 0x3f41d870;
+        SIN[36] = 0x3f45e403;
+        SIN[37] = 0x3f49d112;
+        SIN[38] = 0x3f4d9f02;
+        SIN[39] = 0x3f514d3d;
+        SIN[40] = 0x3f54db31;
+        SIN[41] = 0x3f584853;
+        SIN[42] = 0x3f5b941a;
+        SIN[43] = 0x3f5ebe05;
+        SIN[44] = 0x3f61c598;
+        SIN[45] = 0x3f64aa59;
+        SIN[46] = 0x3f676bd8;
+        SIN[47] = 0x3f6a09a7;
+        SIN[48] = 0x3f6c835e;
+        SIN[49] = 0x3f6ed89e;
+        SIN[50] = 0x3f710908;
+        SIN[51] = 0x3f731447;
+        SIN[52] = 0x3f74fa0b;
+        SIN[53] = 0x3f76ba07;
+        SIN[54] = 0x3f7853f8;
+        SIN[55] = 0x3f79c79d;
+        SIN[56] = 0x3f7b14be;
+        SIN[57] = 0x3f7c3b28;
+        SIN[58] = 0x3f7d3aac;
+        SIN[59] = 0x3f7e1324;
+        SIN[60] = 0x3f7ec46d;
+        SIN[61] = 0x3f7f4e6d;
+        SIN[62] = 0x3f7fb10f;
+        SIN[63] = 0x3f7fec43;
+        SIN[64] = 0x3f800000;
+        SIN[65] = 0x3f7fec43;
+        SIN[66] = 0x3f7fb10f;
+        SIN[67] = 0x3f7f4e6d;
+        SIN[68] = 0x3f7ec46d;
+        SIN[69] = 0x3f7e1324;
+        SIN[70] = 0x3f7d3aac;
+        SIN[71] = 0x3f7c3b28;
+        SIN[72] = 0x3f7b14be;
+        SIN[73] = 0x3f79c79d;
+        SIN[74] = 0x3f7853f8;
+        SIN[75] = 0x3f76ba07;
+        SIN[76] = 0x3f74fa0b;
+        SIN[77] = 0x3f731447;
+        SIN[78] = 0x3f710908;
+        SIN[79] = 0x3f6ed89e;
+        SIN[80] = 0x3f6c835e;
+        SIN[81] = 0x3f6a09a7;
+        SIN[82] = 0x3f676bd8;
+        SIN[83] = 0x3f64aa59;
+        SIN[84] = 0x3f61c598;
+        SIN[85] = 0x3f5ebe05;
+        SIN[86] = 0x3f5b941a;
+        SIN[87] = 0x3f584853;
+        SIN[88] = 0x3f54db31;
+        SIN[89] = 0x3f514d3d;
+        SIN[90] = 0x3f4d9f02;
+        SIN[91] = 0x3f49d112;
+        SIN[92] = 0x3f45e403;
+        SIN[93] = 0x3f41d870;
+        SIN[94] = 0x3f3daef9;
+        SIN[95] = 0x3f396842;
+        SIN[96] = 0x3f3504f3;
+        SIN[97] = 0x3f3085bb;
+        SIN[98] = 0x3f2beb4a;
+        SIN[99] = 0x3f273656;
+        SIN[100] = 0x3f226799;
+        SIN[101] = 0x3f1d7fd1;
+        SIN[102] = 0x3f187fc0;
+        SIN[103] = 0x3f13682a;
+        SIN[104] = 0x3f0e39da;
+        SIN[105] = 0x3f08f59b;
+        SIN[106] = 0x3f039c3d;
+        SIN[107] = 0x3efc5d27;
+        SIN[108] = 0x3ef15aea;
+        SIN[109] = 0x3ee63375;
+        SIN[110] = 0x3edae880;
+        SIN[111] = 0x3ecf7bca;
+        SIN[112] = 0x3ec3ef15;
+        SIN[113] = 0x3eb8442a;
+        SIN[114] = 0x3eac7cd4;
+        SIN[115] = 0x3ea09ae5;
+        SIN[116] = 0x3e94a031;
+        SIN[117] = 0x3e888e93;
+        SIN[118] = 0x3e78cfcc;
+        SIN[119] = 0x3e605c13;
+        SIN[120] = 0x3e47c5c2;
+        SIN[121] = 0x3e2f10a2;
+        SIN[122] = 0x3e164083;
+        SIN[123] = 0x3dfab273;
+        SIN[124] = 0x3dc8bd36;
+        SIN[125] = 0x3d96a905;
+        SIN[126] = 0x3d48fb30;
+        SIN[127] = 0x3cc90ab0;
+    };
+};
+
+start start_base { roots = { isa }; };
+
+event main
+{
+    // Pipeline stages
+    use fe;
+    use id;
+    use ex;
+    use plc.compute as plc_compute;
+    use perf.compute as perf_compute;
+
+    semantics
+    {
+        p_wfi = !r_wfi_ce;
+
+        // Pipeline stages
+        ex();
+        id();
+        fe();
+
+        // Pipeline controller
+        plc.s_flush_i = s_flush;
+        plc.s_id_clear_i = s_id_clear;
+        plc.s_ex_stall_i = s_ex_stall;
+        plc.s_ex_clear_i = s_ex_clear;
+        plc.s_ex1_stall_i = s_ex1_stall;
+        plc.s_ex1_clear_i = s_ex1_clear;
+        plc_compute();
+
+        // Performance counters
+#ifdef OPTION_OCD
+        perf.s_inhibit_i = crf.s_perf_inhibit_o;
+#endif
+        perf.s_hpm_inhibit_i = crf.s_hpm_inhibit_o;
+        perf.s_flush_i = s_flush;
+        perf.s_csr_flush_i = s_perf_csr_flush;
+        perf.s_exc_flush_i = s_perf_exc_flush;
+        perf.s_int_flush_i = s_perf_int_flush;
+        perf.s_branch_miss_i = s_perf_branch_miss;
+        perf.s_data_stall_i = s_perf_data_stall;
+#ifdef OPTION_EXTENSION_M
+        perf.s_div_stall_i = s_perf_div_stall;
+#endif
+        perf.s_ifu_stall_i = s_perf_ifu_stall;
+        perf.s_lsu_stall_i = s_perf_lsu_stall;
+        perf.s_perf_we_i = s_perf_we;
+        perf.s_perf_wdata_i  = s_perf_wdata;
+        perf.s_perf_waddr_i  = s_perf_waddr;
+        perf_compute();
+
+        #pragma simulator
+        {
+            codasip_print(TRACE_LEVEL, "%04d: ", codasip_get_clock_cycle());
+            codasip_print(TRACE_LEVEL, "%05x %c | ",
+                npc.s_ifu_addr_o,
+                ifu.s_ifu_busy_o ? 's' : ' ');
+            codasip_print(PRINT_LVL_IFU, "%05x [%02b] (%08x) | ",
+                ifu.s_data_addr_o,
+                ifu.s_data_valid_o,
+                ifu.s_data_o);
+            codasip_print(PRINT_LVL_IFB, "%05x [%02b] (%08x) ",
+                ifb.s_addr_o,
+                ifb.s_valid_o,
+                ifb.s_data_o);
+            codasip_print(PRINT_LVL_IFB, " %c%c | ",
+                ifb.s_empty_o ? 'e' : ' ',
+                ifb.s_full_o ? 'f' : ' ');
+            codasip_disassembler(TRACE_LEVEL, ifb.s_valid_o ? ifb.s_data_o : (uint32)NOP, (UXLEN_T)ifb.s_addr_o, "default", 37);
+            codasip_print(TRACE_LEVEL, " | %08x %c         ",
+                r_ex_instr_addr,
+                r_ex_instr_valid ? 'v' : ' ');
+            switch (r_ex_fu)
+            {
+                case FU_ALU: codasip_print(TRACE_LEVEL, "alu "); break;
+                case FU_LSU: codasip_print(TRACE_LEVEL, "lsu "); break;
+                case FU_BRU: codasip_print(TRACE_LEVEL, "bru "); break;
+                case FU_DIV: codasip_print(TRACE_LEVEL, "div "); break;
+                case FU_MUL: codasip_print(TRACE_LEVEL, "mul "); break;
+                case FU_CSR: codasip_print(TRACE_LEVEL, "csr "); break;
+                default: codasip_print(TRACE_LEVEL, " -  "); break;
+            }
+            switch (r_ex1_fu)
+            {
+                case FU_LSU: codasip_print(TRACE_LEVEL, "lsu | "); break;
+                case FU_DIV: codasip_print(TRACE_LEVEL, "div | "); break;
+                case FU_MUL: codasip_print(TRACE_LEVEL, "mul | "); break;
+                default: codasip_print(TRACE_LEVEL, " -  | "); break;
+            }
+
+            if (s_rd0_write & s_rd0_we & s_rd0_addr != 0)
+            {
+                codasip_print(TRACE_LEVEL, "r%02d<-%08x ", s_rd0_addr, s_rd0_data);
+            }
+            else
+            {
+                codasip_print(TRACE_LEVEL, "              ");
+            }
+
+            if (s_rd1_write & s_rd1_we & s_rd1_addr != 0)
+            {
+                codasip_print(TRACE_LEVEL, "r%02d<-%08x", s_rd1_addr, s_rd1_data);
+            }
+            codasip_print(TRACE_LEVEL, "\n");
+        }
+
+        if (r_reset_init)
+        {
+            // Store syscall address - read the boot address right after reset & add an offset.
+            r_syscall_addr = p_boot_addr + 0x10;
+        }
+
+        // Disable register r_reset_init after first cycle.
+        r_reset_init = false;
+    };
+};

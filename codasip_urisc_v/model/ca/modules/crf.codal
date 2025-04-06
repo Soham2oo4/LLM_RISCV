@@ -1,0 +1,1094 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The Control Status Register File (CRF) handles reads and writes of Control and Status Registers (CSRs).
+ */
+
+#include "ca_defines.hcodal"
+#define MXLEN OPTION_XLEN
+
+#if OPTION_XLEN == 32
+#define PRINT_CSR(csr_name, new_value) \
+    codasip_print(CSR_LEVEL, "CSR: %08x -> %s\n", new_value, csr_name)
+#define PRINT_CSR_64(csr_name, new_value) \
+    codasip_print(CSR_LEVEL, "CSR: %016x -> %s\n", new_value, csr_name)
+#else
+#define PRINT_CSR(csr_name, new_value) \
+    codasip_print(CSR_LEVEL, "CSR: %016x -> %s\n", new_value, csr_name)
+#endif
+
+// Set with all HPM COUNTER indexes
+$$let(HPM_COUNTERS = [3, 4, 5, 6, 9, 10, 12, 13, 14])
+
+$$macro CASE_MHPMCOUNTER_READ(index)
+    case CSR_MHPMEVENT$$(index):
+        s_read_csr_rdata = r_csr_mhpmevent$$(index);
+        break;
+    case CSR_MHPMCOUNTER$$(index):
+        s_read_csr_rdata = perf.r_mhpmcounter$$(index)[MXLEN-1..0];
+        break;
+#if OPTION_XLEN == 32
+    case CSR_MHPMCOUNTER$$(index)H:
+        s_read_csr_rdata = perf.r_mhpmcounter$$(index)[63..32];
+        break;
+#endif
+$$endmacro()
+
+module crf
+{
+    /// Inputs
+    signal bit[FU_OP_W] s_op_i;
+    signal bit[MXLEN] s_instr_addr_i;
+    signal bit[1] s_instr_valid_i;    // s_instr_0_valid_i
+    signal bit[1] s_instr_1_valid_i;  // second instruction
+    signal bit[1] s_instr_valid_excint_i;
+    signal bit[MXLEN] s_int_addr_i;
+    signal bit[1] s_int_safe_to_take_i;
+    signal bit[FU_UNIT_W] s_fu1_i;
+    signal bit[12] s_csr_addr_i;
+    signal bit[MXLEN] s_csr_wdata_i;
+    signal bit[1] s_csr_re_i;
+    signal bit[1] s_csr_we_i;
+    signal bit[1] s_csr_valid_i;
+
+    // Interrupts
+    signal bit[1] s_tip_i;
+    signal bit[1] s_sip_i;
+    signal bit[1] s_eip_i;
+    signal bit[1] s_nmi_i;
+    signal bit[MXLEN] s_nmi_mtval_i;
+
+#ifdef OPTION_OCD
+    // OCD
+    signal bit[32] s_ocd_dcsr_i;
+    signal bit[MXLEN] s_ocd_dpc_i;
+    signal bit[1] s_ocd_debug_mode_req_i;
+    signal bit[1] s_ocd_user_mode_req_i;
+    signal bit[1] s_ocd_progbuf_mode_i;
+    signal bit[1] s_ocd_flush_i;
+    signal bit[1] s_ocd_busy_i;
+#endif
+
+    // Other
+    signal bit[1] s_exc_valid_i;
+    signal bit[EXC_TYPE_W] s_exc_type_i;
+    signal bit[ADDR_W] s_exc_tval_i;
+
+    /// Outputs
+    signal bit[MXLEN] s_rdata_o;
+    signal bit[1] s_flush_o;
+    signal bit[MXLEN] s_csr_addr_o;
+    signal bit[1] s_csr_valid_o;
+    signal bit[MXLEN] s_trap_addr_o;
+    signal bit[1] s_trap_valid_o;
+
+    // Mirrors
+    signal bit[MXLEN] s_mstatus_o;
+    signal bit[MXLEN] s_mtvec_o;
+
+    // Perf
+    signal bit[1] s_csr_flush_o;
+    signal bit[1] s_exc_flush_o;
+    signal bit[1] s_int_flush_o;
+#if OPTION_XLEN == 32
+    signal bit[2] s_perf_we_o;
+#else
+    signal bit[1] s_perf_we_o;
+#endif
+    signal bit[MXLEN] s_perf_wdata_o;
+    signal bit[12] s_perf_waddr_o;
+
+    // Other
+    signal bit[1] s_int_stall_o;
+    signal bit[1] s_exc_valid_o;
+    signal bit[EXC_TYPE_W] s_exc_type_o;
+    signal bit[1] s_wfi_o;
+    signal bit[1] s_fence_valid_o;
+#if defined(OPTION_OCD)
+    signal bit[1] s_perf_inhibit_o;
+#endif
+    signal bit[13] s_hpm_inhibit_o;
+
+    /// Module resources
+    // CSR read
+    signal bit[MXLEN] s_read_csr_rdata;
+    // CSR fce
+    signal bit[MXLEN] s_fce_xret_addr;
+    signal bit[1] s_fce_xret_valid;
+    signal bit[MXLEN] s_fce_mstatus;
+#ifdef OPTION_OCD
+    signal bit[MXLEN] s_fce_tcontrol;
+    signal bit[1] s_is_mret;
+#endif
+    signal bit[1] s_fce_exc_valid;
+    signal bit[EXC_TYPE_W] s_fce_exc_type;
+    signal bit[1] s_fce_ebreak_ecall;
+    signal bit[1] s_fce_ebreak;
+    signal bit[1] s_fce_ecall;
+#ifdef OPTION_OCD
+    // Whether an ebreak caused an entry to the debug mode
+    signal bit[1] s_fce_ebreak_debug_entry;
+#endif
+    signal bit[1] s_fce_wfi_valid;
+    register bit[1] r_fce_wfi_valid;
+    signal bit[1] s_fce_fencei_valid;
+
+    // Interrupt and exception
+    signal bit[1] s_int_valid;
+    signal bit[EXC_TYPE_W] s_int_type;
+    signal bit[1] s_exc_valid;
+    signal bit[EXC_TYPE_W] s_exc_type;
+    signal bit[MXLEN] s_intexc_trap_addr;
+    signal bit[MXLEN] s_intexc_mstatus;
+    signal bit[MXLEN] s_intexc_cause;
+    signal bit[MXLEN] s_intexc_tval;
+    signal bit[MXLEN] s_intexc_epc;
+#ifdef OPTION_OCD
+    signal bit[MXLEN] s_intexc_tcontrol;
+#endif
+    signal bit[1] s_intexc_valid;
+    signal bit[1] s_int_valid_pending;
+
+    // CSR write
+    signal bit[1] s_write_csr_non;
+    signal bit[1] s_write_csr_en;
+    signal bit[MXLEN] s_write_csr_data;
+#if OPTION_XLEN == 32
+    signal bit[2] s_write_perf_we;
+#else
+    signal bit[1] s_write_perf_we;
+#endif
+    signal bit[1] s_write_cycle_we;
+    signal bit[1] s_write_instret_we;
+#if OPTION_XLEN == 32
+    signal bit[1] s_write_cycleh_we;
+    signal bit[1] s_write_instreth_we;
+#endif
+    signal bit[MXLEN] s_wire_perf_wdata;
+    signal bit[1] s_write_csr_flush;
+    signal bit[1] s_inhibit_cycle;
+    signal bit[1] s_inhibit_instret;
+#ifdef OPTION_OCD
+    signal bit[1] s_inhibit_counters;
+#endif
+
+    signal bit[1] s_int_pending;
+    signal bit[MXLEN] s_addr_next_instr;
+    signal bit[1] s_take_nmi_o;
+
+    event csr_read
+    {
+        semantics
+        {
+            if (s_csr_re_i)
+            {
+                // READ
+                switch (s_csr_addr_i)
+                {
+                    // Machine mode
+                    case CSR_MVENDORID:
+                        s_read_csr_rdata = 0x503;
+                        break;
+                    case CSR_MARCHID:
+                        s_read_csr_rdata = r_csr_marchid;
+                        break;
+                    case CSR_MIMPID:
+                        s_read_csr_rdata = (uint8)0x0 ::
+                            (uint8)CORE_VERSION_MAJOR ::
+                            (uint8)CORE_VERSION_MINOR ::
+                            (uint8)CORE_VERSION_PATCH;
+                        break;
+                    case CSR_MHARTID:
+                        s_read_csr_rdata = r_csr_mhartid;
+                        break;
+                    case CSR_MISA:
+                        s_read_csr_rdata = r_csr_misa;
+                        break;
+
+                    $$for (i : HPM_COUNTERS)
+                        $$CASE_MHPMCOUNTER_READ(i)
+                    $$endfor()
+
+                    case CSR_MSTATUS:
+                        s_read_csr_rdata = r_csr_mstatus[CSR_MSTATUS_SD] ::
+#if MXLEN == 64
+                            (uint27)0 :: (uint13)0x0000 ::
+#else // 32
+                            (uint8)0 ::
+#endif
+                            r_csr_mstatus[CSR_MSTATUS_TSR] ::
+                            r_csr_mstatus[CSR_MSTATUS_TW] ::
+                            r_csr_mstatus[CSR_MSTATUS_TVM] ::
+                            r_csr_mstatus[CSR_MSTATUS_MXR] ::
+                            r_csr_mstatus[CSR_MSTATUS_SUM] ::
+                            r_csr_mstatus[CSR_MSTATUS_MPRV] ::
+                            (uint2)0 ::
+                            r_csr_mstatus[CSR_MSTATUS_FS] ::
+                            r_csr_mstatus[CSR_MSTATUS_MPP] ::
+                            (uint2)0 ::
+                            r_csr_mstatus[CSR_MSTATUS_SPP] ::
+                            r_csr_mstatus[CSR_MSTATUS_MPIE] ::
+                            (uint1)0 ::
+                            r_csr_mstatus[CSR_MSTATUS_SPIE] ::
+                            (uint1)0 ::
+                            r_csr_mstatus[CSR_MSTATUS_MIE] ::
+                            (uint1)0 ::
+                            r_csr_mstatus[CSR_MSTATUS_SIE] ::
+                            (uint1)0;
+                        break;
+                    case CSR_MTVEC:
+                        s_read_csr_rdata = r_csr_mtvec[MXLEN - 1 .. 2] :: (uint1)0 :: r_csr_mtvec[0 .. 0];
+                        break;
+                    case CSR_MEPC:
+                        s_read_csr_rdata = r_csr_mepc[MXLEN - 1 .. 2] :: (uint2)0;
+                        break;
+                    case CSR_MCAUSE:
+                        s_read_csr_rdata = r_csr_mcause;
+                        break;
+                    case CSR_MTVAL:
+                        s_read_csr_rdata = r_csr_mtval;
+                        break;
+                    case CSR_MSCRATCH:
+                        s_read_csr_rdata = r_csr_mscratch;
+                        break;
+                    case CSR_MIE:
+                        s_read_csr_rdata = r_csr_mie;
+                        break;
+                    case CSR_MIP:
+                        s_read_csr_rdata = r_csr_mip;
+                        break;
+                    case CSR_NMI:
+                        s_read_csr_rdata = r_csr_nmi;
+                        break;
+                    case CSR_NMI_MTVAL:
+                        s_read_csr_rdata = r_csr_nmi_mtval;
+                        break;
+                    case CSR_MCYCLE:
+                        s_read_csr_rdata = r_csr_mcycle[XLEN-1..0];
+                        break;
+                    case CSR_MINSTRET:
+                        s_read_csr_rdata = r_csr_minstret[XLEN-1..0];
+                        break;
+#if OPTION_XLEN == 32
+                    case CSR_MCYCLEH:
+                        s_read_csr_rdata = r_csr_mcycle[63..32];
+                        break;
+                    case CSR_MINSTRETH:
+                        s_read_csr_rdata = r_csr_minstret[63..32];
+                        break;
+#endif // OPTION_XLEN == 32
+                    case CSR_MCOUNTINHIBIT:
+                        s_read_csr_rdata = r_csr_mcountinhibit;
+                        break;
+#ifdef OPTION_OCD
+                    case CSR_DPC:
+                        s_read_csr_rdata = r_csr_dpc;
+                        break;
+                    case CSR_DCSR:
+                        s_read_csr_rdata = r_csr_dcsr;
+                        break;
+                    case CSR_TDATA1:
+                        s_read_csr_rdata = r_csr_tdata1.r[r_csr_tselect];
+                        break;
+                    case CSR_TDATA2:
+                        s_read_csr_rdata = r_csr_tdata2.r[r_csr_tselect];
+                        break;
+                    case CSR_TINFO:
+                        s_read_csr_rdata = TINFO_VALUE;
+                        break;
+                    case CSR_TCONTROL:
+                        s_read_csr_rdata = r_csr_tcontrol;
+                        break;
+                    case CSR_TSELECT:
+                        s_read_csr_rdata = r_csr_tselect;
+                        break;
+#endif
+#if defined(OPTION_ENABLE_CACHES)
+                    case CSR_ML1CACHE_START:
+                        s_read_csr_rdata = r_csr_ml1cache_start;
+                        break;
+#endif
+                    default:
+                        s_read_csr_rdata = 0;
+                        break;
+                }
+            }
+        };
+    };
+
+    event csr_function
+    {
+        semantics
+        {
+            switch (s_op_i)
+            {
+                case OP_MRET:
+                    s_fce_xret_addr = r_csr_mepc;
+                    s_fce_xret_valid = true;
+#ifdef OPTION_OCD
+                    s_is_mret = true;
+#endif
+                    s_fce_mstatus = r_csr_mstatus[XLEN - 1 .. 13] :: // Copy high part
+                        PRV_M ::                                     // Set MPP to U-mode
+                        r_csr_mstatus[10 .. 8] ::                    // Copy SPP
+                        (uint1)1 ::                                  // Set MPIE to 1
+                        r_csr_mstatus[6 .. 4] ::                     // Copy SPIE and UPIE
+                        r_csr_mstatus[CSR_MSTATUS_MPIE] ::           // Restore previous MIE
+                        r_csr_mstatus[2 .. 0];                       // Copy SIE and UIE
+#ifdef OPTION_OCD
+                    // Restore MTE bit on mret
+                    s_fce_tcontrol = r_csr_tcontrol[XLEN-1 .. 4] :: r_csr_tcontrol[CSR_TCONTROL_MPTE] :: (uint3)0;
+#endif
+                    break;
+                case OP_EBREAK:
+                    s_fce_exc_valid = 1;
+                    s_fce_exc_type = BREAK;
+                    s_fce_ebreak = 1;
+                    // Check whether this ebreak caused an entry to the debug mode.
+                    // It depends on the current privilege mode and the corresponding ebreak
+                    // bits in DCSR.
+#ifdef OPTION_OCD
+                    s_fce_ebreak_debug_entry = r_csr_dcsr[15 .. 15];
+#endif
+                    break;
+                case OP_ECALL:
+                    s_fce_exc_valid = 1;
+                    s_fce_exc_type = (uint2)0b10 :: PRV_M;
+                    s_fce_ecall = 1;
+                    break;
+                case OP_FENCE_I:
+                    s_fce_fencei_valid = 1;
+                    s_fence_valid_o = 1;
+                    break;
+                case OP_FENCE:
+                    s_fence_valid_o = 1;
+                    break;
+                case OP_WFI:
+#ifdef OPTION_OCD
+                    s_fce_wfi_valid =
+                        // Do not go to sleep when in progbuf mode
+                        ~s_ocd_progbuf_mode_i
+                        // Do not go to sleep when stepping over WFI
+                        & ~r_csr_dcsr[2..2];
+#else
+                    s_fce_wfi_valid = 1;
+#endif
+                    break;
+                default:
+                    break;
+            }
+            s_fce_ebreak_ecall = s_fce_ebreak | s_fce_ecall;
+
+            r_fce_wfi_valid = s_fce_wfi_valid;
+        };
+    };
+
+    event int_exc
+    {
+        semantics
+        {
+            uint_<MXLEN> tval, trap_addr, cause, epc;
+            uint1 m_en, s_en, take_m, take_s, take_int;
+            uint1 take_nmi;
+            uint12 int_pending, valid_int_pending;
+            uint1 csr_exc_valid;
+            uint_<EXC_TYPE_W> csr_exc_type;
+            uint1 read_only_violation;
+            uint1 insufficient_permissions;
+#ifdef OPTION_OCD
+            uint1 illegal_debug_access;
+#endif
+
+            // ---------------------------------------------------------------------------------------------
+            // Interrupts
+            // ---------------------------------------------------------------------------------------------
+
+            // Valid pending interrupts = pending interrupts AND enabled interrupt sources
+            int_pending = (r_csr_mip) & r_csr_mie;
+            s_int_pending = (uint1)(int_pending);
+
+            // Machine interrupt global enable - check MIE (we're in machine mode)
+            m_en = r_csr_mstatus[CSR_MSTATUS_MIE];
+
+            take_m = m_en && (int_pending != 0);
+            valid_int_pending = take_m ? int_pending : (uint12)0;
+            s_addr_next_instr = s_instr_addr_i + INSTR_LAU_SIZE;
+
+            s_int_valid_pending =
+                take_m
+#ifdef OPTION_OCD
+                // mask out pending interrupts when OCD is busy (to not block EX pipeline)
+                & ~s_ocd_progbuf_mode_i & ~s_ocd_busy_i
+#endif
+                ;
+
+            take_int =
+                take_m
+                & s_int_safe_to_take_i
+#ifdef OPTION_OCD
+                & ~s_ocd_progbuf_mode_i
+                // Do not take interrupts while OCD is busy
+                & ~s_ocd_busy_i
+#endif
+                ;
+            take_nmi = s_nmi_i & ~r_csr_nmi & s_instr_valid_excint_i
+#ifdef OPTION_OCD
+                & ~s_ocd_progbuf_mode_i
+#endif
+                ;
+            s_int_valid = take_int | take_nmi;
+
+            // Interrupt priority: MEI > MSI > MTI > SEI > SSI > STI > UEI > USI > UTI
+            s_int_type =
+                take_nmi ? M_INT_NMI :
+                valid_int_pending[CSR_MIP_MEIP] ? M_INT_EXTERNAL :
+                valid_int_pending[CSR_MIP_MSIP] ? M_INT_SW :
+                valid_int_pending[CSR_MIP_MTIP] ? M_INT_TIMER :
+                (uint5)0;
+
+
+            // ---------------------------------------------------------------------------------------------
+            // Exceptions
+            // ---------------------------------------------------------------------------------------------
+
+            read_only_violation = (s_csr_addr_i[CSR_NAME_MODE] == CSR_NAME_RONLY) && s_csr_we_i;
+#ifdef OPTION_OCD
+            // CSR registers 0x7B0–0x7BF are only visible to debug mode.
+            illegal_debug_access =
+                ((s_op_i == OP_CSRRW || s_op_i == OP_CSRRS || s_op_i == OP_CSRRC) &&
+                !s_ocd_progbuf_mode_i &&
+                (s_csr_addr_i == CSR_DCSR || s_csr_addr_i == CSR_DPC));
+#endif
+
+            // Collect all CSR exceptions
+            csr_exc_valid = s_csr_valid_i & (
+#ifdef OPTION_OCD
+                illegal_debug_access |
+#endif
+                read_only_violation);
+
+            csr_exc_type = csr_exc_valid ? ILLEGAL_INST : (uint5)0;
+
+            // Get the final exception
+            s_exc_valid = s_instr_valid_excint_i & (s_exc_valid_i | s_fce_exc_valid | csr_exc_valid);
+
+            s_exc_type = s_exc_valid_i ? s_exc_type_i :
+                s_fce_exc_valid ? s_fce_exc_type : csr_exc_type;
+
+            // ---------------------------------------------------------------------------------------------
+
+            cause =
+                s_int_valid ? ((1 :: (uint_<(XLEN-1)>)0) | s_int_type) :
+                s_exc_valid ? s_exc_type[EXC_TYPE_W-1 .. 0] :
+                0u;
+            tval =
+                (s_int_valid | (~s_exc_valid_i & s_fce_ecall)) ?
+                (UXLEN_T)0 :
+                (s_fce_ebreak ? s_instr_addr_i : s_exc_tval_i);
+
+            s_intexc_valid = s_int_valid | s_exc_valid;
+
+            if (s_intexc_valid)
+            {
+                s_intexc_trap_addr =
+                    take_nmi ? (uint_<MXLEN>) r_nmi_handler :
+                    (r_csr_mtvec[0..0] & s_int_valid) ? (r_csr_mtvec[XLEN-1 .. 2] + cause[EXC_TYPE_W-1 .. 0]) :
+                    (r_csr_mtvec[XLEN-1 .. 2] :: (uint2)0);
+                s_intexc_mstatus =
+                    r_csr_mstatus[XLEN - 1 .. 13] ::    //
+                    PRV_M ::                            // Save priv mode to MPP
+                    r_csr_mstatus[10 .. 8] ::           //
+                    r_csr_mstatus[CSR_MSTATUS_MIE] ::   // Save MIE to MPIE
+                    r_csr_mstatus[6 .. 4] ::            //
+                    (uint1)0 ::                         // Disable interrupts - MIE
+                    r_csr_mstatus[2 .. 0];              //
+                s_intexc_epc = (s_int_valid) ? s_int_addr_i :
+                    (s_fce_wfi_valid) ? s_addr_next_instr :
+                    s_instr_addr_i;
+                s_intexc_cause = cause;
+                s_intexc_tval = tval;
+#ifdef OPTION_OCD
+                // Save MTE into MPTE and clear MTE
+                s_intexc_tcontrol = r_csr_tcontrol[CSR_TCONTROL_MTE] :: (uint7)0;
+#endif
+            }
+
+            // Latch the NMI interrupt pending
+            r_csr_nmi = r_csr_nmi ? s_nmi_i : (s_nmi_i & s_instr_valid_excint_i);
+
+            // Only update nmi_mtval when NMI is taken
+            if (take_nmi)
+            {
+                r_csr_nmi_mtval = s_nmi_mtval_i;
+            }
+
+            // Data outputs.
+            // Exception outputs are used in OCD for detection of HW/SW breakpoints
+            // and to end excecution of program buffer.
+            s_exc_valid_o = s_exc_valid | take_nmi;
+            s_exc_type_o = s_exc_type;
+
+            s_take_nmi_o = take_nmi;
+        };
+    };
+
+    event csr_write
+    {
+        semantics
+        {
+            uint1 intexc_valid;
+            // Final data to be written
+            uint_<MXLEN> csr_wdata;
+#ifdef OPTION_OCD
+            // Tdata1 so it can be read multiple times
+            uint_<MXLEN> tdata1;
+            uint_<MXLEN> tdata1_wr;
+            uint4 tdata1_wr_type;
+            uint1 tdata1_wr_dmode;
+            uint_<CSR_TDATA1_COMMON_W> tdata1_wr_common;
+            // Trigger type
+            uint4 ttype;
+#endif
+#ifdef OPTION_OCD
+            uint1 stopcount;
+#endif
+
+            // Perform the operation that CSR needs
+            switch (s_op_i)
+            {
+                case OP_CSRRS:
+                    csr_wdata = s_read_csr_rdata | s_csr_wdata_i;
+                    break;
+                case OP_CSRRC:
+                    csr_wdata = s_read_csr_rdata & ~s_csr_wdata_i;
+                    break;
+                case OP_CSRRW:
+                    csr_wdata = s_csr_wdata_i;
+                    break;
+                default:
+                    csr_wdata = 0;
+                    break;
+            }
+
+            // Write to the CSR registers
+            if (s_csr_we_i & s_csr_valid_i &
+#ifdef OPTION_OCD
+                ~s_ocd_debug_mode_req_i &
+#endif
+                ~s_intexc_valid)
+            {
+                // CSRs that can be writen only by an CSR instruction
+                switch (s_csr_addr_i)
+                {
+                    case CSR_MTVEC:
+                    {
+                        uint_<MXLEN> data;
+                        data = csr_wdata[MXLEN-1 .. 2] :: (uint1)0 :: csr_wdata[0 .. 0];
+                        r_csr_mtvec = data;
+                        PRINT_CSR("mtvec", data);
+                        break;
+                    }
+                    case CSR_MSTATUS:
+                        s_write_csr_flush = 1;
+                        s_write_csr_en = 1;
+                        s_write_csr_data =
+                            (uint1)0 ::
+#if MXLEN == 64
+                            (uint27)0 ::                         // WPRI
+                            (uint4)0 ::                          // SXL, UXL hardwired to zero since S and U mode are not supported
+                            (uint9) 0 ::                         // WPRI
+#else // RV32
+                            (uint8)0 ::                          // WPRI
+#endif
+                            (uint1)0 ::                          // TSR hardwired to 0
+                            (uint1)0 ::                          // TW hardwired to 0
+                            (uint3)0 ::                          // TVM, MXR, SUM hardwired to 0
+                            (uint1)0 ::                          // MPRV hardwired to 0
+                            (uint2)0 ::                          // XS
+                            (uint2)0 ::                          // FS hardwired to 0
+                            (uint2)PRV_M::                       // MPP hardwired to PRV_M
+                            (uint2)0 ::                          // WPRI
+                            (uint1)0 ::                          // SPP hardwired to 0
+                            csr_wdata[CSR_MSTATUS_MPIE] ::
+                            (uint1)0 ::                          // WPRI
+                            (uint1)0 ::                          // SPIE hardwired to 0
+                            (uint1)0 ::                          // UPIE
+                            csr_wdata[CSR_MSTATUS_MIE] ::
+                            (uint1)0 ::                          // WPRI
+                            (uint1)0 ::                          // SIE hardwired to 0
+                            (uint1)0;
+                            break;
+                    case CSR_MCAUSE:
+                        s_write_csr_en = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+                    case CSR_MTVAL:
+                        s_write_csr_en = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+                    case CSR_MEPC:
+                        s_write_csr_en = 1;
+                        s_write_csr_data = csr_wdata[MXLEN-1 .. 2] :: (uint2)0;
+                        break;
+                    case CSR_MIE:
+                    {
+                        uint_<MXLEN> data;
+                        s_write_csr_flush = 1;
+                        data =
+                            csr_wdata[CSR_MIE_MEIE] :: (uint3)0 ::
+                            csr_wdata[CSR_MIE_MTIE] :: (uint3)0 ::
+                            csr_wdata[CSR_MIE_MSIE] :: (uint3)0;
+                        r_csr_mie = data;
+                        PRINT_CSR("mie", data);
+                        break;
+                    }
+                    case CSR_MSCRATCH:
+                        r_csr_mscratch = csr_wdata;
+                        PRINT_CSR("mscratch", csr_wdata);
+                        break;
+#if OPTION_XLEN == 32
+                    // Upper halves of 64-bit performance counters for RV32
+                    case CSR_MHPMCOUNTER3H:
+                    case CSR_MHPMCOUNTER4H:
+                    case CSR_MHPMCOUNTER5H:
+                    case CSR_MHPMCOUNTER6H:
+                    case CSR_MHPMCOUNTER9H:
+                    case CSR_MHPMCOUNTER10H:
+                    case CSR_MHPMCOUNTER12H:
+                    case CSR_MHPMCOUNTER13H:
+                    case CSR_MHPMCOUNTER14H:
+                        s_write_perf_we = (uint2)2;
+                        s_wire_perf_wdata = csr_wdata;
+                        break;
+#endif
+                    // Performance counters
+                    case CSR_MHPMCOUNTER3:
+                    case CSR_MHPMCOUNTER4:
+                    case CSR_MHPMCOUNTER5:
+                    case CSR_MHPMCOUNTER6:
+                    case CSR_MHPMCOUNTER9:
+                    case CSR_MHPMCOUNTER10:
+                    case CSR_MHPMCOUNTER12:
+                    case CSR_MHPMCOUNTER13:
+                    case CSR_MHPMCOUNTER14:
+                        s_write_perf_we = 1;
+                        s_wire_perf_wdata = csr_wdata;
+                        break;
+                    case CSR_MCYCLE:
+                        s_write_cycle_we = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+                    case CSR_MINSTRET:
+                        s_write_instret_we = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+#if OPTION_XLEN == 32
+                    case CSR_MCYCLEH:
+                        s_write_cycleh_we = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+                    case CSR_MINSTRETH:
+                        s_write_instreth_we = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+#endif
+                    case CSR_MCOUNTINHIBIT:
+                        r_csr_mcountinhibit = csr_wdata;
+                        PRINT_CSR("mcountinhibit", csr_wdata);
+                        break;
+#ifdef OPTION_OCD
+                    case CSR_DPC:
+                        s_write_csr_en = 1;
+                        s_write_csr_data = csr_wdata;
+                        break;
+                    case CSR_DCSR:
+                        s_write_csr_en = 1;
+                        s_write_csr_data =
+                            (uint16)0x4000 ::     // xdebugver + rsvd
+                            csr_wdata[15..15] ::  // ebreakm
+                            (uint1)0 ::           // rsvd
+                            csr_wdata[13..12] ::  // ebreaks + ebreaku
+                            (uint1)0 ::           // stepie
+                            csr_wdata[10..10] ::  // stopcount
+                            (uint1)0 ::           // stoptime
+                            r_csr_dcsr[8..6] ::   // cause
+                            (uint3)0 ::           // rsvd + mprven + nmip
+                            csr_wdata[2..2] ::    // step
+                            PRV_M;                // prv always set to PRV_M
+                        break;
+                    case CSR_TDATA1:
+                        tdata1 = s_read_csr_rdata;
+                        // tdata1.dmode:
+                        // 0: Both Debug and M-mode can write the tdata
+                        // 1: Only Debug Mode can write the tdata
+                        if (~tdata1[CSR_TDATA1_DMODE] | s_ocd_progbuf_mode_i)
+                        {
+                            ttype = TDATA1_TYPE_ADDR_DATA_MATCH_TRIGGER;
+                            if (ttype == TDATA1_TYPE_NO_TRIGGER || (ttype >= TDATA1_TYPE_ADDR_DATA_MATCH_TRIGGER && ttype <= TDATA1_TYPE_EXC_TRIGGER))
+                            {
+                                tdata1_wr_type = ttype;
+                            }
+                            else
+                            {
+                                tdata1_wr_type = tdata1[CSR_TDATA1_TYPE];
+                            }
+                            tdata1_wr_dmode = s_ocd_progbuf_mode_i ? csr_wdata[CSR_TDATA1_DMODE] : tdata1[CSR_TDATA1_DMODE];
+                            tdata1_wr_common = tdata1_wr_type :: tdata1_wr_dmode;
+
+// Helper macro to write M0SU bits of the mcontrol (tdata1) CSR (4 bits, 6..3)
+#define TDATA1_WRITE_MSU(type) \
+    (                                                 \
+        csr_wdata[CSR_TDATA1_##type##_M] ::   /* M */ \
+        (uint1)0 ::                           /* 0 */ \
+        (uint1)0 ::                           /* S */ \
+        (uint1)0                              /* U */ \
+    )
+
+// Helper macro to write MSxU bits of the TDATA1 CSR
+#define TDATA1_WRITE_ACTION(type) \
+    (                                                                   \
+        ~csr_wdata[CSR_TDATA1_DMODE]                                    \
+             ? TDATA1_ACTION_BREAK :                                    \
+        (csr_wdata[CSR_TDATA1_##type##_ACTION] <= TDATA1_ACTION_DEBUG)  \
+             ? csr_wdata[CSR_TDATA1_##type##_ACTION] :                  \
+        tdata1[CSR_TDATA1_##type##_ACTION]                              \
+    )
+
+                            switch (ttype)
+                            {
+                                // There is no trigger, write whole input?
+                                case TDATA1_TYPE_NO_TRIGGER:
+                                    // Write common, zero the rest
+                                    tdata1_wr = tdata1_wr_common :: (uint_<OPTION_XLEN-CSR_TDATA1_COMMON_W>)0;
+                                    break;
+                                // Address/data match trigger (tdata1.type == 2) - act as mcontrol
+                                case TDATA1_TYPE_ADDR_DATA_MATCH_TRIGGER:
+                                    // In this type of trigger, only maskmax is RO
+                                    tdata1_wr =
+                                        tdata1_wr_common ::
+                                        TDATA1_MASKMAX_NAPOT_0 ::
+#if OPTION_XLEN == 64
+                                        (uint30)0 ::
+                                        (uint2)0 :: // only size == 0 is supported
+#endif
+                                        (uint1)0 :: // hit is not supported
+                                        (uint1)0 :: // only select == 0 is supported
+                                        (uint1)0 :: // timing == 1 is not supported
+                                        (uint2)0 :: // only size == 0 is supported
+                                        TDATA1_WRITE_ACTION(MCONTROL) ::
+                                        (uint1)0 :: // chaining not supported
+                                        (uint4)0 ::
+                                        TDATA1_WRITE_MSU(MCONTROL) ::
+                                        csr_wdata[CSR_TDATA1_MCONTROL_X] ::
+                                        csr_wdata[CSR_TDATA1_MCONTROL_W] ::
+                                        csr_wdata[CSR_TDATA1_MCONTROL_R];
+                                    break;
+                                default:
+                                    tdata1_wr = tdata1;
+                                    break;
+                            }
+#undef TDATA1_WRITE_MSU
+#undef TDATA1_WRITE_ACTION
+                            r_csr_tdata1.w[r_csr_tselect] = tdata1_wr;
+                        }
+                        break;
+                    case CSR_TDATA2:
+                        if (~r_csr_tdata1.r[r_csr_tselect][CSR_TDATA1_DMODE] | s_ocd_progbuf_mode_i)
+                        {
+                            r_csr_tdata2.w[r_csr_tselect] = csr_wdata;
+                        }
+                        break;
+                    case CSR_TSELECT:
+                    {
+                        uint_<MXLEN> data;
+                        data = (csr_wdata < TRIGGER_COUNT) ? csr_wdata : (UXLEN_T)0;
+                        r_csr_tselect = data;
+                        PRINT_CSR("tselect", data);
+                        break;
+                    }
+                    case CSR_TCONTROL:
+                        s_write_csr_en = 1;
+                        s_write_csr_data = csr_wdata[CSR_TCONTROL_MPTE] :: (uint3)0 :: csr_wdata[CSR_TCONTROL_MTE] :: (uint3)0;
+                        break;
+#endif
+                    default:
+                        s_write_csr_non = true;
+                        break;
+                }
+            }
+
+            intexc_valid =
+#ifdef OPTION_OCD
+                // Exceptions don’t update any registers when executing code from the Program Buffer
+                ~s_ocd_progbuf_mode_i &
+#endif
+                s_intexc_valid;
+
+            // Write to CSRs that can be written from more places (exceptions, interrupts, and OCD)
+            // OCD
+#ifdef OPTION_OCD
+            if (s_ocd_debug_mode_req_i)
+            {
+                r_csr_dcsr = s_ocd_dcsr_i;
+                // use r_ex_instr_valid + LAU_SIZE for WFI
+                r_csr_dpc = (s_fce_wfi_valid) ? s_addr_next_instr : s_ocd_dpc_i;
+
+                PRINT_CSR("dcsr", s_ocd_dcsr_i);
+                PRINT_CSR("dpc", s_ocd_dpc_i);
+            }
+            else if (s_ocd_user_mode_req_i)
+            {
+                PRINT_CSR("privilege mode", r_csr_dcsr[1..0]);
+            }
+            else
+#endif
+            // Interrupt or exception
+            if (intexc_valid)
+            {
+                uint_<MXLEN> data_mcause;
+                r_csr_mstatus = s_intexc_mstatus;
+                // Differentiate between breakpoint exception from ebreak and a trigger that
+                // raises the breakpoint exception. This way, the exception is handled in
+                // the trap handler and 3 is written to mcause, but OCD does not enter debug mode.
+                data_mcause =
+#ifdef OPTION_OCD
+                    s_intexc_cause == TGM_BREAK ? BREAK :
+#endif
+                    s_intexc_cause;
+                r_csr_mcause = data_mcause;
+                r_csr_mtval = s_intexc_tval;
+                r_csr_mepc = s_intexc_epc;
+#ifdef OPTION_OCD
+                r_csr_tcontrol = s_intexc_tcontrol;
+#endif
+                PRINT_CSR("mstatus", s_intexc_mstatus);
+                PRINT_CSR("mcause", data_mcause);
+                PRINT_CSR("mtval", s_intexc_tval);
+                PRINT_CSR("mepc", s_intexc_epc);
+#ifdef OPTION_OCD
+                PRINT_CSR("tcontrol", s_intexc_tcontrol);
+#endif
+                PRINT_CSR("privilege mode", PRV_M);
+            }
+            // xRET
+            else if (s_fce_xret_valid)
+            {
+                r_csr_mstatus = s_fce_mstatus;
+#ifdef OPTION_OCD
+                if (s_is_mret)
+                {
+                    r_csr_tcontrol = s_fce_tcontrol;
+                }
+#endif
+                #pragma simulator
+                {
+                    PRINT_CSR("mstatus", s_fce_mstatus);
+#ifdef OPTION_OCD
+                    if (s_is_mret)
+                    {
+                        PRINT_CSR("tcontrol", s_fce_tcontrol);
+                    }
+#endif
+                    PRINT_CSR("privilege mode", PRV_M);
+                }
+            }
+            else if (s_write_csr_en)
+            {
+                switch (s_csr_addr_i)
+                {
+                    case CSR_MSTATUS: r_csr_mstatus = s_write_csr_data; break;
+                    case CSR_MCAUSE: r_csr_mcause = s_write_csr_data; break;
+                    case CSR_MEPC: r_csr_mepc = s_write_csr_data; break;
+                    case CSR_MTVAL: r_csr_mtval = s_write_csr_data; break;
+#ifdef OPTION_OCD
+                    case CSR_DPC: r_csr_dpc = s_write_csr_data; break;
+                    case CSR_DCSR: r_csr_dcsr = s_write_csr_data; break;
+                    case CSR_TCONTROL: r_csr_tcontrol = s_write_csr_data; break;
+#endif
+                    default: break;
+                }
+                #pragma simulator
+                {
+                    switch (s_csr_addr_i)
+                    {
+                        case CSR_MSTATUS: PRINT_CSR("mstatus", s_write_csr_data); break;
+                        case CSR_MCAUSE: PRINT_CSR("mcause", s_write_csr_data); break;
+                        case CSR_MEPC: PRINT_CSR("mepc", s_write_csr_data); break;
+                        case CSR_MTVAL: PRINT_CSR("mtval", s_write_csr_data); break;
+#ifdef OPTION_OCD
+                        case CSR_DPC: PRINT_CSR("dpc", s_write_csr_data); break;
+                        case CSR_DCSR: PRINT_CSR("dcsr", s_write_csr_data); break;
+                        case CSR_TCONTROL: PRINT_CSR("tcontrol", s_write_csr_data); break;
+#endif
+                    default: break;
+                    }
+                }
+            }
+            // Interrupt pending
+            r_csr_mip =
+                (s_eip_i | (r_csr_mip[CSR_MIP_MEIP] & ~r_wfi_ce)) :: (uint3)0 ::
+                (s_tip_i | (r_csr_mip[CSR_MIP_MTIP] & ~r_wfi_ce)) :: (uint3)0 ::
+                (s_sip_i | (r_csr_mip[CSR_MIP_MSIP] & ~r_wfi_ce)) :: (uint3)0;
+
+#ifdef OPTION_OCD
+            stopcount = r_csr_dcsr[10..10];
+            // Inhibit counters when entering or running in debug mode, but only if the dcsr.stopcount bit is 1
+            s_inhibit_counters = (s_fce_ebreak_debug_entry | s_ocd_debug_mode_req_i | s_ocd_progbuf_mode_i | s_ocd_busy_i) & stopcount;
+#endif
+            // Determine if counters are inhibited or not
+            s_inhibit_cycle   = r_csr_mcountinhibit[0..0];
+            s_inhibit_instret = r_csr_mcountinhibit[2..2];
+
+            // Counters
+#if OPTION_XLEN == 64
+            if (s_write_cycle_we)
+            {
+                PRINT_CSR("mcycle", s_write_csr_data);
+                r_csr_mcycle = s_write_csr_data;
+            }
+#else //OPTION_XLEN == 32
+            if (s_write_cycle_we)
+            {
+                PRINT_CSR_64("mcycle", r_csr_mcycle[63..32] :: s_write_csr_data);
+                r_csr_mcycle = r_csr_mcycle[63..32] :: s_write_csr_data;
+            }
+            else if (s_write_cycleh_we)
+            {
+                PRINT_CSR_64("mcycle", s_write_csr_data :: r_csr_mcycle[31..0]);
+                r_csr_mcycle = s_write_csr_data :: r_csr_mcycle[31..0];
+            }
+#endif // OPTION_XLEN == 64
+            else if (
+#ifdef OPTION_OCD
+                    ~s_inhibit_counters &
+#endif
+                    ~s_inhibit_cycle)
+            {
+                r_csr_mcycle += 1;
+            }
+        };
+    };
+
+    event write_instret
+    {
+        semantics
+        {
+            uint1 i0_incr, i1_incr;
+
+            i0_incr = (s_instr_valid_i
+                // Register r_fce_wfi_valid helps with correct increment by inserting 1 cycle delay.
+                & (~r_fce_wfi_valid | s_int_pending)
+                & ((s_fce_wfi_valid & s_int_pending) |
+                (~s_exc_valid & ~s_int_valid) | (~s_exc_valid_i & s_fce_ebreak_ecall))
+#ifdef OPTION_OCD
+                & ~s_inhibit_counters
+#endif
+                & ~s_inhibit_instret
+                );
+            i1_incr = s_instr_1_valid_i
+#ifdef OPTION_OCD
+                & ~s_inhibit_counters
+#endif // OPTION_OCD
+                & (s_int_valid_pending & s_fu1_i == FU_LSU | ~s_int_valid_pending)
+                & ~s_inhibit_instret;
+#if OPTION_XLEN == 64
+            if (s_write_instret_we)
+            {
+                PRINT_CSR("minstret", s_write_csr_data);
+                r_csr_minstret = s_write_csr_data;
+            }
+#else // OPTION_XLEN == 32
+            if (s_write_instret_we)
+            {
+                PRINT_CSR_64("minstret", r_csr_minstret[63..32] :: s_write_csr_data);
+                r_csr_minstret = r_csr_minstret[63..32] :: s_write_csr_data;
+            }
+            else if (s_write_instreth_we)
+            {
+                PRINT_CSR_64("minstret", s_write_csr_data :: r_csr_minstret[31..0]);
+                r_csr_minstret = s_write_csr_data :: r_csr_minstret[31..0];
+            }
+#endif // OPTION_XLEN == 32
+            else if (i0_incr & i1_incr)
+            {
+                r_csr_minstret += 2;
+            }
+            else if (i0_incr | i1_incr)
+            {
+                r_csr_minstret += 1;
+            }
+        };
+    };
+
+    event crf_out
+    {
+        semantics
+        {
+            uint1 csr_valid;
+            // Output
+            csr_valid = s_write_csr_flush | s_fce_xret_valid | s_fce_fencei_valid | (s_fce_wfi_valid & s_int_pending);
+
+            // Update of the performance counters in the PERF unit
+            s_csr_flush_o = csr_valid;
+            s_exc_flush_o = s_exc_valid;
+            s_int_flush_o = s_int_valid;
+
+            // Next PC
+            s_trap_valid_o = s_intexc_valid;
+            s_trap_addr_o = s_intexc_trap_addr;
+
+            s_csr_valid_o = csr_valid;
+            s_csr_addr_o = s_fce_xret_valid ? s_fce_xret_addr : s_addr_next_instr;
+
+            // Data
+            s_rdata_o = s_read_csr_rdata;
+            s_mstatus_o = r_csr_mstatus;
+            s_mtvec_o = r_csr_mtvec;
+
+            // Flush because of any of these reasons
+            s_flush_o =
+#ifdef OPTION_OCD
+                s_ocd_flush_i |
+#endif
+                csr_valid | s_exc_valid | s_int_valid;
+
+            // Perf
+            s_perf_we_o = s_write_perf_we;
+            s_perf_waddr_o = s_csr_addr_i;
+            s_perf_wdata_o = s_wire_perf_wdata;
+
+            // Signalize that some interrupt is pending; stop execution of new instructions in pipeline, etc.
+            s_int_stall_o = s_int_valid_pending;
+
+            // WFI
+            s_wfi_o = s_fce_wfi_valid & ~s_int_pending;
+
+            // Inhibit performance counters when entering or during the debug mode or if specified in mcountinhibt CSR.
+#ifdef OPTION_OCD
+            s_perf_inhibit_o = s_fce_ebreak_debug_entry | s_inhibit_counters;
+#endif
+            s_hpm_inhibit_o = r_csr_mcountinhibit[15..3];
+        };
+    };
+
+};

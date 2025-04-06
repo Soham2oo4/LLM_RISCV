@@ -1,0 +1,815 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "config.hcodal"
+#include "opcodes.hcodal"
+#include "isa.hcodal"
+
+/**************************************************************************************************/
+/****************************** Integer Computational Instructions ********************************/
+/**************************************************************************************************/
+
+/************************ Integer Computational Register-Immediate Instructions *******************/
+
+// Addition
+DEF_OPC_GROUP(opc_comp_2reg_imm, addi, "add", OPC_I_ADDI)
+// Set less then immediate
+DEF_OPC_GROUP(opc_comp_2reg_imm, slti, "slti", OPC_I_SLTI)
+// Set less then immediate (unsigned)
+DEF_OPC_GROUP(opc_comp_2reg_imm, sltiu, "sltiu", OPC_I_SLTIU)
+// And
+DEF_OPC_GROUP(opc_comp_2reg_imm, andi, "and", OPC_I_ANDI)
+// Or
+DEF_OPC_GROUP(opc_comp_2reg_imm, ori, "or", OPC_I_ORI)
+// Xor
+DEF_OPC_GROUP(opc_comp_2reg_imm, xori, "xor", OPC_I_XORI)
+
+element i_comp_2reg_imm
+{
+    use opc_comp_2reg_imm as opc;
+    use reg_any as dst, src;
+    use simm12;
+    assembly { opc dst "," src "," simm12 };
+    binary { simm12 src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        UXLEN_T val;
+        codasip_compiler_priority(PRIORITY_FULL);
+        val = rf_gpr_read(src);
+        rf_gpr_write(dst, compute(opc, val, SEXT_XLEN(simm12)));
+    };
+};
+
+#if OPTION_XLEN == 64
+// Addition (32b)
+DEF_OPC(addiw, "addw", OPC_I_ADDIW)
+
+element i_addiw
+{
+    use opc_addiw as opc;
+    use reg32_any as dst, src;
+    use simm12;
+    assembly { opc dst "," src "," simm12 };
+    binary { simm12 src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr32_write_sext(dst, compute32(OPC_I_ADDIW, rf_gpr32_read(src), SEXT32(simm12)));
+    };
+};
+
+set i_comp += i_addiw;
+#endif
+
+// Logical shift left
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift, slli, "sll", OPC_SI_SLLI)
+// Logical shift right
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift, srli, "srl", OPC_SI_SRLI)
+// Arithmetic shift right
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift, srai, "sra", OPC_SI_SRAI)
+
+element i_comp_2reg_imm_shift
+{
+    use opc_comp_2reg_imm_shift as opc;
+    use reg_any as dst, src;
+    use shift_imm as imm;
+    assembly { opc dst "," src "," imm };
+    binary { opc[OPC_FRAG_SHIFT] imm src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        UXLEN_T val;
+        codasip_compiler_priority(PRIORITY_FULL);
+        val = rf_gpr_read(src);
+        rf_gpr_write(dst, compute(opc, val, ZEXT_XLEN(imm)));
+    };
+};
+
+#if OPTION_XLEN == 64
+// Logical shift left 32b
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift32, slliw, "sllw", OPC_SI_SLLIW)
+// Logical shift right 32b
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift32, srliw, "srlw", OPC_SI_SRLIW)
+// Arithmetic shift right 32b
+DEF_OPC_GROUP(opc_comp_2reg_imm_shift32, sraiw, "sraw", OPC_SI_SRAIW)
+
+element i_comp_2reg_imm_shift32
+{
+    use opc_comp_2reg_imm_shift32 as opc;
+    use reg32_any as dst, src;
+    use shifthalf_imm as imm;
+    assembly { opc dst "," src "," imm };
+    binary { opc[OPC_FRAG2] imm src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr32_write_sext(dst, compute32(opc, rf_gpr32_read(src), imm));
+    };
+};
+
+set i_comp += i_comp_2reg_imm_shift32;
+#endif
+
+// Load upper immediate
+DEF_OPC(lui, "lui", OPC_U_LUI)
+
+element i_lui
+{
+    use opc_lui as opc;
+    use reg_any as dst;
+    use imm20_s12 as imm;
+    assembly { opc dst "," imm };
+    binary { imm dst opc };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr_write(dst, SEXT_XLEN(imm));
+    };
+};
+
+// Add upper immediate to pc
+DEF_OPC(auipc, "auipc", OPC_U_AUIPC)
+
+element i_auipc
+{
+    use opc_auipc as opc;
+    use reg_any as dst;
+    use imm20_s12 as imm;
+    assembly { opc dst "," imm };
+    binary { imm dst opc };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr_write(dst, (r_PC - INSTR_LAU_SIZE) + SEXT_XLEN(imm));
+    };
+};
+
+set i_comp += i_comp_2reg_imm, i_comp_2reg_imm_shift, i_lui, i_auipc;
+
+/************************ Integer Computational Register-Register Operations **********************/
+// Addition
+DEF_OPC_GROUP(opc_comp_3reg, add, "add", OPC_R_ADD)
+// Set less than
+DEF_OPC_GROUP(opc_comp_3reg, slt, "slt", OPC_R_SLT)
+// Set less than (unsigned)
+DEF_OPC_GROUP(opc_comp_3reg, sltu, "sltu", OPC_R_SLTU)
+// And
+DEF_OPC_GROUP(opc_comp_3reg, and, "and", OPC_R_AND)
+// Or
+DEF_OPC_GROUP(opc_comp_3reg, or, "or", OPC_R_OR)
+// Xor
+DEF_OPC_GROUP(opc_comp_3reg, xor, "xor", OPC_R_XOR)
+// Logical shift left
+DEF_OPC_GROUP(opc_comp_3reg, sll, "sll", OPC_R_SLL)
+// Logical shift right
+DEF_OPC_GROUP(opc_comp_3reg, srl, "srl", OPC_R_SRL)
+// Subtraction
+DEF_OPC_GROUP(opc_comp_3reg, sub, "sub", OPC_R_SUB)
+// Arithmetic shift right
+DEF_OPC_GROUP(opc_comp_3reg, sra, "sra", OPC_R_SRA)
+#ifdef OPTION_EXTENSION_M
+// Multiplication - produces lower 64b
+DEF_OPC_GROUP(opc_comp_3reg, mul, "mul", OPC_R_MUL)
+// Multiplication - produces upper 64b (signed x signed)
+DEF_OPC_GROUP(opc_comp_3reg, mulh, "mulh", OPC_R_MULH)
+// Multiplication - produces upper 64b (unsigned x unsigned)
+DEF_OPC_GROUP(opc_comp_3reg, mulhu, "mulhu", OPC_R_MULHU)
+// Multiplication - produces upper 64b (signed x unsigned)
+DEF_OPC_GROUP(opc_comp_3reg, mulhsu, "mulhsu", OPC_R_MULHSU)
+// Division
+DEF_OPC_GROUP(opc_comp_3reg, div, "div", OPC_R_DIV)
+// Division (unsigned)
+DEF_OPC_GROUP(opc_comp_3reg, divu, "divu", OPC_R_DIVU)
+// Remainder
+DEF_OPC_GROUP(opc_comp_3reg, rem, "rem", OPC_R_REM)
+// Remainder (unsigned)
+DEF_OPC_GROUP(opc_comp_3reg, remu, "remu", OPC_R_REMU)
+#endif
+
+element i_comp_3reg
+{
+    use opc_comp_3reg as opc;
+    use reg_any as dst, src1, src2;
+    assembly { opc dst "," src1 "," src2 };
+    binary { opc[OPC_FRAG2] src2 src1 opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+    semantics
+    {
+#ifdef OPTION_EXTENSION_M
+        if ((opc == OPC_R_MUL) | (opc == OPC_R_MULH) | (opc == OPC_R_MULHU) | (opc == OPC_R_MULHSU))
+        {
+            codasip_compiler_schedule_class(sc_multiply);
+        }
+        else if ((opc == OPC_R_DIV) | (opc == OPC_R_DIVU) | (opc == OPC_R_REM) | (opc == OPC_R_REMU))
+        {
+            codasip_compiler_schedule_class(sc_divide);
+        }
+#endif
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr_write(dst, compute(opc, rf_gpr_read(src1), rf_gpr_read(src2)));
+    };
+};
+
+#if OPTION_XLEN == 64
+// Addition 32b
+DEF_OPC_GROUP(opc_comp_3reg_32, addw, "addw", OPC_R_ADDW)
+// Subtraction 32b
+DEF_OPC_GROUP(opc_comp_3reg_32, subw, "subw", OPC_R_SUBW)
+#ifdef OPTION_EXTENSION_M
+// Multiplication
+// - produces lower 32b of multiplication resiůt of lower 32b of source registers,
+//  and sign extends it to 64b.
+DEF_OPC_GROUP(opc_comp_3reg_32, mulw, "mulw", OPC_R_MULW)
+// Division - uses lower 32b of source registers, sign extends result to 64b
+DEF_OPC_GROUP(opc_comp_3reg_32, divw, "divw", OPC_R_DIVW)
+// Division (unsigned) - uses lower 32b of source registers, sign extends result to 64b
+DEF_OPC_GROUP(opc_comp_3reg_32, divuw, "divuw", OPC_R_DIVUW)
+// Remainder - uses lower 32b of source registers, sign extends result to 64b
+DEF_OPC_GROUP(opc_comp_3reg_32, remw, "remw", OPC_R_REMW)
+// Remainder (unsigned) - uses lower 32b of source registers, sign extends result to 64b
+DEF_OPC_GROUP(opc_comp_3reg_32, remuw, "remuw", OPC_R_REMUW)
+#endif
+
+element i_comp_3reg_32
+{
+    use opc_comp_3reg_32 as opc;
+    use reg32_any as dst, src1, src2;
+    assembly { opc dst "," src1 "," src2 };
+    binary { opc[OPC_FRAG2] src2 src1 opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+#ifdef OPTION_EXTENSION_M
+        if (opc == OPC_R_MULW)
+        {
+            codasip_compiler_schedule_class(sc_multiply);
+        }
+        else if ((opc == OPC_R_DIVW) | (opc == OPC_R_DIVUW) | (opc == OPC_R_REMW) | (opc == OPC_R_REMUW))
+        {
+            codasip_compiler_schedule_class(sc_divide);
+        }
+#endif
+        rf_gpr32_write_sext(dst, compute32(opc, rf_gpr32_read(src1), rf_gpr32_read(src2)));
+    };
+};
+
+// Logical shift left 32b
+DEF_OPC_GROUP(opc_comp_shift_3reg_32, sllw, "sllw", OPC_R_SLLW)
+// Logical shift right 32b
+DEF_OPC_GROUP(opc_comp_shift_3reg_32, srlw, "srlw", OPC_R_SRLW)
+// Arithmetic shift right 32b
+DEF_OPC_GROUP(opc_comp_shift_3reg_32, sraw, "sraw", OPC_R_SRAW)
+
+element i_comp_shift_3reg_32
+{
+    use opc_comp_shift_3reg_32 as opc;
+    use reg_any as src2;
+    use reg32_any as dst, src1;
+    assembly { opc dst "," src1 "," src2 };
+    binary { opc[OPC_FRAG2] src2 src1 opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr32_write_sext(dst, compute32(opc, rf_gpr32_read(src1), rf_gpr_read(src2)));
+    };
+};
+
+set i_comp += i_comp_3reg_32, i_comp_shift_3reg_32;
+#endif
+
+set i_comp += i_comp_3reg;
+
+/**************************************************************************************************/
+/****************************** Control Transfer Instructions *************************************/
+/**************************************************************************************************/
+
+/****************************** Unconditional Jumps ***********************************************/
+// Jump and link
+DEF_OPC(jal, "jal", OPC_U_JAL)
+
+element i_jal
+{
+    use opc_jal as opc;
+    use reg_any as dst;
+    use rel_addr20 as addr;
+    assembly { opc dst "," addr };
+    binary { addr[19..19] addr[9..0] addr[10..10] addr[18..11] dst opc };
+    semantics
+    {
+        UXLEN_T jmp_addr, tmp;
+        tmp = r_PC;
+        jmp_addr = SEXT_XLEN(r_PC - INSTR_LAU_SIZE) + SEXT_XLEN(addr);
+        #pragma simulator
+        {
+            if (jmp_addr[1..1])
+            {
+                take_trap(MISALIGNED_FETCH, jmp_addr, DEC_PC);
+                r_fetch_fault = 1;
+            }
+            else
+            {
+                rf_gpr_write(dst, tmp);
+                r_PC = jmp_addr;
+            }
+        }
+        #pragma compiler
+        {
+            rf_gpr_write(dst, tmp);
+            r_PC = jmp_addr;
+        }
+    };
+};
+
+// Jump and link register
+DEF_OPC(jalr, "jalr", OPC_I_JALR)
+
+element i_jalr
+{
+    use opc_jalr as opc;
+    use reg_any as src, dst;
+    use simm12;
+    assembly { opc dst "," src "," simm12 };
+    binary { simm12 src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+    semantics
+    {
+        UXLEN_T val, jmp_addr, tmp;
+        codasip_compiler_priority(PRIORITY_FULL);
+        val = rf_gpr_read(src);
+        jmp_addr = (SEXT_XLEN(val) + SEXT_XLEN(simm12)) & 0xfffffffffffffffeul;
+        tmp = r_PC;
+        #pragma simulator
+        {
+            if (jmp_addr[1..1])
+            {
+                take_trap(MISALIGNED_FETCH, jmp_addr, DEC_PC);
+                r_fetch_fault = 1;
+            }
+            else
+            {
+                rf_gpr_write(dst, tmp);
+                r_PC = jmp_addr;
+            }
+        }
+        #pragma compiler
+        {
+            rf_gpr_write(dst, tmp);
+            r_PC = jmp_addr;
+        }
+    };
+};
+
+set i_control += i_jal, i_jalr;
+
+/****************************** Conditional Branches **********************************************/
+
+// Branch equals
+DEF_OPC_GROUP(opc_control_conditional, beq, "beq", OPC_S_BEQ)
+// Branch not equals
+DEF_OPC_GROUP(opc_control_conditional, bne, "bne", OPC_S_BNE)
+// Branch less
+DEF_OPC_GROUP(opc_control_conditional, blt, "blt", OPC_S_BLT)
+// Branch less (unsigned)
+DEF_OPC_GROUP(opc_control_conditional, bltu, "bltu", OPC_S_BLTU)
+// Branch greater or equal
+DEF_OPC_GROUP(opc_control_conditional, bge, "bge", OPC_S_BGE)
+// Branch greater or equal (unsigned)
+DEF_OPC_GROUP(opc_control_conditional, bgeu, "bgeu", OPC_S_BGEU)
+
+element i_control_conditional
+{
+    use opc_control_conditional as opc;
+    use reg_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { opc src1 "," src2 "," addr };
+    binary { addr[11..11] addr[9..4] src2 src1 opc[OPC_FRAG1] addr[3..0] addr[10..10]
+        opc[OPC_FRAG0]};
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        if (compute(opc, rf_gpr_read(src1), rf_gpr_read(src2)))
+        {
+            UXLEN_T jmp_addr;
+            jmp_addr = SEXT_XLEN(r_PC - INSTR_LAU_SIZE) + SEXT_XLEN(addr);
+            #pragma simulator
+            {
+                if (jmp_addr[1..1])
+                {
+                    take_trap(MISALIGNED_FETCH, jmp_addr, DEC_PC);
+                    r_fetch_fault = 1;
+                }
+                else
+                {
+                    r_PC = jmp_addr;
+                }
+            }
+            #pragma compiler
+            {
+                r_PC = jmp_addr;
+            }
+        }
+    };
+};
+
+set i_control += i_control_conditional;
+
+/**************************************************************************************************/
+/****************************** Load and Store Instructions ***************************************/
+/**************************************************************************************************/
+#if OPTION_XLEN == 64
+// Load long word
+DEF_OPC_GROUP(opc_loads, load, "ld", OPC_I_LD)
+// Load word (unsigned)
+DEF_OPC_GROUP(opc_loads, loadwu, "lwu", OPC_I_LWU)
+#endif
+// Load word
+DEF_OPC_GROUP(opc_loads, loadw, "lw", OPC_I_LW)
+// Load half-word
+DEF_OPC_GROUP(opc_loads, loadh, "lh", OPC_I_LH)
+// Load half-word (unsigned)
+DEF_OPC_GROUP(opc_loads, loadhu, "lhu", OPC_I_LHU)
+// Load byte
+DEF_OPC_GROUP(opc_loads, loadb, "lb", OPC_I_LB)
+// Load byte (unsigned)
+DEF_OPC_GROUP(opc_loads, loadbu, "lbu", OPC_I_LBU)
+
+element i_load
+{
+    use opc_loads as opc;
+    use reg_any as dst, src;
+    use simm12;
+    assembly { opc dst "," simm12 "(" src ")" };
+    binary { simm12 src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+    semantics
+    {
+        UXLEN_T val, addr;
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_loads);
+        addr = SEXT_XLEN(rf_gpr_read(src)) + SEXT_XLEN(simm12);
+        val = load_val(opc, addr);
+        #pragma simulator
+        {
+            if (!r_pf_mem_error)
+            {
+                rf_gpr_write(dst, val);
+            }
+        }
+        #pragma compiler
+        {
+            rf_gpr_write(dst, val);
+        }
+    };
+};
+
+#if OPTION_XLEN == 64
+// Store long-word
+DEF_OPC_GROUP(opc_stores, store, "sd", OPC_S_SD)
+#endif
+// Store word
+DEF_OPC_GROUP(opc_stores, storew, "sw", OPC_S_SW)
+// Store half-word
+DEF_OPC_GROUP(opc_stores, storeh, "sh", OPC_S_SH)
+// Store byte
+DEF_OPC_GROUP(opc_stores, storeb, "sb", OPC_S_SB)
+
+element i_store
+{
+    use opc_stores as opc;
+    use reg_any as src1, src2;
+    use simm12_s;
+    assembly { opc src2 "," simm12_s "(" src1 ")"  };
+    binary { simm12_s[11..5] src2 src1 opc[OPC_FRAG1] simm12_s[4..0] opc[OPC_FRAG0] };
+    semantics
+    {
+        UXLEN_T addr, data;
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_stores);
+        addr = SEXT_XLEN(rf_gpr_read(src1)) + SEXT_XLEN(simm12_s);
+        data = rf_gpr_read(src2);
+        write_val(opc, addr, data);
+    };
+};
+
+set i_load_store += i_load, i_store;
+
+/**************************************************************************************************/
+/****************************** Memory Model ******************************************************/
+/**************************************************************************************************/
+// Fence
+DEF_OPC(fence, "fence", OPC_F_FENCE)
+
+set opc_fence_param : operand(PROFILER);
+
+DEF_OPC_GROUP(opc_fence_param, iorw_fence, "iorw", OPC_FENCE_IORW)
+DEF_OPC_GROUP(opc_fence_param,  ior_fence,  "ior", OPC_FENCE_IOR)
+DEF_OPC_GROUP(opc_fence_param,  iow_fence,  "iow", OPC_FENCE_IOW)
+DEF_OPC_GROUP(opc_fence_param,   io_fence,   "io", OPC_FENCE_IO)
+DEF_OPC_GROUP(opc_fence_param,  irw_fence,  "irw", OPC_FENCE_IRW)
+DEF_OPC_GROUP(opc_fence_param,   ir_fence,   "ir", OPC_FENCE_IR)
+DEF_OPC_GROUP(opc_fence_param,   iw_fence,   "iw", OPC_FENCE_IW)
+DEF_OPC_GROUP(opc_fence_param,    i_fence,    "i", OPC_FENCE_I)
+DEF_OPC_GROUP(opc_fence_param,  orw_fence,  "orw", OPC_FENCE_ORW)
+DEF_OPC_GROUP(opc_fence_param,   or_fence,   "or", OPC_FENCE_OR)
+DEF_OPC_GROUP(opc_fence_param,   ow_fence,   "ow", OPC_FENCE_OW)
+DEF_OPC_GROUP(opc_fence_param,    o_fence,    "o", OPC_FENCE_O)
+DEF_OPC_GROUP(opc_fence_param,   rw_fence,   "rw", OPC_FENCE_RW)
+DEF_OPC_GROUP(opc_fence_param,    r_fence,    "r", OPC_FENCE_R)
+DEF_OPC_GROUP(opc_fence_param,    w_fence,    "w", OPC_FENCE_W)
+DEF_OPC_GROUP(opc_fence_param, hint_fence, "hint", OPC_FENCE_HINT)
+
+element i_fence
+{
+    use opc_fence as opc;
+    use opc_fence_param as param1, param2;
+    assembly { opc param1 "," param2 };
+    binary { bit[FENCE_FM_W] param2 param1 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR]
+        opc[OPC_FRAG0] };
+    semantics
+    {
+        iprintf("Fence called with 0x%X, 0x%X", param1, param2);
+#pragma simulator
+        {
+            uint1 hresp;
+#if OPTION_XLEN == 32
+#define ACC_SIZE WORD_BYTES
+#else
+#define ACC_SIZE LWORD_BYTES
+#endif
+#if defined(OPTION_ENABLE_CACHES)
+            // fence hint should behave as a nop
+            if (param1 != 0 && param2 != 0)
+            {
+                // flush_all -> address 0x58
+                ldst_interface.write(0x0, ML1CACHE_FLUSH_ALL_ADDR, ACC_SIZE, hresp, (uint2) 0 :: (uint2)CP_AHB_PROT_DEFAULT, CP_AHB_UNLOCK);
+            }
+#endif
+#undef ACC_SIZE
+        }
+    };
+};
+
+set i_mem_model += i_fence;
+
+// Fence I
+DEF_OPC(fencei, "fence.i", OPC_I_FENCEI)
+
+element i_fencei
+{
+    use opc_fencei as opc;
+    assembly { opc };
+    binary { 0:bit[IMM12_W] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        #pragma simulator
+        {
+            uint1 hresp;
+#if OPTION_XLEN == 32
+#define ACC_SIZE WORD_BYTES
+#else
+#define ACC_SIZE LWORD_BYTES
+#endif
+#if defined(OPTION_ENABLE_CACHES)
+            // flush_all -> address 0x58
+            ldst_interface.write(0x0, ML1CACHE_FLUSH_ALL_ADDR, ACC_SIZE, hresp, (uint2) 0 :: (uint2)CP_AHB_PROT_DEFAULT, CP_AHB_UNLOCK);
+            // invalidate_all -> address 0x52
+            ldst_interface.write(0x0, ML1CACHE_I_INVALIDATE_ALL_ADDR, ACC_SIZE, hresp, (uint2) 0 :: (uint2)CP_AHB_PROT_DEFAULT, CP_AHB_UNLOCK);
+#endif
+#undef ACC_SIZE
+        }
+    };
+};
+
+set i_mem_model += i_fencei;
+
+/**************************************************************************************************/
+/****************************** System Instructions ***********************************************/
+/**************************************************************************************************/
+// Environment Call
+DEF_OPC(ecall, "ecall", OPC_SYS_ECALL)
+
+element i_ecall
+{
+    use opc_ecall as opc;
+    assembly { opc };
+    binary
+    { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        #pragma simulator
+        {
+            take_trap(PRV_M + 8, 0, DEC_PC);
+        }
+    };
+};
+
+// Environment Break
+DEF_OPC(ebreak, "ebreak", OPC_SYS_EBREAK)
+
+element i_ebreak
+{
+    use opc_ebreak as opc;
+    assembly { opc };
+    binary
+    { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        unsigned int i;
+        traceprintf("\n");
+        #pragma simulator
+        {
+            take_trap(BREAK, r_PC - INSTR_LAU_SIZE, DEC_PC);
+        }
+    };
+};
+
+set i_system += i_ecall, i_ebreak;
+
+/****************************** Trap-Return Instructions ******************************************/
+
+DEF_OPC_GROUP(opc_xret, mret, "mret", OPC_SYS_MRET)
+
+element i_xret
+{
+    use opc_xret as opc;
+    assembly { opc };
+    binary { opc[21..10] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        if (opc == OPC_SYS_MRET)
+        {
+            codasip_compiler_interrupt_return("machine");
+        }
+        #pragma simulator
+        {
+            do_xret();
+#ifdef OPTION_OCD
+            // Restore MTE bit on mret
+            if (opc == OPC_SYS_MRET)
+            {
+                r_csr_tcontrol = r_csr_tcontrol[XLEN-1 .. 4] :: r_csr_tcontrol[CSR_TCONTROL_MPTE] :: (uint3)0;
+            }
+#endif
+        }
+    };
+};
+
+set i_system += i_xret;
+
+/****************************** Wait for Interrupt ************************************************/
+
+DEF_OPC(wfi, "wfi", OPC_SYS_WFI)
+
+element i_wfi
+{
+    use opc_wfi as opc;
+    assembly { opc };
+    binary
+    { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_unused();
+        #pragma simulator
+        {
+            r_csr_minstret += 1;
+            r_wfi = 1;
+        }
+    };
+};
+
+set i_system += i_wfi;
+
+/****************************** Instructions to access CSRs ***************************************/
+// Read/Write CSR
+DEF_OPC_GROUP(opc_control_registers_reg, csrrw, "csrrw", OPC_I_CSRRW)
+// Read/Set bit in CSR
+DEF_OPC_GROUP(opc_control_registers_reg, csrrs, "csrrs", OPC_I_CSRRS)
+// Read/Clear bit in CSR
+DEF_OPC_GROUP(opc_control_registers_reg, csrrc, "csrrc", OPC_I_CSRRC)
+// Read/Write immediate CSR
+DEF_OPC_GROUP(opc_control_registers_imm, csrrwi, "csrrwi", OPC_I_CSRRWI)
+// Read/Set bit immediate in CSR
+DEF_OPC_GROUP(opc_control_registers_imm, csrrsi, "csrrsi", OPC_I_CSRRSI)
+// Read/Clear bit immediate in CSR
+DEF_OPC_GROUP(opc_control_registers_imm, csrrci, "csrrci", OPC_I_CSRRCI)
+
+element i_control_registers_reg
+{
+    use opc_control_registers_reg as opc;
+    use reg_any as dst, src;
+    use op_csr as csr;
+    assembly { opc dst "," csr "," src };
+    binary { csr src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+    semantics
+    {
+        UXLEN_T writeVal;
+        writeVal = 0;
+        codasip_compiler_unused();
+        #pragma simulator
+        {
+            switch (opc)
+            {
+                case OPC_I_CSRRW:
+                case OPC_I_CSRRS:
+                case OPC_I_CSRRC:
+                    writeVal = csr_read_write_reg(src, csr, opc);
+                    break;
+                default:
+                    writeVal = 0;
+                    #pragma simulator
+                    {
+                        eprintf("i_control_registers_reg() - unknown opcode (0x%X)", opc);
+                    }
+                    break;
+            }
+            if (!r_illegal_instr)
+            {
+                rf_gpr_write(dst, writeVal);
+            }
+        }
+    };
+};
+
+element i_control_registers_imm
+{
+    use opc_control_registers_imm as opc;
+    use reg_any as dst;
+    use op_csr as csr;
+    use imm5 as imm;
+    assembly { opc dst "," csr "," imm };
+    binary { csr imm opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+    semantics
+    {
+        UXLEN_T writeVal;
+        writeVal = 0;
+        codasip_compiler_unused();
+        #pragma simulator
+        {
+            switch (opc)
+            {
+                case OPC_I_CSRRWI:
+                case OPC_I_CSRRSI:
+                case OPC_I_CSRRCI:
+                    writeVal = csr_read_write_imm(ZEXT_XLEN(imm), csr, opc);
+                    break;
+                default:
+                    writeVal = 0;
+                    #pragma simulator
+                    {
+                        eprintf("i_control_registers_imm() - unknown opcode (0x%X)", opc);
+                    }
+                    break;
+            }
+            if (!r_illegal_instr)
+            {
+                rf_gpr_write(dst, writeVal);
+            }
+        }
+    };
+};
+
+set i_control_regs += i_control_registers_reg, i_control_registers_imm;
+set isa += i_control_regs;
+
+set isa += i_comp, i_control, i_load_store, i_system, i_mem_model;
+
+DEF_OPC(unimp, "unimp", OPC_SYS_UNIMP)
+
+// Unimplemented instruction (jump delay slot, testing etc.)
+element i_unimp
+{
+    use opc_unimp as opc;
+    assembly { opc };
+    binary { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_unused();
+        #pragma simulator
+        {
+            r_illegal_instr = 1;
+        }
+    };
+};
+
+set isa += i_unimp;

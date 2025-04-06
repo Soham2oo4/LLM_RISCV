@@ -1,0 +1,46 @@
+#ifndef _DCSR_
+#define _DCSR_
+
+// dcsr [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_DCSR)
+#if OVERRIDE_EXPLICIT_DCSR != 0xFF
+#define OVERRIDE_DCSR_HOW OVERRIDE_EXPLICIT_DCSR
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_DCSR_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_DCSR_HOW)(, dcsr);
+        };
+    };
+};
+
+#if OVERRIDE_DCSR_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(dcsr);
+#endif
+
+#if OVERRIDE_DCSR_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(dcsr);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_DCSR_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_DCSR_

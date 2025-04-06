@@ -1,0 +1,93 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#pragma once
+
+#define XLEN OPTION_XLEN
+#define FETCH_WIDTH 32
+
+#define PRIORITY_FULL 1
+
+#define LOAD_LATENCY 2
+#define STORE_LATENCY 1
+#define DIV_LATENCY 34
+#define MUL_LATENCY 1
+
+#define CAUSE_W 4
+#define INSTR_W 32
+#define DATA_W XLEN
+#define LAU_W 8
+
+#define LWORD_SBC_MASK 0x7
+#define WORD_SBC_MASK  0x3
+#define HWORD_SBC_MASK 0x1
+#define DATA_BYTE_MASK 0xff
+#define DATA_HWORD_MASK 0xffff
+#define DATA_WORD_MASK 0xffffffffu
+#define NOP 0x13
+
+#define MSTATUS_VIEW_MASK 0x1888
+
+#if OPTION_XLEN == 64
+#define ADDR_W 64
+#define MIN_SIGN_NUM 0x8000000000000000ull
+#define MISA_MXL 0x8000000000000000ull  // MXL (Machine XLEN) = RV64
+#define LWORD_BYTES (DATA_W / LAU_W)
+#else   // OPTION_XLEN == 32
+#define ADDR_W 32
+#define MIN_SIGN_NUM 0x80000000u
+#define MISA_MXL 0x40000000u  // MXL (Machine XLEN) = RV32
+#define LWORD_BYTES ((DATA_W * 2) / LAU_W)
+#endif
+
+#define MIN_SIGN_NUM_32 0x80000000u
+
+#ifdef OPTION_EXTENSION_M
+#define MISA_EXTENSIONS_M 0x1000
+#else
+#define MISA_EXTENSIONS_M 0
+#endif
+#define MISA_EXTENSIONS_I 0x100
+#define MISA_EXTENSIONS (MISA_EXTENSIONS_I | MISA_EXTENSIONS_M)
+#define MISA_VALUE (MISA_MXL | MISA_EXTENSIONS)
+
+#define WORD_BYTES  (LWORD_BYTES / 2)
+#define HWORD_BYTES (WORD_BYTES / 2)
+#define BYTE 1
+
+#define RF_GPR_SIZE 32
+#define RF_GPR_ADDR 5
+
+#define WORDS (XLEN / LAU_W)
+// Cache Operations address
+#if defined(OPTION_ENABLE_CACHES)
+#define I_INVALIDATE_ADDRESS (0x50 * WORDS)
+#define I_INVALIDATE_LINE    (0x50 * WORDS)
+#define I_INVALIDATE_ALL     (0x52 * WORDS)
+#define D_INVALIDATE_ADDRESS (0x53 * WORDS)
+#define D_INVALIDATE_LINE    (0x54 * WORDS)
+#define D_INVALIDATE_ALL     (0x55 * WORDS)
+#define D_FLUSH_ADDRESS      (0x56 * WORDS)
+#define D_FLUSH_LINE         (0x57 * WORDS)
+#define D_FLUSH_ALL          (0x58 * WORDS)
+#define ID_CLEAR_COUNTERS    (0x70 * WORDS)
+#endif

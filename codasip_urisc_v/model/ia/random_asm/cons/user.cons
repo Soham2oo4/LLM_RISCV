@@ -1,0 +1,392 @@
+// opportunity to start/change in different privilege mode
+#define PRV_MODE_START
+#define PRV_MODE_CHANGE
+
+#include "config_bk3_disabled.cons"
+
+#include "branches.cons"
+#include "macros.cons"
+#include "ext_i_weights.cons"
+#include "ext_m_weights.cons"
+#include "csrreg.cons"
+#include "reset.cons"
+#include "trap_m.cons"
+#include "mem_data.cons"
+#include "user_modify_illegal.cons"
+
+
+element program_start
+{
+    override assembly
+    {
+        set_symbol
+        ".section .randomgen_code, \"ax\"\n"
+        ".global _start\n"
+        "_start:\n"
+        "    .option push\n"
+        "    .option norvc\n"
+        "    j _reset_handler\n"
+        "    .option pop\n"
+        "    unimp                                         // reserved\n"
+        "    unimp                                         // reserved\n"
+        "    unimp                                         // reserved\n"
+        ".global codasip_syscall\n"
+        "codasip_syscall:\n"
+        ".quad 0\n"
+        reset_handler
+        trap_handler
+        ".global _program\n"
+        ".type   _program,@function\n"
+        "_program:\n"
+        "nop\n"
+#if OPTION_XLEN == 32
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+        "nop\n"
+#endif
+    };
+};
+
+scenario program_end
+{
+    override instructions
+    {
+        // point at end of generation random assembly instructions
+        "_random_end:\n";
+        program_end_label;
+        // generate required NOPs count after program
+        i_nop__opc_nop__ ::* NOP_AFTER_PROGRAM;
+        // correctly finish running job
+        program_end_commands;
+        program_end_instructions;
+        program_end_memory_init;
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// general purpose registers (gpr) initialization to random values
+// slightly adjusted that registers are initialized just once and not using various possible instructions
+element program_register_init
+{
+    override assembly
+    {
+        // initialization of gpr have been properly generated yet
+        register_init_regs
+        // represent start of generation random assembly instructions
+        "_random_start:\n"
+    };
+};
+
+// each program end consists of precise sequence of instruction followed by data memory section
+scenario program_end_instructions
+{
+    override instructions
+    {
+        // precisely halt processor executing
+        program_end_syscall;
+        // generate required NOPs count after syscall
+        i_nop__opc_nop__ ::* NOP_AFTER_SYSCALL;
+    };
+};
+
+// data memory part is also filled with random value (some elements are prepared in separate file)
+// 1. create writable/read-only section and moves the begin to the absolute address
+// 2. assign section into address space with index
+// 3. fill the entire section with correct random repeating (4 or 8 bytes) data
+//    (in case of float/double load, with some probability these data may be NaN)
+element program_end_memory_init
+{
+    override assembly
+    {
+        // create write-able section
+        ".section .randomgen_data, \"aw\"\n"
+        // assign it into address space with index
+        ".address_space 0\n"
+        // moves the begin section of data memory to absolute address
+        ".abs_org " as_all_load_range_min "\n"
+        // fill entire section with correct memory data
+        fill_mem_data_value
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------------------------------
+
+// the part for any process correct termination
+element program_end_commands
+{
+    assembly
+    {
+        // could be empty due condition, must be inserted at least one blank command
+        ".global rndg_finish\n"
+        "rndg_finish:\n"
+#if defined(VIRTUAL_PAGE_UTILIZE)
+        "    csrw satp, x0\n"
+#endif
+#if defined(OPTION_ENABLE_CACHES)
+        // handle cache at the end (using intermediate register)
+        CACHE_FLUSH(TEMP_REGISTER, ACCURATE_ADDR)
+#endif
+        // zero-ed appropriate register indicate the application successfully complete
+        CLEAN_GPR(a0)
+    };
+};
+
+// the fixed part causing the processor to halt
+element program_end_syscall
+{
+    assembly
+    {
+        "1:\n"
+        // store value into syscall address (using intermediate register)
+        SYSCALL_STORE(MAX_REGISTER, 1)
+        "    j 1b\n"
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+
+//----------------------------------------------------------------------------------------------------------
+
+variables
+{
+    uint5 uimm_5_0_onlyzero
+    {
+        constraints
+        {
+            weights
+            {
+                0 = 1;
+                default / 0;
+            };
+        };
+    };
+    uint5 uimm_5_0_nonezero
+    {
+        constraints
+        {
+            weights
+            {
+                0 = 0;
+                default / 1;
+            };
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// definition of NOP instruction as alias for compiler "addi x0, x0, 0", disable generation
+element i_nop__opc_nop__
+{
+    assembly { "nop" };
+
+    constraints
+    {
+        size = 32;
+    };
+};
+set program_instruction += i_nop__opc_nop__
+{
+    constraints
+    {
+        weights
+        {
+            i_nop__opc_nop__ = 0;
+        };
+    };
+};
+
+// represent blank command used inside macros for completing correct syntax together with ";"
+element i_blank__
+{
+    assembly { "" };
+
+    constraints
+    {
+        size = 0;
+    };
+};
+set program_instruction += i_blank__
+{
+    constraints
+    {
+        weights
+        {
+            i_blank__ = 0;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// use the wrapped scenario as supplementary to show comment as well
+#if OPTION_XLEN == 64
+scenario wrapped_load_imm64
+{
+    instructions
+    {
+        address_comment(uimm_64_address = uimm_64_0);
+        load_imm64__regs__regs__regs__regs__regs__regs__regs__(regs_dst_0 = regs_dst_0, uimm_64_0 = uimm_64_0);
+    };
+};
+set program_instruction += wrapped_load_imm64;
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// guarantee generate exception more often to switch privilege mode, must be clean cause register first
+#if defined(PRV_MODE_CHANGE)
+scenario wrapped_i_ecall__opc_ecall__
+{
+    instructions
+    {
+        i_ecall__opc_ecall__;
+    };
+};
+set program_instruction += wrapped_i_ecall__opc_ecall__
+{
+    constraints
+    {
+        weights
+        {
+            wrapped_i_ecall__opc_ecall__ = 100;
+        };
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// Adjust the instruction weights for elements, have to be disabled if conditions are met.
+// Another elements or scenarios with CSR registers are solved in individual files.
+// Normal default weights is given by randomgen (branches and jumps have only one, all others have ten).
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+#if OPTION_XLEN == 64
+            // not needed as solo because it's used in wrapped scenario
+            override load_imm64__regs__regs__regs__regs__regs__regs__regs__ = 0;
+#endif
+            // do not generate unimplemented (undefined) instruction
+            override i_unimp__opc_unimp__ = 0;
+#if !defined(INTERRUPTS) || defined(DISABLE_WFI)
+            // disallowed in order to generate finite programs with none drive interrupts port
+            override i_wfi__opc_wfi__ = 0;
+#endif
+            // disallowed in order to not change mode running normally
+            override i_xret__opc_mret__ = 0;
+#if defined(OPTION_OCD)
+            // do not generate exception raised by debugger to transferred control back
+            override i_ebreak__opc_ebreak__ = 0;
+#endif
+            // use the wrapped scenario for handling change privilege mode by environmental call
+#if defined(PRV_MODE_CHANGE)
+            override i_ecall__opc_ecall__ = 0;
+#endif
+        };
+    };
+};
+// division x0 / reg cannot be correctly checked in smt if reg is 0
+#if defined(SMT)
+set smt_scenarios
+{
+    constraints
+    {
+        weights
+        {
+#if OPTION_XLEN == 64
+            override smt_i_comp_3reg_32__opc_divuw__regs32__reg0__regs32__ = 0;
+            override smt_i_comp_3reg_32__opc_divw__regs32__reg0__regs32__ = 0;
+#endif
+            override smt_i_comp_3reg__opc_divu__regs__reg0__regs__ = 0;
+            override smt_i_comp_3reg__opc_div__regs__reg0__regs__ = 0;
+        };
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// show the comment to identify load operation into gpr, disable generation
+element load_value_comment
+{
+    assembly { "// load value: " E_LI_OPRD };
+
+    constraints
+    {
+        size = 0;
+    };
+};
+set program_line += load_value_comment
+{
+    constraints
+    {
+        weights
+        {
+            load_value_comment = 0;
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+
+// address space distribution to prioritize frequent values
+// the address space have to expand in order to use the data section
+// DTCM section of expanded memory address space
+
+// rewrite address space for load and store
+address_space as_all
+{
+    override load_range
+    {
+        constraints
+        {
+            weights
+            {
+                ADDR_SPACE / 1;
+                default / 0;
+            };
+        };
+    };
+
+    override store_range
+    {
+        constraints
+        {
+            weights
+            {
+                ADDR_SPACE / 1;
+                default / 0;
+            };
+        };
+    };
+};
+// addisp should not generate with negative value so the randoms do not cycle
+variables
+{
+    int10 imm_10_illegal_0x0_and_negative_0
+    {
+        constraints
+        {
+            divisible = 16;
+            weights
+            {
+                -512..15 / 0;
+            };
+        };
+    };
+};
+

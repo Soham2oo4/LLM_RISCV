@@ -1,0 +1,254 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * The instruction fetch unit (IFU) accepts requests from the fetch stage and passes them to the instruction memory.
+ * Fetched data is passed back to the fetch stage and then stored inside the instruction fetch buffer (IFB).
+ */
+
+#include "common.hcodal"
+#include "ca_defines.hcodal"
+
+#define MEM_ACC_ALIGNMENT 2
+
+enum : uint1
+{
+    FIN_READY = 0,
+    FIN_FULL
+};
+
+module ifu
+{
+    // Local pipeline:
+    pipeline pl_ifu
+    {
+        REQ, FIN
+    };
+
+    // Input signals:
+    // - IFU PC (usually the current PC)
+    signal bit[ADDR_W] s_addr_i;
+    // - IFU instruction valid bits
+    signal bit[1] s_addr_valid_i;
+    // - control inputs
+    signal bit[1] s_flush_i;
+    signal bit[1] s_ack_i;
+
+    // Output signals:
+    // - data
+    signal bit[ADDR_W] s_data_addr_o;
+    signal bit[1] s_data_valid_o;
+    signal bit[FETCH_WIDTH] s_data_o;
+    // - exception
+    signal bit[EXC_TYPE_W] s_exc_type_o;
+    signal bit[1] s_exc_valid_o;
+    // - stall signals
+    signal bit[1] s_ifu_busy_o;
+    // - bus busy
+    signal bit[1] s_bus_busy_o;
+
+    // Internal wires:
+    signal bit[1] s_bus_busy;
+    signal bit[1] s_fin_busy;
+    signal bit[1] s_fin_full;
+
+    // Internal registers:
+    register bit[ADDR_W] r_data_addr { pipeline = pl_ifu.FIN; };
+    register bit[1] r_addr_valid { pipeline = pl_ifu.FIN; };
+    register bit[1] r_fin_state;
+    register bit[FETCH_WIDTH] r_data;
+
+    // Signals to make the ifu aware of the state of its current transaction:
+    register bit [1] r_request_made;
+    signal bit [1] s_request_hready;
+    // Waited transfers
+    register bit [1] r_waited_transfer;
+    register bit [4] r_waited_hprot;
+    register bit [ADDR_W] r_waited_addr;
+    register bit [1] r_waited_addr_valid;
+
+    // Address phase
+    event compute_req
+    {
+        semantics
+        {
+            uint2 htrans;
+            uint4 hprot;
+            uint1 req_valid, htrans_req;
+            uint1 request_made, request_wait;
+            uint_<ADDR_W> addr;
+            uint1 addr_valid_wait;
+            uint1 addr_valid_cleared;
+
+            // Waited transfer handling
+            addr = (r_waited_transfer) ? r_waited_addr : s_addr_i;
+            addr_valid_wait = (r_waited_transfer) ? r_waited_addr_valid : s_addr_valid_i;
+
+            // New request
+            req_valid = ~r_waited_transfer & s_addr_valid_i;
+
+            htrans_req = r_waited_transfer | (req_valid & ~s_fin_full);
+
+            htrans = htrans_req ? CP_AHB_NONSEQ : CP_AHB_IDLE;
+
+            // Set AHB cacheability and idempotency to 1,
+            // then set privileged and opcode fetch by default.
+            hprot = r_waited_transfer ? r_waited_hprot : (CP_AHB_CACHEABLE | CP_AHB_BUFFERABLE | CP_AHB_PRIVILEGED);
+
+            // Waited transfer
+            request_made = htrans_req & s_request_hready;
+            request_wait = htrans_req & ~s_request_hready;
+
+            if (htrans_req | r_waited_transfer)
+            {
+                r_request_made = true;
+            }
+            else if (s_request_hready)
+            {
+                r_request_made = false;
+            }
+
+            // Clear address valid bits on flush
+            addr_valid_cleared = s_flush_i ? (uint1)0 : addr_valid_wait;
+
+            // Waited transfer handling
+            if (request_wait & ~r_waited_transfer)
+            {
+                r_waited_transfer = true;
+                r_waited_hprot = hprot;
+                r_waited_addr = s_addr_i;
+                r_waited_addr_valid = addr_valid_cleared;
+            }
+            else if (request_made)
+            {
+                r_waited_transfer = false;
+            }
+            else
+            {
+                r_waited_addr_valid = addr_valid_cleared;
+            }
+
+            fetch_interface.transport(
+                CP_PHS_ADDRESS,
+                htrans,
+                CP_AHB_READ,
+                addr[XLEN-1 .. MEM_ACC_ALIGNMENT] :: (uint_<MEM_ACC_ALIGNMENT>)0,
+                CP_AHB_SIZE_32,
+                hprot);
+
+            // Pass to the next stage
+            r_addr_valid = addr_valid_cleared;
+            r_data_addr = addr;
+
+            // Handle the pipeline:
+            // stall is the fin is no t able to accept assuming no stall
+            if ((s_bus_busy || !s_ack_i) && !s_flush_i)
+            {
+                pl_ifu.FIN.stall();
+            }
+            else if (!htrans_req || s_flush_i)
+            {
+                pl_ifu.FIN.clear();
+            }
+
+            // Collect the busy signals
+            s_ifu_busy_o = ~s_flush_i & (
+                // Stall when flush occured during waited transfer
+                // (IFU will skip first address after flush otherwise)
+                (r_waited_transfer & (r_waited_addr_valid == 0)) |
+                // Stall until waited transfer is finished
+                (r_waited_transfer & ~s_request_hready) |
+                // Other busy signals
+                s_fin_busy |
+                ~s_request_hready);
+        };
+    };
+
+    // Data phase
+    event compute_fin
+    {
+        semantics
+        {
+            uint1 hready, hresp, hold_data;
+            uint_<DATA_W> hrdata_raw;
+            uint_<FETCH_WIDTH> hrdata;
+            uint1 valid_bits;
+
+            fetch_interface.transport(CP_PHS_DATA, hready, hresp, hrdata_raw);
+#if OPTION_XLEN == 64
+            hrdata = fetch_interface.decode_data(hrdata_raw, r_data_addr[2 .. 2] :: (uint2) 0, CP_AHB_SIZE_32);
+#else
+            hrdata = hrdata_raw;
+#endif
+            // Determine if the data can be propagated or need to be held back in case IFB is full
+            hold_data = ~s_ack_i & ~s_flush_i;
+
+            s_fin_full = (r_fin_state == FIN_FULL);
+            s_bus_busy = ~hready & r_request_made;
+            s_request_hready = hready;
+
+            // If bus busy or ifb busy, then stall
+            s_fin_busy = s_bus_busy | s_fin_full;
+
+            // Valid bit logic
+            valid_bits = (!s_fin_busy && !s_flush_i) ? r_addr_valid : (uint1)0;
+
+            // HRESP signals bus error -> HW fault.
+            // Signal fetch fault - NMI!
+            s_exc_type_o = (hresp && hready && r_request_made) ? NMI_BUS_ERROR : (uint_<EXC_TYPE_W>)0;
+            s_exc_valid_o = (hresp && hready && r_request_made) ? 1 : 0;
+
+            // Bus busy info
+            s_bus_busy_o = s_bus_busy;
+
+            // Data, addr and valid bits
+            s_data_addr_o = r_data_addr;
+
+            // IFU internal FSM
+            switch (r_fin_state)
+            {
+                case FIN_READY:
+                    s_data_o = hrdata;
+                    // If IFB is not ready to take the data, supress the valid bits
+                    s_data_valid_o = hold_data ? (uint1)0 : valid_bits;
+                    // Switch FSM state if IFB cannot accept data
+                    if (valid_bits != 0 && hold_data)
+                    {
+                        r_fin_state = FIN_FULL;
+                        // Store the data in case IFB is not ready
+                        r_data = hrdata;
+                    }
+                    break;
+                case FIN_FULL:
+                    s_data_o = r_data;
+                    s_data_valid_o = hold_data ? (uint1)0 : r_addr_valid;
+                    // Switch FSM state once IFB accepts the data or if data is flushed
+                    if (!hold_data)
+                    {
+                        r_fin_state = FIN_READY;
+                    }
+                    break;
+            }
+        };
+    };
+};
+

@@ -1,0 +1,143 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * PERF units handles incrementing and writing of HPM Counters.
+ * All performance counters are internally kept as 64-bit registers (even for RV32).
+ */
+
+#include "common.hcodal"
+
+#ifdef OPTION_OCD
+#define COUNTER_INHIBIT & ~s_inhibit_i
+#else
+#define COUNTER_INHIBIT
+#endif
+
+// Helper macro to conditionally increment one HPM counter
+#define COUNTER_INC(cnt_num,sig_name)                                                   \
+    if (s_##sig_name##_i COUNTER_INHIBIT & ~s_hpm_inhibit_i[(cnt_num-3)..(cnt_num-3)])  \
+    {                                                                                   \
+        r_mhpmcounter##cnt_num++;                                                       \
+    }
+
+// Helper macro to conditionally write one HPM counter
+#if OPTION_XLEN == 32
+// RV32
+#define COUNTER_WRITE(cnt_num)                                                          \
+    if (s_perf_we_i != 0 && s_perf_waddr_i == CSR_MHPMCOUNTER##cnt_num)                 \
+    {                                                                                   \
+        if (s_perf_we_i[1..1])                                                          \
+        {                                                                               \
+            /* Write high 32 bits */                                                    \
+            r_mhpmcounter##cnt_num = s_perf_wdata_i :: r_mhpmcounter##cnt_num[31..0];   \
+        }                                                                               \
+        else                                                                            \
+        {                                                                               \
+            /* Write low 32 bits */                                                     \
+            r_mhpmcounter##cnt_num = r_mhpmcounter##cnt_num[63..32] :: s_perf_wdata_i;  \
+        }                                                                               \
+    }
+#else
+// RV64
+#define COUNTER_WRITE(cnt_num)                                                          \
+    if (s_perf_we_i && s_perf_waddr_i == CSR_MHPMCOUNTER##cnt_num)                      \
+    {                                                                                   \
+        r_mhpmcounter##cnt_num = s_perf_wdata_i;                                        \
+    }
+#endif
+
+// Helper macro to work with one counter (write or increment)
+#define COUNTER_PROCESS(cnt_num, sig_name)  \
+    COUNTER_WRITE(cnt_num)                  \
+    else COUNTER_INC(cnt_num, sig_name)
+
+module perf
+{
+    // Inputs
+#ifdef OPTION_OCD
+    signal bit[1] s_inhibit_i;        // inhibit the counting
+#endif
+    signal bit[13] s_hpm_inhibit_i;   // inhibit the counting due to value in mcountinhibit CSR (mcountinhibit[15..3])
+    signal bit[1] s_flush_i;          // flush occured
+    signal bit[1] s_csr_flush_i;      // CSR related flush counteres
+    signal bit[1] s_exc_flush_i;      // exception occured
+    signal bit[1] s_int_flush_i;      // interrupt occured
+    signal bit[1] s_branch_miss_i;    // branch miss occured
+    signal bit[1] s_data_stall_i;     // data stall cycle
+    signal bit[1] s_div_stall_i;      // DIV stall cycle
+    signal bit[1] s_ifu_stall_i;      // IFU stall cycle
+    signal bit[1] s_lsu_stall_i;      // LSU stall cycle
+    signal bit[XLEN] s_perf_wdata_i;  // data to be written to the perf. counter CSR
+#if OPTION_XLEN == 32
+    signal bit[2] s_perf_we_i;        // write enable - write to the performance counter
+#else
+    signal bit[1] s_perf_we_i;        // write enable - write to the performance counter
+#endif
+    signal bit[12] s_perf_waddr_i;    // address of the perf counter
+
+    /// Outputs
+    register bit[64] r_mhpmcounter3;   // all flushes
+    register bit[64] r_mhpmcounter4;   // CSR flush
+    register bit[64] r_mhpmcounter5;   // exception flush
+    register bit[64] r_mhpmcounter6;   // interrupt flush
+    register bit[64] r_mhpmcounter9;   // branch miss
+    register bit[64] r_mhpmcounter10;  // load-use stalls
+    register bit[64] r_mhpmcounter12;  // div stalls
+    register bit[64] r_mhpmcounter13;  // ifu stalls
+    register bit[64] r_mhpmcounter14;  // lsu stalls
+
+    event compute
+    {
+        semantics
+        {
+            COUNTER_PROCESS(3, flush)
+            COUNTER_PROCESS(4, csr_flush)
+            COUNTER_PROCESS(5, exc_flush)
+            COUNTER_PROCESS(6, int_flush)
+            COUNTER_PROCESS(9, branch_miss)
+            COUNTER_PROCESS(10, data_stall)
+            COUNTER_PROCESS(12, div_stall)
+            COUNTER_PROCESS(13, ifu_stall)
+            COUNTER_PROCESS(14, lsu_stall)
+        };
+    };
+};
+
+void perf_dump()
+{
+    #pragma simulator
+    {
+        // dump coutners
+        codasip_print(PERF_LEVEL, "Performance counters at (%d) clock cycle\n", r_csr_mcycle);
+        codasip_print(PERF_LEVEL, "--------------------\n");
+        codasip_print(PERF_LEVEL, "All flushes: = %d\n", perf.r_mhpmcounter3);
+        codasip_print(PERF_LEVEL, "CSR flushes: = %d\n", perf.r_mhpmcounter4);
+        codasip_print(PERF_LEVEL, "Exception flushes: = %d\n", perf.r_mhpmcounter5);
+        codasip_print(PERF_LEVEL, "Interrupt flushes: = %d\n", perf.r_mhpmcounter6);
+        codasip_print(PERF_LEVEL, "Branch miss: = %d\n", perf.r_mhpmcounter9);
+        codasip_print(PERF_LEVEL, "Load-use stall: = %d\n", perf.r_mhpmcounter10);
+        codasip_print(PERF_LEVEL, "DIV stall: = %d\n", perf.r_mhpmcounter12);
+        codasip_print(PERF_LEVEL, "IFU stall: = %d\n", perf.r_mhpmcounter13);
+        codasip_print(PERF_LEVEL, "LSU stall: = %d\n", perf.r_mhpmcounter14);
+    }
+}

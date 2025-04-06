@@ -1,0 +1,46 @@
+#ifndef _TSELECT_
+#define _TSELECT_
+
+// tselect [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_TSELECT)
+#if OVERRIDE_EXPLICIT_TSELECT != 0xFF
+#define OVERRIDE_TSELECT_HOW OVERRIDE_EXPLICIT_TSELECT
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_TSELECT_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_TSELECT_HOW)(, tselect);
+        };
+    };
+};
+
+#if OVERRIDE_TSELECT_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(tselect);
+#endif
+
+#if OVERRIDE_TSELECT_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(tselect);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_TSELECT_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_TSELECT_

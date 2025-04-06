@@ -1,0 +1,81 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+/*
+ * Triggers used in TGM module
+ */
+
+#ifdef OPTION_OCD
+#include "ca_defines.hcodal"
+
+module tg_0, tg_1, tg_2, tg_3
+{
+    // Inputs from tgm
+    signal bit[ADDR_W] s_fetch_addr_i;
+    signal bit[XLEN] s_ldst_addr_i;
+    signal bit[FU_OP_W] s_ldst_oper_i;
+
+    // Outputs to tgm
+    signal bit[1] s_trigger_fire_o;
+    signal bit[1] s_trigger_action_o;
+
+    event trigger_mcontrol
+    {
+        semantics
+        {
+            uint_<OPTION_XLEN> checked_data, s_trigger_tdata1, s_trigger_match_data;
+            uint1 prv_en, access_type_en, match_x, match_rw, match;
+            uint1 type_x_en, type_r_en, type_w_en;
+
+            $$for(i = 0; i < TRIGGER_COUNT; i++)
+                #pragma module tg_$$(i)
+                {
+                    s_trigger_tdata1 = r_csr_tdata1.r$$(i)[$$(i)];
+                    s_trigger_match_data = r_csr_tdata2.r$$(i)[$$(i)];
+                }
+            $$endfor()
+
+            // Check if the trigger is enabled in this privilege mode
+            // - tdata1.m
+            // - tdata1.action & tcontrol.mte
+            prv_en = s_trigger_tdata1[CSR_TDATA1_MCONTROL_M] &&
+                (s_trigger_tdata1[12 .. 12] || (!s_trigger_tdata1[12 .. 12] && r_csr_tcontrol[CSR_TCONTROL_MTE]));
+
+            // Get access type (tdata1.[execute|store|load])
+            type_x_en = s_trigger_tdata1[CSR_TDATA1_MCONTROL_X];
+            type_r_en = (s_ldst_oper_i == LDST_OPER_LOAD) && s_trigger_tdata1[CSR_TDATA1_MCONTROL_R];
+            type_w_en = (s_ldst_oper_i == LDST_OPER_STORE) && s_trigger_tdata1[CSR_TDATA1_MCONTROL_W];
+            access_type_en = type_x_en | type_r_en | type_w_en;
+
+            // check address (tdata1.match)
+            match_x = type_x_en & (s_fetch_addr_i == s_trigger_match_data);
+            match_rw = (type_r_en | type_w_en) & (s_ldst_addr_i == s_trigger_match_data);
+
+            match = match_x | match_rw;
+
+            s_trigger_fire_o = prv_en && access_type_en && match;
+            s_trigger_action_o = s_trigger_tdata1[12 .. 12];
+        };
+    };
+};
+
+#endif // ifdef OPTION_OCD

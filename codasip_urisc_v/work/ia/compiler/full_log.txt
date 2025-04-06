@@ -1,0 +1,607 @@
+In instruction i_auipc__opc_auipc__reg0__imm20_s12__: warning: (BGW589): Has unused operands.
+
+In instruction i_call_reg_alias__reg0__: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__regs__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_slli__reg0__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_slli__reg0__regs__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_slli__regs__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srai__reg0__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srai__reg0__regs__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srai__regs__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srli__reg0__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srli__reg0__regs__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm_shift__opc_srli__regs__reg0__shift_imm__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_add__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_add__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_add__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_and__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_and__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_and__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_and__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_and__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_or__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_or__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_or__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sll__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sll__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sll__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sll__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_slt__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_slt__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_slt__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sltu__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sltu__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sltu__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sltu__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sra__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sra__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sra__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sra__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_srl__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_srl__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_srl__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_srl__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sub__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sub__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_sub__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_xor__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_xor__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_3reg__opc_xor__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_bgeu__regs__reg0__rel_addr12__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_blt__reg0__reg0__rel_addr12__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_bltu__regs__reg0__rel_addr12__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_bne__reg0__reg0__rel_addr12__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_jalr__opc_jalr__reg0__regs__simm12_simple__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_jalr__opc_jalr__regs__regs__simm12_simple__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_jump_reg_alias__reg0__: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_lui__opc_lui__reg0__imm20_s12__: warning: (BGW589): Has unused operands.
+
+In instruction i_mv_alias__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_neg_alias__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__reg0__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__regs__simm12_simple__: warning: (BGW589): Has unused operands.
+
+In instruction i_seqz_alias__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_snez_alias__reg0__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_addi__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__regs__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_andi__regs__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_ori__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_slti__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_comp_2reg_imm__opc_xori__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrci__reg0__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrci__regs__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrsi__reg0__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrsi__regs__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrwi__reg0__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_imm__opc_csrrwi__regs__regs_csr__imm5__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrc__reg0__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrc__reg0__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrc__regs__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrs__reg0__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrs__reg0__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrs__regs__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrw__reg0__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrw__reg0__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0__: warning: (BGW589): Has unused operands.
+
+In instruction i_control_registers_reg__opc_csrrw__regs__regs_csr__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_jalr__opc_jalr__reg0__regs__simm12_lo__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_jalr__opc_jalr__reg0__regs__simm12_pcrel_lo__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_jalr__opc_jalr__regs__regs__simm12_lo__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_jalr__opc_jalr__regs__regs__simm12_pcrel_lo__: warning: (BGW511): Invalid jump address computation. Address of a jump must be computed from only one input operand.
+
+In instruction i_lui_hi__opc_lui__reg0__imm20_hi__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__reg0__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__reg0__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__regs__simm12_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_ori_emulation_alias__reg0__regs__simm12_pcrel_lo__: warning: (BGW589): Has unused operands.
+
+In instruction i_jmp_rel_alias__rel_addr20__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_call_rel_alias__rel_addr20__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_beq__reg0__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_beq__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bge__reg0__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bge__regs__reg0__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bge__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bgeu__regs__reg0__rel_addr12__immspec_1_: warning: (BGW589): Has unused operands.
+
+In instruction i_control_conditional__opc_bgeu__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_blt__reg0__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_blt__regs__reg0__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_blt__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bltu__reg0__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bltu__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_control_conditional__opc_bne__regs__regs__rel_addr12__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_jal__opc_jal__regs__rel_addr20__immspec_1_: warning: (BGW506): Jumping on an invalid target.
+
+In instruction i_get_pc_alias__regs__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_jalr__opc_jalr__regs__regs__simm12_simple__immspec_1_: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_jal_abs__opc_jal__regs__rel_addr20__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_jalr__opc_jalr__regs__reg0__simm12_simple__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_auipc__opc_auipc__regs__imm20_s12__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_jal__opc_jal__regs__rel_addr20__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+warning: (BGW536): There's no support for 'truncate store' over type 'i32 to i1' (with all operands being registers). The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW541): There is no apparent return instruction. It will be implemented using instruction 'i_jump_reg_alias__regs__'.
+
+warning: (BGW539): Failed to find realization of operation '(brcond (i32 (setgt i32 CopyFromReg, imm)), BasicBlock)' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(brcond (i32 (setle i32 CopyFromReg, imm)), BasicBlock)' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(brcond (i32 (setugt i32 CopyFromReg, imm)), BasicBlock)' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(brcond (i32 (setule i32 CopyFromReg, imm)), BasicBlock)' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (seteq i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setne i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setge i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setgt i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setle i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setlt i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setuge i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setugt i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setule i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, imm)), i32 CopyFromReg, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, imm)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, imm)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, imm)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, CopyFromReg)), i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, CopyFromReg)), i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select (i32 (setult i32 CopyFromReg, CopyFromReg)), i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select i32 CopyFromReg, i32 imm, CopyFromReg)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select i32 CopyFromReg, i32 imm, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(select i32 CopyFromReg, i32 CopyFromReg, imm)' for type(s) 'i32:i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(i32 (setgt i32 CopyFromReg, imm))' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(i32 (setle i32 CopyFromReg, imm))' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(i32 (setugt i32 CopyFromReg, imm))' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+
+warning: (BGW539): Failed to find realization of operation '(i32 (setule i32 CopyFromReg, imm))' for type(s) 'i32'.
+The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
+

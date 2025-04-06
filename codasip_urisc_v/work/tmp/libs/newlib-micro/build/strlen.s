@@ -1,0 +1,26 @@
+	.text
+	.file	"strlen.c"
+	.globl	strlen                  //  -- Begin function strlen
+	.type	strlen,@function
+strlen:                                 //  @strlen
+	.cfi_sections .debug_frame
+	.cfi_startproc
+	.cfi_return_column 1
+//  %bb.0:                              //  %entry
+	.cfi_def_cfa 2, 0
+	add x11, x10, -1
+.LBB0_1:                                //  %while.cond
+                                        //  =>This Inner Loop Header: Depth=1
+	lbu x12, 1 ( x11 )
+	add x11, x11, 1
+	bltu x0, x12, .LBB0_1
+.LBB0_2:                                //  %while.end
+	sub x10, x11, x10
+	jr ra
+.Lfunc_end0:
+	.size	strlen, .Lfunc_end0-strlen
+	.cfi_endproc
+                                        //  -- End function
+
+	.ident	"clang version 9.0.1 (ssh://git@gitlab.codasip.com/codasip-studio/llvm-project.git de721e516e0cf84aa99255d0f6f37c402af48983)"
+	.section	".note.GNU-stack","",@progbits

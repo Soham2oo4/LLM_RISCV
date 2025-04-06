@@ -1,0 +1,134 @@
+#ifndef _MIE_
+#define _MIE_
+
+// mie [Machine Interrupt Enable Register]: containing interrupt enable bits
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MIE)
+#if OVERRIDE_EXPLICIT_MIE != 0xFF
+#define OVERRIDE_MIE_HOW OVERRIDE_EXPLICIT_MIE
+#else
+#define UNTOUCHED_MIE_VALUE
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if !defined(UNTOUCHED_MIE_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+// purpose of constraining: mie is more frequently set to non-reserved values
+
+// include new wrapped elements for mie register dependent on extra action
+set program_instruction += I_CONTROL_REGISTERS_ALL_FIX(wrapped_mie_, mie);
+
+// turn-off operation with mie register which they are handled by wrapped elements
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(, mie);
+        };
+    };
+};
+
+// connected with registers: operation inside scenario section
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS_FIX(, wrapped_mie_, mie, uimm_0_mie);
+
+// create special variables for randomization (properly name and type) with defined value restrictions
+variables
+{
+    REG_DATA_TYPE uimm_0_mie
+    {
+        constraints
+        {
+            weights
+            {
+                0..0xFFF / 1;
+                default / 0;
+            };
+        };
+    };
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(UNTOUCHED_MIE_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+#if (MIE_NOP_NUM != 0)
+//----------------------------------------------------------------------------------------------------------
+
+// NOPs are needed in order to achieve exact consistency between IA and CA.
+// Rewriting CSR control register may result in interrupt handling due to pipelined nature of CA.
+
+#if defined(GENERATE_AFTER_NOP)
+set program_instruction += I_CONTROL_REGISTERS_ALL(wrapped_nop_, mie);
+#if !defined(UNTOUCHED_MIE_VALUE)
+GENERATE_AFTER_NOP_ALL_FIX(wrapped_mie_, wrapped_nop_, mie, MIE_NOP_NUM);
+#else
+GENERATE_AFTER_NOP_ALL(wrapped_nop_, mie, MIE_NOP_NUM);
+#endif
+#endif
+
+#if defined(GENERATE_AFTER_NOP) || defined(GENERATE_AFTER_NOP_COMP)
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+#if !defined(UNTOUCHED_MIE_VALUE)
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(wrapped_mie_, mie);
+#endif
+            OVERRIDE_I_CONTROL_REGISTERS_ALL(, mie);
+        };
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //(MIE_NOP_NUM != 0)
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MIE_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MIE_HOW)(, mie);
+#if !defined(UNTOUCHED_MIE_VALUE)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX(OVERRIDE_MIE_HOW)(wrapped_mie_, mie);
+#endif
+#if (MIE_NOP_NUM != 0)
+#if defined(GENERATE_AFTER_NOP)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MIE_HOW)(wrapped_nop_, mie);
+#endif
+#if defined(GENERATE_AFTER_NOP_COMP)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MIE_HOW)(wrapped_nop_comp_, mie);
+#endif
+#endif
+        };
+    };
+};
+
+#if OVERRIDE_MIE_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mie);
+#endif
+
+#if OVERRIDE_MIE_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mie);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MIE_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MIE_

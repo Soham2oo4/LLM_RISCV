@@ -1,0 +1,446 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#pragma once
+
+#include "config.hcodal"
+
+// versions
+#define CORE_VERSION_MAJOR 0
+#define CORE_VERSION_MINOR 0
+#define CORE_VERSION_PATCH 0
+
+#if defined(OPTION_ENABLE_CACHES)
+#define fetch_interface      cache_l1.if_fetch_slave
+#define ldst_interface       cache_l1.if_ldst_slave
+#else
+#define fetch_interface      if_fetch
+#define ldst_interface       if_ldst
+#endif
+
+#define INFO_LEVEL          2
+#define WARNING_LEVEL       2
+#define ERROR_LEVEL         2
+#define DEBUG_LEVEL         2
+#define TRACE_LEVEL         3
+#define TRAP_INFO_LEVEL     4
+#define SIGNATURE_LEVEL     5
+#define PERF_LEVEL          6
+#define CSR_LEVEL           7
+#define PRINT_LVL_JTAG      30
+#define PRINT_LVL_IFU       50
+#define PRINT_LVL_IFB       51
+
+#define EXIT_CODE_ERROR     128
+#define ONES12 0xfff
+#define EXIT_ON_WARNING
+#define EXIT_ON_ERROR
+
+#define dprintf(...) codasip_print(DEBUG_LEVEL, __VA_ARGS__)
+#define traceprintf(...) codasip_print(TRACE_LEVEL, __VA_ARGS__)
+#define iprintf(...) codasip_info(INFO_LEVEL, __VA_ARGS__)
+
+#ifdef EXIT_ON_WARNING
+    #define wprintf(...) codasip_fatal(EXIT_CODE_ERROR, __VA_ARGS__)
+#else
+    #define wprintf(...) codasip_warning(WARNING_LEVEL, __VA_ARGS__)
+#endif
+
+#ifdef EXIT_ON_ERROR
+    #define eprintf(...) codasip_fatal(EXIT_CODE_ERROR, __VA_ARGS__)
+#else
+    #define eprintf(...) codasip_error(ERROR_LEVEL, __VA_ARGS__)
+#endif
+
+#define UNUSED(size) 0:bit[size]
+
+#if OPTION_XLEN == 64
+#define XLEN_T int64
+#define UXLEN_T uint64
+#define SHIFT_T uint6
+#else   // OPTION_XLEN == 32
+#define XLEN_T int32
+#define UXLEN_T uint32
+#define SHIFT_T uint5
+#endif
+
+#define DEFAULT_MSTATUS 0
+#define TRIGGER_COUNT 4
+
+#define CSR_NAME_MODE 11..10
+#define CSR_NAME_RONLY 3
+
+#define CSR_MIP_MEIP 11..11
+#define CSR_MIP_SEIP 9..9
+#define CSR_MIP_MTIP 7..7
+#define CSR_MIP_STIP 5..5
+#define CSR_MIP_MSIP 3..3
+#define CSR_MIP_SSIP 1..1
+
+#define CSR_MIE_MEIE 11..11
+#define CSR_MIE_SEIE 9..9
+#define CSR_MIE_MTIE 7..7
+#define CSR_MIE_STIE 5..5
+#define CSR_MIE_MSIE 3..3
+#define CSR_MIE_SSIE 1..1
+
+#if OPTION_XLEN == 64
+#define CSR_MSTATUS_SD  63..63
+#define CSR_MSTATUS_SXL 35..34
+#define CSR_MSTATUS_UXL 33..32
+#elif OPTION_XLEN == 32
+#define CSR_MSTATUS_SD  31..31
+#endif
+#define CSR_MSTATUS_TSR 22..22
+#define CSR_MSTATUS_TW 21..21
+#define CSR_MSTATUS_TVM 20..20
+#define CSR_MSTATUS_MXR 19..19
+#define CSR_MSTATUS_SUM 18..18
+#define CSR_MSTATUS_MPRV 17..17
+#define CSR_MSTATUS_FS 14..13
+#define CSR_MSTATUS_MPP 12..11
+#define CSR_MSTATUS_SPP 8..8
+#define CSR_MSTATUS_MPIE 7..7
+#define CSR_MSTATUS_SPIE 5..5
+#define CSR_MSTATUS_UPIE 4..4
+#define CSR_MSTATUS_MIE 3..3
+#define CSR_MSTATUS_SIE 1..1
+#define CSR_MSTATUS_UIE 0..0
+
+enum prv : uint2
+{
+    PRV_U = 0,
+    PRV_S,
+    PRV_M = 3,
+};
+
+// CSRs
+enum CSRS : uint12
+{
+    CSR_MSTATUS = 0x300, // MRW
+    CSR_MISA, // MRW
+    CSR_MIE = 0x304, // MRW
+    CSR_MTVEC, // MRW
+    CSR_MCOUNTINHIBIT = 0x320,
+    CSR_MHPMEVENT3 = 0x323, // MRW
+    CSR_MHPMEVENT4, // MRW
+    CSR_MHPMEVENT5, // MRW
+    CSR_MHPMEVENT6, // MRW
+    CSR_MHPMEVENT7, // MRW
+    CSR_MHPMEVENT8, // MRW
+    CSR_MHPMEVENT9, // MRW
+    CSR_MHPMEVENT10, // MRW
+    CSR_MHPMEVENT11, // MRW
+    CSR_MHPMEVENT12, // MRW
+    CSR_MHPMEVENT13, // MRW
+    CSR_MHPMEVENT14, // MRW
+    CSR_MHPMEVENT15, // MRW
+    CSR_MHPMEVENT16, // MRW
+    CSR_MHPMEVENT17, // MRW
+    CSR_MHPMEVENT18, // MRW
+    CSR_MHPMEVENT19, // MRW
+    CSR_MHPMEVENT20, // MRW
+    CSR_MHPMEVENT21, // MRW
+    CSR_MHPMEVENT22, // MRW
+    CSR_MHPMEVENT23, // MRW
+    CSR_MHPMEVENT24, // MRW
+    CSR_MHPMEVENT25, // MRW
+    CSR_MHPMEVENT26, // MRW
+    CSR_MHPMEVENT27, // MRW
+    CSR_MHPMEVENT28, // MRW
+    CSR_MHPMEVENT29, // MRW
+    CSR_MHPMEVENT30, // MRW
+    CSR_MHPMEVENT31, // MRW
+    CSR_MSCRATCH = 0x340, // MRW
+    CSR_MEPC, // MRW
+    CSR_MCAUSE, // MRW
+    CSR_MTVAL, // MRW
+    CSR_MIP, // MRW
+#ifdef OPTION_OCD
+    CSR_TSELECT = 0x7a0, // MRW
+    CSR_TDATA1, // MRW
+    CSR_TDATA2, // MRW
+    CSR_TDATA3, // MRW
+    CSR_TINFO,  // MRO
+    CSR_TCONTROL, // MRW
+    CSR_DCSR = 0x7b0, // DRW
+    CSR_DPC, // DRW
+#endif
+    // user machine scr
+    CSR_MCYCLE = 0xb00, // MRW
+    CSR_MINSTRET = 0xb02, // MRW
+    CSR_MHPMCOUNTER3 = 0xb03, // MRW
+    CSR_MHPMCOUNTER4, // MRW
+    CSR_MHPMCOUNTER5, // MRW
+    CSR_MHPMCOUNTER6, // MRW
+    CSR_MHPMCOUNTER7, // MRW
+    CSR_MHPMCOUNTER8, // MRW
+    CSR_MHPMCOUNTER9, // MRW
+    CSR_MHPMCOUNTER10, // MRW
+    CSR_MHPMCOUNTER11, // MRW
+    CSR_MHPMCOUNTER12, // MRW
+    CSR_MHPMCOUNTER13, // MRW
+    CSR_MHPMCOUNTER14, // MRW
+    CSR_MHPMCOUNTER15, // MRW
+    CSR_MHPMCOUNTER16, // MRW
+    CSR_MHPMCOUNTER17, // MRW
+    CSR_MHPMCOUNTER18, // MRW
+    CSR_MHPMCOUNTER19, // MRW
+    CSR_MHPMCOUNTER20, // MRW
+    CSR_MHPMCOUNTER21, // MRW
+    CSR_MHPMCOUNTER22, // MRW
+    CSR_MHPMCOUNTER23, // MRW
+    CSR_MHPMCOUNTER24, // MRW
+    CSR_MHPMCOUNTER25, // MRW
+    CSR_MHPMCOUNTER26, // MRW
+    CSR_MHPMCOUNTER27, // MRW
+    CSR_MHPMCOUNTER28, // MRW
+    CSR_MHPMCOUNTER29, // MRW
+    CSR_MHPMCOUNTER30, // MRW
+    CSR_MHPMCOUNTER31, // MRW
+#if OPTION_XLEN == 32
+    CSR_MCYCLEH = 0xb80,
+    CSR_MINSTRETH = 0xb82,
+    CSR_MHPMCOUNTER3H = 0xb83, // MRW
+    CSR_MHPMCOUNTER4H, // MRW
+    CSR_MHPMCOUNTER5H, // MRW
+    CSR_MHPMCOUNTER6H, // MRW
+    CSR_MHPMCOUNTER7H, // MRW
+    CSR_MHPMCOUNTER8H, // MRW
+    CSR_MHPMCOUNTER9H, // MRW
+    CSR_MHPMCOUNTER10H, // MRW
+    CSR_MHPMCOUNTER11H, // MRW
+    CSR_MHPMCOUNTER12H, // MRW
+    CSR_MHPMCOUNTER13H, // MRW
+    CSR_MHPMCOUNTER14H, // MRW
+    CSR_MHPMCOUNTER15H, // MRW
+    CSR_MHPMCOUNTER16H, // MRW
+    CSR_MHPMCOUNTER17H, // MRW
+    CSR_MHPMCOUNTER18H, // MRW
+    CSR_MHPMCOUNTER19H, // MRW
+    CSR_MHPMCOUNTER20H, // MRW
+    CSR_MHPMCOUNTER21H, // MRW
+    CSR_MHPMCOUNTER22H, // MRW
+    CSR_MHPMCOUNTER23H, // MRW
+    CSR_MHPMCOUNTER24H, // MRW
+    CSR_MHPMCOUNTER25H, // MRW
+    CSR_MHPMCOUNTER26H, // MRW
+    CSR_MHPMCOUNTER27H, // MRW
+    CSR_MHPMCOUNTER28H, // MRW
+    CSR_MHPMCOUNTER29H, // MRW
+    CSR_MHPMCOUNTER30H, // MRW
+    CSR_MHPMCOUNTER31H, // MRW
+#endif
+    CSR_MVENDORID = 0xf11, // MRO
+    CSR_MARCHID, // MRO
+    CSR_MIMPID, // MRO
+    CSR_MHARTID, // MRO
+
+    // ----
+    // Custom Machine read-only registers start here
+    // ----
+#if defined(OPTION_ENABLE_CACHES)
+    CSR_ML1CACHE_START = 0xfc0,
+#endif
+    CSR_NMI = 0xfc1,
+    CSR_NMI_MTVAL = 0xfc6,
+
+};
+
+// exceptions (trap) causes
+enum causes_excpt : uint5
+{
+    // >= 12 - reserved
+    MISALIGNED_FETCH = 0,
+    FAULT_FETCH = 1,
+    ILLEGAL_INST,
+    BREAK,
+    MISALIGNED_LOAD,
+    FAULT_LOAD,
+    MISALIGNED_STORE,
+    FAULT_STORE,
+    U_ECALL,
+    M_ECALL = 11,
+    NMI_BUS_ERROR = 24, // Buss error on fetch or ldst interface
+    TGM_DM,             // Trigger fire: Enter Debug Mode.
+    TGM_BREAK,          // Trigger fire: Raise a breakpoint exception.
+};
+
+// interrupt (trap) causes
+enum causes_int : uint5
+{
+    M_INT_SW = 3,
+    M_INT_TIMER = 7,
+    M_INT_EXTERNAL = 11,
+    M_INT_NMI = 16,
+};
+
+enum exception_interrupt
+{
+    EXCEPTION = 0,
+    INTERRUPT
+};
+
+// event selectors for performance monitor
+// event 0 is defined to mean no event
+enum event_sel
+{
+    NO_EVENT = 0,
+    TOTAL_FLUSH,
+    CSR_FLUSH,
+    EXC_FLUSH,
+    INT_FLUSH,
+    BRANCH_MISS,
+    DATA_STALL,
+    DIV_STALL,
+    IFU_STALL,
+    LSU_STALL,
+};
+
+#define INSTR_LAU_SIZE (INSTR_W / LAU_W)
+
+#define REG_RA      1
+#define REG_SP      2
+#define REG_ARA     5
+#define REG_FP      8
+#define REG_RETVAL 10
+
+#define REG_UNUSED1 28
+
+#define DEC_PC true
+#define KEEP_PC false
+
+#define SYSCALL_ADDR (OPTION_BOOT_START + 0x10)
+
+#if defined(OPTION_ENABLE_CACHES)
+#if OPTION_XLEN == 64
+#define READ_ML1CACHE_START (r_csr_ml1cache_start[ADDR_W - 1 .. 10] :: (uint10)0)
+#define ML1CACHE_I_INVALIDATE_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 10] :: (uint10)I_INVALIDATE_ALL)
+#define ML1CACHE_FLUSH_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 10] :: (uint10)D_FLUSH_ALL)
+#define ML1CACHE_D_INVALIDATE_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 10] :: (uint10)D_INVALIDATE_ALL)
+#else
+#define READ_ML1CACHE_START (r_csr_ml1cache_start[ADDR_W - 1 .. 9] :: (uint9)0)
+#define ML1CACHE_I_INVALIDATE_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 9] :: (uint9)I_INVALIDATE_ALL)
+#define ML1CACHE_FLUSH_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 9] :: (uint9)D_FLUSH_ALL)
+#define ML1CACHE_D_INVALIDATE_ALL_ADDR (r_csr_ml1cache_start[ADDR_W - 1 .. 9] :: (uint9)D_INVALIDATE_ALL)
+#endif
+#endif
+
+#ifdef OPTION_OCD
+enum tdata1_type : uint4
+{
+    TDATA1_TYPE_NO_TRIGGER = 0,
+    TDATA1_TYPE_ADDR_DATA_MATCH_TRIGGER = 2,
+    TDATA1_TYPE_INSTR_CNT_TRIGGER,
+    TDATA1_TYPE_INT_TRIGGER,
+    TDATA1_TYPE_EXC_TRIGGER,
+};
+enum tdata1_dmode : uint1
+{
+    TDATA1_DMODE_BOTH = 0,
+    TDATA1_DMODE_DEBUG,
+};
+enum tdata1_action : uint4
+{
+    TDATA1_ACTION_BREAK = 0,
+    TDATA1_ACTION_DEBUG,
+};
+enum tdata1_maskmax: uint6
+{
+    TDATA1_MASKMAX_NAPOT_0,
+    TDATA1_MASKMAX_NAPOT_1,
+    TDATA1_MASKMAX_NAPOT_2,
+    TDATA1_MASKMAX_NAPOT_3,
+};
+enum tdata1_select : uint1
+{
+    TDATA1_SELECT_ADDR = 0,
+    TDATA1_SELECT_DATA
+};
+enum tdata1_timing : uint1
+{
+    TDATA1_TIMING_BEFORE = 0,
+    TDATA1_TIMING_AFTER
+};
+#if OPTION_XLEN == 32
+enum tdata1_size : uint2
+#else
+enum tdata1_size : uint4
+#endif
+{
+    TDATA1_SIZE_ANY = 0,
+    TDATA1_SIZE_8,
+    TDATA1_SIZE_16,
+    TDATA1_SIZE_32,
+#if OPTION_XLEN == 64
+    TDATA1_SIZE_64 = 5,
+#endif
+};
+enum tdata1_match : uint4
+{
+    TDATA1_MATCH_EQ = 0,
+    TDATA1_MATCH_NAPOT,
+    TDATA1_MATCH_GE,
+    TDATA1_MATCH_LT,
+    TDATA1_MATCH_LO_AND,
+    TDATA1_MATCH_HI_AND,
+};
+enum ldst_operation_t : uint2
+{
+    LDST_OPER_NONE,
+    LDST_OPER_STORE,
+    LDST_OPER_LOAD,
+};
+
+#define TINFO_VALUE                 0x4
+#if XLEN == 32
+#define CSR_TDATA1_DEFAULT_VALUE    0x28001000u
+#else
+#define CSR_TDATA1_DEFAULT_VALUE    0x2800000000001000ul
+#endif
+#define CSR_TCONTROL_MPTE           7..7
+#define CSR_TCONTROL_MTE            3..3
+#define CSR_TDATA1_TYPE             (XLEN - 1)..(XLEN - 4)
+#define CSR_TDATA1_DMODE            (XLEN - 5)..(XLEN - 5)
+#define CSR_TDATA1_ETRIGGER_M       9..9
+#define CSR_TDATA1_ETRIGGER_U       6..6
+#define CSR_TDATA1_ETRIGGER_ACTION  5..0
+#define CSR_TDATA1_ITRIGGER_M       9..9
+#define CSR_TDATA1_ITRIGGER_U       6..6
+#define CSR_TDATA1_ITRIGGER_ACTION  5..0
+#define CSR_TDATA1_INSTR_CNT        23..10
+#define CSR_TDATA1_INSTR_M          9..9
+#define CSR_TDATA1_INSTR_U          6..6
+#define CSR_TDATA1_INSTR_ACTION     5..0
+#define CSR_TDATA1_MCONTROL_ACTION  15..12
+#define CSR_TDATA1_MCONTROL_MATCH   10..7
+#define CSR_TDATA1_MCONTROL_M       6..6
+#define CSR_TDATA1_MCONTROL_U       3..3
+#define CSR_TDATA1_MCONTROL_X       2..2
+#define CSR_TDATA1_MCONTROL_W       1..1
+#define CSR_TDATA1_MCONTROL_R       0..0
+// Bit width of common fields for all trigger types: type + dmode
+#define CSR_TDATA1_COMMON_W         5
+#endif
+
+// CSR Counter Inhibit
+#define MCOUNTINHIBIT_WRITE_MASK  0x7e7d

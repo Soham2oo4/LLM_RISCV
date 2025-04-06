@@ -1,0 +1,46 @@
+#ifndef _TCONTROL_
+#define _TCONTROL_
+
+// tcontrol [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_TCONTROL)
+#if OVERRIDE_EXPLICIT_TCONTROL != 0xFF
+#define OVERRIDE_TCONTROL_HOW OVERRIDE_EXPLICIT_TCONTROL
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_TCONTROL_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_TCONTROL_HOW)(, tcontrol);
+        };
+    };
+};
+
+#if OVERRIDE_TCONTROL_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(tcontrol);
+#endif
+
+#if OVERRIDE_TCONTROL_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(tcontrol);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_TCONTROL_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_TCONTROL_

@@ -1,0 +1,160 @@
+#ifndef _MSTATUS_
+#define _MSTATUS_
+
+// mstatus [Machine Status Register]: keeps track of and controls the hart's current operating state
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MSTATUS)
+#if OVERRIDE_EXPLICIT_MSTATUS != 0xFF
+#define OVERRIDE_MSTATUS_HOW OVERRIDE_EXPLICIT_MSTATUS
+#else
+#define UNTOUCHED_MSTATUS_VALUE
+#endif
+#endif
+
+// for global interrupt to remain all the time enabled
+#define MSTATUS_MASK_S 0x8
+#define MSTATUS_MASK_C ~MSTATUS_MASK_S
+
+#if defined(INTERRUPTS)
+// druring driven interrupts must be xIE and xPIE set and xPP cleared
+#define MSTATUS_MASK_IRQ_S 0x88
+#define MSTATUS_MASK_XPP_C 0x1800
+#define MSTATUS_MASK_IRQ_C ~MSTATUS_MASK_IRQ_S
+#define MSTATUS_MASK_XPP_S ~MSTATUS_MASK_XPP_C
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if !defined(UNTOUCHED_MSTATUS_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+// purpose of constraining: mstatus
+
+// include new wrapped control elements for mstatus register dependent on extra action
+set program_instruction += I_CONTROL_REGISTERS_ALL_FIX(wrapped_mstatus_, mstatus);
+
+// turn-off operation with mstatus register which they are handled by wrapped elements
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(, mstatus);
+        };
+    };
+};
+
+// connected with registers: operation inside scenario section
+// properly randomized value must combined with correct operation bit clear or write
+#if defined(INTERRUPTS)
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrc, mstatus, ((uimm_0_mstatus & MSTATUS_MASK_IRQ_C) | MSTATUS_MASK_XPP_C));
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrs, mstatus, ((uimm_0_mstatus | MSTATUS_MASK_IRQ_S) & MSTATUS_MASK_XPP_S));
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrw, mstatus, ((uimm_0_mstatus | MSTATUS_MASK_IRQ_S) & MSTATUS_MASK_XPP_S));
+#else
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrc, mstatus, (uimm_0_mstatus & MSTATUS_MASK_C));
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrs, mstatus, (uimm_0_mstatus | MSTATUS_MASK_S));
+CREATE_SCENARIO_WRAPPED_I_CONTROL_REGISTERS_REGS(, wrapped_mstatus_, csrrw, mstatus, (uimm_0_mstatus | MSTATUS_MASK_S));
+#endif
+
+// connected with immediates: renew assembly section
+// properly randomized value must combined with correct operation bit clear or write
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrci, mstatus, uimm_5_0_mstatus, " & MSTATUS_MASK_C");
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrsi, mstatus, uimm_5_0_mstatus, " | MSTATUS_MASK_S");
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrwi, mstatus, uimm_5_0_mstatus, " | MSTATUS_MASK_S");
+
+// create special variables for randomization (properly name and type) with defined value restrictions
+variables
+{
+    REG_DATA_TYPE uimm_0_mstatus;
+    uint5 uimm_5_0_mstatus;
+};
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(UNTOUCHED_MSTATUS_VALUE)
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+#if (MSTATUS_NOP_NUM != 0)
+//----------------------------------------------------------------------------------------------------------
+
+// NOPs are needed in order to achieve exact consistency between IA and CA.
+// Rewriting CSR control register may result in interrupt handling due to pipelined nature of CA.
+
+#if defined(GENERATE_AFTER_NOP)
+set program_instruction += I_CONTROL_REGISTERS_ALL(wrapped_nop_, mstatus);
+#if !defined(UNTOUCHED_MSTATUS_VALUE)
+GENERATE_AFTER_NOP_ALL_FIX(wrapped_mstatus_, wrapped_nop_, mstatus, MSTATUS_NOP_NUM);
+
+#else
+GENERATE_AFTER_NOP_ALL(wrapped_nop_, mstatus, MSTATUS_NOP_NUM);
+#endif
+#endif
+
+
+
+#if defined(GENERATE_AFTER_NOP) || defined(GENERATE_AFTER_NOP_COMP)
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+#if !defined(UNTOUCHED_MSTATUS_VALUE)
+            OVERRIDE_I_CONTROL_REGISTERS_ALL_FIX(wrapped_mstatus_, mstatus);
+#endif
+            OVERRIDE_I_CONTROL_REGISTERS_ALL(, mstatus);
+        };
+    };
+};
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //(MSTATUS_NOP_NUM != 0)
+//----------------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MSTATUS_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MSTATUS_HOW)(, mstatus);
+#if !defined(UNTOUCHED_MSTATUS_VALUE)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW_FIX(OVERRIDE_MSTATUS_HOW)(wrapped_mstatus_, mstatus);
+#endif
+#if (MSTATUS_NOP_NUM != 0)
+#if defined(GENERATE_AFTER_NOP)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MSTATUS_HOW)(wrapped_nop_, mstatus);
+#endif
+#if defined(GENERATE_AFTER_NOP_COMP)
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MSTATUS_HOW)(wrapped_nop_comp_, mstatus);
+#endif
+#endif
+        };
+    };
+};
+
+#if OVERRIDE_MSTATUS_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mstatus);
+#endif
+
+#if OVERRIDE_MSTATUS_HOW == 3
+#if !defined(UNTOUCHED_MSTATUS_VALUE)
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrci, mstatus, uimm_5_0_nonezero, " & MSTATUS_MASK_C");
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5(csrrsi, mstatus, uimm_5_0_nonezero, " | MSTATUS_MASK_S");
+#else
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mstatus);
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MSTATUS_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MSTATUS_

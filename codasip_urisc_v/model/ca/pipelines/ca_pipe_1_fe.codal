@@ -1,0 +1,97 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law. In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "ca_defines.hcodal"
+
+event fe : pipeline(pipe.FE)
+{
+    // Instruction Fetch Unit instance
+    use ifu.compute_req as ifu_compute_req;
+    use ifu.compute_fin as ifu_compute_fin;
+    // Next PC instance
+    use npc.get_ifu_addr as npc_get_ifu_addr;
+    use npc.get_next_addr as npc_get_next_addr;
+    // Instruction Fetch Buffer instance
+    use ifb.ifb_update as ifb_update;
+
+    semantics
+    {
+        s_fe_flush = s_flush;
+
+        ifu.s_flush_i = s_fe_flush;
+        ifu.s_ack_i = !ifb.s_full_o;
+
+        ifu_compute_fin();
+
+        npc.s_pc_addr_i = r_PC;
+
+        npc_get_ifu_addr();
+
+        ifu.s_addr_i = npc.s_ifu_addr_o;
+        ifu.s_addr_valid_i = (~ifb.s_full_o & ~r_reset_init
+#if defined(OPTION_OCD)
+            & ~ocd.s_ocd_busy_o
+#endif
+            );
+
+        ifu_compute_req();
+
+        // Next PC
+        npc.s_trap_addr_i = crf.s_trap_addr_o;
+        npc.s_trap_valid_i = crf.s_trap_valid_o;
+        npc.s_branch_addr_i = s_ex_branch_target_addr;
+        npc.s_branch_valid_i = s_ex_branch_miss;
+#ifdef OPTION_OCD
+        npc.s_ocd_addr_i = ocd.s_ocd_addr_o;
+        npc.s_ocd_valid_i = ocd.s_ocd_valid_o;
+#endif
+        npc.s_csr_addr_i = crf.s_csr_addr_o;
+        npc.s_csr_valid_i = crf.s_csr_valid_o | s_ex_fence_valid;
+
+        // Fill the IFB
+        ifb.s_valid_i = ifu.s_data_valid_o;
+        ifb.s_push_i = (ifu.s_data_valid_o != 0) && !s_fe_flush;
+        ifb.s_addr_i = ifu.s_data_addr_o;
+        ifb.s_data_i = ifu.s_data_o;
+        ifb.s_exc_type_i = ifu.s_exc_type_o;
+        ifb.s_exc_valid_i = ifu.s_exc_valid_o;
+
+        ifb_update();
+
+        // We should stall when
+        // - IFU is busy for some reason
+        // - or IFB is full
+        npc.s_stall_i =
+#ifdef OPTION_OCD
+            ocd.s_ocd_busy_o |
+#endif
+            ifb.s_full_o | ifu.s_ifu_busy_o;
+
+        npc_get_next_addr();
+
+        // PC: after the reset, boot from the user-selected address, provided at the dedicated port
+        r_PC = r_reset_init ? p_boot_addr : npc.s_pc_addr_o;
+
+        // PERF
+        s_perf_ifu_stall = ifu.s_bus_busy_o;
+    };
+};

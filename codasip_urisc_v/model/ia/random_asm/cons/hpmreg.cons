@@ -1,0 +1,266 @@
+#ifndef _HPMREG_
+#define _HPMREG_
+
+// create element names for all possible instructions (complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_ALL_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// create element names for Read CSR instructions (of complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_READ_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// create element names for Write CSR instructions (of complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_WRITE_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// create element names for Read-Only CSR instructions (of complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_READ_ONLY_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_READ_ONLY(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// create element names for Write-Only CSR instructions (of complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_WRITE_ONLY_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_ONLY(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// create element names for Write Special CSR instructions (of complete set) of all HPM registers for the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_WRITE_SPEC_HPMREG(repl_pfx, repl_reg, ...) \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##3##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##4##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##5##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##6##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##7##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##8##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##9##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##10##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##11##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##12##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##13##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##14##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##15##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##16##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##17##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##18##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##19##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##20##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##21##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##22##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##23##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##24##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##25##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##26##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##27##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##28##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##29##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##30##__VA_ARGS__), \
+        I_CONTROL_REGISTERS_WRITE_SPEC(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// suppress generation of all possible elements (complete set) of all HPM registers identified by the given register name
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define OVERRIDE_I_CONTROL_REGISTERS_ALL_HPMREG(repl_pfx, repl_reg, ...) \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##3##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##4##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##5##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##6##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##7##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##8##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##9##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##10##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##11##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##12##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##13##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##14##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##15##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##16##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##17##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##18##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##19##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##20##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##21##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##22##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##23##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##24##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##25##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##26##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##27##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##28##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##29##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##30##__VA_ARGS__); \
+        OVERRIDE_I_CONTROL_REGISTERS_ALL(repl_pfx, repl_reg##31##__VA_ARGS__)
+
+// concatenate the token code into string of next calling macro name to execute switch case
+#define I_CONTROL_REGISTERS_HOW_HPMREG(x) I_CONTROL_REGISTERS_HOW_HPMREG_(x)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_(x) I_CONTROL_REGISTERS_HOW_HPMREG_##x
+
+// Perform the appropriate procedure (of complete set) based on the call.
+// When override Write (how=2) MUST also follow changing instructions use immediate operand ONLY ZERO value!
+// When override Read-Only (how=3) MUST also follow changing instructions use immediate operand NONE ZERO value!
+// repl_pfx - prefix name
+// repl_reg - register name [mhpmcounter(h), mhpmevent, hpmcounter(h)]
+// ... - (variadic argument) for suffix 'h' when length = 32
+#define I_CONTROL_REGISTERS_HOW_HPMREG_0(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_ALL_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_1(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_READ_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_2(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_WRITE_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_3(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_READ_ONLY_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_4(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_WRITE_ONLY_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+#define I_CONTROL_REGISTERS_HOW_HPMREG_5(repl_pfx, repl_reg, ...) I_CONTROL_REGISTERS_WRITE_SPEC_HPMREG(repl_pfx, repl_reg, __VA_ARGS__)
+
+#endif //_HPMREG_

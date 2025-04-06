@@ -1,0 +1,49 @@
+#ifndef _TDATA_
+#define _TDATA_
+
+// tdata [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_TDATA)
+#if OVERRIDE_EXPLICIT_TDATA != 0xFF
+#define OVERRIDE_TDATA_HOW OVERRIDE_EXPLICIT_TDATA
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_TDATA_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_TDATA_HOW)(, tdata1);
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_TDATA_HOW)(, tdata2);
+        };
+    };
+};
+
+#if OVERRIDE_TDATA_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(tdata1);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(tdata2);
+#endif
+
+#if OVERRIDE_TDATA_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(tdata1);
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(tdata2);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_TDATA_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_TDATA_

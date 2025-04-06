@@ -1,0 +1,46 @@
+#ifndef _DPC_
+#define _DPC_
+
+// dpc [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_DPC)
+#if OVERRIDE_EXPLICIT_DPC != 0xFF
+#define OVERRIDE_DPC_HOW OVERRIDE_EXPLICIT_DPC
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_DPC_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_DPC_HOW)(, dpc);
+        };
+    };
+};
+
+#if OVERRIDE_DPC_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(dpc);
+#endif
+
+#if OVERRIDE_DPC_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(dpc);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_DPC_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_DPC_

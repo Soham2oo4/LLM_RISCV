@@ -1,0 +1,41 @@
+#ifndef _MCOUNTINHIBIT_
+#define _MCOUNTINHIBIT_
+
+// mcountinhibit [Machine Counter-Inhibit Register]: controls only which of the hardware performance-monitoring counters is incrementing, accessibility is not affected by the setting
+
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_MCOUNTINHIBIT)
+#if OVERRIDE_EXPLICIT_MCOUNTINHIBIT != 0xFF
+#define OVERRIDE_MCOUNTINHIBIT_HOW OVERRIDE_EXPLICIT_MCOUNTINHIBIT
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_MCOUNTINHIBIT_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_MCOUNTINHIBIT_HOW)(, mcountinhibit);
+        };
+    };
+};
+
+#if OVERRIDE_MCOUNTINHIBIT_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(mcountinhibit);
+#endif
+
+#if OVERRIDE_MCOUNTINHIBIT_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(mcountinhibit);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_MCOUNTINHIBIT_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_MCOUNTINHIBIT_

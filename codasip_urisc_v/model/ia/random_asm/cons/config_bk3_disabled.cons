@@ -1,0 +1,78 @@
+#ifndef _CONFIG_BK3_DISABLED_
+#define _CONFIG_BK3_DISABLED_
+
+//----------------------------------------------------------------------------------------------------------
+// RandomGen constraints for Bk3 can be configured in this file using defines.
+// Without any defines, default constraints are applied.
+// If a particular define has value 0xFF, only constraints generated from IA model are applied.
+// To override some instruction actually means to disable its generation.
+
+// how to override:
+// 0 - all
+// 1 - read (allow write-only)
+// 2 - write (allow read-only)
+// 3 - read-only
+// 4 - write-only
+// 5 - write special (csrrw and csrrwi)
+// 0xFF - no constraints at all (UNTOUCHED)
+// without explicit mention = default behavior = remains using more frequent values in CSR
+
+//----------------------------------------------------------------------------------------------------------
+
+// due to inconsistency between IA and CA (number of cycles is always higher for pipeline handling)
+#define OVERRIDE_EXPLICIT_CYCLE          0
+
+// due to inconsistency between IA and CA (not able to synchronize, the effort would be unreasonable)
+#define OVERRIDE_EXPLICIT_HPMCOUNTER     0
+#define OVERRIDE_EXPLICIT_MHPMEVENT      0
+
+// transition between virtualization modes should not changed (not an easy way to do randomization)
+#define OVERRIDE_EXPLICIT_SATP           0
+
+// trap handler address should not be changed in order to generate finite programs
+#define OVERRIDE_EXPLICIT_MTVEC          2
+#define OVERRIDE_EXPLICIT_STVEC          2
+
+// mcountinhibit cannot be changed because counter inhibition is not implemented in IA model
+#define OVERRIDE_EXPLICIT_MCOUNTINHIBIT  2
+
+// do not generate all
+#define OVERRIDE_EXPLICIT_ML1CACHE_START 0
+#define OVERRIDE_EXPLICIT_NMI            0
+#define OVERRIDE_EXPLICIT_NMI_MTVAL      0
+
+// do not generate all because they are an exception raised by the debugger to transfer control back
+#define OVERRIDE_EXPLICIT_TCONTROL       0
+#define OVERRIDE_EXPLICIT_TDATA          0
+#define OVERRIDE_EXPLICIT_TSELECT        0
+
+#define OVERRIDE_EXPLICIT_MPICFLAG       0
+//----------------------------------------------------------------------------------------------------------
+
+// due to drive interrupts port behaviour is different for IA and CA (synchronization processing)
+#if defined(INTERRUPTS)
+#define OVERRIDE_EXPLICIT_MIP            0
+#define OVERRIDE_EXPLICIT_MIE            0
+#define OVERRIDE_EXPLICIT_MSTATUS        0
+
+#define OVERRIDE_EXPLICIT_INSTRET        1
+#define OVERRIDE_EXPLICIT_MTVAL          1
+#define OVERRIDE_EXPLICIT_MCAUSE         1
+#define OVERRIDE_EXPLICIT_MEPC           1
+#define OVERRIDE_EXPLICIT_MSCRATCH       1
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+
+// allow read-only instruction generation for enabling data/instruction tcm
+#define OVERRIDE_EXPLICIT_MDTCMEN        2
+#define OVERRIDE_EXPLICIT_MITCMEN        2
+// not required (but backward compatibility) use read-only access for address and size as well
+#define OVERRIDE_EXPLICIT_MDTCMADDR      2
+#define OVERRIDE_EXPLICIT_MDTCMSIZE      2
+#define OVERRIDE_EXPLICIT_MITCMADDR      2
+#define OVERRIDE_EXPLICIT_MITCMSIZE      2
+
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_CONFIG_BK3_DISABLED_

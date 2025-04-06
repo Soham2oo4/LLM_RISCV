@@ -1,0 +1,24 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  "version": "0.2.0",
+  "configurations": [
+    {
+        "type": "lldb-mi",
+        "request": "launch",
+        "name": "hackaton_sw-codasip_urisc_v-ia",
+        "lldbmipath": "codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-lldb-mi",
+        "target": "hackaton_sw/build/main.xexe",
+        "stopAtEntry": true,
+        "cwd": "${workspaceRoot}",
+        "valuesFormatting": "parseText",
+        "printCalls": true,
+        "debugger_args": [
+            "--simulator-args",
+            "--logging 13"
+        ],
+        "codasip": [],
+        "showDevDebugOutput": false
+    }
+]
+}

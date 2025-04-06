@@ -1,0 +1,219 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "isa.hcodal"
+#include "opcodes.hcodal"
+
+/************************ Integer Computational Register-Immediate Instructions Aliases ***********/
+#if OPTION_XLEN == 64
+// Sign extension
+element i_sext_alias : assembler_alias(i_comp_2reg_imm), compiler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst;
+    use reg32_any as src;
+    assembly { "sext.w" dst "," src };
+    binary { 0:bit[IMM12_W] src OPC_I_ADDIW[OPC_FRAG1] dst OPC_I_ADDIW[OPC_FRAG0] };
+    semantics
+    {
+        rf_gpr_write(dst, SEXT_XLEN(SEXT32(rf_gpr32_read(src))));
+    };
+};
+set i_comp += i_sext_alias;
+#endif // OPTION_XLEN == 64
+
+element i_lui_hi : assembler_alias(i_lui), compiler_alias(i_lui)
+{
+    use opc_lui as opc;
+    use reg_any as dst;
+    use imm20_hi as imm;
+    assembly { opc dst "," imm };
+    binary { imm dst opc };
+    semantics
+    {
+        UXLEN_T val;
+        codasip_compiler_unused();
+        val = SEXT_XLEN(imm);
+
+        rf_gpr_write(dst, val);
+    };
+};
+
+set i_comp += i_lui_hi;
+
+element i_neg_alias : assembler_alias(i_comp_3reg), compiler_alias(i_comp_3reg)
+{
+    use reg_any as dst, src;
+    assembly { "neg" dst "," src };
+    binary { OPC_R_SUB[OPC_FRAG2] src 0:bit[RF_GPR_ADDR] OPC_R_SUB[OPC_FRAG1] dst OPC_R_SUB[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr_write(dst, compute(OPC_R_SUB, 0, rf_gpr_read(src)));
+    };
+};
+set i_comp += i_neg_alias;
+
+#if OPTION_XLEN == 64
+// Negate
+element i_neg_alias_32 : assembler_alias(i_comp_3reg_32), compiler_alias(i_comp_3reg_32)
+{
+    use reg32_any as dst, src;
+    assembly { "negw" dst "," src };
+    binary { OPC_R_SUBW[OPC_FRAG2] src 0:bit[RF_GPR_ADDR] OPC_R_SUBW[OPC_FRAG1] dst OPC_R_SUBW[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr32_write(dst, compute32(OPC_R_SUBW, 0, rf_gpr32_read(src)));
+    };
+};
+set i_comp += i_neg_alias_32;
+#endif // OPTION_XLEN == 64
+
+// Get program counter - AUIPC dst, 0
+element i_get_pc_alias : assembler_alias(i_auipc), compiler_alias(i_auipc)
+{
+    use reg_any as dst;
+    assembly { "get.pc" dst };
+    binary { 0:bit[IMM20_W] dst OPC_U_AUIPC[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, (r_PC - INSTR_LAU_SIZE));
+    };
+};
+
+// NOP - alias to ADDI r0, r0, 0
+element i_nop_alias : assembler_alias(i_comp_2reg_imm), compiler_alias(i_comp_2reg_imm)
+{
+    assembly { "nop" };
+    binary { 0:bit[IMM12_W] 0:bit[RF_GPR_ADDR] OPC_I_ADDI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_ADDI[OPC_FRAG0] };
+    semantics
+    {
+        codasip_nop();
+    };
+};
+
+// Direct register copy - alias to ADDI dst, src, 0
+element i_mv_alias : assembler_alias(i_comp_2reg_imm), compiler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    assembly { "mv" dst "," src };
+    binary { 0:bit[IMM12_W] src OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, rf_gpr_read(src));
+    };
+};
+
+// Set equals zero
+element i_seqz_alias : assembler_alias(i_comp_2reg_imm), compiler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    assembly { "seqz" dst "," src };
+    binary { 1:bit[IMM12_W] src OPC_I_SLTIU[OPC_FRAG1] dst OPC_I_SLTIU[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, compute(OPC_I_SLTIU, rf_gpr_read(src), 1));
+    };
+};
+
+set i_comp += i_nop_alias, i_mv_alias, i_seqz_alias, i_get_pc_alias;
+
+/************************ Integer Computational Register-Register Operations Aliases **************/
+element i_snez_alias : assembler_alias(i_comp_3reg), compiler_alias(i_comp_3reg)
+{
+    use reg_any as dst, src;
+    assembly { "snez" dst "," src };
+    binary { OPC_R_SLTU[OPC_FRAG2] src 0:bit[RF_GPR_ADDR] OPC_R_SLTU[OPC_FRAG1] dst OPC_R_SLTU[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, compute(OPC_R_SLTU, 0, rf_gpr_read(src)));
+    };
+};
+
+set i_comp += i_snez_alias;
+
+/****************************** Unconditional Jumps Aliases ***************************************/
+// Relative call
+element i_call_rel_alias : assembler_alias(i_jal), compiler_alias(i_jal)
+{
+    use rel_addr20 as addr;
+    assembly { "jal" addr };
+    binary { addr[19..19] addr[9..0] addr[10..10] addr[18..11] 1:bit[RF_GPR_ADDR] OPC_U_JAL:bit[OPC7_W] };
+    semantics
+    {
+        uint64 tmp;
+        codasip_compiler_priority(PRIORITY_FULL); // default call
+        tmp = r_PC;
+        r_PC = SEXT_XLEN(r_PC - INSTR_LAU_SIZE) + SEXT_XLEN(addr);
+        rf_gpr_write(1, tmp);
+    };
+};
+
+// Relative jump
+element i_jmp_rel_alias : assembler_alias(i_jal), compiler_alias(i_jal)
+{
+    use rel_addr20 as addr;
+    assembly { "j" addr };
+    binary { addr[19..19] addr[9..0] addr[10..10] addr[18..11] 0:bit[RF_GPR_ADDR] OPC_U_JAL:bit[OPC7_W] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1); // This is the longest jump.
+        r_PC = SEXT_XLEN(r_PC - INSTR_LAU_SIZE) + SEXT_XLEN(addr);
+    };
+};
+
+// Absolute call
+element i_call_reg_alias : assembler_alias(i_jalr), compiler_alias(i_jalr)
+{
+    use reg_any as src;
+    assembly { "call.reg" src };
+    binary { 0:bit[IMM12_W] src OPC_I_JALR[OPC_FRAG1] 1:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0] };
+    semantics
+    {
+        uint64 tmp;
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        tmp = r_PC;
+        // Mask out the lowest bit.
+        // The value of PC needs to be 2-byte aligned.
+        r_PC = rf_gpr_read(src) & 0xfffffffffffffffeul;
+        rf_gpr_write(1, tmp);
+    };
+};
+
+// Absolute jump register
+element i_jump_reg_alias : assembler_alias(i_jalr), compiler_alias(i_jalr)
+{
+    use reg_any as src;
+    assembly { "jr" src };
+    binary { 0:bit[IMM12_W] src OPC_I_JALR[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0] };
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        r_PC = rf_gpr_read(src) & 0xfffffffffffffffeul;
+    };
+};
+
+set i_control += i_jump_reg_alias, i_jmp_rel_alias, i_call_rel_alias, i_call_reg_alias;

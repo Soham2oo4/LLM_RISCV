@@ -1,0 +1,2491 @@
+c_addi_lo__opc_addi__regs__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,0,32,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+c_lui_hi__opc_lui__regs__
+        %4 = i32 immop(imm_1,0,32,0,0);
+        regop(reg_0) = i32 %4;
+
+i_auipc__opc_auipc__reg0__imm20_s12__
+
+i_auipc__opc_auipc__regs__imm20_s12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,0,32,12,12);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        regop(reg_0) = i32 %4;
+
+i_call_reg_alias__reg0__
+        %5 = i32 0;
+        %6 = i1 -1;
+        jump(i32 %5, i1 %6);
+        %7 = i32 get_pc();
+        reg(codasip_register_class_index_17, 1) = i32 %7;
+
+i_call_reg_alias__regs__
+        %6 = i32 regop(reg_0);
+        %7 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %7);
+        %8 = i1 -1;
+        jump(i32 %5, i1 %8);
+        %9 = i32 get_pc();
+        reg(codasip_register_class_index_17, 1) = i32 %9;
+
+i_call_rel_alias__rel_addr20__
+        %8 = i32 immop(imm_0,1,21,0,0);
+        %9 = i32 -4;
+        %7 = i32 add(i32 %8, i32 %9);
+        %10 = i32 -2;
+        %6 = i32 and(i32 %7, i32 %10);
+        %11 = i32 get_pc();
+        %5 = i32 add(i32 %6, i32 %11);
+        %12 = i1 -1;
+        jump(i32 %5, i1 %12);
+        reg(codasip_register_class_index_17, 1) = i32 %11;
+
+i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_addi__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_addi__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_addi__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_addi__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_addi__regs__reg0__simm12_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_addi__regs__reg0__simm12_pcrel_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_addi__regs__reg0__simm12_simple__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_addi__regs__regs__simm12_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_addi__regs__regs__simm12_pcrel_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_andi__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_andi__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_andi__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_andi__regs__reg0__simm12_lo__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__regs__reg0__simm12_pcrel_lo__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__regs__reg0__simm12_simple__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__regs__regs__simm12_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 and(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__regs__regs__simm12_pcrel_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 and(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_andi__regs__regs__simm12_simple__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 and(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_ori__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_ori__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_ori__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_ori__regs__reg0__simm12_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__regs__reg0__simm12_pcrel_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__regs__reg0__simm12_simple__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__regs__regs__simm12_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__regs__regs__simm12_pcrel_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_ori__regs__regs__simm12_simple__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_slti__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_slti__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_slti__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_slti__regs__reg0__simm12_lo__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setgt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__reg0__simm12_pcrel_lo__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setgt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setgt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__regs__simm12_lo__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setlt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__regs__simm12_pcrel_lo__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setlt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__regs__simm12_simple__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setlt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_lo__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setne(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_pcrel_lo__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setne(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__
+        %6 = i32 immop(imm_1,1,12,0,0);
+        %7 = i32 0;
+        %5 = i1 setne(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_lo__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setult(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_pcrel_lo__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setult(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_simple__
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_2,1,12,0,0);
+        %5 = i1 setult(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_lo__
+
+i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_simple__
+
+i_comp_2reg_imm__opc_xori__reg0__regs__simm12_lo__
+
+i_comp_2reg_imm__opc_xori__reg0__regs__simm12_pcrel_lo__
+
+i_comp_2reg_imm__opc_xori__reg0__regs__simm12_simple__
+
+i_comp_2reg_imm__opc_xori__regs__reg0__simm12_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__regs__reg0__simm12_pcrel_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__regs__reg0__simm12_simple__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__regs__regs__simm12_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 xor(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__regs__regs__simm12_pcrel_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 xor(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_xori__regs__regs__simm12_simple__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 xor(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_slli__reg0__reg0__shift_imm__
+
+i_comp_2reg_imm_shift__opc_slli__reg0__regs__shift_imm__
+
+i_comp_2reg_imm_shift__opc_slli__regs__reg0__shift_imm__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_slli__regs__regs__shift_imm__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,0,5,0,0);
+        %4 = i32 shl(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_srai__reg0__reg0__shift_imm__
+
+i_comp_2reg_imm_shift__opc_srai__reg0__regs__shift_imm__
+
+i_comp_2reg_imm_shift__opc_srai__regs__reg0__shift_imm__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_srai__regs__regs__shift_imm__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,0,5,0,0);
+        %4 = i32 sra(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_srli__reg0__reg0__shift_imm__
+
+i_comp_2reg_imm_shift__opc_srli__reg0__regs__shift_imm__
+
+i_comp_2reg_imm_shift__opc_srli__regs__reg0__shift_imm__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm_shift__opc_srli__regs__regs__shift_imm__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,0,5,0,0);
+        %4 = i32 srl(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_add__reg0__reg0__reg0__
+
+i_comp_3reg__opc_add__reg0__reg0__regs__
+
+i_comp_3reg__opc_add__reg0__regs__reg0__
+
+i_comp_3reg__opc_add__reg0__regs__regs__
+
+i_comp_3reg__opc_add__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_add__regs__reg0__regs__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_add__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_add__regs__regs__regs__
+        %5 = i32 regop(reg_2);
+        %6 = i32 regop(reg_1);
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_and__reg0__reg0__reg0__
+
+i_comp_3reg__opc_and__reg0__reg0__regs__
+
+i_comp_3reg__opc_and__reg0__regs__reg0__
+
+i_comp_3reg__opc_and__reg0__regs__regs__
+
+i_comp_3reg__opc_and__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_and__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_and__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_and__regs__regs__regs__
+        %5 = i32 regop(reg_2);
+        %6 = i32 regop(reg_1);
+        %4 = i32 and(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_or__reg0__reg0__reg0__
+
+i_comp_3reg__opc_or__reg0__reg0__regs__
+
+i_comp_3reg__opc_or__reg0__regs__reg0__
+
+i_comp_3reg__opc_or__reg0__regs__regs__
+
+i_comp_3reg__opc_or__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_or__regs__reg0__regs__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_or__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_or__regs__regs__regs__
+        %5 = i32 regop(reg_2);
+        %6 = i32 regop(reg_1);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sll__reg0__reg0__reg0__
+
+i_comp_3reg__opc_sll__reg0__reg0__regs__
+
+i_comp_3reg__opc_sll__reg0__regs__reg0__
+
+i_comp_3reg__opc_sll__reg0__regs__regs__
+
+i_comp_3reg__opc_sll__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sll__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sll__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sll__regs__regs__regs__
+        %5 = i32 regop(reg_1);
+        %7 = i32 regop(reg_2);
+        %8 = i32 31;
+        %6 = i32 and(i32 %7, i32 %8);
+        %4 = i32 shl(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_slt__reg0__reg0__reg0__
+
+i_comp_3reg__opc_slt__reg0__reg0__regs__
+
+i_comp_3reg__opc_slt__reg0__regs__reg0__
+
+i_comp_3reg__opc_slt__reg0__regs__regs__
+
+i_comp_3reg__opc_slt__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_slt__regs__reg0__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 0;
+        %5 = i1 setgt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_slt__regs__regs__reg0__
+        %5 = i32 regop(reg_1);
+        %6 = i32 31;
+        %4 = i32 srl(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_slt__regs__regs__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 regop(reg_2);
+        %5 = i1 setlt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sltu__reg0__reg0__reg0__
+
+i_comp_3reg__opc_sltu__reg0__reg0__regs__
+
+i_comp_3reg__opc_sltu__reg0__regs__reg0__
+
+i_comp_3reg__opc_sltu__reg0__regs__regs__
+
+i_comp_3reg__opc_sltu__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sltu__regs__reg0__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 0;
+        %5 = i1 setne(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sltu__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sltu__regs__regs__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 regop(reg_2);
+        %5 = i1 setult(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sra__reg0__reg0__reg0__
+
+i_comp_3reg__opc_sra__reg0__reg0__regs__
+
+i_comp_3reg__opc_sra__reg0__regs__reg0__
+
+i_comp_3reg__opc_sra__reg0__regs__regs__
+
+i_comp_3reg__opc_sra__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sra__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sra__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sra__regs__regs__regs__
+        %5 = i32 regop(reg_1);
+        %7 = i32 regop(reg_2);
+        %8 = i32 31;
+        %6 = i32 and(i32 %7, i32 %8);
+        %4 = i32 sra(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_srl__reg0__reg0__reg0__
+
+i_comp_3reg__opc_srl__reg0__reg0__regs__
+
+i_comp_3reg__opc_srl__reg0__regs__reg0__
+
+i_comp_3reg__opc_srl__reg0__regs__regs__
+
+i_comp_3reg__opc_srl__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_srl__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_srl__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_srl__regs__regs__regs__
+        %5 = i32 regop(reg_1);
+        %7 = i32 regop(reg_2);
+        %8 = i32 31;
+        %6 = i32 and(i32 %7, i32 %8);
+        %4 = i32 srl(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sub__reg0__reg0__reg0__
+
+i_comp_3reg__opc_sub__reg0__reg0__regs__
+
+i_comp_3reg__opc_sub__reg0__regs__reg0__
+
+i_comp_3reg__opc_sub__reg0__regs__regs__
+
+i_comp_3reg__opc_sub__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sub__regs__reg0__regs__
+        %5 = i32 0;
+        %6 = i32 regop(reg_1);
+        %4 = i32 sub(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sub__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sub__regs__regs__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 regop(reg_2);
+        %4 = i32 sub(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_xor__reg0__reg0__reg0__
+
+i_comp_3reg__opc_xor__reg0__reg0__regs__
+
+i_comp_3reg__opc_xor__reg0__regs__reg0__
+
+i_comp_3reg__opc_xor__reg0__regs__regs__
+
+i_comp_3reg__opc_xor__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_xor__regs__reg0__regs__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_xor__regs__regs__reg0__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_xor__regs__regs__regs__
+        %5 = i32 regop(reg_2);
+        %6 = i32 regop(reg_1);
+        %4 = i32 xor(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_control_conditional__opc_beq__reg0__reg0__rel_addr12__
+        %7 = i32 immop(imm_0,1,13,0,0);
+        %8 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %8);
+        %9 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %9);
+        %10 = i32 get_pc();
+        %4 = i32 add(i32 %5, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %4, i1 %11);
+
+i_control_conditional__opc_beq__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 seteq(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_beq__regs__reg0__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 seteq(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_beq__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 seteq(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bge__reg0__reg0__rel_addr12__
+        %7 = i32 immop(imm_0,1,13,0,0);
+        %8 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %8);
+        %9 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %9);
+        %10 = i32 get_pc();
+        %4 = i32 add(i32 %5, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %4, i1 %11);
+
+i_control_conditional__opc_bge__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 1;
+        %9 = i1 setlt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bge__regs__reg0__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 -1;
+        %9 = i1 setgt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bge__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 setge(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__
+        %7 = i32 immop(imm_0,1,13,0,0);
+        %8 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %8);
+        %9 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %9);
+        %10 = i32 get_pc();
+        %4 = i32 add(i32 %5, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %4, i1 %11);
+
+i_control_conditional__opc_bgeu__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 seteq(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bgeu__regs__reg0__rel_addr12__
+        %7 = i32 immop(imm_1,1,13,0,0);
+        %8 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %8);
+        %9 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %9);
+        %10 = i32 get_pc();
+        %4 = i32 add(i32 %5, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %4, i1 %11);
+
+i_control_conditional__opc_bgeu__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 setuge(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_blt__reg0__reg0__rel_addr12__
+
+i_control_conditional__opc_blt__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 setgt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_blt__regs__reg0__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 setlt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_blt__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 setlt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__
+
+i_control_conditional__opc_bltu__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 setne(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bltu__regs__reg0__rel_addr12__
+
+i_control_conditional__opc_bltu__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 setult(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bne__reg0__reg0__rel_addr12__
+
+i_control_conditional__opc_bne__reg0__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 setne(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bne__regs__reg0__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_1,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 0;
+        %9 = i1 setne(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bne__regs__regs__rel_addr12__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_0);
+        %11 = i32 regop(reg_1);
+        %9 = i1 setne(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_registers_imm__opc_csrrci__reg0__regs_csr__imm5__
+
+i_control_registers_imm__opc_csrrci__regs__regs_csr__imm5__
+
+i_control_registers_imm__opc_csrrsi__reg0__regs_csr__imm5__
+
+i_control_registers_imm__opc_csrrsi__regs__regs_csr__imm5__
+
+i_control_registers_imm__opc_csrrwi__reg0__regs_csr__imm5__
+
+i_control_registers_imm__opc_csrrwi__regs__regs_csr__imm5__
+
+i_control_registers_reg__opc_csrrc__reg0__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrc__reg0__regs_csr__regs__
+
+i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrc__regs__regs_csr__regs__
+
+i_control_registers_reg__opc_csrrs__reg0__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrs__reg0__regs_csr__regs__
+
+i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrs__regs__regs_csr__regs__
+
+i_control_registers_reg__opc_csrrw__reg0__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrw__reg0__regs_csr__regs__
+
+i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0__
+
+i_control_registers_reg__opc_csrrw__regs__regs_csr__regs__
+
+i_ebreak__opc_ebreak__
+
+i_ecall__opc_ecall__
+
+i_ext_hackaton__opc_hackaton_custom_a__reg0__reg0__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_a__reg0__reg0__regs__
+
+i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__regs__
+
+i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__
+
+i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__
+
+i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__
+
+i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__
+
+i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__regs__
+
+i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__regs__
+
+i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__
+
+i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__reg0__
+
+i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__regs__
+
+i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_fence__opc_fence__opc_hint_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_hint_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_i_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_io_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_ior_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_iorw_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_iow_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_ir_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_irw_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_iw_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_o_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_or_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_orw_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_ow_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_r_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_rw_fence__opc_w_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_hint_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_i_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_io_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_ior_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_iorw_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_iow_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_ir_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_irw_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_iw_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_o_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_or_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_orw_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_ow_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_r_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_rw_fence__
+
+i_fence__opc_fence__opc_w_fence__opc_w_fence__
+
+i_fencei__opc_fencei__
+
+i_get_pc_alias__reg0__
+
+i_get_pc_alias__regs__
+        %5 = i32 get_pc();
+        %6 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_jal__opc_jal__reg0__rel_addr20__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_0,1,21,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %9 = i1 -1;
+        jump(i32 %4, i1 %9);
+
+i_jal__opc_jal__regs__rel_addr20__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %8 = i32 immop(imm_1,1,21,1,0);
+        %7 = i32 add(i32 %5, i32 %8);
+        %9 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %9);
+        %10 = i1 -1;
+        jump(i32 %6, i1 %10);
+
+i_jal_abs__opc_jal__reg0__rel_addr20__
+        %4 = i32 immop(imm_0,1,21,1,0);
+        %5 = i1 -1;
+        jump(i32 %4, i1 %5);
+
+i_jal_abs__opc_jal__regs__rel_addr20__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %6 = i32 immop(imm_1,1,21,1,0);
+        %7 = i1 -1;
+        jump(i32 %6, i1 %7);
+
+i_jalr__opc_jalr__reg0__reg0__simm12_lo__
+        %4 = i32 immop(imm_0,1,12,1,0);
+        %5 = i1 -1;
+        jump(i32 %4, i1 %5);
+
+i_jalr__opc_jalr__reg0__reg0__simm12_pcrel_lo__
+        %4 = i32 immop(imm_0,1,12,1,0);
+        %5 = i1 -1;
+        jump(i32 %4, i1 %5);
+
+i_jalr__opc_jalr__reg0__reg0__simm12_simple__
+        %4 = i32 immop(imm_0,1,12,1,0);
+        %5 = i1 -1;
+        jump(i32 %4, i1 %5);
+
+i_jalr__opc_jalr__reg0__regs__simm12_lo__
+        %6 = i32 regop(reg_0);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -2;
+        %4 = i32 and(i32 %5, i32 %8);
+        %9 = i1 -1;
+        jump(i32 %4, i1 %9);
+
+i_jalr__opc_jalr__reg0__regs__simm12_pcrel_lo__
+        %6 = i32 regop(reg_0);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -2;
+        %4 = i32 and(i32 %5, i32 %8);
+        %9 = i1 -1;
+        jump(i32 %4, i1 %9);
+
+i_jalr__opc_jalr__reg0__regs__simm12_simple__
+        %6 = i32 regop(reg_0);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -2;
+        %4 = i32 and(i32 %5, i32 %8);
+        %9 = i1 -1;
+        jump(i32 %4, i1 %9);
+
+i_jalr__opc_jalr__regs__reg0__simm12_lo__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %6 = i32 immop(imm_1,1,12,1,0);
+        %7 = i1 -1;
+        jump(i32 %6, i1 %7);
+
+i_jalr__opc_jalr__regs__reg0__simm12_pcrel_lo__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %6 = i32 immop(imm_1,1,12,1,0);
+        %7 = i1 -1;
+        jump(i32 %6, i1 %7);
+
+i_jalr__opc_jalr__regs__reg0__simm12_simple__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %6 = i32 immop(imm_1,1,12,1,0);
+        %7 = i1 -1;
+        jump(i32 %6, i1 %7);
+
+i_jalr__opc_jalr__regs__regs__simm12_lo__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %8 = i32 regop(reg_1);
+        %9 = i32 immop(imm_2,1,12,0,0);
+        %7 = i32 add(i32 %8, i32 %9);
+        %10 = i32 -2;
+        %6 = i32 and(i32 %7, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %6, i1 %11);
+
+i_jalr__opc_jalr__regs__regs__simm12_pcrel_lo__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %8 = i32 regop(reg_1);
+        %9 = i32 immop(imm_2,1,12,0,0);
+        %7 = i32 add(i32 %8, i32 %9);
+        %10 = i32 -2;
+        %6 = i32 and(i32 %7, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %6, i1 %11);
+
+i_jalr__opc_jalr__regs__regs__simm12_simple__
+        %5 = i32 get_pc();
+        regop(reg_0) = i32 %5;
+        %8 = i32 regop(reg_1);
+        %9 = i32 immop(imm_2,1,12,0,0);
+        %7 = i32 add(i32 %8, i32 %9);
+        %10 = i32 -2;
+        %6 = i32 and(i32 %7, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %6, i1 %11);
+
+i_jmp_rel_alias__rel_addr20__
+        %7 = i32 immop(imm_0,1,21,0,0);
+        %8 = i32 -4;
+        %6 = i32 add(i32 %7, i32 %8);
+        %9 = i32 -2;
+        %5 = i32 and(i32 %6, i32 %9);
+        %10 = i32 get_pc();
+        %4 = i32 add(i32 %5, i32 %10);
+        %11 = i1 -1;
+        jump(i32 %4, i1 %11);
+
+i_jump_reg_alias__reg0__
+        %4 = i32 0;
+        %5 = i1 -1;
+        jump(i32 %4, i1 %5);
+
+i_jump_reg_alias__regs__
+        %5 = i32 regop(reg_0);
+        %6 = i32 -2;
+        %4 = i32 and(i32 %5, i32 %6);
+        %7 = i1 -1;
+        jump(i32 %4, i1 %7);
+
+i_load__opc_loadb__reg0__simm12_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__reg0__simm12_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__reg0__simm12_pcrel_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__reg0__simm12_pcrel_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__reg0__simm12_simple__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__reg0__simm12_simple__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadb__regs__simm12_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadb__regs__simm12_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadb__regs__simm12_pcrel_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadb__regs__simm12_pcrel_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadb__regs__simm12_simple__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadb__regs__simm12_simple__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 sign_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadbu__reg0__simm12_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__reg0__simm12_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__reg0__simm12_pcrel_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__reg0__simm12_pcrel_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__reg0__simm12_simple__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__reg0__simm12_simple__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i8 load(i32 %4, 0);
+
+i_load__opc_loadbu__regs__simm12_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadbu__regs__simm12_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadbu__regs__simm12_pcrel_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadbu__regs__simm12_simple__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i8 load(i32 %5, 0);
+        %6 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadbu__regs__simm12_simple__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i8 load(i32 %5, 0);
+        %8 = i32 zero_extend(i8 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadh__reg0__simm12_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__reg0__simm12_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__reg0__simm12_pcrel_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__reg0__simm12_pcrel_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__reg0__simm12_simple__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__reg0__simm12_simple__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadh__regs__simm12_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadh__regs__simm12_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadh__regs__simm12_pcrel_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadh__regs__simm12_pcrel_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadh__regs__simm12_simple__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadh__regs__simm12_simple__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 sign_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadhu__reg0__simm12_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__reg0__simm12_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__reg0__simm12_pcrel_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__reg0__simm12_pcrel_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__reg0__simm12_simple__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__reg0__simm12_simple__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i16 load(i32 %4, 0);
+
+i_load__opc_loadhu__regs__simm12_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadhu__regs__simm12_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadhu__regs__simm12_pcrel_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadhu__regs__simm12_simple__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i16 load(i32 %5, 0);
+        %6 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %6;
+
+i_load__opc_loadhu__regs__simm12_simple__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i16 load(i32 %5, 0);
+        %8 = i32 zero_extend(i16 %3);
+        regop(reg_0) = i32 %8;
+
+i_load__opc_loadw__reg0__simm12_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__reg0__simm12_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__reg0__simm12_pcrel_lo__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__reg0__simm12_pcrel_lo__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__reg0__simm12_simple__reg0__
+        %4 = i32 immop(imm_0,1,12,0,0);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__reg0__simm12_simple__regs__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_0,1,12,0,0);
+        %4 = i32 add(i32 %5, i32 %6);
+        %2 = i32 load(i32 %4, 0);
+
+i_load__opc_loadw__regs__simm12_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_load__opc_loadw__regs__simm12_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_load__opc_loadw__regs__simm12_pcrel_lo__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_load__opc_loadw__regs__simm12_pcrel_lo__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_load__opc_loadw__regs__simm12_simple__reg0__
+        %5 = i32 immop(imm_1,1,12,0,0);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_load__opc_loadw__regs__simm12_simple__regs__
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %3 = i32 load(i32 %5, 0);
+        regop(reg_0) = i32 %3;
+
+i_lui__opc_lui__reg0__imm20_s12__
+
+i_lui__opc_lui__regs__imm20_s12__
+        %4 = i32 immop(imm_1,0,32,12,12);
+        regop(reg_0) = i32 %4;
+
+i_lui_hi__opc_lui__reg0__imm20_hi__
+
+i_lui_hi__opc_lui__regs__imm20_hi__
+        %6 = i32 immop(imm_1,0,32,0,0);
+        %7 = i32 2048;
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4096;
+        %4 = i32 and(i32 %5, i32 %8);
+        regop(reg_0) = i32 %4;
+
+i_mv_alias__reg0__reg0__
+
+i_mv_alias__reg0__regs__
+
+i_mv_alias__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_mv_alias__regs__regs__
+        %4 = i32 regop(reg_1);
+        regop(reg_0) = i32 %4;
+
+i_neg_alias__reg0__reg0__
+
+i_neg_alias__reg0__regs__
+
+i_neg_alias__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_neg_alias__regs__regs__
+        %5 = i32 0;
+        %6 = i32 regop(reg_1);
+        %4 = i32 sub(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_nop_alias__
+        nop();
+
+i_ori_emulation_alias__reg0__reg0__simm12_lo__
+
+i_ori_emulation_alias__reg0__reg0__simm12_pcrel_lo__
+
+i_ori_emulation_alias__reg0__reg0__simm12_simple__
+
+i_ori_emulation_alias__reg0__regs__simm12_lo__
+
+i_ori_emulation_alias__reg0__regs__simm12_pcrel_lo__
+
+i_ori_emulation_alias__reg0__regs__simm12_simple__
+
+i_ori_emulation_alias__regs__reg0__simm12_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_ori_emulation_alias__regs__reg0__simm12_pcrel_lo__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_ori_emulation_alias__regs__reg0__simm12_simple__
+        %4 = i32 immop(imm_1,1,12,0,0);
+        regop(reg_0) = i32 %4;
+
+i_ori_emulation_alias__regs__regs__simm12_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_ori_emulation_alias__regs__regs__simm12_pcrel_lo__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_ori_emulation_alias__regs__regs__simm12_simple__
+        %5 = i32 regop(reg_1);
+        %6 = i32 immop(imm_2,1,12,0,0);
+        %4 = i32 or(i32 %5, i32 %6);
+        regop(reg_0) = i32 %4;
+
+i_seqz_alias__reg0__reg0__
+
+i_seqz_alias__reg0__regs__
+
+i_seqz_alias__regs__reg0__
+        %4 = i32 1;
+        regop(reg_0) = i32 %4;
+
+i_seqz_alias__regs__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 0;
+        %5 = i1 seteq(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_snez_alias__reg0__reg0__
+
+i_snez_alias__reg0__regs__
+
+i_snez_alias__regs__reg0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_snez_alias__regs__regs__
+        %6 = i32 regop(reg_1);
+        %7 = i32 0;
+        %5 = i1 setne(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_store__opc_storeb__reg0__simm12_s_lo__reg0__
+        %4 = i8 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__reg0__simm12_s_lo__regs__
+        %4 = i8 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__reg0__simm12_s_pcrel_lo__reg0__
+        %4 = i8 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__reg0__simm12_s_pcrel_lo__regs__
+        %4 = i8 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__reg0__simm12_simple__reg0__
+        %4 = i8 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__reg0__simm12_simple__regs__
+        %4 = i8 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i8 %4, i32 %5, 0);
+
+i_store__opc_storeb__regs__simm12_s_lo__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeb__regs__simm12_s_lo__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeb__regs__simm12_s_pcrel_lo__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeb__regs__simm12_simple__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeb__regs__simm12_simple__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i8 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i8 %4, i32 %6, 0);
+
+i_store__opc_storeh__reg0__simm12_s_lo__reg0__
+        %4 = i16 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__reg0__simm12_s_lo__regs__
+        %4 = i16 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__reg0__simm12_s_pcrel_lo__reg0__
+        %4 = i16 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__reg0__simm12_s_pcrel_lo__regs__
+        %4 = i16 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__reg0__simm12_simple__reg0__
+        %4 = i16 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__reg0__simm12_simple__regs__
+        %4 = i16 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i16 %4, i32 %5, 0);
+
+i_store__opc_storeh__regs__simm12_s_lo__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storeh__regs__simm12_s_lo__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storeh__regs__simm12_s_pcrel_lo__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storeh__regs__simm12_simple__reg0__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %6 = i32 immop(imm_1,1,12,0,0);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storeh__regs__simm12_simple__regs__
+        %5 = i32 regop(reg_0);
+        %4 = i16 truncate(i32 %5);
+        %7 = i32 regop(reg_2);
+        %8 = i32 immop(imm_1,1,12,0,0);
+        %6 = i32 add(i32 %7, i32 %8);
+        store(i16 %4, i32 %6, 0);
+
+i_store__opc_storew__reg0__simm12_s_lo__reg0__
+        %4 = i32 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__reg0__simm12_s_lo__regs__
+        %4 = i32 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__reg0__simm12_s_pcrel_lo__reg0__
+        %4 = i32 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__reg0__simm12_s_pcrel_lo__regs__
+        %4 = i32 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__reg0__simm12_simple__reg0__
+        %4 = i32 0;
+        %5 = i32 immop(imm_0,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__reg0__simm12_simple__regs__
+        %4 = i32 0;
+        %6 = i32 regop(reg_1);
+        %7 = i32 immop(imm_0,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_s_lo__reg0__
+        %4 = i32 regop(reg_0);
+        %5 = i32 immop(imm_1,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_s_lo__regs__
+        %4 = i32 regop(reg_0);
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0__
+        %4 = i32 regop(reg_0);
+        %5 = i32 immop(imm_1,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_s_pcrel_lo__regs__
+        %4 = i32 regop(reg_0);
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_simple__reg0__
+        %4 = i32 regop(reg_0);
+        %5 = i32 immop(imm_1,1,12,0,0);
+        store(i32 %4, i32 %5, 0);
+
+i_store__opc_storew__regs__simm12_simple__regs__
+        %4 = i32 regop(reg_0);
+        %6 = i32 regop(reg_2);
+        %7 = i32 immop(imm_1,1,12,0,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        store(i32 %4, i32 %5, 0);
+
+i_unimp__opc_unimp__
+
+i_wfi__opc_wfi__
+
+i_xret__opc_mret__
+
+load_imm32__regs__regs__regs__
+        %4 = i32 immop(imm_1,0,32,0,0);
+        regop(reg_0) = i32 %4;
+
+e_movi32__
+        %4 = i32 immop(imm_1,0,32,0,0);
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__immSpecClone__imm_1__1__
+        %4 = i32 1;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__immSpecClone__imm_1__0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__immSpecClone__imm_1__1__
+        %4 = i32 1;
+        regop(reg_0) = i32 %4;
+
+i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__immSpecClone__imm_1__0__
+        %4 = i32 0;
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_slt__regs__regs__regs__swappedCmpClone0__
+        %6 = i32 regop(reg_2);
+        %7 = i32 regop(reg_1);
+        %5 = i1 setgt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_comp_3reg__opc_sltu__regs__regs__regs__swappedCmpClone0__
+        %6 = i32 regop(reg_2);
+        %7 = i32 regop(reg_1);
+        %5 = i1 setugt(i32 %6, i32 %7);
+        %4 = i32 zero_extend(i1 %5);
+        regop(reg_0) = i32 %4;
+
+i_control_conditional__opc_bge__regs__regs__rel_addr12__swappedCmpClone0__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_1);
+        %11 = i32 regop(reg_0);
+        %9 = i1 setle(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bgeu__regs__regs__rel_addr12__swappedCmpClone0__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_1);
+        %11 = i32 regop(reg_0);
+        %9 = i1 setule(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_blt__regs__regs__rel_addr12__swappedCmpClone0__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_1);
+        %11 = i32 regop(reg_0);
+        %9 = i1 setgt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+
+i_control_conditional__opc_bltu__regs__regs__rel_addr12__swappedCmpClone0__
+        %6 = i32 get_pc();
+        %7 = i32 immop(imm_2,1,13,1,0);
+        %5 = i32 add(i32 %6, i32 %7);
+        %8 = i32 -4;
+        %4 = i32 add(i32 %5, i32 %8);
+        %10 = i32 regop(reg_1);
+        %11 = i32 regop(reg_0);
+        %9 = i1 setugt(i32 %10, i32 %11);
+        jump(i32 %4, i1 %9);
+

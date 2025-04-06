@@ -1,0 +1,281 @@
+#ifndef _EXT_M_WEIGHTS_
+#define _EXT_M_WEIGHTS_
+
+// This file contains alterations for Extension M instructions randomgen weights and scenarios.
+
+#if (OPTION_XLEN == 32)
+#if defined(OPTION_EXTENSION_M)
+
+// update naive randomgen M extension instructions distribution as it causes majority of zero values
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            // mul
+            override i_comp_3reg__opc_mul__reg0__reg0__reg0__    = 1;
+            override i_comp_3reg__opc_mul__reg0__reg0__regs__    = 1;
+            override i_comp_3reg__opc_mul__reg0__regs__reg0__    = 1;
+            override i_comp_3reg__opc_mul__reg0__regs__regs__    = 1;
+            override i_comp_3reg__opc_mul__regs__reg0__reg0__    = 1;
+            override i_comp_3reg__opc_mul__regs__reg0__regs__    = 1;
+            override i_comp_3reg__opc_mul__regs__regs__reg0__    = 1;
+            override i_comp_3reg__opc_mul__regs__regs__regs__    = 30;
+            // mulh
+            override i_comp_3reg__opc_mulh__reg0__reg0__reg0__   = 1;
+            override i_comp_3reg__opc_mulh__reg0__reg0__regs__   = 1;
+            override i_comp_3reg__opc_mulh__reg0__regs__reg0__   = 1;
+            override i_comp_3reg__opc_mulh__reg0__regs__regs__   = 1;
+            override i_comp_3reg__opc_mulh__regs__reg0__reg0__   = 1;
+            override i_comp_3reg__opc_mulh__regs__reg0__regs__   = 1;
+            override i_comp_3reg__opc_mulh__regs__regs__reg0__   = 1;
+            override i_comp_3reg__opc_mulh__regs__regs__regs__   = 30;
+            // mulhu
+            override i_comp_3reg__opc_mulhu__reg0__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_mulhu__reg0__reg0__regs__  = 1;
+            override i_comp_3reg__opc_mulhu__reg0__regs__reg0__  = 1;
+            override i_comp_3reg__opc_mulhu__reg0__regs__regs__  = 1;
+            override i_comp_3reg__opc_mulhu__regs__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_mulhu__regs__reg0__regs__  = 1;
+            override i_comp_3reg__opc_mulhu__regs__regs__reg0__  = 1;
+            override i_comp_3reg__opc_mulhu__regs__regs__regs__  = 30;
+            // mulhsu
+            override i_comp_3reg__opc_mulhsu__reg0__reg0__reg0__ = 1;
+            override i_comp_3reg__opc_mulhsu__reg0__reg0__regs__ = 1;
+            override i_comp_3reg__opc_mulhsu__reg0__regs__reg0__ = 1;
+            override i_comp_3reg__opc_mulhsu__reg0__regs__regs__ = 1;
+            override i_comp_3reg__opc_mulhsu__regs__reg0__reg0__ = 1;
+            override i_comp_3reg__opc_mulhsu__regs__reg0__regs__ = 1;
+            override i_comp_3reg__opc_mulhsu__regs__regs__reg0__ = 1;
+            override i_comp_3reg__opc_mulhsu__regs__regs__regs__ = 30;
+            // div
+            override i_comp_3reg__opc_div__reg0__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_div__reg0__reg0__regs__  = 1;
+            override i_comp_3reg__opc_div__reg0__regs__reg0__  = 1;
+            override i_comp_3reg__opc_div__reg0__regs__regs__  = 1;
+            override i_comp_3reg__opc_div__regs__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_div__regs__reg0__regs__  = 1;
+            override i_comp_3reg__opc_div__regs__regs__reg0__  = 1;
+            override i_comp_3reg__opc_div__regs__regs__regs__  = 30;
+            // rem
+            override i_comp_3reg__opc_rem__reg0__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_rem__reg0__reg0__regs__  = 1;
+            override i_comp_3reg__opc_rem__reg0__regs__reg0__  = 1;
+            override i_comp_3reg__opc_rem__reg0__regs__regs__  = 1;
+            override i_comp_3reg__opc_rem__regs__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_rem__regs__reg0__regs__  = 1;
+            override i_comp_3reg__opc_rem__regs__regs__reg0__  = 1;
+            override i_comp_3reg__opc_rem__regs__regs__regs__  = 30;
+            // divu
+            override i_comp_3reg__opc_divu__reg0__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_divu__reg0__reg0__regs__  = 1;
+            override i_comp_3reg__opc_divu__reg0__regs__reg0__  = 1;
+            override i_comp_3reg__opc_divu__reg0__regs__regs__  = 1;
+            override i_comp_3reg__opc_divu__regs__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_divu__regs__reg0__regs__  = 1;
+            override i_comp_3reg__opc_divu__regs__regs__reg0__  = 1;
+            override i_comp_3reg__opc_divu__regs__regs__regs__  = 30;
+            // remu
+            override i_comp_3reg__opc_remu__reg0__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_remu__reg0__reg0__regs__  = 1;
+            override i_comp_3reg__opc_remu__reg0__regs__reg0__  = 1;
+            override i_comp_3reg__opc_remu__reg0__regs__regs__  = 1;
+            override i_comp_3reg__opc_remu__regs__reg0__reg0__  = 1;
+            override i_comp_3reg__opc_remu__regs__reg0__regs__  = 1;
+            override i_comp_3reg__opc_remu__regs__regs__reg0__  = 1;
+            override i_comp_3reg__opc_remu__regs__regs__regs__  = 30;
+        };
+    };
+};
+
+variables
+{
+    uint32 imm_32_ext_m_dist_op0, imm_32_ext_m_dist_op1
+    {
+        constraints
+        {
+            weights
+            {
+                0x80000000  = 3;  // MIN
+                0xffffffff  = 3;  // MINUS ONE
+                0           = 1;  // ZERO
+                1           = 3;  // ONE
+                2147483647  = 3;  // MAX
+                default     / 9;  // REST
+            };
+        };
+    };
+    uint32 uimm_32_ext_m_dist_op0, uimm_32_ext_m_dist_op1
+    {
+        constraints
+        {
+            weights
+            {
+                0           = 1;  // ZERO
+                1           = 3;  // ONE
+                4294967295  = 3;  // MAX
+                default     / 9;  // REST
+            };
+        };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_mul__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, imm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, imm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_mul__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_mulh__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, imm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, imm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_mulh__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_mulhu__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, uimm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, uimm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_mulhu__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_mulhsu__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, imm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, uimm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_mulhsu__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_div__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, imm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, imm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_div__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_rem__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, imm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, imm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_rem__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_divu__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, uimm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, uimm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_divu__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+scenario wrapped_i_comp_3reg__opc_remu__regs__regs__regs__
+{
+    instructions
+    {
+       LOAD_IMMEDIATE(regs_src_0, uimm_32_ext_m_dist_op0);
+       LOAD_IMMEDIATE(regs_src_1, uimm_32_ext_m_dist_op1);
+       program_instruction ::* [0..3];
+       i_comp_3reg__opc_remu__regs__regs__regs__(regs_dst_0 = regs_dst_0, regs_src_0 = regs_src_0, regs_src_1 = regs_src_1);
+    };
+    constraints
+    {
+        max_depth = 2;
+        illegal = { regs_src_0, regs_src_1 };
+    };
+};
+
+set program_instruction +=
+    wrapped_i_comp_3reg__opc_mul__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_mulh__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_mulhu__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_mulhsu__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_div__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_rem__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_divu__regs__regs__regs__,
+    wrapped_i_comp_3reg__opc_remu__regs__regs__regs__
+{
+    constraints
+    {
+        weights
+        {
+            wrapped_i_comp_3reg__opc_mul__regs__regs__regs__    = 30;
+            wrapped_i_comp_3reg__opc_mulh__regs__regs__regs__   = 30;
+            wrapped_i_comp_3reg__opc_mulhu__regs__regs__regs__  = 30;
+            wrapped_i_comp_3reg__opc_mulhsu__regs__regs__regs__ = 30;
+            wrapped_i_comp_3reg__opc_div__regs__regs__regs__    = 30;
+            wrapped_i_comp_3reg__opc_rem__regs__regs__regs__    = 30;
+            wrapped_i_comp_3reg__opc_divu__regs__regs__regs__   = 30;
+            wrapped_i_comp_3reg__opc_remu__regs__regs__regs__   = 30;
+        };
+    };
+};
+
+#endif /* (OPTION_XLEN == 32) */
+#endif /* defined(OPTION_EXTENSION_M) */
+#endif /* _EXT_M_WEIGHTS_ */
+

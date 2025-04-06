@@ -1,0 +1,571 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "isa.hcodal"
+#include "opcodes.hcodal"
+
+/**************************************************************************************************/
+/****************************** Integer Computational Instructions ********************************/
+/**************************************************************************************************/
+
+/************************ Integer Computational Register-Immediate Instructions *******************/
+
+element i_ori_emulation_alias : compiler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    use simm12;
+    assembly { "or" dst "," src "," simm12 "& 0xfff" };
+
+    semantics
+    {
+        rf_gpr_write(dst, compute(OPC_I_ORI, rf_gpr_read(src), SEXT_XLEN(simm12)));
+    };
+};
+
+set i_comp += i_ori_emulation_alias;
+
+#if OPTION_XLEN == 64
+element i_sext_alias_trunc : compiler_alias(i_comp_2reg_imm)
+{
+    use reg32_any as dst;
+    use reg_any as src;
+    assembly { "sext.w" dst "," src };
+
+    semantics
+    {
+        // Auxiliary instruction for 64-bit version
+        codasip_compiler_priority(-1);
+        rf_gpr32_write_sext(dst, SEXT_XLEN(SEXT32(rf_gpr_read(src))));
+    };
+};
+
+set i_comp += i_sext_alias_trunc;
+
+element i_comp_2reg_imm_shift_32_64 : compiler_alias(i_comp_2reg_imm_shift)
+{
+    use opc_comp_2reg_imm_shift as opc;
+    use reg_any as dst;
+    use reg32_any as src;
+    use shift_imm as imm;
+    assembly { opc dst "," src "," imm };
+
+    semantics
+    {
+        // Auxiliary instruction for 64-bit version
+        codasip_compiler_priority(-1);
+        rf_gpr_write(dst, compute(opc, rf_gpr32_read(src), ZEXT_XLEN(imm)));
+    };
+};
+
+set i_comp += i_comp_2reg_imm_shift_32_64;
+
+set opc_slti_32 = opc_slti, opc_sltiu;
+
+element i_slti_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use opc_slti_32 as opc;
+    use reg_any as dst;
+    use reg32_any as src;
+    use simm12;
+    assembly { opc dst "," src "," simm12 };
+
+    semantics
+    {
+        uint32 result, src1, src2;
+        src1 = rf_gpr32_read(src);
+        src2 = SEXT32(simm12);
+        codasip_compiler_priority(PRIORITY_FULL);
+        if (opc == OPC_I_SLTI)
+        {
+            result = ((int32)src1 < (int32)src2) ? 1 : 0;
+        }
+        else
+        {
+            result = (src1 < src2) ? 1 : 0;
+        }
+        rf_gpr_write(dst, result);
+    };
+};
+
+set opc_logi_32 = opc_andi, opc_ori, opc_xori;
+
+element i_logi_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use opc_logi_32 as opc;
+    use reg32_any as dst, src;
+    use simm12;
+    assembly { opc dst "," src "," simm12 };
+
+    semantics
+    {
+        uint32 result, src1, src2;
+        result = 0;
+        src1 = rf_gpr32_read(src);
+        src2 = SEXT32(simm12);
+        codasip_compiler_priority(PRIORITY_FULL);
+        switch (opc)
+        {
+            case OPC_I_ANDI:
+                result = src1 & src2;
+                break;
+            case OPC_I_ORI:
+                result = src1 | src2;
+                break;
+            case OPC_I_XORI:
+                result = src1 ^ src2;
+                break;
+        }
+        rf_gpr32_write(dst, result);
+    };
+};
+
+set i_comp += i_slti_32, i_logi_32;
+
+/************************ Integer Computational Register-Register Operations **********************/
+
+set opc_slt_32 = opc_slt, opc_sltu;
+
+element i_slt_32 : compiler_alias(i_comp_3reg)
+{
+    use opc_slt_32 as opc;
+    use reg_any as dst;
+    use reg32_any as src1, src2;
+    assembly { opc dst "," src1 "," src2 };
+
+    semantics
+    {
+        uint32 result, op1, op2;
+        op1 = rf_gpr32_read(src1);
+        op2 = rf_gpr32_read(src2);
+        codasip_compiler_priority(PRIORITY_FULL);
+        if (opc == OPC_R_SLT)
+        {
+            result = ((int32)op1 < (int32)op2) ? 1 : 0;
+        }
+        else
+        {
+            result = (op1 < op2) ? 1 : 0;
+        }
+        rf_gpr_write(dst, result);
+    };
+};
+
+set opc_log_32 = opc_and, opc_or, opc_xor;
+
+element i_log_32 : compiler_alias(i_comp_3reg)
+{
+    use opc_log_32 as opc;
+    use reg32_any as dst, src1, src2;
+    assembly { opc dst "," src1 "," src2 };
+
+    semantics
+    {
+        uint32 result, op1, op2;
+        result = 0;
+        op1 = rf_gpr32_read(src1);
+        op2 = rf_gpr32_read(src2);
+        codasip_compiler_priority(PRIORITY_FULL);
+        switch (opc)
+        {
+            case OPC_R_AND:
+                result = op1 & op2;
+                break;
+            case OPC_R_OR:
+                result = op1 | op2;
+                break;
+            case OPC_R_XOR:
+                result = op1 ^ op2;
+                break;
+        }
+        rf_gpr32_write(dst, result);
+    };
+};
+
+set i_comp += i_slt_32, i_log_32;
+#endif
+
+/**************************************************************************************************/
+/****************************** Control Transfer Instructions *************************************/
+/**************************************************************************************************/
+
+/****************************** Unconditional Jumps ***********************************************/
+// Jump and link "absolute"
+element i_jal_abs : compiler_alias(i_jal)
+{
+    use opc_jal as opc;
+    use reg_any as dst;
+    use rel_addr20 as addr;
+    assembly { opc dst "," addr };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        rf_gpr_write(dst, r_PC);
+        r_PC = SEXT_XLEN(addr);
+    };
+};
+
+set i_control += i_jal_abs;
+
+#if OPTION_XLEN == 64
+/****************************** Conditional Branches **********************************************/
+
+element i_control_conditional_32 : compiler_alias(i_control_conditional)
+{
+    use opc_control_conditional as opc;
+    use reg32_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { opc src1 "," src2 "," addr };
+
+    semantics
+    {
+        uint1 condition;
+        uint32 op1, op2;
+        condition = 0;
+        op1 = rf_gpr32_read(src1);
+        op2 = rf_gpr32_read(src2);
+        codasip_compiler_priority(PRIORITY_FULL);
+        switch (opc)
+        {
+            case OPC_S_BEQ:
+                condition = op1 == op2;
+                break;
+            case OPC_S_BNE:
+                condition = op1 != op2;
+                break;
+            case OPC_S_BLT:
+                condition = (int32)op1 < (int32)op2;
+                break;
+            case OPC_S_BLTU:
+                condition = op1 < op2;
+                break;
+            case OPC_S_BGE:
+                condition = (int32)op1 >= (int32)op2;
+                break;
+            case OPC_S_BGEU:
+                condition = op1 >= op2;
+                break;
+        }
+        if (condition)
+        {
+            r_PC = (r_PC - INSTR_LAU_SIZE) + SEXT32(addr);
+        }
+    };
+};
+
+set i_control += i_control_conditional_32;
+
+/**************************************************************************************************/
+/****************************** Load and Store Instructions ***************************************/
+/**************************************************************************************************/
+
+set opc_loads_32 = opc_loadh, opc_loadb, opc_loadw, opc_loadhu, opc_loadbu;
+
+element i_load_32 : compiler_alias(i_load)
+{
+    use opc_loads_32 as opc;
+    use reg_any as src;
+    use reg32_any as dst;
+    use simm12;
+    assembly { opc dst "," simm12 "(" src ")" };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_loads);
+        rf_gpr32_write_sext(dst, load_val(opc, rf_gpr_read(src) + SEXT_XLEN(simm12)));
+    };
+};
+
+set opc_loads_32_offset_0 = opc_loadw;
+
+element i_load_32_offset_0 : compiler_alias(i_load)
+{
+    use opc_loads_32_offset_0 as opc;
+    use reg_any as src;
+    use reg32_any as dst;
+    assembly { opc dst ", 0 (" src ")" };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_loads);
+        rf_gpr32_write_sext(dst, load_val(opc, rf_gpr_read(src)));
+    };
+};
+
+set opc_loads_offset_0 = opc_loadw, opc_loadwu;
+
+element i_load_offset_0 : compiler_alias(i_load)
+{
+    use opc_loads_offset_0 as opc;
+    use reg_any as src, dst;
+    assembly { opc dst ", 0 (" src ")" };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_loads);
+        rf_gpr_write(dst, load_val(opc, rf_gpr_read(src)));
+    };
+};
+
+set opc_stores_32 = opc_storew, opc_storeh, opc_storeb;
+
+element i_store_32 : compiler_alias(i_store)
+{
+    use opc_stores_32 as opc;
+    use reg_any as src1;
+    use regs32 as src2;
+    use simm12;
+    assembly { opc src2 "," simm12 "(" src1 ")"  };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL);
+        codasip_compiler_schedule_class(sc_stores);
+        write_val(opc, rf_gpr_read(src1) + SEXT_XLEN(simm12), rf_gpr32_read(src2));
+    };
+};
+
+set i_load_store += i_load_32, i_load_32_offset_0, i_load_offset_0, i_store_32;
+
+// Not
+element i_not_alias_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use reg32_any as dst, src;
+    assembly { "not" dst "," src };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr32_write(dst, compute(OPC_I_XORI, rf_gpr32_read(src), -1));
+    };
+};
+set i_comp += i_not_alias_32;
+
+// Set equals zero
+element i_seqz_alias_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use reg32_any as src;
+    use reg_any as dst;
+    assembly { "seqz" dst "," src };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, compute(OPC_I_SLTIU, rf_gpr32_read(src), 1));
+    };
+};
+set i_comp += i_seqz_alias_32;
+
+// Set not equals zero
+element i_snez_alias_32 : compiler_alias(i_comp_3reg)
+{
+    use reg_any as dst;
+    use reg32_any as src;
+    assembly { "snez" dst "," src };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr_write(dst, compute(OPC_R_SLTU, 0, rf_gpr32_read(src)));
+    };
+};
+set i_comp += i_snez_alias_32;
+
+// Direct register copy
+element i_mv_alias_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use reg32_any as dst, src;
+    assembly { "mv" dst "," src };
+
+    semantics
+    {
+        codasip_compiler_priority(PRIORITY_FULL + 1);
+        rf_gpr32_write(dst, rf_gpr32_read(src));
+    };
+};
+set i_comp += i_mv_alias_32;
+
+// ADDIW with 64b registers
+element i_addiw_alias_64 : compiler_alias(i_addiw)
+{
+    use opc_addiw as opc;
+    use regs as dst, src;
+    use simm12_simple as simm12;
+    assembly { opc dst "," src "," simm12 };
+
+    semantics
+    {
+        codasip_compiler_unused();
+        rf_gpr_write(dst, compute(OPC_I_ADDI, rf_gpr_read(src), SEXT_XLEN(simm12)));
+    };
+};
+set i_comp += i_addiw_alias_64;
+
+// Lui into regs32
+element load_imm32_32_lui : compiler_alias(i_lui)
+{
+    use opc_lui as opc;
+    use regs32 as dst;
+    use imm20_s12 as imm;
+    assembly { opc dst "," imm };
+
+    semantics
+    {
+        rf_gpr32_write(dst, imm);
+    };
+};
+
+set i_comp += load_imm32_32_lui;
+#endif
+
+// Used by emulation e_movi32
+element c_lui_hi : compiler_alias(i_lui)
+{
+    use opc_lui as opc;
+    use regs as dst;
+    unsigned attribute bit[IMM32_W] imm;
+    assembly { opc dst "," "%hi(" imm ")" };
+
+    semantics
+    {
+        codasip_compiler_unused();
+        rf_gpr_write(dst, SEXT_XLEN(imm));
+    };
+};
+
+set isa += c_lui_hi;
+
+// Used by emulation e_movi32
+element c_addi_lo : compiler_alias(i_comp_2reg_imm)
+{
+#if OPTION_XLEN == 32
+    use opc_addi as opc;
+#else
+    use opc_addiw as opc;
+#endif
+    use regs as dst, src;
+    unsigned attribute bit[IMM32_W] imm;
+    assembly { opc dst "," src "," "%lo(" imm ")" };
+
+    semantics
+    {
+        UXLEN_T val;
+        codasip_compiler_unused();
+        val = rf_gpr_read(src);
+        rf_gpr_write(dst, compute(OPC_I_ADDI, val, SEXT_XLEN(imm)));
+    };
+};
+
+set isa += c_addi_lo;
+
+#if OPTION_XLEN == 64
+
+// Like c_lui_hi, but destination is regs32.
+// Used by emulation e_movi32_32.
+element c_lui_hi_32 : compiler_alias(i_lui)
+{
+    use opc_lui as opc;
+    use regs32 as dst;
+    unsigned attribute bit[IMM32_W] imm;
+    assembly { opc dst "," "%hi(" imm ")" };
+
+    semantics
+    {
+        codasip_compiler_unused();
+        rf_gpr32_write(dst, SEXT_XLEN(imm));
+    };
+};
+
+set isa += c_lui_hi_32;
+
+// Like c_addi_lo, but source and destination are regs32.
+// Used by emulation e_movi32_32.
+element c_addi_lo_32 : compiler_alias(i_comp_2reg_imm)
+{
+    use opc_addiw as opc;
+    use regs32 as dst, src;
+    unsigned attribute bit[IMM32_W] imm;
+    assembly { opc dst "," src "," "%lo(" imm ")" };
+
+    semantics
+    {
+        UXLEN_T val;
+        codasip_compiler_unused();
+        val = rf_gpr32_read(src);
+        rf_gpr32_write(dst, compute(OPC_I_ADDI, val, SEXT_XLEN(imm)));
+    };
+};
+
+set isa += c_addi_lo_32;
+
+// Needed to load full 64-bit immediate on RV64.
+// Not used by compiler to load addresses.
+element load_imm64 :
+    compiler_alias(i_lui, i_comp_2reg_imm, i_comp_2reg_imm, i_lui, i_comp_2reg_imm, i_comp_2reg_imm, i_comp_2reg_imm, i_comp_2reg_imm),
+    randomgen_alias(i_lui, i_comp_2reg_imm, i_comp_2reg_imm, i_lui, i_comp_2reg_imm, i_comp_2reg_imm, i_comp_2reg_imm, i_comp_2reg_imm)
+{
+    use regs as dst;
+    unsigned attribute bit[64] imm;
+    assembly {
+        "lui" dst ~", %hi(("~ imm ")>> 32)\n\t"~
+        "add" dst ~"," dst ~", %lo((" imm ")>> 32)\n\t"~
+        "sll" dst ~"," dst ~", 32 \n\t"~
+        "lui" "x28" ~", %hi(" imm ")\n\t"~
+        "add" "x28" ~"," "x28" ~", %lo(" imm ")\n\t"~
+        "sll" "x28" ~"," "x28" ~", 32\n\t"~
+        "srl" "x28" ~"," "x28" ~", 32\n\t"~
+        "or" dst ~"," dst ~"," "x28"
+    };
+
+    semantics
+    {
+        rf_gpr_write(dst, imm);
+    };
+};
+
+set isa += load_imm64;
+
+#else
+
+// Used by randomgen to load immediates and addresses
+element load_imm32 : compiler_alias(i_lui, i_comp_2reg_imm), randomgen_alias(i_lui, i_comp_2reg_imm)
+{
+    use regs as dst;
+    unsigned attribute bit[IMM32_W] imm;
+    assembly {
+        "lui" dst ~", %hi(" imm ")\n\t"~
+        "add" dst ~"," dst ~", %lo(" imm ")"
+    };
+
+    semantics
+    {
+        codasip_compiler_unused();
+        rf_gpr_write(dst, imm);
+    };
+};
+
+set isa += load_imm32;
+
+#endif // OPTION_XLEN == 64

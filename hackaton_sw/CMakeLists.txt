@@ -1,0 +1,16 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(hackaton_sw VERSION 1.0.0 LANGUAGES C ASM)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_C_COMPILER /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-clang)
+set(CMAKE_ASM_COMPILER /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-clang)
+set(CMAKE_CPP_COMPILER /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-clang++)
+set(CMAKE_ASM_FLAGS "-O3 -g3  ")
+set(CMAKE_C_FLAGS "-O3 -g3  ")
+set(CMAKE_EXE_LINKER_FLAGS "-lnxssys -lm -lcomp -WI,--defsym,_HEAP_SIZE=0x400000,--defsym,_STACK_SIZE=0x400000")
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+file(GLOB_RECURSE all_SRCS
+    "${PROJECT_SOURCE_DIR}/src/main.c"
+)
+add_executable(main.xexe ${all_SRCS})
+set_target_properties(main.xexe PROPERTIES LINKER_LANGUAGE C)

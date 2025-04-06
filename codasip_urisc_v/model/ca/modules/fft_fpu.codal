@@ -1,0 +1,348 @@
+#include "ca_defines.hcodal"
+
+#define FFT_FPU_STATES_W                bitsizeof(enum fft_fpu_states)
+#define SIGN_BIT                    (32-1)..(32-1)
+
+enum fft_fpu_states: uint5
+{
+    FFT_FPU_IDLE = 0,
+    FFT_FPU_START_ADD,
+    FFT_FPU_START_MUL,
+    FFT_FPU_START_BUTTERFLY,
+    FFT_FPU_COMPUTE_MUL0,
+    FFT_FPU_COMPUTE_MUL1,
+    FFT_FPU_COMPUTE_ADD0,
+    FFT_FPU_COMPUTE_ADD1,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT0,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT1,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT2,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT0,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT1,
+    FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT2,
+    FFT_FPU_COMPUTE_BUTTERFLY_RESULT0,
+    FFT_FPU_COMPUTE_BUTTERFLY_RESULT1,
+    FFT_FPU_COMPUTE_BUTTERFLY_RESULT2,
+    FFT_FPU_READY_MUL,
+    FFT_FPU_READY_ADD,
+    FFT_FPU_READY_BUTTERFLY
+};
+
+module fft_fpu
+{
+    signal bit[FU_OP_W] s_op_i;
+    signal bit[32] s_s1_data_i;
+    signal bit[32] s_s2_data_i;
+    signal bit[1] s_flush_i;
+    signal bit[1] s_fft_ce_i;
+    /// Outputs
+    signal bit[32] s_rd_data_o;
+    signal bit[1] s_rd_valid_o;
+    signal bit[1] s_busy_o;
+
+    register bit[FFT_FPU_STATES_W] r_state { clock_enable = s_fft_ce_i; };
+    register bit[FFT_FPU_STATES_W] r_return_state { clock_enable = s_fft_ce_i; };
+    register bit[FU_OP_W] r_op { clock_enable = s_fft_ce_i; };
+
+    register bit[32] r_s1_data_i { clock_enable = s_fft_ce_i; };
+    register bit[32] r_s2_data_i { clock_enable = s_fft_ce_i; };
+
+    register bit[32] r_tw_c { clock_enable = s_fft_ce_i; };
+    register bit[32] r_tw_s { clock_enable = s_fft_ce_i; };
+    register bit[32] r_E_R { clock_enable = s_fft_ce_i; };
+    register bit[32] r_E_I { clock_enable = s_fft_ce_i; };
+    register bit[32] r_O_R { clock_enable = s_fft_ce_i; };
+    register bit[32] r_O_I { clock_enable = s_fft_ce_i; };
+
+    register bit[32] r_O_R_rot { clock_enable = s_fft_ce_i; };
+    register bit[32] r_O_I_rot { clock_enable = s_fft_ce_i; };
+
+    register bit[2*(23+2)] r_mul_man1 { clock_enable = s_fft_ce_i; };
+    register bit[16] r_mul_exp1 { clock_enable = s_fft_ce_i; };
+    register bit[2*(23+2)] r_mul_man2 { clock_enable = s_fft_ce_i; };
+    register bit[16] r_mul_exp2 { clock_enable = s_fft_ce_i; };
+    register bit[1] r_mul_sign1 { clock_enable = s_fft_ce_i; };
+    register bit[1] r_mul_sign2 { clock_enable = s_fft_ce_i; };
+
+    register bit[32] r_mul_res { clock_enable = s_fft_ce_i; };
+
+    register bit[23+2] r_add_man1 { clock_enable = s_fft_ce_i; };
+    register bit[16] r_add_exp1 { clock_enable = s_fft_ce_i; };
+    register bit[23+2] r_add_man2 { clock_enable = s_fft_ce_i; };
+    register bit[16] r_add_exp2 { clock_enable = s_fft_ce_i; };
+    register bit[1] r_add_sign1 { clock_enable = s_fft_ce_i; };
+    register bit[1] r_add_sign2 { clock_enable = s_fft_ce_i; };
+
+    register bit[32] r_add_res { clock_enable = s_fft_ce_i; };
+
+    event compute
+    {
+        semantics
+        {
+            uint_<FFT_FPU_STATES_W> start_state;
+            uint1 mant_shift;
+            bool fft_fpu_op;
+            uint_<8> shift_exp, lead_shift;
+            uint_<8> add_shift;
+            bool flip_adds;
+
+            uint8 trig_index;
+
+            switch (r_state)
+            {
+                case FFT_FPU_IDLE:
+                    fft_fpu_op = (s_op_i == OP_FFT_FLOAT_MUL || s_op_i == OP_FFT_FLOAT_ADD || s_op_i == OP_FFT_BUTTERFLY);
+                    r_op = s_op_i;
+                    r_s1_data_i = s_s1_data_i;
+                    r_s2_data_i = s_s2_data_i;
+                    switch (s_op_i)
+                    {
+                        case OP_FFT_FLOAT_MUL: start_state = FFT_FPU_START_MUL; r_return_state = FFT_FPU_READY_MUL; break;
+                        case OP_FFT_FLOAT_ADD: start_state = FFT_FPU_START_ADD; r_return_state = FFT_FPU_READY_ADD; break;
+                        case OP_FFT_BUTTERFLY: start_state = FFT_FPU_START_BUTTERFLY; r_return_state = FFT_FPU_IDLE; break;
+                        default: start_state = FFT_FPU_START_BUTTERFLY; r_return_state = FFT_FPU_IDLE; break;
+                    }
+                    r_state = s_flush_i || !fft_fpu_op ? FFT_FPU_IDLE : start_state;
+                    break;
+                case FFT_FPU_START_ADD:
+                    if (r_s1_data_i[30..0]==0)
+                    {
+                        r_add_res = r_s2_data_i;
+                        r_state = s_flush_i ? FFT_FPU_IDLE : r_return_state;
+                    }
+                    else if (r_s2_data_i[30..0]==0)
+                    {
+                        r_add_res = r_s1_data_i;
+                        r_state = s_flush_i ? FFT_FPU_IDLE : r_return_state;
+                    }
+                    else
+                    {
+                        r_add_res = 0;
+                        flip_adds = (r_s1_data_i[30..23] < r_s2_data_i[30..23]) || (r_s1_data_i[30..23] == r_s2_data_i[30..23] && r_s1_data_i[22..0] < r_s2_data_i[22..0]);
+                        if (flip_adds)
+                        {
+                            r_add_sign1 = r_s2_data_i[SIGN_BIT];
+                            r_add_sign2 = r_s1_data_i[SIGN_BIT];
+                            r_add_man1 = 0 :: 1 :: r_s2_data_i[22..0];
+                            r_add_exp1 = (0::*8) :: r_s2_data_i[30..23];
+                            r_add_man2 = 0 :: 1 :: r_s1_data_i[22..0];
+                            r_add_exp2 = (0::*8) :: r_s1_data_i[30..23];
+                        }
+                        else
+                        {
+                            r_add_sign1 = r_s1_data_i[SIGN_BIT];
+                            r_add_sign2 = r_s2_data_i[SIGN_BIT];
+                            r_add_man1 = 0 :: 1 :: r_s1_data_i[22..0];
+                            r_add_exp1 = (0::*8) :: r_s1_data_i[30..23];
+                            r_add_man2 = 0 :: 1 :: r_s2_data_i[22..0];
+                            r_add_exp2 = (0::*8) :: r_s2_data_i[30..23];
+                        }
+                        r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_COMPUTE_ADD0;
+                    }
+                    break;
+                case FFT_FPU_START_MUL:
+                    r_mul_res = 0;
+                    if (r_s1_data_i[30..0]==0 || r_s2_data_i[30..0]==0)
+                    {
+                        r_state = s_flush_i ? FFT_FPU_IDLE : r_return_state;
+                    }
+                    else
+                    {
+                        r_mul_sign1 = r_s1_data_i[SIGN_BIT];
+                        r_mul_sign2 = r_s2_data_i[SIGN_BIT];
+                        r_mul_man1 = (0::*26) :: 1 :: r_s1_data_i[22..0];
+                        r_mul_exp1 = (0::*8) :: r_s1_data_i[30..23];
+                        r_mul_man2 = (0::*26) :: 1 :: r_s2_data_i[22..0];
+                        r_mul_exp2 = (0::*8) :: r_s2_data_i[30..23];
+                        r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_COMPUTE_MUL0;
+                    }
+                    break;
+                case FFT_FPU_START_BUTTERFLY:
+                    switch (r_s2_data_i)
+                    {
+                        case 256: trig_index = r_s1_data_i; break;
+                        case 128: trig_index = r_s1_data_i << 1; break;
+                        case 64: trig_index = r_s1_data_i << 2; break;
+                        case 32: trig_index = r_s1_data_i << 3; break;
+                        case 16: trig_index = r_s1_data_i << 4; break;
+                        case 8: trig_index = r_s1_data_i << 5; break;
+                        case 4: trig_index = r_s1_data_i << 6; break;
+                        case 2: trig_index = r_s1_data_i << 7; break;
+                        default: trig_index = r_s1_data_i; break;
+                    }
+                    r_tw_c = COS[trig_index];
+                    r_tw_s = SIN[trig_index];
+                    r_E_R = E_R;
+                    r_E_I = E_I;
+                    r_O_R = O_R;
+                    r_O_I = O_I;
+
+                    r_s1_data_i = O_R;
+                    r_s2_data_i = COS[trig_index];
+
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT0;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_MUL;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT0:
+                    r_O_R_rot = r_mul_res;
+                    r_s1_data_i = r_O_I;
+                    r_s2_data_i = r_tw_s;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT1;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_MUL;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT1:
+                    r_s1_data_i = r_O_R_rot;
+                    r_s2_data_i = (~r_mul_res[31..31]) :: r_mul_res[30..0];
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT2;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_R_ROT2:
+                    r_O_R_rot = r_add_res;
+                    r_s1_data_i = r_O_R;
+                    r_s2_data_i = r_tw_s;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT0;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_MUL;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT0:
+                    r_O_I_rot = r_mul_res;
+                    r_s1_data_i = r_O_I;
+                    r_s2_data_i = r_tw_c;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT1;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_MUL;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT1:
+                    r_s1_data_i = r_O_I_rot;
+                    r_s2_data_i = r_mul_res;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT2;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_O_I_ROT2:
+                    r_O_I_rot = r_add_res;
+                    r_s1_data_i = r_E_R;
+                    r_s2_data_i = r_O_R_rot;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_RESULT0;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_RESULT0:
+                    E_R = r_add_res;
+                    r_s1_data_i = r_E_I;
+                    r_s2_data_i = r_O_I_rot;
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_RESULT1;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_RESULT1:
+                    E_I = r_add_res;
+                    r_s1_data_i = r_E_R;
+                    r_s2_data_i = (~r_O_R_rot[31..31]) :: r_O_R_rot[30..0];
+                    r_return_state = FFT_FPU_COMPUTE_BUTTERFLY_RESULT2;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_BUTTERFLY_RESULT2:
+                    O_R = r_add_res;
+                    r_s1_data_i = r_E_I;
+                    r_s2_data_i = (~r_O_I_rot[31..31]) :: r_O_I_rot[30..0];
+                    r_return_state = FFT_FPU_READY_BUTTERFLY;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_START_ADD;
+                    break;
+                case FFT_FPU_COMPUTE_MUL0:
+                    r_mul_sign1 = r_mul_sign1 ^ r_mul_sign2;
+                    r_mul_man1 = r_mul_man1 * r_mul_man2;
+                    r_mul_exp1 = r_mul_exp1 + r_mul_exp2 - 127;
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_COMPUTE_MUL1;
+                    break;
+                case FFT_FPU_COMPUTE_MUL1:
+                    mant_shift = r_mul_man1[47..47];
+                    shift_exp = r_mul_exp1[7..0] + 1;
+                    if (mant_shift)
+                    {
+                        r_mul_res = r_mul_sign1 :: shift_exp :: r_mul_man1[46..24];
+                    }
+                    else r_mul_res = r_mul_sign1 :: r_mul_exp1[7..0] :: r_mul_man1[45..23];
+                    r_state = s_flush_i ? FFT_FPU_IDLE : r_return_state;
+                    break;
+                case FFT_FPU_COMPUTE_ADD0:
+                    add_shift = r_add_exp1 - r_add_exp2;
+                    r_add_man1 = (r_add_sign1 ^ r_add_sign2) ? r_add_man1 - (r_add_man2 >> add_shift) : r_add_man1 + (r_add_man2 >> add_shift);
+                    r_state = s_flush_i ? FFT_FPU_IDLE : FFT_FPU_COMPUTE_ADD1;
+                    break;
+                case FFT_FPU_COMPUTE_ADD1:
+                    mant_shift = r_add_man1[24..24];
+                    shift_exp = r_add_exp1[7..0] + 1;
+                    if (mant_shift)
+                    {
+                        r_add_res = r_add_sign1 :: shift_exp :: r_add_man1[23..1];
+                    }
+                    else if (r_add_man1[23..23]==0)
+                    {
+                        if (r_add_man1[22..22]==1) lead_shift = 1;
+                        else if (r_add_man1[21..21]==1) lead_shift = 2;
+                        else if (r_add_man1[20..20]==1) lead_shift = 3;
+                        else if (r_add_man1[19..19]==1) lead_shift = 4;
+                        else if (r_add_man1[18..18]==1) lead_shift = 5;
+                        else if (r_add_man1[17..17]==1) lead_shift = 6;
+                        else if (r_add_man1[16..16]==1) lead_shift = 7;
+                        else if (r_add_man1[15..15]==1) lead_shift = 8;
+                        else if (r_add_man1[14..14]==1) lead_shift = 9;
+                        else if (r_add_man1[13..13]==1) lead_shift = 10;
+                        else if (r_add_man1[12..12]==1) lead_shift = 11;
+                        else if (r_add_man1[11..11]==1) lead_shift = 12;
+                        else if (r_add_man1[10..10]==1) lead_shift = 13;
+                        else if (r_add_man1[9..9]==1) lead_shift = 14;
+                        else if (r_add_man1[8..8]==1) lead_shift = 15;
+                        else if (r_add_man1[7..7]==1) lead_shift = 16;
+                        else if (r_add_man1[6..6]==1) lead_shift = 17;
+                        else if (r_add_man1[5..5]==1) lead_shift = 18;
+                        else if (r_add_man1[4..4]==1) lead_shift = 19;
+                        else if (r_add_man1[3..3]==1) lead_shift = 20;
+                        else if (r_add_man1[2..2]==1) lead_shift = 21;
+                        else if (r_add_man1[1..1]==1) lead_shift = 22;
+                        else lead_shift = 23;
+
+                        r_add_res = r_add_sign1 :: (r_add_exp1[7..0]-lead_shift) :: (r_add_man1<<lead_shift)[22..0];
+                    }
+                    else r_add_res = r_add_sign1 :: r_add_exp1[7..0] :: r_add_man1[22..0];
+                    r_state = s_flush_i ? FFT_FPU_IDLE : r_return_state;
+                    break;
+                case FFT_FPU_READY_BUTTERFLY:
+                    O_I = r_add_res;
+                    r_state = FFT_FPU_IDLE;
+                    break;
+                case FFT_FPU_READY_MUL:
+                case FFT_FPU_READY_ADD:
+                    r_state = FFT_FPU_IDLE;
+                    break;
+                default:
+                    r_state = FFT_FPU_IDLE;
+                    codasip_assert(0, "FFT_FPU module-unknown operation");
+                    break;
+            }
+
+        };
+    };
+
+    event outputs
+    {
+        semantics
+        {
+            uint_<32> result_mul, result_add;
+            bool is_valid;
+
+            is_valid = (r_state == FFT_FPU_READY_MUL || r_state == FFT_FPU_READY_ADD || r_state == FFT_FPU_READY_BUTTERFLY);
+            result_mul = is_valid ? r_mul_res : (uint_<32>)0;
+            result_add = is_valid ? r_add_res : (uint_<32>)0;
+            /// set outputs
+            switch (r_op)
+            {
+              case OP_FFT_FLOAT_MUL:  s_rd_data_o = result_mul; break;
+              case OP_FFT_FLOAT_ADD:  s_rd_data_o = result_add; break;
+              default:        s_rd_data_o = 0; break;
+            }
+            // busy when we enter the computation
+            s_busy_o = (r_state != FFT_FPU_IDLE);
+            // valid in the last round of division
+            s_rd_valid_o = is_valid;
+        };
+    };
+};
+
+#undef FFT_FPU_STATES_W
+#undef SIGN_BIT

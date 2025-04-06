@@ -1,0 +1,587 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "isa.hcodal"
+#include "opcodes.hcodal"
+#include "config.hcodal"
+
+set regs : register_class(rf_gpr);
+#if OPTION_XLEN == 64
+set regs32 : register_class(rf_gpr32);
+#endif
+
+element reg0 : ignore(DOCUMENTATION)
+{
+    assembly { STRINGIZE(x0) };
+    binary { 0:bit[5] };
+    return { 0 };
+};
+
+element reg0_alias : assembler_alias(reg0)
+{
+    assembly { "zero" };
+    binary { 0:bit[5] };
+};
+
+DEF_REG_ALIAS4(regs, 1, "ra")       // Return address
+DEF_REG_ALIAS4(regs, 2, "sp")       // Stack pointer
+DEF_REG_ALIAS(regs, 3, "gp")        // Global pointer
+DEF_REG_ALIAS(regs, 4, "tp")        // Thread pointer
+DEF_REG_ALIAS(regs, 5, "t0")        // Temporary 0
+DEF_REG_ALIAS(regs, 6, "t1")        // Temporary 1
+DEF_REG_ALIAS(regs, 7, "t2")        // Temporary 2
+DEF_REG_ALIAS2(regs, 8, "fp", "s0") // Frame pointer / saved register 0
+DEF_REG_ALIAS(regs, 9, "s1")        // Saved register 1
+DEF_REG_ALIAS(regs, 10, "a0")       // Function argument 0 / return value 0
+DEF_REG_ALIAS(regs, 11, "a1")       // Function argument 1 / return value 1
+DEF_REG_ALIAS(regs, 12, "a2")       // Function argument 2
+DEF_REG_ALIAS(regs, 13, "a3")       // Function argument 3
+DEF_REG_ALIAS(regs, 14, "a4")       // Function argument 4
+DEF_REG_ALIAS(regs, 15, "a5")       // Function argument 5
+
+DEF_REG_ALIAS(regs, 16, "a6")       // Function argument 6
+DEF_REG_ALIAS(regs, 17, "a7")       // Function argument 7
+DEF_REG_ALIAS(regs, 18, "s2")       // Saved register 2
+DEF_REG_ALIAS(regs, 19, "s3")       // Saved register 3
+DEF_REG_ALIAS(regs, 20, "s4")       // Saved register 4
+DEF_REG_ALIAS(regs, 21, "s5")       // Saved register 5
+DEF_REG_ALIAS(regs, 22, "s6")       // Saved register 6
+DEF_REG_ALIAS(regs, 23, "s7")       // Saved register 7
+DEF_REG_ALIAS(regs, 24, "s8")       // Saved register 8
+DEF_REG_ALIAS(regs, 25, "s9")       // Saved register 9
+DEF_REG_ALIAS(regs, 26, "s10")      // Saved register 10
+DEF_REG_ALIAS(regs, 27, "s11")      // Saved register 11
+DEF_REG_ALIAS(regs, 28, "t3")       // Temporary 3
+DEF_REG_ALIAS(regs, 29, "t4")       // Temporary 4
+DEF_REG_ALIAS(regs, 30, "t5")       // Temporary 5
+DEF_REG_ALIAS(regs, 31, "t6")       // Temporary 6
+
+set reg_any : operand(PROFILER);
+set reg_any = regs, reg0, reg0_alias;
+#if OPTION_XLEN == 64
+set reg32_any : operand(PROFILER);
+set reg32_any = regs32, reg0, reg0_alias;
+#endif
+
+// Immediate control register address
+element csr_imm : assembler_alias(csr_mstatus)
+{
+    unsigned attribute bit[IMM12_W] imm;
+    assembly { imm };
+    binary { imm };
+};
+
+set regs_csr : operand(COMPILER);
+set op_csr : operand(PROFILER);
+set op_csr = regs_csr, csr_imm;
+
+// Machine status
+DEF_REG_CSR(regs_csr, mstatus, "mstatus", CSR_MSTATUS)
+// Machine interrupt enable
+DEF_REG_CSR(regs_csr, mie, "mie", CSR_MIE)
+// Machine trap handler base address
+DEF_REG_CSR(regs_csr, mtvec, "mtvec", CSR_MTVEC)
+// Machine counters inhibition
+DEF_REG_CSR(regs_csr, mcountinhibit, "mcountinhibit", CSR_MCOUNTINHIBIT)
+// Machine performance monitor event selectors
+DEF_REG_CSR(regs_csr, mhpmevent3, "mhpmevent3", CSR_MHPMEVENT3)
+DEF_REG_CSR(regs_csr, mhpmevent4, "mhpmevent4", CSR_MHPMEVENT4)
+DEF_REG_CSR(regs_csr, mhpmevent5, "mhpmevent5", CSR_MHPMEVENT5)
+DEF_REG_CSR(regs_csr, mhpmevent6, "mhpmevent6", CSR_MHPMEVENT6)
+DEF_REG_CSR(regs_csr, mhpmevent7, "mhpmevent7", CSR_MHPMEVENT7)
+DEF_REG_CSR(regs_csr, mhpmevent8, "mhpmevent8", CSR_MHPMEVENT8)
+DEF_REG_CSR(regs_csr, mhpmevent9, "mhpmevent9", CSR_MHPMEVENT9)
+DEF_REG_CSR(regs_csr, mhpmevent10, "mhpmevent10", CSR_MHPMEVENT10)
+DEF_REG_CSR(regs_csr, mhpmevent11, "mhpmevent11", CSR_MHPMEVENT11)
+DEF_REG_CSR(regs_csr, mhpmevent12, "mhpmevent12", CSR_MHPMEVENT12)
+DEF_REG_CSR(regs_csr, mhpmevent13, "mhpmevent13", CSR_MHPMEVENT13)
+DEF_REG_CSR(regs_csr, mhpmevent14, "mhpmevent14", CSR_MHPMEVENT14)
+DEF_REG_CSR(regs_csr, mhpmevent15, "mhpmevent15", CSR_MHPMEVENT15)
+DEF_REG_CSR(regs_csr, mhpmevent16, "mhpmevent16", CSR_MHPMEVENT16)
+DEF_REG_CSR(regs_csr, mhpmevent17, "mhpmevent17", CSR_MHPMEVENT17)
+DEF_REG_CSR(regs_csr, mhpmevent18, "mhpmevent18", CSR_MHPMEVENT18)
+DEF_REG_CSR(regs_csr, mhpmevent19, "mhpmevent19", CSR_MHPMEVENT19)
+DEF_REG_CSR(regs_csr, mhpmevent20, "mhpmevent20", CSR_MHPMEVENT20)
+DEF_REG_CSR(regs_csr, mhpmevent21, "mhpmevent21", CSR_MHPMEVENT21)
+DEF_REG_CSR(regs_csr, mhpmevent22, "mhpmevent22", CSR_MHPMEVENT22)
+DEF_REG_CSR(regs_csr, mhpmevent23, "mhpmevent23", CSR_MHPMEVENT23)
+DEF_REG_CSR(regs_csr, mhpmevent24, "mhpmevent24", CSR_MHPMEVENT24)
+DEF_REG_CSR(regs_csr, mhpmevent25, "mhpmevent25", CSR_MHPMEVENT25)
+DEF_REG_CSR(regs_csr, mhpmevent26, "mhpmevent26", CSR_MHPMEVENT26)
+DEF_REG_CSR(regs_csr, mhpmevent27, "mhpmevent27", CSR_MHPMEVENT27)
+DEF_REG_CSR(regs_csr, mhpmevent28, "mhpmevent28", CSR_MHPMEVENT28)
+DEF_REG_CSR(regs_csr, mhpmevent29, "mhpmevent29", CSR_MHPMEVENT29)
+DEF_REG_CSR(regs_csr, mhpmevent30, "mhpmevent30", CSR_MHPMEVENT30)
+DEF_REG_CSR(regs_csr, mhpmevent31, "mhpmevent31", CSR_MHPMEVENT31)
+// Machine scratch for machine trap handlers
+DEF_REG_CSR(regs_csr, mscratch, "mscratch", CSR_MSCRATCH)
+// Machine exception PC
+DEF_REG_CSR(regs_csr, mepc, "mepc", CSR_MEPC)
+// Machine trap cause
+DEF_REG_CSR(regs_csr, mcause, "mcause", CSR_MCAUSE)
+// Machine bad address or instruction
+DEF_REG_CSR(regs_csr, mtval, "mtval", CSR_MTVAL)
+// Machine interrupt pending
+DEF_REG_CSR(regs_csr, mip, "mip", CSR_MIP)
+// Machine NMI pending
+DEF_REG_CSR(regs_csr, nmi, "nmi", CSR_NMI)
+// Machine NMI mtval
+DEF_REG_CSR(regs_csr, nmi_mtval, "nmi_mtval", CSR_NMI_MTVAL)
+
+#ifdef OPTION_OCD
+// Debug/Trace trigger register select
+DEF_REG_CSR(regs_csr, tselect, "tselect", CSR_TSELECT)
+// Debug/Trace control register
+DEF_REG_CSR(regs_csr, tcontrol, "tcontrol", CSR_TCONTROL)
+// First Debug/Trace trigger data register
+DEF_REG_CSR(regs_csr, tdata1, "tdata1", CSR_TDATA1)
+// Match control
+element csr_mcontrol : assembler_alias(csr_tdata1)
+{
+    assembly { "mcontrol" };
+    binary { CSR_TDATA1 };
+};
+set regs_csr += csr_mcontrol;
+// Second Debug/Trace trigger data register
+DEF_REG_CSR(regs_csr, tdata2, "tdata2", CSR_TDATA2)
+// Trigger info
+DEF_REG_CSR(regs_csr, tinfo, "tinfo", CSR_TINFO)
+// Debug control and status register
+DEF_REG_CSR(regs_csr, dcsr, "dcsr", CSR_DCSR)
+// Debug PC
+DEF_REG_CSR(regs_csr, dpc, "dpc", CSR_DPC)
+#endif // ifdef OPTION_OCD
+
+// Machine cycle counter
+DEF_REG_CSR(regs_csr, mcycle, "mcycle", CSR_MCYCLE)
+// Machine instructions retired counter
+DEF_REG_CSR(regs_csr, minstret, "minstret", CSR_MINSTRET)
+// Machine performance monitoring counters
+DEF_REG_CSR(regs_csr, mhpmcounter3, "mhpmcounter3", CSR_MHPMCOUNTER3)
+DEF_REG_CSR(regs_csr, mhpmcounter4, "mhpmcounter4", CSR_MHPMCOUNTER4)
+DEF_REG_CSR(regs_csr, mhpmcounter5, "mhpmcounter5", CSR_MHPMCOUNTER5)
+DEF_REG_CSR(regs_csr, mhpmcounter6, "mhpmcounter6", CSR_MHPMCOUNTER6)
+DEF_REG_CSR(regs_csr, mhpmcounter7, "mhpmcounter7", CSR_MHPMCOUNTER7)
+DEF_REG_CSR(regs_csr, mhpmcounter8, "mhpmcounter8", CSR_MHPMCOUNTER8)
+DEF_REG_CSR(regs_csr, mhpmcounter9, "mhpmcounter9", CSR_MHPMCOUNTER9)
+DEF_REG_CSR(regs_csr, mhpmcounter10, "mhpmcounter10", CSR_MHPMCOUNTER10)
+DEF_REG_CSR(regs_csr, mhpmcounter11, "mhpmcounter11", CSR_MHPMCOUNTER11)
+DEF_REG_CSR(regs_csr, mhpmcounter12, "mhpmcounter12", CSR_MHPMCOUNTER12)
+DEF_REG_CSR(regs_csr, mhpmcounter13, "mhpmcounter13", CSR_MHPMCOUNTER13)
+DEF_REG_CSR(regs_csr, mhpmcounter14, "mhpmcounter14", CSR_MHPMCOUNTER14)
+DEF_REG_CSR(regs_csr, mhpmcounter15, "mhpmcounter15", CSR_MHPMCOUNTER15)
+DEF_REG_CSR(regs_csr, mhpmcounter16, "mhpmcounter16", CSR_MHPMCOUNTER16)
+DEF_REG_CSR(regs_csr, mhpmcounter17, "mhpmcounter17", CSR_MHPMCOUNTER17)
+DEF_REG_CSR(regs_csr, mhpmcounter18, "mhpmcounter18", CSR_MHPMCOUNTER18)
+DEF_REG_CSR(regs_csr, mhpmcounter19, "mhpmcounter19", CSR_MHPMCOUNTER19)
+DEF_REG_CSR(regs_csr, mhpmcounter20, "mhpmcounter20", CSR_MHPMCOUNTER20)
+DEF_REG_CSR(regs_csr, mhpmcounter21, "mhpmcounter21", CSR_MHPMCOUNTER21)
+DEF_REG_CSR(regs_csr, mhpmcounter22, "mhpmcounter22", CSR_MHPMCOUNTER22)
+DEF_REG_CSR(regs_csr, mhpmcounter23, "mhpmcounter23", CSR_MHPMCOUNTER23)
+DEF_REG_CSR(regs_csr, mhpmcounter24, "mhpmcounter24", CSR_MHPMCOUNTER24)
+DEF_REG_CSR(regs_csr, mhpmcounter25, "mhpmcounter25", CSR_MHPMCOUNTER25)
+DEF_REG_CSR(regs_csr, mhpmcounter26, "mhpmcounter26", CSR_MHPMCOUNTER26)
+DEF_REG_CSR(regs_csr, mhpmcounter27, "mhpmcounter27", CSR_MHPMCOUNTER27)
+DEF_REG_CSR(regs_csr, mhpmcounter28, "mhpmcounter28", CSR_MHPMCOUNTER28)
+DEF_REG_CSR(regs_csr, mhpmcounter29, "mhpmcounter29", CSR_MHPMCOUNTER29)
+DEF_REG_CSR(regs_csr, mhpmcounter30, "mhpmcounter30", CSR_MHPMCOUNTER30)
+DEF_REG_CSR(regs_csr, mhpmcounter31, "mhpmcounter31", CSR_MHPMCOUNTER31)
+// ISA and Extensions
+DEF_REG_CSR(regs_csr, misa, "misa", CSR_MISA)
+// Vendor ID
+DEF_REG_CSR(regs_csr, mvendorid, "mvendorid", CSR_MVENDORID)
+// Architecture ID
+DEF_REG_CSR(regs_csr, marchid, "marchid", CSR_MARCHID)
+// Implementation ID
+DEF_REG_CSR(regs_csr, mimpid, "mimpid", CSR_MIMPID)
+// Hardware thread ID
+DEF_REG_CSR(regs_csr, mhartid, "mhartid", CSR_MHARTID)
+
+#if OPTION_XLEN == 32
+// Machine cycle counter upper
+DEF_REG_CSR(regs_csr, mcycleh, "mcycleh", CSR_MCYCLEH)
+// Machine instructions retired counter upper
+DEF_REG_CSR(regs_csr, minstreth, "minstreth", CSR_MINSTRETH)
+// Machine performance monitoring counters upper
+DEF_REG_CSR(regs_csr, mhpmcounter3h, "mhpmcounter3h", CSR_MHPMCOUNTER3H)
+DEF_REG_CSR(regs_csr, mhpmcounter4h, "mhpmcounter4h", CSR_MHPMCOUNTER4H)
+DEF_REG_CSR(regs_csr, mhpmcounter5h, "mhpmcounter5h", CSR_MHPMCOUNTER5H)
+DEF_REG_CSR(regs_csr, mhpmcounter6h, "mhpmcounter6h", CSR_MHPMCOUNTER6H)
+DEF_REG_CSR(regs_csr, mhpmcounter7h, "mhpmcounter7h", CSR_MHPMCOUNTER7H)
+DEF_REG_CSR(regs_csr, mhpmcounter8h, "mhpmcounter8h", CSR_MHPMCOUNTER8H)
+DEF_REG_CSR(regs_csr, mhpmcounter9h, "mhpmcounter9h", CSR_MHPMCOUNTER9H)
+DEF_REG_CSR(regs_csr, mhpmcounter10h, "mhpmcounter10h", CSR_MHPMCOUNTER10H)
+DEF_REG_CSR(regs_csr, mhpmcounter11h, "mhpmcounter11h", CSR_MHPMCOUNTER11H)
+DEF_REG_CSR(regs_csr, mhpmcounter12h, "mhpmcounter12h", CSR_MHPMCOUNTER12H)
+DEF_REG_CSR(regs_csr, mhpmcounter13h, "mhpmcounter13h", CSR_MHPMCOUNTER13H)
+DEF_REG_CSR(regs_csr, mhpmcounter14h, "mhpmcounter14h", CSR_MHPMCOUNTER14H)
+DEF_REG_CSR(regs_csr, mhpmcounter15h, "mhpmcounter15h", CSR_MHPMCOUNTER15H)
+DEF_REG_CSR(regs_csr, mhpmcounter16h, "mhpmcounter16h", CSR_MHPMCOUNTER16H)
+DEF_REG_CSR(regs_csr, mhpmcounter17h, "mhpmcounter17h", CSR_MHPMCOUNTER17H)
+DEF_REG_CSR(regs_csr, mhpmcounter18h, "mhpmcounter18h", CSR_MHPMCOUNTER18H)
+DEF_REG_CSR(regs_csr, mhpmcounter19h, "mhpmcounter19h", CSR_MHPMCOUNTER19H)
+DEF_REG_CSR(regs_csr, mhpmcounter20h, "mhpmcounter20h", CSR_MHPMCOUNTER20H)
+DEF_REG_CSR(regs_csr, mhpmcounter21h, "mhpmcounter21h", CSR_MHPMCOUNTER21H)
+DEF_REG_CSR(regs_csr, mhpmcounter22h, "mhpmcounter22h", CSR_MHPMCOUNTER22H)
+DEF_REG_CSR(regs_csr, mhpmcounter23h, "mhpmcounter23h", CSR_MHPMCOUNTER23H)
+DEF_REG_CSR(regs_csr, mhpmcounter24h, "mhpmcounter24h", CSR_MHPMCOUNTER24H)
+DEF_REG_CSR(regs_csr, mhpmcounter25h, "mhpmcounter25h", CSR_MHPMCOUNTER25H)
+DEF_REG_CSR(regs_csr, mhpmcounter26h, "mhpmcounter26h", CSR_MHPMCOUNTER26H)
+DEF_REG_CSR(regs_csr, mhpmcounter27h, "mhpmcounter27h", CSR_MHPMCOUNTER27H)
+DEF_REG_CSR(regs_csr, mhpmcounter28h, "mhpmcounter28h", CSR_MHPMCOUNTER28H)
+DEF_REG_CSR(regs_csr, mhpmcounter29h, "mhpmcounter29h", CSR_MHPMCOUNTER29H)
+DEF_REG_CSR(regs_csr, mhpmcounter30h, "mhpmcounter30h", CSR_MHPMCOUNTER30H)
+DEF_REG_CSR(regs_csr, mhpmcounter31h, "mhpmcounter31h", CSR_MHPMCOUNTER31H)
+#endif // OPTION_XLEN == 32
+
+// Custom (non-standard) CSR
+#if defined(OPTION_ENABLE_CACHES)
+DEF_REG_CSR(regs_csr, ml1cache_start , "ml1cache_start", CSR_ML1CACHE_START)
+#endif
+
+// 12bit Signed Immediate Value
+element simm12_simple
+{
+    signed attribute bit[IMM12_W] simm;
+    assembly { simm };
+    binary { simm };
+    return { simm };
+};
+
+// 12bit Signed Immediate Value with %lo Macro
+element simm12_lo : assembler_alias(simm12_simple), compiler_alias(simm12_simple)
+{
+    // Using unsigned attribute because the value is interpreted by assembler and linker as unsigned.
+    // Compiler has the semantics fixed in the return section.
+    unsigned attribute bit[IMM12_W] val
+    {
+        encoding = val & 0xFFF;
+        decoding = val;
+    };
+
+    assembly { "%lo" "(" val ")" };
+    binary { val };
+    semantics
+    {
+        codasip_compiler_unused();
+    };
+    return { (int12)val };
+};
+
+// 12bit Signed Immediate Value with %pcrel_lo Macro
+element simm12_pcrel_lo : assembler_alias(simm12_simple), compiler_alias(simm12_simple)
+{
+    // Using unsigned attribute because the value is interpreted by assembler and linker as unsigned.
+    // Compiler has the semantics fixed in the return section.
+    unsigned attribute bit[IMM12_W] val
+    {
+        encoding = (val - current_address) & 0xFFF;
+        decoding = val + current_address;
+    };
+
+    assembly { "%pcrel_lo" "(" val ")" };
+    binary { val };
+    semantics
+    {
+        codasip_compiler_unused();
+    };
+    return { (int12)val };
+};
+
+set simm12 = simm12_simple, simm12_lo, simm12_pcrel_lo;
+
+// 12bit Signed Immediate Value with %lo Macro for store instructions S-type
+element simm12_s_lo : assembler_alias(simm12_simple), compiler_alias(simm12_simple)
+{
+    // Using unsigned attribute because the value is interpreted by assembler and linker as unsigned.
+    // Compiler has the semantics fixed in the return section.
+    unsigned attribute bit[IMM12_W] val
+    {
+        encoding = val & 0xFFF;
+        decoding = val;
+    };
+
+    assembly { "%lo" "(" val ")" };
+    binary { val };
+    semantics
+    {
+        codasip_compiler_unused();
+    };
+    return { (int12)val };
+};
+
+// 12bit Signed Immediate Value with %pcrel_lo Macro for store instructions S-type
+element simm12_s_pcrel_lo : assembler_alias(simm12_simple), compiler_alias(simm12_simple)
+{
+    // Using unsigned attribute because the value is interpreted by assembler and linker as unsigned.
+    // Compiler has the semantics fixed in the return section.
+    unsigned attribute bit[IMM12_W] val
+    {
+        encoding = val & 0xFFF;
+        decoding = val;
+    };
+
+    assembly { "%pcrel_lo" "(" val ")" };
+    binary { val };
+    semantics
+    {
+        codasip_compiler_unused();
+    };
+    return { (int12)val };
+};
+
+set simm12_s = simm12_simple, simm12_s_lo, simm12_s_pcrel_lo;
+
+// Shift value
+element shift_imm
+{
+    unsigned attribute bit[SHIFT_W] shift;
+    assembly { shift };
+    binary { shift };
+    return { shift };
+};
+
+#if OPTION_XLEN == 64
+    // Halfword shift value
+    element shifthalf_imm
+    {
+        unsigned attribute bit[SHIFT_W - 1] shift;
+        assembly { shift };
+        binary { shift };
+        return { shift };
+    };
+#endif
+
+// 5bit Unsigned Immediate Value
+element imm5
+{
+    unsigned attribute bit[IMM5_W] imm;
+    assembly { imm };
+    binary { imm };
+    return { imm };
+};
+
+// 20bit Unsigned Immediate Value
+element imm20_s12
+{
+    unsigned attribute bit[IMM20_W] imm;
+    assembly { imm };
+    binary { imm };
+    return { (int32)imm << 12 };
+};
+
+// 20bit Unsigned Immediate Value
+element imm20_hi
+{
+    unsigned attribute bit[IMM20_W] val
+    {
+        encoding = (val + 0x800) >> 12 & 0xFFFFF;
+        decoding = val;
+    };
+    assembly { "%hi" "(" val ")" };
+    binary { val };
+    return { (int32)val << 12 };
+};
+
+// 20bit Unsigned Immediate Value
+element imm20_pcrel_hi
+{
+    unsigned attribute bit[IMM20_W] val
+    {
+        encoding = (val - current_address + 0x800) >> 12 & 0xFFFFF;
+        decoding = val + current_address;
+    };
+    assembly { "%pcrel_hi" "(" val ")" };
+    binary { val };
+    return { (int32)val << 12 };
+};
+
+set imm20_reloc = imm20_hi, imm20_pcrel_hi;
+
+// 20bit Relative Address (shifted by 1 bit)
+element rel_addr20
+{
+    signed attribute bit[IMM20_W] addr
+    {
+        label = true;
+        encoding = (addr - current_address) >> 1;
+        decoding = ((int21)addr << 1) + current_address;
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+    return { (XLEN_T)addr << 1 };
+};
+
+// 12bit Relative Address (shifted by 1 bit)
+element rel_addr12
+{
+    signed attribute bit[IMM12_W] addr
+    {
+        label = true;
+        encoding = (addr - current_address) >> 1;
+        decoding = ((int13)addr << 1) + current_address;
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+    return { (XLEN_T)addr << 1 };
+};
+
+// 32bit Imm
+element rel_addr32
+{
+    signed attribute bit[IMM32_W] addr
+    {
+        label = true;
+        encoding = ((addr - current_address) & 0x800) ?
+            ((addr - current_address) + 0x1000) & 0xFFFFFFFFu :
+            (addr - current_address) & 0xFFFFFFFFu;
+        decoding = ((addr + current_address) & 0x800) ?
+            ((addr + current_address) + 0x1000) :
+            (addr + current_address);
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+    return { addr };
+};
+
+// 32bit Imm for call and tail
+element rel_addr32_call_tail_simple
+{
+    signed attribute bit[IMM32_W] addr
+    {
+        label = true;
+        encoding = ((addr - current_address) & 0x800) ?
+            ((addr - current_address) + 0x1000) & 0xFFFFFFFFu :
+            (addr - current_address) & 0xFFFFFFFFu;
+        decoding = ((addr + current_address) & 0x800) ?
+            ((addr + current_address) + 0x1000) :
+            (addr + current_address);
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+    return { addr };
+};
+
+set rel_addr32_call_tail = rel_addr32_call_tail_simple;
+
+element imm32_lui_addi
+{
+    signed attribute bit[IMM32_W] addr
+    {
+        label = true;
+        encoding = (addr & 0x800) ?
+            (addr + 0x1000) & 0xFFFFFFFFu :
+            addr & 0xFFFFFFFFu;
+        decoding = (addr & 0x800) ?
+            (addr - 0x1000) :
+            addr;
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+};
+
+#if OPTION_XLEN == 64
+
+element imm64_li
+{
+    signed attribute bit[DATA_W] addr
+    {
+        label = true;
+        // Prepare the immediate for i_li64_aalias alias
+        encoding =
+            (addr & 0x800ull) ?
+            (
+                (((addr & 0x80000000ull) && ((addr & 0xfffff000ull) != 0xfffff000ull)) || ((addr & 0xfffff000ull) == 0x7ffff000ull))  ?
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xFFF00000000ull) != 0xfff00000000ull)) || ((addr & 0xFFF00000000ull) == 0x7ff00000000ull))?
+                        (addr + 0x1000ull + 0x100000000ull + 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr + 0x1000ull + 0x100000000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+                :
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xffffffff000ull) != 0xffffffff000ull)) || ((addr & 0xffffffff000ull) == 0x7fffffff000ull)) ?
+                        (addr + 0x1000ull + 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr + 0x1000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+
+            )
+            :
+            (
+                (addr & 0x80000000ull) ?
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xFFF00000000ull) != 0xfff00000000ull)) || ((addr & 0xFFF00000000ull) == 0x7ff00000000ull) )?
+                        (addr + 0x100000000ull + 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull:
+                        (addr + 0x100000000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+                :
+                (
+                    (addr & 0x80000000000ull) ?
+                        (addr + 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr) & 0xFFFFFFFFFFFFFFFFull
+                )
+            );
+        // Decode the immediate from i_li64_aalias alias
+        decoding =
+            (addr & 0x800ull) ?
+            (
+                (((addr & 0x80000000ull) && ((addr & 0xfffff000ull) != 0xfffff000ull)) || ((addr & 0xfffff000ull) == 0x7ffff000ull))  ?
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xFFF00000000ull) != 0xfff00000000ull)) || ((addr & 0xFFF00000000ull) == 0x7ff00000000ull))?
+                        (addr - 0x1000ull - 0x100000000ull - 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr - 0x1000ull - 0x100000000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+                :
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xffffffff000ull) != 0xffffffff000ull)) || ((addr & 0xffffffff000ull) == 0x7fffffff000ull)) ?
+                        (addr - 0x1000ull - 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr - 0x1000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+
+            )
+            :
+            (
+                (addr & 0x80000000ull) ?
+                (
+                    ((addr & 0x80000000000ull && ((addr & 0xFFF00000000ull) != 0xfff00000000ull)) || ((addr & 0xFFF00000000ull) == 0x7ff00000000ull) )?
+                        (addr - 0x100000000ull - 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull:
+                        (addr - 0x100000000ull) & 0xFFFFFFFFFFFFFFFFull
+                )
+                :
+                (
+                    (addr & 0x80000000000ull) ?
+                        (addr - 0x100000000000ull) & 0xFFFFFFFFFFFFFFFFull :
+                        (addr) & 0xFFFFFFFFFFFFFFFFull
+                )
+            );
+    };
+    // Address is relative to the address of the following instruction.
+    assembly { addr };
+    binary { addr };
+};
+
+#endif // OPTION_XLEN == 64
+

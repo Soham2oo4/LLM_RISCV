@@ -1,0 +1,75 @@
+;resource, resource_index, resource_type, name, data_type, n_dimensions, [dimensions], aliased subblock memory (may be empty), address space name, address space index
+resource, 0, reg, p_meip, uint1, 0, , , -1
+resource, 1, reg, p_msip, uint1, 0, , , -1
+resource, 2, reg, p_mtip, uint1, 0, , , -1
+resource, 3, reg, p_wfi, uint1, 0, , , -1
+resource, 4, reg, p_nmi, uint1, 0, , , -1
+resource, 5, reg, p_nmi_mtval, uint32, 0, , , -1
+resource, 6, reg, p_boot_addr, uint32, 0, , , -1
+resource, 7, mem, if_ldst__, uint32, 1, 2048, , as_all, 0
+resource, 8, mem, if_ldst__sb1__, uint8, 1, 2048, if_ldst__, as_all, -1
+resource, 9, mem, if_ldst__sb2__, uint16, 1, 2048, if_ldst__, as_all, -1
+resource, 10, mem, if_ldst__sb3__, uint24, 1, 2048, if_ldst__, as_all, -1
+resource, 11, mem, if_ldst__sb4__, uint32, 1, 2048, if_ldst__, as_all, -1
+resource, 12, mem, if_ldst__sb5__, uint40, 1, 2048, if_ldst__, as_all, -1
+resource, 13, mem, if_ldst__sb6__, uint48, 1, 2048, if_ldst__, as_all, -1
+resource, 14, mem, if_ldst__sb7__, uint56, 1, 2048, if_ldst__, as_all, -1
+resource, 15, mem, if_ldst__sb8__, uint64, 1, 2048, if_ldst__, as_all, -1
+resource, 16, mem, if_ldst__sb9__, uint72, 1, 2048, if_ldst__, as_all, -1
+resource, 17, mem, if_ldst__sb10__, uint80, 1, 2048, if_ldst__, as_all, -1
+resource, 18, mem, if_ldst__sb11__, uint88, 1, 2048, if_ldst__, as_all, -1
+resource, 19, mem, if_ldst__sb12__, uint96, 1, 2048, if_ldst__, as_all, -1
+resource, 20, mem, if_ldst__sb13__, uint104, 1, 2048, if_ldst__, as_all, -1
+resource, 21, mem, if_ldst__sb14__, uint112, 1, 2048, if_ldst__, as_all, -1
+resource, 22, mem, if_ldst__sb15__, uint120, 1, 2048, if_ldst__, as_all, -1
+resource, 23, mem, if_ldst__sb16__, uint128, 1, 2048, if_ldst__, as_all, -1
+resource, 24, mem, if_fetch__, uint32, 1, 2048, if_ldst__, as_all, 0
+resource, 25, mem, if_fetch__sb1__, uint8, 1, 2048, if_ldst__, as_all, -1
+resource, 26, mem, if_fetch__sb2__, uint16, 1, 2048, if_ldst__, as_all, -1
+resource, 27, mem, if_fetch__sb3__, uint24, 1, 2048, if_ldst__, as_all, -1
+resource, 28, mem, if_fetch__sb4__, uint32, 1, 2048, if_ldst__, as_all, -1
+resource, 29, mem, if_fetch__sb5__, uint40, 1, 2048, if_ldst__, as_all, -1
+resource, 30, mem, if_fetch__sb6__, uint48, 1, 2048, if_ldst__, as_all, -1
+resource, 31, mem, if_fetch__sb7__, uint56, 1, 2048, if_ldst__, as_all, -1
+resource, 32, mem, if_fetch__sb8__, uint64, 1, 2048, if_ldst__, as_all, -1
+resource, 33, mem, if_fetch__sb9__, uint72, 1, 2048, if_ldst__, as_all, -1
+resource, 34, mem, if_fetch__sb10__, uint80, 1, 2048, if_ldst__, as_all, -1
+resource, 35, mem, if_fetch__sb11__, uint88, 1, 2048, if_ldst__, as_all, -1
+resource, 36, mem, if_fetch__sb12__, uint96, 1, 2048, if_ldst__, as_all, -1
+resource, 37, mem, if_fetch__sb13__, uint104, 1, 2048, if_ldst__, as_all, -1
+resource, 38, mem, if_fetch__sb14__, uint112, 1, 2048, if_ldst__, as_all, -1
+resource, 39, mem, if_fetch__sb15__, uint120, 1, 2048, if_ldst__, as_all, -1
+resource, 40, mem, if_fetch__sb16__, uint128, 1, 2048, if_ldst__, as_all, -1
+resource, 41, pc, r_PC, uint32, 0, , , -1
+resource, 42, archreg, r_csr_marchid, uint32, 0, , , -1
+resource, 43, archreg, r_csr_mcause, uint32, 0, , , -1
+resource, 44, archreg, r_csr_mcountinhibit, uint32, 0, , , -1
+resource, 45, archreg, r_csr_mcycle, uint64, 0, , , -1
+resource, 46, archreg, r_csr_mepc, uint32, 0, , , -1
+resource, 47, archreg, r_csr_mhartid, uint32, 0, , , -1
+resource, 48, archreg, r_csr_mie, uint32, 0, , , -1
+resource, 49, archreg, r_csr_minstret, uint64, 0, , , -1
+resource, 50, archreg, r_csr_mip, uint32, 0, , , -1
+resource, 51, archreg, r_csr_misa, uint32, 0, , , -1
+resource, 52, archreg, r_csr_mscratch, uint32, 0, , , -1
+resource, 53, archreg, r_csr_mstatus, uint32, 0, , , -1
+resource, 54, archreg, r_csr_mtval, uint32, 0, , , -1
+resource, 55, archreg, r_csr_mtvec, uint32, 0, , , -1
+resource, 56, archreg, r_csr_nmi, uint1, 0, , , -1
+resource, 57, archreg, r_csr_nmi_mtval, uint32, 0, , , -1
+resource, 58, reg, r_fetch_fault, uint1, 0, , , -1
+resource, 59, reg, r_fetch_hresp, uint1, 0, , , -1
+resource, 60, reg, r_illegal_instr, uint1, 0, , , -1
+resource, 61, reg, r_instr_fetch, uint32, 0, , , -1
+resource, 62, reg, r_ldst_hresp, uint1, 0, , , -1
+resource, 63, reg, r_mcycle_inhibit, uint1, 0, , , -1
+resource, 64, reg, r_minstret_inhibit, uint1, 0, , , -1
+resource, 65, reg, r_minstret_written, uint1, 0, , , -1
+resource, 66, archreg, r_nmi_handler, uint32, 0, , , -1
+resource, 67, reg, r_pf_mem_error, uint1, 0, , , -1
+resource, 68, reg, r_reset_init, uint1, 0, , , -1
+resource, 69, reg, r_syscall_addr, uint32, 0, , , -1
+resource, 70, reg, r_unknown_instr, uint1, 0, , , -1
+resource, 71, reg, r_wfi, uint1, 0, , , -1
+resource, 72, reg, r_wfi_ce, uint1, 0, , , -1
+resource, 73, archreg, rf_gpr, uint32, 1, 32, , , -1

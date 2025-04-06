@@ -1,0 +1,641 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2022 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ *
+ * NOTICE: All information contained in this file, is and shall remain the property of
+ * Codasip s.r.o. and its suppliers, if any.
+ *
+ * The intellectual and technical concepts contained herein are confidential and proprietary to
+ * Codasip s.r.o. and are protected by trade secret and copyright law.  In addition, elements of the
+ * technical concepts may be patent pending.
+ *
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ */
+
+#include "isa.hcodal"
+#include "opcodes.hcodal"
+
+/****************************** Timers and counters ***********************************************/
+
+// Number of clock cycles
+DEF_OPC_GROUP(opc_timers_counters, rdcycle, "rdcycle", OPC_SYS_RDCYCLE)
+// Real time
+DEF_OPC_GROUP(opc_timers_counters, rdtime, "rdtime", OPC_SYS_RDTIME)
+// Number of retired instructions
+DEF_OPC_GROUP(opc_timers_counters, rdinstret, "rdinstret", OPC_SYS_RDINSTRET)
+#if OPTION_XLEN == 32
+// Number of clock cycles
+DEF_OPC_GROUP(opc_timers_counters, rdcycleh, "rdcycleh", OPC_SYS_RDCYCLEH)
+// Real time
+DEF_OPC_GROUP(opc_timers_counters, rdtimeh, "rdtimeh", OPC_SYS_RDTIMEH)
+// Number of retired instructions
+DEF_OPC_GROUP(opc_timers_counters, rdinstreth, "rdinstreth", OPC_SYS_RDINSTRETH)
+#endif
+
+element i_timers_counters_aliases : assembler_alias(i_control_registers_reg)
+{
+    use opc_timers_counters as opc;
+    use reg_any as dst;
+    assembly { opc dst };
+    binary { opc[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+};
+
+set i_system += i_timers_counters_aliases;
+
+/****************************** Pseudo-instructions ***********************************************/
+
+element i_tail_alias : assembler_alias(i_auipc, i_jalr)
+{
+    use rel_addr32_call_tail as addr;
+    assembly { "tail" addr };
+    binary {
+        // 2nd instruction
+        addr[11 .. 0] 6:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0]
+        // 1st instruction
+        addr[31 .. 12] 6:bit[RF_GPR_ADDR] OPC_U_AUIPC[OPC_FRAG0]
+    };
+};
+
+set i_comp += i_tail_alias;
+
+element i_call_alias : assembler_alias(i_auipc, i_jalr)
+{
+    use rel_addr32_call_tail as addr;
+    assembly { "call" addr };
+    binary {
+        // 2nd instruction
+        addr[11 .. 0] 1:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG1] 1:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0]
+        // 1st instruction
+        addr[31 .. 12] 1:bit[RF_GPR_ADDR] OPC_U_AUIPC[OPC_FRAG0]
+    };
+};
+
+set i_comp += i_call_alias;
+
+/**
+ * la rd, symbol
+ * --->
+ * auipc rd, delta[31:12] +delta[11]
+ * l{w|d}rd, rd, delta[11:0]
+ */
+element i_la_alias : assembler_alias(i_comp_2reg_imm, i_auipc)
+{
+    use rel_addr32 as addr;
+    use reg_any as dst;
+    assembly { "la" dst "," addr };
+    binary {
+        // 2nd instruction
+        addr[11 .. 0] dst OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0]
+        // 1st instruction
+        addr[31 .. 12] dst OPC_U_AUIPC[OPC_FRAG0]
+    };
+};
+#if OPTION_XLEN == 64
+element i_li_aalias : assembler_alias(i_addiw, i_lui)
+{
+    use imm32_lui_addi as imm;
+    use reg_any as dst;
+    assembly { "li" dst "," imm };
+    binary {
+       // 2nd instruction
+       imm[11..0] dst OPC_I_ADDIW[OPC_FRAG1] dst OPC_I_ADDIW[OPC_FRAG0]
+       // 1st instruction
+       imm[31..12] dst OPC_U_LUI // LUI
+    };
+};
+#else
+element i_li_aalias : assembler_alias(i_comp_2reg_imm, i_lui)
+{
+    use imm32_lui_addi as imm;
+    use reg_any as dst;
+    assembly { "li" dst "," imm };
+    binary {
+       // 2nd instruction
+       imm[11..0] dst OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0]
+       // 1st instruction
+       imm[31..12] dst OPC_U_LUI // LUI
+    };
+};
+#endif
+set i_comp += i_la_alias, i_li_aalias;
+
+/**
+ * lla == la
+ */
+element i_lla_alias : assembler_alias(i_comp_2reg_imm, i_auipc)
+{
+
+    use rel_addr32 as addr;
+    use reg_any as dst;
+    assembly { "lla" dst "," addr };
+    binary {
+        // 2nd instruction
+        addr[11 .. 0]  dst OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0] // ADDI
+        // 1st instruction
+        addr[31 .. 12] dst OPC_U_AUIPC[OPC_FRAG0] // AUIPC
+    };
+};
+
+set i_comp += i_lla_alias;
+
+#if OPTION_XLEN == 64
+
+// Disable li64 alias for r28 (REG_UNUSED1) - reg28 is omitted in the list below.
+set li64_reg : register_class(rf_gpr);
+set li64_reg = reg1, reg2, reg3, reg4, reg5, reg6, reg7, reg8, reg9,
+               reg10, reg11, reg12, reg13, reg14, reg15, reg16, reg17, reg18, reg19,
+               reg20, reg21, reg22, reg23, reg24, reg25, reg26, reg27, reg29,
+               reg30, reg31,
+               reg1_alias, reg2_alias, reg3_alias, reg4_alias, reg5_alias, reg6_alias,
+               reg7_alias, reg8_alias1, reg8_alias2, reg9_alias, reg10_alias, reg11_alias,
+               reg12_alias, reg13_alias, reg14_alias, reg15_alias, reg16_alias, reg17_alias,
+               reg18_alias, reg19_alias, reg20_alias, reg21_alias, reg22_alias, reg23_alias,
+               reg24_alias, reg25_alias, reg26_alias, reg27_alias, reg29_alias, reg30_alias,
+               reg31_alias;
+
+element i_li64_aalias : assembler_alias(i_comp_3reg, i_comp_2reg_imm, i_lui, i_comp_2reg_imm_shift), ignore(RANDOMGEN)
+{
+    use imm64_li as imm;
+    use li64_reg as dst;
+    assembly { "li64" dst "," imm };
+    binary {
+       OPC_R_ADD[OPC_FRAG2] REG_UNUSED1:bit[5] dst OPC_R_ADD[OPC_FRAG1] dst OPC_R_ADD[OPC_FRAG0]
+       imm[11..0] REG_UNUSED1:bit[5] OPC_I_ADDI[OPC_FRAG1] REG_UNUSED1:bit[5] OPC_I_ADDI[OPC_FRAG0]
+       imm[31..12] REG_UNUSED1:bit[5] OPC_U_LUI
+       OPC_SI_SLLI[OPC_FRAG_SHIFT] 32:bit[SHIFT_W] dst OPC_SI_SLLI[OPC_FRAG1] dst OPC_SI_SLLI[OPC_FRAG0]
+       imm[43..32] dst OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0]
+       imm[63..44] dst OPC_U_LUI
+    };
+};
+
+set i_comp += i_li64_aalias;
+
+#endif // OPTION_XLEN == 64
+
+element i_load_global_alias : assembler_alias(i_load, i_auipc)
+{
+    use rel_addr32 as addr;
+    use opc_loads as opc;
+    use reg_any as dst;
+
+    assembly { opc dst "," addr };
+    binary {
+        // 2nd instruction
+        addr[11 .. 0] dst opc[OPC_FRAG1] dst opc[OPC_FRAG0] // load
+        // 1st instruction
+        addr[31 .. 12] dst OPC_U_AUIPC[OPC_FRAG0] // AUIPC
+    };
+};
+
+set i_load_store += i_load_global_alias;
+
+element i_store_global_alias : assembler_alias(i_store, i_auipc)
+{
+    use rel_addr32 as addr;
+    use reg_any as src1, src2;
+    use opc_stores as opc;
+    assembly { opc src2 "," addr "," src1 };
+    binary {
+        // 2nd instruction
+        addr[11 .. 5] src2 src1 opc[OPC_FRAG1] addr[4 .. 0] opc[OPC_FRAG0] // SW
+        // 1st instruction
+        addr[31 .. 12] src1 OPC_U_AUIPC[OPC_FRAG0] // AUIPC
+    };
+};
+
+set i_load_store += i_store_global_alias;
+
+/****************************** Memory Model ******************************************************/
+
+element i_fence_alias : assembler_alias(i_fence)
+{
+    use opc_fence as opc;
+    assembly { opc };
+    binary { bit[FENCE_FM_W] 0xff:bit[8] 0:bit[RF_GPR_ADDR] opc[OPC_FRAG1] 0:bit[RF_GPR_ADDR]
+        opc[OPC_FRAG0] };
+};
+
+set i_mem_model += i_fence_alias;
+
+/************************ Integer Computational Register-Immediate Instructions *******************/
+
+element i_ori_alias : assembler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    use simm12;
+    assembly { "ori" dst "," src "," simm12 };
+    binary { simm12 src OPC_I_ORI[OPC_FRAG1] dst OPC_I_ORI[OPC_FRAG0] };
+};
+
+set i_comp += i_ori_alias;
+
+element i_addi_alias : assembler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    use simm12;
+    assembly { "addi" dst "," src "," simm12 };
+    binary { simm12 src OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0] };
+};
+
+set i_comp += i_addi_alias;
+
+element i_andi_alias : assembler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    use simm12;
+    assembly { "andi" dst "," src "," simm12 };
+    binary { simm12 src OPC_I_ANDI[OPC_FRAG1] dst OPC_I_ANDI[OPC_FRAG0] };
+};
+
+set i_comp += i_andi_alias;
+
+element i_xori_alias : assembler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    use simm12;
+    assembly { "xori" dst "," src "," simm12 };
+    binary { simm12 src OPC_I_XORI[OPC_FRAG1] dst OPC_I_XORI[OPC_FRAG0] };
+};
+
+set i_comp += i_xori_alias;
+
+element i_comp_2reg_imm_shift_slli_alias : assembler_alias(i_comp_2reg_imm_shift)
+{
+    use reg_any as dst, src;
+    use shift_imm as imm;
+    assembly { "slli" dst "," src "," imm };
+    binary { OPC_SI_SLLI[OPC_FRAG_SHIFT] imm src OPC_SI_SLLI[OPC_FRAG1] dst
+        OPC_SI_SLLI[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift_slli_alias;
+
+element i_comp_2reg_imm_shift_srai_alias : assembler_alias(i_comp_2reg_imm_shift)
+{
+    use reg_any as dst, src;
+    use shift_imm as imm;
+    assembly { "srai" dst "," src "," imm };
+    binary { OPC_SI_SRAI[OPC_FRAG_SHIFT] imm src OPC_SI_SRAI[OPC_FRAG1] dst
+        OPC_SI_SRAI[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift_srai_alias;
+
+element i_comp_2reg_imm_shift_srli_alias : assembler_alias(i_comp_2reg_imm_shift)
+{
+    use reg_any as dst, src;
+    use shift_imm as imm;
+    assembly { "srli" dst "," src "," imm };
+    binary { OPC_SI_SRLI[OPC_FRAG_SHIFT] imm src OPC_SI_SRLI[OPC_FRAG1] dst
+        OPC_SI_SRLI[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift_srli_alias;
+
+element i_move_alias : assembler_alias(i_mv_alias)
+{
+    use reg_any as dst, src;
+    assembly { "move" dst "," src };
+    binary { 0:bit[IMM12_W] src OPC_I_ADDI[OPC_FRAG1] dst OPC_I_ADDI[OPC_FRAG0] };
+};
+
+set  i_comp += i_move_alias;
+
+element i_auipc_hi : assembler_alias(i_auipc)
+{
+    use opc_auipc as opc;
+    use reg_any as dst;
+    use imm20_reloc as imm;
+    assembly { opc dst "," imm };
+    binary { imm dst opc };
+};
+
+set i_comp += i_auipc_hi;
+
+// Not
+element i_not_alias : assembler_alias(i_comp_2reg_imm)
+{
+    use reg_any as dst, src;
+    assembly { "not" dst "," src };
+    binary { ONES12:bit[IMM12_W] src OPC_I_XORI[OPC_FRAG1] dst OPC_I_XORI[OPC_FRAG0] };
+};
+
+set i_comp += i_not_alias;
+
+#if OPTION_XLEN == 64
+element i_addiw_alias: assembler_alias(i_addiw)
+{
+    use reg32_any as dst, src;
+    use simm12;
+    assembly { "addiw" dst "," src "," simm12 };
+    binary { simm12 src OPC_I_ADDIW[OPC_FRAG1] dst OPC_I_ADDIW[OPC_FRAG0] };
+};
+
+set i_comp +=  i_addiw_alias;
+
+element i_comp_2reg_imm_shift32_sll_alias : assembler_alias(i_comp_2reg_imm_shift32)
+{
+    use reg32_any as dst, src;
+    use shifthalf_imm as imm;
+    assembly { "slliw" dst "," src "," imm };
+    binary { OPC_SI_SLLIW[OPC_FRAG2] imm src OPC_SI_SLLIW[OPC_FRAG1] dst OPC_SI_SLLIW[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift32_sll_alias;
+
+element i_comp_2reg_imm_shift32_srl_alias : assembler_alias(i_comp_2reg_imm_shift32)
+{
+    use reg32_any as dst, src;
+    use shifthalf_imm as imm;
+    assembly { "srliw" dst "," src "," imm };
+    binary { OPC_SI_SRLIW[OPC_FRAG2] imm src OPC_SI_SRLIW[OPC_FRAG1] dst OPC_SI_SRLIW[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift32_srl_alias;
+
+element i_comp_2reg_imm_shift32_sra_alias : assembler_alias(i_comp_2reg_imm_shift32)
+{
+    use reg32_any as dst, src;
+    use shifthalf_imm as imm;
+    assembly { "sraiw" dst "," src "," imm };
+    binary { OPC_SI_SRAIW[OPC_FRAG2] imm src OPC_SI_SRAIW[OPC_FRAG1] dst OPC_SI_SRAIW[OPC_FRAG0] };
+};
+
+set i_comp += i_comp_2reg_imm_shift32_sra_alias;
+
+#endif // OPTION_XLEN == 64
+
+/************************ Integer Computational Register-Register Instructions ********************/
+
+element i_sltz_alias : assembler_alias(i_comp_3reg)
+{
+    use reg_any as dst, src1;
+    assembly { "sltz" dst "," src1 };
+    binary { OPC_R_SLT[OPC_FRAG2] 0:bit[5] src1 OPC_R_SLT[OPC_FRAG1] dst OPC_R_SLT[OPC_FRAG0] };
+};
+
+element i_sgtz_alias : assembler_alias(i_comp_3reg)
+{
+    use reg_any as dst, src2;
+    assembly { "sgtz" dst "," src2 };
+    binary { OPC_R_SLT[OPC_FRAG2] src2 0:bit[5] OPC_R_SLT[OPC_FRAG1] dst OPC_R_SLT[OPC_FRAG0] };
+};
+
+set isa += i_sltz_alias, i_sgtz_alias;
+
+/****************************** Unconditional Jumps Aliases ***************************************/
+
+element i_jalr_alias : assembler_alias(i_jalr)
+{
+    use reg_any as src;
+    assembly { "jalr" src };
+    binary { 0:bit[IMM12_W] src OPC_I_JALR[OPC_FRAG1] 1:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0] };
+};
+
+element i_jlr_alias : assembler_alias(i_jalr)
+{
+    use reg_any as src;
+    use simm12;
+    assembly { "jr" src ","simm12 };
+    binary { simm12 src OPC_I_JALR[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0] };
+};
+
+set i_control += i_jlr_alias;
+
+element i_ret_alias : assembler_alias(i_jalr)
+{
+    assembly { "ret" };
+    binary { 0:bit[IMM12_W] REG_RA:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_JALR[OPC_FRAG0] };
+};
+
+set i_control += i_ret_alias, i_jalr_alias;
+
+/****************************** Conditional Branches **********************************************/
+
+element i_bltz_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "bltz" src "," addr };
+    binary { addr[11..11] addr[9..4] 0:bit[RF_GPR_ADDR] src OPC_S_BLT[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BLT[OPC_FRAG0] };
+};
+
+element i_bgtz_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "bgtz" src "," addr };
+    binary { addr[11..11] addr[9..4] src 0:bit[RF_GPR_ADDR] OPC_S_BLT[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BLT[OPC_FRAG0] };
+};
+
+element i_bnez_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "bnez" src "," addr };
+    binary { addr[11..11] addr[9..4] 0:bit[RF_GPR_ADDR] src OPC_S_BNE[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BNE[OPC_FRAG0] };
+};
+
+element i_beqz_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "beqz" src "," addr };
+    binary { addr[11..11] addr[9..4] 0:bit[RF_GPR_ADDR] src OPC_S_BEQ[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BEQ[OPC_FRAG0] };
+};
+
+element i_blez_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "blez" src "," addr };
+    binary { addr[11..11] addr[9..4] src 0:bit[RF_GPR_ADDR] OPC_S_BGE[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BGE[OPC_FRAG0] };
+};
+
+element i_bgez_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src;
+    use rel_addr12 as addr;
+    assembly { "bgez" src "," addr };
+    binary { addr[11..11] addr[9..4] 0:bit[RF_GPR_ADDR] src OPC_S_BGE[OPC_FRAG1]
+        addr[3..0] addr[10..10] OPC_S_BGE[OPC_FRAG0] };
+};
+
+element i_bgt_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { "bgt" src1 "," src2 "," addr };
+    binary { addr[11..11] addr[9..4] src1 src2 OPC_S_BLT[OPC_FRAG1] addr[3..0] addr[10..10]
+        OPC_S_BLT[OPC_FRAG0] };
+};
+
+element i_bgtu_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { "bgtu" src1 "," src2 "," addr };
+    binary { addr[11..11] addr[9..4] src1 src2 OPC_S_BLTU[OPC_FRAG1] addr[3..0] addr[10..10]
+        OPC_S_BLTU[OPC_FRAG0] };
+};
+
+element i_ble_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { "ble" src1 "," src2 "," addr };
+    binary { addr[11..11] addr[9..4] src1 src2 OPC_S_BGE[OPC_FRAG1] addr[3..0] addr[10..10]
+        OPC_S_BGE[OPC_FRAG0] };
+};
+
+element i_bleu_alias : assembler_alias(i_control_conditional)
+{
+    use reg_any as src1, src2;
+    use rel_addr12 as addr;
+    assembly { "bleu" src1 "," src2 "," addr };
+    binary { addr[11..11] addr[9..4] src1 src2 OPC_S_BGEU[OPC_FRAG1] addr[3..0] addr[10..10]
+        OPC_S_BGEU[OPC_FRAG0] };
+};
+
+set i_control += i_beqz_alias, i_bgt_alias, i_bltz_alias, i_bnez_alias, i_blez_alias, i_bleu_alias,
+    i_bgtu_alias, i_ble_alias, i_bgez_alias, i_bgtz_alias;
+
+/****************************** Instructions to access CSRs ***************************************/
+element i_csrr_alias : assembler_alias(i_control_registers_reg)
+{
+    use reg_any as dst;
+    use op_csr as csr;
+    assembly { "csrr" dst "," csr };
+    binary { csr 0:bit[5] OPC_I_CSRRS[OPC_FRAG1] dst OPC_I_CSRRS[OPC_FRAG0] };
+};
+
+set isa += i_csrr_alias;
+
+element i_csrw_alias : assembler_alias(i_control_registers_reg)
+{
+    use reg_any as src;
+    use op_csr as csr;
+    assembly { "csrw" csr "," src };
+    binary { csr src OPC_I_CSRRW[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRW[OPC_FRAG0] };
+};
+
+set isa += i_csrw_alias;
+
+element i_csrwi_alias : assembler_alias(i_control_registers_imm)
+{
+    use imm5 as imm;
+    use op_csr as csr;
+    assembly { "csrwi" csr "," imm };
+    binary { csr imm OPC_I_CSRRWI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRWI[OPC_FRAG0] };
+};
+
+set isa += i_csrwi_alias;
+
+element i_csrc_alias : assembler_alias(i_control_registers_reg)
+{
+    use reg_any as src;
+    use op_csr as csr;
+    assembly { "csrc" csr "," src };
+    binary { csr src OPC_I_CSRRC[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRC[OPC_FRAG0] };
+};
+
+set isa += i_csrc_alias;
+
+element i_csrci_alias : assembler_alias(i_control_registers_imm)
+{
+    use imm5 as imm;
+    use op_csr as csr;
+    assembly { "csrc" csr "," imm };
+    binary { csr imm OPC_I_CSRRCI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRCI[OPC_FRAG0] };
+};
+
+set isa += i_csrci_alias;
+
+element i_csrci_alias2 : assembler_alias(i_control_registers_imm)
+{
+    use imm5 as imm;
+    use op_csr as csr;
+    assembly { "csrci" csr "," imm };
+    binary { csr imm OPC_I_CSRRCI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRCI[OPC_FRAG0] };
+};
+
+set isa += i_csrci_alias2;
+
+element i_csrs_alias : assembler_alias(i_control_registers_reg)
+{
+    use reg_any as src;
+    use op_csr as csr;
+    assembly { "csrs" csr "," src };
+    binary { csr src OPC_I_CSRRS[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRS[OPC_FRAG0] };
+};
+
+set isa += i_csrs_alias;
+
+element i_csrsi_alias : assembler_alias(i_control_registers_imm)
+{
+    use imm5 as imm;
+    use op_csr as csr;
+    assembly { "csrs" csr "," imm };
+    binary { csr imm OPC_I_CSRRSI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRSI[OPC_FRAG0] };
+};
+
+set isa += i_csrsi_alias;
+
+element i_csrsi_alias2 : assembler_alias(i_control_registers_imm)
+{
+    use imm5 as imm;
+    use op_csr as csr;
+    assembly { "csrsi" csr "," imm };
+    binary { csr imm OPC_I_CSRRSI[OPC_FRAG1] 0:bit[RF_GPR_ADDR] OPC_I_CSRRSI[OPC_FRAG0] };
+};
+
+set isa += i_csrsi_alias2;
+
+/********************************************* SCALL **********************************************/
+
+element i_ecall_alias : assembler_alias(i_ecall)
+{
+    assembly { "scall" };
+    binary { OPC_SYS_ECALL[OPC_FRAG_SYS] 0:bit[RF_GPR_ADDR] OPC_SYS_ECALL[OPC_FRAG1]
+        0:bit[RF_GPR_ADDR] OPC_SYS_ECALL[OPC_FRAG0] };
+};
+
+set isa += i_ecall_alias;
+
+/******************************************** i_load **********************************************/
+/*
+ * lw a0, (a2) == lw a0, 0(a2)
+ */
+element i_load_alias : assembler_alias(i_load)
+{
+    use opc_loads as opc;
+    use reg_any as dst, src;
+
+    assembly { opc dst "," "(" src ")" };
+    binary { 0:bit[IMM12_W] src opc[OPC_FRAG1] dst opc[OPC_FRAG0] };
+};
+
+set i_load_store += i_load_alias;
+
+element i_store_alias : assembler_alias(i_store)
+{
+    use opc_stores as opc;
+    use reg_any as src1, src2;
+    assembly { opc src2 "," "(" src1 ")"  };
+    binary { 0:bit[7] src2 src1 opc[OPC_FRAG1] 0:bit[5] opc[OPC_FRAG0] };
+};
+
+set i_load_store += i_store_alias;

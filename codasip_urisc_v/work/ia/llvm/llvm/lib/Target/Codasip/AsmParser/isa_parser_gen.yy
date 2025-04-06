@@ -1,0 +1,6451 @@
+/**
+ * Codasip s.r.o.
+ *
+ * CONFIDENTIAL
+ *
+ * Copyright 2025 Codasip s.r.o.
+ *
+ * All Rights Reserved.
+ * This file is part of the Codasip Studio product. No part of the Studio product, including this
+ * file, may be use, copied, modified, or distributed except in accordance with the terms contained
+ * in Codasip license agreement under which you obtained this file.
+ *
+ * \file
+ * \date    2025-04-06
+ * \author  Codasip (c) Assembler generator
+ * \version 9.4.2
+ * \brief   Source for assembler
+ */
+
+%type <assemblerNode> MI5start
+%type <assemblerNode> MI10start_base_broken
+%type <assemblerNode> MI10start_base_identifier_identifier
+%type <assemblerNode> MI16roots_start_base_identifier_identifier
+%type <assemblerNode> MI3isaIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI14i_control_regsIH1_10start_base
+%type <assemblerNode> MI23i_control_registers_regIH1_10start_base
+%type <assemblerNode> MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any3dst
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any3dst
+%type <assemblerNode> MI6op_csrIH1_10start_base8_6op_csr3csr
+%type <assemblerNode> MI8regs_csrIH1_10start_base8_6op_csr3csr
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any3src
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any3src
+%type <assemblerNode> MI23i_control_registers_immIH1_10start_base
+%type <assemblerNode> MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc
+%type <assemblerNode> MI8i_systemIH1_10start_base
+%type <assemblerNode> MI6i_xretIH1_10start_base
+%type <assemblerNode> MI8opc_xretIH1_10start_base10_8opc_xret3opc
+%type <assemblerNode> MI25i_timers_counters_aliasesIH1_10start_base
+%type <assemblerNode> MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc
+%type <assemblerNode> MI11i_mem_modelIH1_10start_base
+%type <assemblerNode> MI7i_fenceIH1_10start_base
+%type <assemblerNode> MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1
+%type <assemblerNode> MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2
+%type <assemblerNode> MI12i_sltz_aliasIH1_10start_base
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any4src1
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any4src1
+%type <assemblerNode> MI12i_sgtz_aliasIH1_10start_base
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any4src2
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any4src2
+%type <assemblerNode> MI12i_csrr_aliasIH1_10start_base
+%type <assemblerNode> MI12i_csrw_aliasIH1_10start_base
+%type <assemblerNode> MI13i_csrwi_aliasIH1_10start_base
+%type <assemblerNode> MI12i_csrc_aliasIH1_10start_base
+%type <assemblerNode> MI13i_csrci_aliasIH1_10start_base
+%type <assemblerNode> MI14i_csrci_alias2IH1_10start_base
+%type <assemblerNode> MI12i_csrs_aliasIH1_10start_base
+%type <assemblerNode> MI13i_csrsi_aliasIH1_10start_base
+%type <assemblerNode> MI14i_csrsi_alias2IH1_10start_base
+%type <assemblerNode> MI14i_ext_hackatonIH1_10start_base
+%type <assemblerNode> MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any4rs_1
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any4rs_1
+%type <assemblerNode> MI7reg_anyIH1_10start_base9_7reg_any4rs_2
+%type <assemblerNode> MI4regsIH1_10start_base9_7reg_any4rs_2
+%type <assemblerNode> MI6i_compIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI21i_comp_2reg_imm_shiftIH1_10start_base
+%type <assemblerNode> MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc
+%type <assemblerNode> MI5i_luiIH1_10start_base
+%type <assemblerNode> MI7i_auipcIH1_10start_base
+%type <assemblerNode> MI11i_comp_3regIH1_10start_base
+%type <assemblerNode> MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc
+%type <assemblerNode> MI12i_tail_aliasIH1_10start_base
+%type <assemblerNode> MI20rel_addr32_call_tailIH1_10start_base23_20rel_addr32_call_tail4addr
+%type <assemblerNode> MI12i_call_aliasIH1_10start_base
+%type <assemblerNode> MI10i_la_aliasIH1_10start_base
+%type <assemblerNode> MI11i_li_aaliasIH1_10start_base
+%type <assemblerNode> MI11i_lla_aliasIH1_10start_base
+%type <assemblerNode> MI32i_comp_2reg_imm_shift_slli_aliasIH1_10start_base
+%type <assemblerNode> MI32i_comp_2reg_imm_shift_srai_aliasIH1_10start_base
+%type <assemblerNode> MI32i_comp_2reg_imm_shift_srli_aliasIH1_10start_base
+%type <assemblerNode> MI12i_move_aliasIH1_10start_base
+%type <assemblerNode> MI11i_not_aliasIH1_10start_base
+%type <assemblerNode> MI11i_neg_aliasIH1_10start_base
+%type <assemblerNode> MI10i_mv_aliasIH1_10start_base
+%type <assemblerNode> MI12i_seqz_aliasIH1_10start_base
+%type <assemblerNode> MI14i_get_pc_aliasIH1_10start_base
+%type <assemblerNode> MI12i_snez_aliasIH1_10start_base
+%type <assemblerNode> MI15i_comp_2reg_immIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI15i_comp_2reg_immIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc
+%type <assemblerNode> MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier
+%type <assemblerNode> MI11i_ori_aliasIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI11i_ori_aliasIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI12i_addi_aliasIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI12i_addi_aliasIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI12i_andi_aliasIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI12i_andi_aliasIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI12i_xori_aliasIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI12i_xori_aliasIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI9i_controlIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI5i_jalIH1_10start_base
+%type <assemblerNode> MI21i_control_conditionalIH1_10start_base
+%type <assemblerNode> MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc
+%type <assemblerNode> MI12i_jalr_aliasIH1_10start_base
+%type <assemblerNode> MI12i_beqz_aliasIH1_10start_base
+%type <assemblerNode> MI11i_bgt_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bltz_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bnez_aliasIH1_10start_base
+%type <assemblerNode> MI12i_blez_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bleu_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bgtu_aliasIH1_10start_base
+%type <assemblerNode> MI11i_ble_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bgez_aliasIH1_10start_base
+%type <assemblerNode> MI12i_bgtz_aliasIH1_10start_base
+%type <assemblerNode> MI16i_jump_reg_aliasIH1_10start_base
+%type <assemblerNode> MI16i_call_reg_aliasIH1_10start_base
+%type <assemblerNode> MI6i_jalrIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI6i_jalrIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI11i_jlr_aliasIH1_10start_base_broken_identifier_identifier
+%type <assemblerNode> MI11i_jlr_aliasIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI12i_load_storeIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI19i_load_global_aliasIH1_10start_base
+%type <assemblerNode> MI9opc_loadsIH1_10start_base11_9opc_loads3opc
+%type <assemblerNode> MI20i_store_global_aliasIH1_10start_base
+%type <assemblerNode> MI10opc_storesIH1_10start_base13_10opc_stores3opc
+%type <assemblerNode> MI10start_base_identifier_non_identifier
+%type <assemblerNode> MI16roots_start_base_identifier_non_identifier
+%type <assemblerNode> MI3isaIH1_10start_base_identifier_non_identifier
+%type <assemblerNode> MI6i_compIH1_10start_base_identifier_non_identifier
+%type <assemblerNode> MI10i_auipc_hiIH1_10start_base
+%type <assemblerNode> MI11imm20_relocIH1_10start_base14_11imm20_reloc3imm
+%type <assemblerNode> MI8i_lui_hiIH1_10start_base
+%type <assemblerNode> MI15i_comp_2reg_immIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI15i_comp_2reg_immIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier
+%type <assemblerNode> MI11i_ori_aliasIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI11i_ori_aliasIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI12i_addi_aliasIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI12i_addi_aliasIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI12i_andi_aliasIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI12i_andi_aliasIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI12i_xori_aliasIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI12i_xori_aliasIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI9i_controlIH1_10start_base_identifier_non_identifier
+%type <assemblerNode> MI6i_jalrIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI6i_jalrIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI11i_jlr_aliasIH1_10start_base_broken_identifier_non_identifier
+%type <assemblerNode> MI11i_jlr_aliasIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI12i_load_storeIH1_10start_base_identifier_non_identifier
+%type <assemblerNode> MI6i_loadIH1_10start_base_broken
+%type <assemblerNode> MI6i_loadIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI6i_loadIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI7i_storeIH1_10start_base_broken
+%type <assemblerNode> MI7i_storeIH1_10start_base_identifier_identifier
+%type <assemblerNode> MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_identifier_identifier
+%type <assemblerNode> MI7i_storeIH1_10start_base_non_identifier_non_identifier
+%type <assemblerNode> MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_non_identifier_non_identifier
+%type <assemblerNode> MI12i_load_aliasIH1_10start_base
+%type <assemblerNode> MI13i_store_aliasIH1_10start_base
+%type <assemblerNode> Instructions
+
+%code {
+}
+
+%%
+
+Newline
+    : ';'
+    ;
+
+Code
+    : Instructions %merge <MergeCode>
+    {
+        $$ = $1;
+    }
+    ;
+
+Instructions
+    : MI5start
+    {
+        $$ = &ast::assembler::Builder::CreateGenerateInstructionCommand(GetLocation(@1), *$1, 0);
+    }
+    ;
+
+MI5start
+    : MI10start_base_broken %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI5start", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI10start_base_broken
+    : MI10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI10start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI10start_base_identifier_identifier
+    : MI16roots_start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10start_base_identifier_identifier", "", 0, 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI16roots_start_base_identifier_identifier
+    : MI3isaIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI16roots_start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI3isaIH1_10start_base_identifier_identifier
+    : MI14i_control_regsIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI8i_systemIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_mem_modelIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | U N I M P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_unimpIH1_10start_base", "i_unimp", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_unimpIH1_10start_base11_9opc_unimp3opc", "opc_unimp", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "unimp"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | MI12i_sltz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_sgtz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_csrr_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_csrw_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI13i_csrwi_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_csrc_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI13i_csrci_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI14i_csrci_alias2IH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_csrs_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI13i_csrsi_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI14i_csrsi_alias2IH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | S C A L L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_ecall_aliasIH1_10start_base", "i_ecall_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "scall"));
+        $$->AddChild(*x1);
+    }
+    | MI14i_ext_hackatonIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI6i_compIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI9i_controlIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_load_storeIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI14i_control_regsIH1_10start_base
+    : MI23i_control_registers_regIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI14i_control_regsIH1_10start_base", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI23i_control_registers_immIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI14i_control_regsIH1_10start_base", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI23i_control_registers_regIH1_10start_base
+    : MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI23i_control_registers_regIH1_10start_base", "i_control_registers_reg", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc
+    : C S R R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_csrrwIH1_10start_base28_25opc_control_registers_reg3opc", "opc_csrrw", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrw"));
+        $$->AddChild(*x1);
+    }
+    | C S R R S %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_csrrsIH1_10start_base28_25opc_control_registers_reg3opc", "opc_csrrs", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrs"));
+        $$->AddChild(*x1);
+    }
+    | C S R R C %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_regIH1_10start_base28_25opc_control_registers_reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_csrrcIH1_10start_base28_25opc_control_registers_reg3opc", "opc_csrrc", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrc"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any3dst
+    : MI4regsIH1_10start_base9_7reg_any3dst %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3dst", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3dst", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any3dst", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3dst", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any3dst", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any3dst
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any3dst", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any3dst", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any3dst", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any3dst", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any3dst", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any3dst", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any3dst", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any3dst", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any3dst", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any3dst", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any3dst", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any3dst", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any3dst", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any3dst", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any3dst", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any3dst", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any3dst", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any3dst", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any3dst", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any3dst", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any3dst", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any3dst", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any3dst", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any3dst", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any3dst", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any3dst", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any3dst", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any3dst", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any3dst", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any3dst", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any3dst", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any3dst", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any3dst", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any3dst", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any3dst", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any3dst", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any3dst", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any3dst", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any3dst", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any3dst", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any3dst", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any3dst", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any3dst", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any3dst", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any3dst", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any3dst", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any3dst", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any3dst", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any3dst", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any3dst", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any3dst", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any3dst", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any3dst", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any3dst", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any3dst", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any3dst", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any3dst", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any3dst", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any3dst", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any3dst", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any3dst", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any3dst", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3dst", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any3dst", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI6op_csrIH1_10start_base8_6op_csr3csr
+    : MI8regs_csrIH1_10start_base8_6op_csr3csr %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6op_csrIH1_10start_base8_6op_csr3csr", "", 0);
+        $$->AddChild(*$1);
+    }
+    | Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6op_csrIH1_10start_base8_6op_csr3csr", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7csr_immIH1_10start_base8_6op_csr3csr", "csr_imm", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@1), "MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm", "imm", *$1, 12, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI8regs_csrIH1_10start_base8_6op_csr3csr
+    : M S T A T U S %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11csr_mstatusIH1_10start_base8_6op_csr3csr", "csr_mstatus", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mstatus"));
+        $$->AddChild(*x1);
+    }
+    | M I E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7csr_mieIH1_10start_base8_6op_csr3csr", "csr_mie", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mie"));
+        $$->AddChild(*x1);
+    }
+    | M T V E C %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9csr_mtvecIH1_10start_base8_6op_csr3csr", "csr_mtvec", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mtvec"));
+        $$->AddChild(*x1);
+    }
+    | M C O U N T I N H I B I T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mcountinhibitIH1_10start_base8_6op_csr3csr", "csr_mcountinhibit", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mcountinhibit"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent3IH1_10start_base8_6op_csr3csr", "csr_mhpmevent3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent3"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent4IH1_10start_base8_6op_csr3csr", "csr_mhpmevent4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent4"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent5IH1_10start_base8_6op_csr3csr", "csr_mhpmevent5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent5"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent6IH1_10start_base8_6op_csr3csr", "csr_mhpmevent6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent6"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent7IH1_10start_base8_6op_csr3csr", "csr_mhpmevent7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent7"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent8IH1_10start_base8_6op_csr3csr", "csr_mhpmevent8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent8"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14csr_mhpmevent9IH1_10start_base8_6op_csr3csr", "csr_mhpmevent9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent9"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent10IH1_10start_base8_6op_csr3csr", "csr_mhpmevent10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent10"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent11IH1_10start_base8_6op_csr3csr", "csr_mhpmevent11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent11"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent12IH1_10start_base8_6op_csr3csr", "csr_mhpmevent12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent12"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent13IH1_10start_base8_6op_csr3csr", "csr_mhpmevent13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent13"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent14IH1_10start_base8_6op_csr3csr", "csr_mhpmevent14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent14"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent15IH1_10start_base8_6op_csr3csr", "csr_mhpmevent15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent15"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent16IH1_10start_base8_6op_csr3csr", "csr_mhpmevent16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent16"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent17IH1_10start_base8_6op_csr3csr", "csr_mhpmevent17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent17"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent18IH1_10start_base8_6op_csr3csr", "csr_mhpmevent18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent18"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent19IH1_10start_base8_6op_csr3csr", "csr_mhpmevent19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent19"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent20IH1_10start_base8_6op_csr3csr", "csr_mhpmevent20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent20"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent21IH1_10start_base8_6op_csr3csr", "csr_mhpmevent21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent21"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent22IH1_10start_base8_6op_csr3csr", "csr_mhpmevent22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent22"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent23IH1_10start_base8_6op_csr3csr", "csr_mhpmevent23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent23"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent24IH1_10start_base8_6op_csr3csr", "csr_mhpmevent24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent24"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent25IH1_10start_base8_6op_csr3csr", "csr_mhpmevent25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent25"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent26IH1_10start_base8_6op_csr3csr", "csr_mhpmevent26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent26"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent27IH1_10start_base8_6op_csr3csr", "csr_mhpmevent27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent27"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent28IH1_10start_base8_6op_csr3csr", "csr_mhpmevent28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent28"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent29IH1_10start_base8_6op_csr3csr", "csr_mhpmevent29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent29"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent30IH1_10start_base8_6op_csr3csr", "csr_mhpmevent30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent30"));
+        $$->AddChild(*x1);
+    }
+    | M H P M E V E N T '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15csr_mhpmevent31IH1_10start_base8_6op_csr3csr", "csr_mhpmevent31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmevent31"));
+        $$->AddChild(*x1);
+    }
+    | M S C R A T C H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12csr_mscratchIH1_10start_base8_6op_csr3csr", "csr_mscratch", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mscratch"));
+        $$->AddChild(*x1);
+    }
+    | M E P C %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8csr_mepcIH1_10start_base8_6op_csr3csr", "csr_mepc", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mepc"));
+        $$->AddChild(*x1);
+    }
+    | M C A U S E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10csr_mcauseIH1_10start_base8_6op_csr3csr", "csr_mcause", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mcause"));
+        $$->AddChild(*x1);
+    }
+    | M T V A L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9csr_mtvalIH1_10start_base8_6op_csr3csr", "csr_mtval", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mtval"));
+        $$->AddChild(*x1);
+    }
+    | M I P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7csr_mipIH1_10start_base8_6op_csr3csr", "csr_mip", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mip"));
+        $$->AddChild(*x1);
+    }
+    | N M I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7csr_nmiIH1_10start_base8_6op_csr3csr", "csr_nmi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "nmi"));
+        $$->AddChild(*x1);
+    }
+    | N M I '_' M T V A L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13csr_nmi_mtvalIH1_10start_base8_6op_csr3csr", "csr_nmi_mtval", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "nmi_mtval"));
+        $$->AddChild(*x1);
+    }
+    | M C Y C L E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10csr_mcycleIH1_10start_base8_6op_csr3csr", "csr_mcycle", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mcycle"));
+        $$->AddChild(*x1);
+    }
+    | M I N S T R E T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12csr_minstretIH1_10start_base8_6op_csr3csr", "csr_minstret", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "minstret"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter3IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter3"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter4IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter4"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter5IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter5"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter6IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter6"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter7IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter7"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter8IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter8"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16csr_mhpmcounter9IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter9"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter10IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter10"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter11IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter11"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter12IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter12"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter13IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter13"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter14IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter14"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter15IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter15"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter16IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter16"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter17IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter17"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter18IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter18"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter19IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter19"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter20IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter20"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter21IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter21"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter22IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter22"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter23IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter23"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter24IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter24"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter25IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter25"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter26IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter26"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter27IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter27"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter28IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter28"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter29IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter29"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter30IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter30"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter31IH1_10start_base8_6op_csr3csr", "csr_mhpmcounter31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter31"));
+        $$->AddChild(*x1);
+    }
+    | M I S A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8csr_misaIH1_10start_base8_6op_csr3csr", "csr_misa", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "misa"));
+        $$->AddChild(*x1);
+    }
+    | M V E N D O R I D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13csr_mvendoridIH1_10start_base8_6op_csr3csr", "csr_mvendorid", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mvendorid"));
+        $$->AddChild(*x1);
+    }
+    | M A R C H I D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11csr_marchidIH1_10start_base8_6op_csr3csr", "csr_marchid", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "marchid"));
+        $$->AddChild(*x1);
+    }
+    | M I M P I D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10csr_mimpidIH1_10start_base8_6op_csr3csr", "csr_mimpid", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mimpid"));
+        $$->AddChild(*x1);
+    }
+    | M H A R T I D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11csr_mhartidIH1_10start_base8_6op_csr3csr", "csr_mhartid", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhartid"));
+        $$->AddChild(*x1);
+    }
+    | M C Y C L E H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11csr_mcyclehIH1_10start_base8_6op_csr3csr", "csr_mcycleh", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mcycleh"));
+        $$->AddChild(*x1);
+    }
+    | M I N S T R E T H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13csr_minstrethIH1_10start_base8_6op_csr3csr", "csr_minstreth", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "minstreth"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter3hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter3h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter3h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '4' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter4hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter4h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter4h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '5' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter5hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter5h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter5h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '6' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter6hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter6h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter6h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '7' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter7hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter7h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter7h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '8' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter8hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter8h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter8h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '9' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17csr_mhpmcounter9hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter9h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter9h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '0' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter10hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter10h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter10h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '1' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter11hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter11h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter11h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '2' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter12hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter12h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter12h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '3' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter13hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter13h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter13h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '4' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter14hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter14h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter14h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '5' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter15hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter15h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter15h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '6' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter16hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter16h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter16h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '7' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter17hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter17h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter17h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '8' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter18hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter18h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter18h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '1' '9' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter19hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter19h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter19h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '0' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter20hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter20h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter20h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '1' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter21hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter21h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter21h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '2' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter22hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter22h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter22h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '3' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter23hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter23h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter23h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '4' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter24hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter24h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter24h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '5' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter25hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter25h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter25h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '6' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter26hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter26h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter26h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '7' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter27hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter27h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter27h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '8' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter28hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter28h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter28h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '2' '9' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter29hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter29h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter29h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' '0' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter30hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter30h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter30h"));
+        $$->AddChild(*x1);
+    }
+    | M H P M C O U N T E R '3' '1' H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8regs_csrIH1_10start_base8_6op_csr3csr", "regs_csr", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI18csr_mhpmcounter31hIH1_10start_base8_6op_csr3csr", "csr_mhpmcounter31h", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mhpmcounter31h"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any3src
+    : MI4regsIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3src", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3src", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any3src", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any3src", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any3src", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any3src
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any3src", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any3src", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any3src", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any3src", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any3src", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any3src", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any3src", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any3src", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any3src", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any3src", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any3src", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any3src", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any3src", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any3src", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any3src", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any3src", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any3src", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any3src", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any3src", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any3src", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any3src", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any3src", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any3src", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any3src", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any3src", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any3src", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any3src", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any3src", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any3src", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any3src", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any3src", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any3src", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any3src", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any3src", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any3src", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any3src", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any3src", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any3src", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any3src", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any3src", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any3src", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any3src", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any3src", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any3src", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any3src", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any3src", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any3src", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any3src", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any3src", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any3src", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any3src", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any3src", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any3src", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any3src", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any3src", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any3src", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any3src", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any3src", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any3src", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any3src", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any3src", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any3src", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any3src", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any3src", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI23i_control_registers_immIH1_10start_base
+    : MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI23i_control_registers_immIH1_10start_base", "i_control_registers_imm", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$11, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc
+    : C S R R W I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_csrrwiIH1_10start_base28_25opc_control_registers_imm3opc", "opc_csrrwi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrwi"));
+        $$->AddChild(*x1);
+    }
+    | C S R R S I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_csrrsiIH1_10start_base28_25opc_control_registers_imm3opc", "opc_csrrsi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrsi"));
+        $$->AddChild(*x1);
+    }
+    | C S R R C I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI25opc_control_registers_immIH1_10start_base28_25opc_control_registers_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_csrrciIH1_10start_base28_25opc_control_registers_imm3opc", "opc_csrrci", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrrci"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI8i_systemIH1_10start_base
+    : E C A L L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8i_systemIH1_10start_base", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_ecallIH1_10start_base", "i_ecall", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_ecallIH1_10start_base11_9opc_ecall3opc", "opc_ecall", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ecall"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | E B R E A K %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8i_systemIH1_10start_base", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8i_ebreakIH1_10start_base", "i_ebreak", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_ebreakIH1_10start_base13_10opc_ebreak3opc", "opc_ebreak", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ebreak"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | MI6i_xretIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8i_systemIH1_10start_base", "", 0);
+        $$->AddChild(*$1);
+    }
+    | W F I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8i_systemIH1_10start_base", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5i_wfiIH1_10start_base", "i_wfi", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_wfiIH1_10start_base9_7opc_wfi3opc", "opc_wfi", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "wfi"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | MI25i_timers_counters_aliasesIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8i_systemIH1_10start_base", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_xretIH1_10start_base
+    : MI8opc_xretIH1_10start_base10_8opc_xret3opc %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6i_xretIH1_10start_base", "i_xret", 0, 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI8opc_xretIH1_10start_base10_8opc_xret3opc
+    : M R E T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8opc_xretIH1_10start_base10_8opc_xret3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_mretIH1_10start_base10_8opc_xret3opc", "opc_mret", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mret"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI25i_timers_counters_aliasesIH1_10start_base
+    : MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI25i_timers_counters_aliasesIH1_10start_base", "i_timers_counters_aliases", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+    }
+    ;
+
+MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc
+    : R D C Y C L E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_rdcycleIH1_10start_base22_19opc_timers_counters3opc", "opc_rdcycle", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdcycle"));
+        $$->AddChild(*x1);
+    }
+    | R D T I M E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_rdtimeIH1_10start_base22_19opc_timers_counters3opc", "opc_rdtime", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdtime"));
+        $$->AddChild(*x1);
+    }
+    | R D I N S T R E T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_rdinstretIH1_10start_base22_19opc_timers_counters3opc", "opc_rdinstret", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdinstret"));
+        $$->AddChild(*x1);
+    }
+    | R D C Y C L E H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_rdcyclehIH1_10start_base22_19opc_timers_counters3opc", "opc_rdcycleh", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdcycleh"));
+        $$->AddChild(*x1);
+    }
+    | R D T I M E H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_rdtimehIH1_10start_base22_19opc_timers_counters3opc", "opc_rdtimeh", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdtimeh"));
+        $$->AddChild(*x1);
+    }
+    | R D I N S T R E T H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI19opc_timers_countersIH1_10start_base22_19opc_timers_counters3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14opc_rdinstrethIH1_10start_base22_19opc_timers_counters3opc", "opc_rdinstreth", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rdinstreth"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_mem_modelIH1_10start_base
+    : MI7i_fenceIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_mem_modelIH1_10start_base", "", 0);
+        $$->AddChild(*$1);
+    }
+    | F E N C E '.' I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_mem_modelIH1_10start_base", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8i_fenceiIH1_10start_base", "i_fencei", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_fenceiIH1_10start_base13_10opc_fencei3opc", "opc_fencei", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fence.i"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | F E N C E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_mem_modelIH1_10start_base", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_fence_aliasIH1_10start_base", "i_fence_alias", 0, 0);
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_fenceIH1_10start_base11_9opc_fence3opc", "opc_fence", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fence"));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7i_fenceIH1_10start_base
+    : F E N C E WS MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1 MWS ',' MWS MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_fenceIH1_10start_base", "i_fence", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_fenceIH1_10start_base11_9opc_fence3opc", "opc_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fence"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1
+    : I O R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14opc_iorw_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_iorw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iorw"));
+        $$->AddChild(*x1);
+    }
+    | I O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_ior_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_ior_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ior"));
+        $$->AddChild(*x1);
+    }
+    | I O W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_iow_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_iow_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iow"));
+        $$->AddChild(*x1);
+    }
+    | I O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_io_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_io_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "io"));
+        $$->AddChild(*x1);
+    }
+    | I R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_irw_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_irw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "irw"));
+        $$->AddChild(*x1);
+    }
+    | I R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_ir_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_ir_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ir"));
+        $$->AddChild(*x1);
+    }
+    | I W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_iw_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_iw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iw"));
+        $$->AddChild(*x1);
+    }
+    | I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_i_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_i_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "i"));
+        $$->AddChild(*x1);
+    }
+    | O R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_orw_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_orw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "orw"));
+        $$->AddChild(*x1);
+    }
+    | O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_or_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_or_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "or"));
+        $$->AddChild(*x1);
+    }
+    | O W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_ow_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_ow_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ow"));
+        $$->AddChild(*x1);
+    }
+    | O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_o_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_o_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "o"));
+        $$->AddChild(*x1);
+    }
+    | R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_rw_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_rw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rw"));
+        $$->AddChild(*x1);
+    }
+    | R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_r_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_r_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "r"));
+        $$->AddChild(*x1);
+    }
+    | W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_w_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_w_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "w"));
+        $$->AddChild(*x1);
+    }
+    | H I N T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14opc_hint_fenceIH1_10start_base18_15opc_fence_param6param1", "opc_hint_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hint"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2
+    : I O R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14opc_iorw_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_iorw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iorw"));
+        $$->AddChild(*x1);
+    }
+    | I O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_ior_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_ior_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ior"));
+        $$->AddChild(*x1);
+    }
+    | I O W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_iow_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_iow_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iow"));
+        $$->AddChild(*x1);
+    }
+    | I O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_io_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_io_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "io"));
+        $$->AddChild(*x1);
+    }
+    | I R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_irw_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_irw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "irw"));
+        $$->AddChild(*x1);
+    }
+    | I R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_ir_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_ir_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ir"));
+        $$->AddChild(*x1);
+    }
+    | I W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_iw_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_iw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "iw"));
+        $$->AddChild(*x1);
+    }
+    | I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_i_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_i_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "i"));
+        $$->AddChild(*x1);
+    }
+    | O R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13opc_orw_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_orw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "orw"));
+        $$->AddChild(*x1);
+    }
+    | O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_or_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_or_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "or"));
+        $$->AddChild(*x1);
+    }
+    | O W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_ow_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_ow_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ow"));
+        $$->AddChild(*x1);
+    }
+    | O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_o_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_o_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "o"));
+        $$->AddChild(*x1);
+    }
+    | R W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12opc_rw_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_rw_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "rw"));
+        $$->AddChild(*x1);
+    }
+    | R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_r_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_r_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "r"));
+        $$->AddChild(*x1);
+    }
+    | W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11opc_w_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_w_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "w"));
+        $$->AddChild(*x1);
+    }
+    | H I N T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15opc_fence_paramIH1_10start_base18_15opc_fence_param6param2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14opc_hint_fenceIH1_10start_base18_15opc_fence_param6param2", "opc_hint_fence", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hint"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_sltz_aliasIH1_10start_base
+    : S L T Z WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_sltz_aliasIH1_10start_base", "i_sltz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sltz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any4src1
+    : MI4regsIH1_10start_base9_7reg_any4src1 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src1", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any4src1", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any4src1", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any4src1
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any4src1", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any4src1", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any4src1", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any4src1", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any4src1", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any4src1", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any4src1", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any4src1", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any4src1", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any4src1", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any4src1", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any4src1", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any4src1", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any4src1", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any4src1", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any4src1", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any4src1", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any4src1", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any4src1", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any4src1", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any4src1", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any4src1", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any4src1", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any4src1", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any4src1", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any4src1", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any4src1", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any4src1", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any4src1", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any4src1", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any4src1", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any4src1", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any4src1", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any4src1", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any4src1", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any4src1", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any4src1", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any4src1", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any4src1", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any4src1", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any4src1", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any4src1", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any4src1", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any4src1", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any4src1", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any4src1", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any4src1", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any4src1", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any4src1", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any4src1", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any4src1", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any4src1", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any4src1", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any4src1", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any4src1", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any4src1", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any4src1", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any4src1", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any4src1", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any4src1", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any4src1", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any4src1", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any4src1", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_sgtz_aliasIH1_10start_base
+    : S G T Z WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_sgtz_aliasIH1_10start_base", "i_sgtz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sgtz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any4src2
+    : MI4regsIH1_10start_base9_7reg_any4src2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src2", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any4src2", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4src2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any4src2", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any4src2
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any4src2", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any4src2", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any4src2", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any4src2", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any4src2", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any4src2", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any4src2", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any4src2", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any4src2", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any4src2", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any4src2", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any4src2", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any4src2", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any4src2", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any4src2", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any4src2", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any4src2", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any4src2", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any4src2", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any4src2", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any4src2", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any4src2", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any4src2", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any4src2", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any4src2", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any4src2", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any4src2", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any4src2", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any4src2", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any4src2", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any4src2", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any4src2", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any4src2", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any4src2", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any4src2", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any4src2", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any4src2", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any4src2", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any4src2", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any4src2", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any4src2", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any4src2", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any4src2", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any4src2", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any4src2", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any4src2", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any4src2", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any4src2", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any4src2", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any4src2", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any4src2", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any4src2", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any4src2", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any4src2", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any4src2", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any4src2", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any4src2", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any4src2", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any4src2", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any4src2", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any4src2", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any4src2", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4src2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any4src2", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_csrr_aliasIH1_10start_base
+    : C S R R WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI6op_csrIH1_10start_base8_6op_csr3csr %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_csrr_aliasIH1_10start_base", "i_csrr_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrr"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI12i_csrw_aliasIH1_10start_base
+    : C S R W WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_csrw_aliasIH1_10start_base", "i_csrw_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrw"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI13i_csrwi_aliasIH1_10start_base
+    : C S R W I WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_csrwi_aliasIH1_10start_base", "i_csrwi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrwi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$11, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_csrc_aliasIH1_10start_base
+    : C S R C WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_csrc_aliasIH1_10start_base", "i_csrc_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrc"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI13i_csrci_aliasIH1_10start_base
+    : C S R C WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_csrci_aliasIH1_10start_base", "i_csrci_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrc"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$10, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI14i_csrci_alias2IH1_10start_base
+    : C S R C I WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14i_csrci_alias2IH1_10start_base", "i_csrci_alias2", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrci"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$11, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_csrs_aliasIH1_10start_base
+    : C S R S WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_csrs_aliasIH1_10start_base", "i_csrs_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrs"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI13i_csrsi_aliasIH1_10start_base
+    : C S R S WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_csrsi_aliasIH1_10start_base", "i_csrsi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrs"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$10, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI14i_csrsi_alias2IH1_10start_base
+    : C S R S I WS MI6op_csrIH1_10start_base8_6op_csr3csr MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14i_csrsi_alias2IH1_10start_base", "i_csrsi_alias2", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "csrsi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4imm5IH1_10start_base6_4imm53imm", "imm5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI3immIH1_10start_base6_4imm53imm1_4imm5", "imm", *$11, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI14i_ext_hackatonIH1_10start_base
+    : MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4rs_1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4rs_2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14i_ext_hackatonIH1_10start_base", "i_ext_hackaton", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc
+    : H A C K A T O N '_' C U S T O M '_' I N S T R '_' A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_aIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_a", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_a"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' B %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_bIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_b", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_b"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' C %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_cIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_c", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_c"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_dIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_d", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_d"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_eIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_e", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_e"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any4rs_1
+    : MI4regsIH1_10start_base9_7reg_any4rs_1 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_1", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any4rs_1", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_1", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any4rs_1", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any4rs_1
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any4rs_1", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any4rs_1", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any4rs_1", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any4rs_1", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any4rs_1", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any4rs_1", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any4rs_1", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any4rs_1", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any4rs_1", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any4rs_1", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any4rs_1", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any4rs_1", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any4rs_1", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any4rs_1", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any4rs_1", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any4rs_1", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any4rs_1", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any4rs_1", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any4rs_1", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any4rs_1", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any4rs_1", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any4rs_1", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any4rs_1", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any4rs_1", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any4rs_1", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any4rs_1", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any4rs_1", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any4rs_1", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any4rs_1", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any4rs_1", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any4rs_1", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any4rs_1", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any4rs_1", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any4rs_1", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any4rs_1", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any4rs_1", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any4rs_1", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any4rs_1", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any4rs_1", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any4rs_1", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any4rs_1", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any4rs_1", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any4rs_1", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any4rs_1", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any4rs_1", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any4rs_1", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any4rs_1", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any4rs_1", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any4rs_1", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any4rs_1", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any4rs_1", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any4rs_1", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any4rs_1", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any4rs_1", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any4rs_1", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any4rs_1", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any4rs_1", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any4rs_1", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any4rs_1", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any4rs_1", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any4rs_1", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any4rs_1", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_1", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any4rs_1", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7reg_anyIH1_10start_base9_7reg_any4rs_2
+    : MI4regsIH1_10start_base9_7reg_any4rs_2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_2", "", 0);
+        $$->AddChild(*$1);
+    }
+    | X '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg0IH1_10start_base9_7reg_any4rs_2", "reg0", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x0"));
+        $$->AddChild(*x1);
+    }
+    | Z E R O %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7reg_anyIH1_10start_base9_7reg_any4rs_2", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg0_aliasIH1_10start_base9_7reg_any4rs_2", "reg0_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "zero"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI4regsIH1_10start_base9_7reg_any4rs_2
+    : R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg1IH1_10start_base9_7reg_any4rs_2", "reg1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ra"));
+        $$->AddChild(*x1);
+    }
+    | X '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg1_aliasIH1_10start_base9_7reg_any4rs_2", "reg1_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x1"));
+        $$->AddChild(*x1);
+    }
+    | S P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg2IH1_10start_base9_7reg_any4rs_2", "reg2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sp"));
+        $$->AddChild(*x1);
+    }
+    | X '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg2_aliasIH1_10start_base9_7reg_any4rs_2", "reg2_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x2"));
+        $$->AddChild(*x1);
+    }
+    | X '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg3IH1_10start_base9_7reg_any4rs_2", "reg3", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x3"));
+        $$->AddChild(*x1);
+    }
+    | G P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg3_aliasIH1_10start_base9_7reg_any4rs_2", "reg3_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "gp"));
+        $$->AddChild(*x1);
+    }
+    | X '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg4IH1_10start_base9_7reg_any4rs_2", "reg4", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x4"));
+        $$->AddChild(*x1);
+    }
+    | T P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg4_aliasIH1_10start_base9_7reg_any4rs_2", "reg4_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tp"));
+        $$->AddChild(*x1);
+    }
+    | X '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg5IH1_10start_base9_7reg_any4rs_2", "reg5", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x5"));
+        $$->AddChild(*x1);
+    }
+    | T '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg5_aliasIH1_10start_base9_7reg_any4rs_2", "reg5_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t0"));
+        $$->AddChild(*x1);
+    }
+    | X '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg6IH1_10start_base9_7reg_any4rs_2", "reg6", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x6"));
+        $$->AddChild(*x1);
+    }
+    | T '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg6_aliasIH1_10start_base9_7reg_any4rs_2", "reg6_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t1"));
+        $$->AddChild(*x1);
+    }
+    | X '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg7IH1_10start_base9_7reg_any4rs_2", "reg7", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x7"));
+        $$->AddChild(*x1);
+    }
+    | T '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg7_aliasIH1_10start_base9_7reg_any4rs_2", "reg7_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t2"));
+        $$->AddChild(*x1);
+    }
+    | F P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg8IH1_10start_base9_7reg_any4rs_2", "reg8", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "fp"));
+        $$->AddChild(*x1);
+    }
+    | X '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias1IH1_10start_base9_7reg_any4rs_2", "reg8_alias1", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x8"));
+        $$->AddChild(*x1);
+    }
+    | S '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg8_alias2IH1_10start_base9_7reg_any4rs_2", "reg8_alias2", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s0"));
+        $$->AddChild(*x1);
+    }
+    | X '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI4reg9IH1_10start_base9_7reg_any4rs_2", "reg9", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x9"));
+        $$->AddChild(*x1);
+    }
+    | S '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10reg9_aliasIH1_10start_base9_7reg_any4rs_2", "reg9_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg10IH1_10start_base9_7reg_any4rs_2", "reg10", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x10"));
+        $$->AddChild(*x1);
+    }
+    | A '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg10_aliasIH1_10start_base9_7reg_any4rs_2", "reg10_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a0"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg11IH1_10start_base9_7reg_any4rs_2", "reg11", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x11"));
+        $$->AddChild(*x1);
+    }
+    | A '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg11_aliasIH1_10start_base9_7reg_any4rs_2", "reg11_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a1"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg12IH1_10start_base9_7reg_any4rs_2", "reg12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x12"));
+        $$->AddChild(*x1);
+    }
+    | A '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg12_aliasIH1_10start_base9_7reg_any4rs_2", "reg12_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg13IH1_10start_base9_7reg_any4rs_2", "reg13", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x13"));
+        $$->AddChild(*x1);
+    }
+    | A '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg13_aliasIH1_10start_base9_7reg_any4rs_2", "reg13_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a3"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg14IH1_10start_base9_7reg_any4rs_2", "reg14", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x14"));
+        $$->AddChild(*x1);
+    }
+    | A '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg14_aliasIH1_10start_base9_7reg_any4rs_2", "reg14_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a4"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg15IH1_10start_base9_7reg_any4rs_2", "reg15", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x15"));
+        $$->AddChild(*x1);
+    }
+    | A '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg15_aliasIH1_10start_base9_7reg_any4rs_2", "reg15_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a5"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg16IH1_10start_base9_7reg_any4rs_2", "reg16", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x16"));
+        $$->AddChild(*x1);
+    }
+    | A '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg16_aliasIH1_10start_base9_7reg_any4rs_2", "reg16_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a6"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg17IH1_10start_base9_7reg_any4rs_2", "reg17", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x17"));
+        $$->AddChild(*x1);
+    }
+    | A '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg17_aliasIH1_10start_base9_7reg_any4rs_2", "reg17_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "a7"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg18IH1_10start_base9_7reg_any4rs_2", "reg18", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x18"));
+        $$->AddChild(*x1);
+    }
+    | S '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg18_aliasIH1_10start_base9_7reg_any4rs_2", "reg18_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s2"));
+        $$->AddChild(*x1);
+    }
+    | X '1' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg19IH1_10start_base9_7reg_any4rs_2", "reg19", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x19"));
+        $$->AddChild(*x1);
+    }
+    | S '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg19_aliasIH1_10start_base9_7reg_any4rs_2", "reg19_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg20IH1_10start_base9_7reg_any4rs_2", "reg20", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x20"));
+        $$->AddChild(*x1);
+    }
+    | S '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg20_aliasIH1_10start_base9_7reg_any4rs_2", "reg20_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s4"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg21IH1_10start_base9_7reg_any4rs_2", "reg21", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x21"));
+        $$->AddChild(*x1);
+    }
+    | S '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg21_aliasIH1_10start_base9_7reg_any4rs_2", "reg21_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s5"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '2' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg22IH1_10start_base9_7reg_any4rs_2", "reg22", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x22"));
+        $$->AddChild(*x1);
+    }
+    | S '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg22_aliasIH1_10start_base9_7reg_any4rs_2", "reg22_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s6"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg23IH1_10start_base9_7reg_any4rs_2", "reg23", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x23"));
+        $$->AddChild(*x1);
+    }
+    | S '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg23_aliasIH1_10start_base9_7reg_any4rs_2", "reg23_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s7"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg24IH1_10start_base9_7reg_any4rs_2", "reg24", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x24"));
+        $$->AddChild(*x1);
+    }
+    | S '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg24_aliasIH1_10start_base9_7reg_any4rs_2", "reg24_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s8"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg25IH1_10start_base9_7reg_any4rs_2", "reg25", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x25"));
+        $$->AddChild(*x1);
+    }
+    | S '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg25_aliasIH1_10start_base9_7reg_any4rs_2", "reg25_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s9"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg26IH1_10start_base9_7reg_any4rs_2", "reg26", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x26"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg26_aliasIH1_10start_base9_7reg_any4rs_2", "reg26_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s10"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '7' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg27IH1_10start_base9_7reg_any4rs_2", "reg27", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x27"));
+        $$->AddChild(*x1);
+    }
+    | S '1' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg27_aliasIH1_10start_base9_7reg_any4rs_2", "reg27_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "s11"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '8' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg28IH1_10start_base9_7reg_any4rs_2", "reg28", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x28"));
+        $$->AddChild(*x1);
+    }
+    | T '3' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg28_aliasIH1_10start_base9_7reg_any4rs_2", "reg28_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t3"));
+        $$->AddChild(*x1);
+    }
+    | X '2' '9' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg29IH1_10start_base9_7reg_any4rs_2", "reg29", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x29"));
+        $$->AddChild(*x1);
+    }
+    | T '4' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg29_aliasIH1_10start_base9_7reg_any4rs_2", "reg29_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t4"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '0' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg30IH1_10start_base9_7reg_any4rs_2", "reg30", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x30"));
+        $$->AddChild(*x1);
+    }
+    | T '5' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg30_aliasIH1_10start_base9_7reg_any4rs_2", "reg30_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t5"));
+        $$->AddChild(*x1);
+    }
+    | X '3' '1' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5reg31IH1_10start_base9_7reg_any4rs_2", "reg31", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "x31"));
+        $$->AddChild(*x1);
+    }
+    | T '6' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI4regsIH1_10start_base9_7reg_any4rs_2", "regs", 1);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11reg31_aliasIH1_10start_base9_7reg_any4rs_2", "reg31_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "t6"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI6i_compIH1_10start_base_identifier_identifier
+    : MI21i_comp_2reg_imm_shiftIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI5i_luiIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI7i_auipcIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_comp_3regIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_tail_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_call_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI10i_la_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_li_aaliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_lla_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI32i_comp_2reg_imm_shift_slli_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI32i_comp_2reg_imm_shift_srai_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI32i_comp_2reg_imm_shift_srli_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_move_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_not_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_neg_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | N O P %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_nop_aliasIH1_10start_base", "i_nop_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "nop"));
+        $$->AddChild(*x1);
+    }
+    | MI10i_mv_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_seqz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI14i_get_pc_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_snez_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI15i_comp_2reg_immIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_ori_aliasIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_addi_aliasIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_andi_aliasIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_xori_aliasIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI21i_comp_2reg_imm_shiftIH1_10start_base
+    : MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21i_comp_2reg_imm_shiftIH1_10start_base", "i_comp_2reg_imm_shift", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9shift_immIH1_10start_base11_9shift_imm3imm", "shift_imm", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm", "shift", *$11, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc
+    : S L L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_slliIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "opc_slli", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sll"));
+        $$->AddChild(*x1);
+    }
+    | S R L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_srliIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "opc_srli", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "srl"));
+        $$->AddChild(*x1);
+    }
+    | S R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_comp_2reg_imm_shiftIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_sraiIH1_10start_base26_23opc_comp_2reg_imm_shift3opc", "opc_srai", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sra"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI5i_luiIH1_10start_base
+    : L U I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5i_luiIH1_10start_base", "i_lui", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_luiIH1_10start_base9_7opc_lui3opc", "opc_lui", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lui"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9imm20_s12IH1_10start_base11_9imm20_s123imm", "imm20_s12", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@9), "MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12", "imm", *$9, 20, 0));
+        $$->AddChild(*x2);
+    }
+    ;
+
+MI7i_auipcIH1_10start_base
+    : A U I P C WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_auipcIH1_10start_base", "i_auipc", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_auipcIH1_10start_base11_9opc_auipc3opc", "opc_auipc", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "auipc"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9imm20_s12IH1_10start_base11_9imm20_s123imm", "imm20_s12", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12", "imm", *$11, 20, 0));
+        $$->AddChild(*x2);
+    }
+    ;
+
+MI11i_comp_3regIH1_10start_base
+    : MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_comp_3regIH1_10start_base", "i_comp_3reg", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc
+    : A D D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_addIH1_10start_base16_13opc_comp_3reg3opc", "opc_add", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "add"));
+        $$->AddChild(*x1);
+    }
+    | S L T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_sltIH1_10start_base16_13opc_comp_3reg3opc", "opc_slt", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "slt"));
+        $$->AddChild(*x1);
+    }
+    | S L T U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_sltuIH1_10start_base16_13opc_comp_3reg3opc", "opc_sltu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sltu"));
+        $$->AddChild(*x1);
+    }
+    | A N D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_andIH1_10start_base16_13opc_comp_3reg3opc", "opc_and", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "and"));
+        $$->AddChild(*x1);
+    }
+    | O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6opc_orIH1_10start_base16_13opc_comp_3reg3opc", "opc_or", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "or"));
+        $$->AddChild(*x1);
+    }
+    | X O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_xorIH1_10start_base16_13opc_comp_3reg3opc", "opc_xor", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "xor"));
+        $$->AddChild(*x1);
+    }
+    | S L L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_sllIH1_10start_base16_13opc_comp_3reg3opc", "opc_sll", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sll"));
+        $$->AddChild(*x1);
+    }
+    | S R L %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_srlIH1_10start_base16_13opc_comp_3reg3opc", "opc_srl", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "srl"));
+        $$->AddChild(*x1);
+    }
+    | S U B %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_subIH1_10start_base16_13opc_comp_3reg3opc", "opc_sub", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sub"));
+        $$->AddChild(*x1);
+    }
+    | S R A %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI13opc_comp_3regIH1_10start_base16_13opc_comp_3reg3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_sraIH1_10start_base16_13opc_comp_3reg3opc", "opc_sra", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sra"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_tail_aliasIH1_10start_base
+    : T A I L WS MI20rel_addr32_call_tailIH1_10start_base23_20rel_addr32_call_tail4addr %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_tail_aliasIH1_10start_base", "i_tail_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "tail"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+    }
+    ;
+
+MI20rel_addr32_call_tailIH1_10start_base23_20rel_addr32_call_tail4addr
+    : Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI20rel_addr32_call_tailIH1_10start_base23_20rel_addr32_call_tail4addr", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI27rel_addr32_call_tail_simpleIH1_10start_base23_20rel_addr32_call_tail4addr", "rel_addr32_call_tail_simple", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@1), "MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple", "addr", *$1, 32, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_call_aliasIH1_10start_base
+    : C A L L WS MI20rel_addr32_call_tailIH1_10start_base23_20rel_addr32_call_tail4addr %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_call_aliasIH1_10start_base", "i_call_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "call"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+    }
+    ;
+
+MI10i_la_aliasIH1_10start_base
+    : L A WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10i_la_aliasIH1_10start_base", "i_la_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "la"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@6), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr32IH1_10start_base13_10rel_addr324addr", "rel_addr32", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@8), "MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32", "addr", *$8, 32, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_li_aaliasIH1_10start_base
+    : L I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_li_aaliasIH1_10start_base", "i_li_aalias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "li"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@6), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14imm32_lui_addiIH1_10start_base17_14imm32_lui_addi3imm", "imm32_lui_addi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@8), "MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi", "addr", *$8, 32, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_lla_aliasIH1_10start_base
+    : L L A WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_lla_aliasIH1_10start_base", "i_lla_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lla"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr32IH1_10start_base13_10rel_addr324addr", "rel_addr32", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@9), "MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32", "addr", *$9, 32, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI32i_comp_2reg_imm_shift_slli_aliasIH1_10start_base
+    : S L L I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI32i_comp_2reg_imm_shift_slli_aliasIH1_10start_base", "i_comp_2reg_imm_shift_slli_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "slli"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9shift_immIH1_10start_base11_9shift_imm3imm", "shift_imm", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@14), "MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm", "shift", *$14, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI32i_comp_2reg_imm_shift_srai_aliasIH1_10start_base
+    : S R A I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI32i_comp_2reg_imm_shift_srai_aliasIH1_10start_base", "i_comp_2reg_imm_shift_srai_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "srai"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9shift_immIH1_10start_base11_9shift_imm3imm", "shift_imm", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@14), "MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm", "shift", *$14, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI32i_comp_2reg_imm_shift_srli_aliasIH1_10start_base
+    : S R L I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI32i_comp_2reg_imm_shift_srli_aliasIH1_10start_base", "i_comp_2reg_imm_shift_srli_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "srli"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9shift_immIH1_10start_base11_9shift_imm3imm", "shift_imm", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@14), "MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm", "shift", *$14, 5, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_move_aliasIH1_10start_base
+    : M O V E WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_move_aliasIH1_10start_base", "i_move_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "move"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI11i_not_aliasIH1_10start_base
+    : N O T WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_not_aliasIH1_10start_base", "i_not_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "not"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+    }
+    ;
+
+MI11i_neg_aliasIH1_10start_base
+    : N E G WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_neg_aliasIH1_10start_base", "i_neg_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "neg"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+    }
+    ;
+
+MI10i_mv_aliasIH1_10start_base
+    : M V WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10i_mv_aliasIH1_10start_base", "i_mv_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "mv"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@6), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(*$8);
+    }
+    ;
+
+MI12i_seqz_aliasIH1_10start_base
+    : S E Q Z WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_seqz_aliasIH1_10start_base", "i_seqz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "seqz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI14i_get_pc_aliasIH1_10start_base
+    : G E T '.' P C WS MI7reg_anyIH1_10start_base9_7reg_any3dst %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14i_get_pc_aliasIH1_10start_base", "i_get_pc_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "get.pc"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // WS
+        $$->AddChild(*$8);
+    }
+    ;
+
+MI12i_snez_aliasIH1_10start_base
+    : S N E Z WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_snez_aliasIH1_10start_base", "i_snez_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "snez"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI15i_comp_2reg_immIH1_10start_base_broken_identifier_identifier
+    : MI15i_comp_2reg_immIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15i_comp_2reg_immIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI15i_comp_2reg_immIH1_10start_base_identifier_identifier
+    : MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15i_comp_2reg_immIH1_10start_base_identifier_identifier", "i_comp_2reg_imm", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc
+    : A D D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_addiIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_addi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "add"));
+        $$->AddChild(*x1);
+    }
+    | S L T I %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_sltiIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_slti", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "slti"));
+        $$->AddChild(*x1);
+    }
+    | S L T I U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_sltiuIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_sltiu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sltiu"));
+        $$->AddChild(*x1);
+    }
+    | A N D %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_andiIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_andi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "and"));
+        $$->AddChild(*x1);
+    }
+    | O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_oriIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_ori", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "or"));
+        $$->AddChild(*x1);
+    }
+    | X O R %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_xoriIH1_10start_base20_17opc_comp_2reg_imm3opc", "opc_xori", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "xor"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier
+    : Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13simm12_simpleIH1_10start_base8_6simm126simm12", "simm12_simple", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@1), "MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple", "simm", *$1, 12, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_ori_aliasIH1_10start_base_broken_identifier_identifier
+    : MI11i_ori_aliasIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_ori_aliasIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI11i_ori_aliasIH1_10start_base_identifier_identifier
+    : O R I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_ori_aliasIH1_10start_base_identifier_identifier", "i_ori_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ori"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(*$13);
+    }
+    ;
+
+MI12i_addi_aliasIH1_10start_base_broken_identifier_identifier
+    : MI12i_addi_aliasIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_addi_aliasIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_addi_aliasIH1_10start_base_identifier_identifier
+    : A D D I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_addi_aliasIH1_10start_base_identifier_identifier", "i_addi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "addi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI12i_andi_aliasIH1_10start_base_broken_identifier_identifier
+    : MI12i_andi_aliasIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_andi_aliasIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_andi_aliasIH1_10start_base_identifier_identifier
+    : A N D I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_andi_aliasIH1_10start_base_identifier_identifier", "i_andi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "andi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI12i_xori_aliasIH1_10start_base_broken_identifier_identifier
+    : MI12i_xori_aliasIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_xori_aliasIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_xori_aliasIH1_10start_base_identifier_identifier
+    : X O R I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_xori_aliasIH1_10start_base_identifier_identifier", "i_xori_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "xori"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI9i_controlIH1_10start_base_identifier_identifier
+    : MI5i_jalIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI21i_control_conditionalIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | R E T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_ret_aliasIH1_10start_base", "i_ret_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ret"));
+        $$->AddChild(*x1);
+    }
+    | MI12i_jalr_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_beqz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_bgt_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bltz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bnez_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_blez_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bleu_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bgtu_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_ble_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bgez_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_bgtz_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI16i_jump_reg_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | J WS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15i_jmp_rel_aliasIH1_10start_base", "i_jmp_rel_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "j"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr20IH1_10start_base13_10rel_addr204addr", "rel_addr20", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@3), "MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20", "addr", *$3, 20, 1));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | J A L WS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16i_call_rel_aliasIH1_10start_base", "i_call_rel_alias", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jal"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr20IH1_10start_base13_10rel_addr204addr", "rel_addr20", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@5), "MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20", "addr", *$5, 20, 1));
+        x1->AddChild(*x2);
+        $$->AddChild(*x1);
+    }
+    | MI16i_call_reg_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI6i_jalrIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_jlr_aliasIH1_10start_base_broken_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI5i_jalIH1_10start_base
+    : J A L WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI5i_jalIH1_10start_base", "i_jal", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_jalIH1_10start_base9_7opc_jal3opc", "opc_jal", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jal"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr20IH1_10start_base13_10rel_addr204addr", "rel_addr20", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@9), "MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20", "addr", *$9, 20, 1));
+        $$->AddChild(*x2);
+    }
+    ;
+
+MI21i_control_conditionalIH1_10start_base
+    : MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc WS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21i_control_conditionalIH1_10start_base", "i_control_conditional", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@11), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$11, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc
+    : B E Q %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_beqIH1_10start_base26_23opc_control_conditional3opc", "opc_beq", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "beq"));
+        $$->AddChild(*x1);
+    }
+    | B N E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_bneIH1_10start_base26_23opc_control_conditional3opc", "opc_bne", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bne"));
+        $$->AddChild(*x1);
+    }
+    | B L T %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_bltIH1_10start_base26_23opc_control_conditional3opc", "opc_blt", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "blt"));
+        $$->AddChild(*x1);
+    }
+    | B L T U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_bltuIH1_10start_base26_23opc_control_conditional3opc", "opc_bltu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bltu"));
+        $$->AddChild(*x1);
+    }
+    | B G E %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_bgeIH1_10start_base26_23opc_control_conditional3opc", "opc_bge", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bge"));
+        $$->AddChild(*x1);
+    }
+    | B G E U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI23opc_control_conditionalIH1_10start_base26_23opc_control_conditional3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_bgeuIH1_10start_base26_23opc_control_conditional3opc", "opc_bgeu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bgeu"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_jalr_aliasIH1_10start_base
+    : J A L R WS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_jalr_aliasIH1_10start_base", "i_jalr_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jalr"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+    }
+    ;
+
+MI12i_beqz_aliasIH1_10start_base
+    : B E Q Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_beqz_aliasIH1_10start_base", "i_beqz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "beqz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_bgt_aliasIH1_10start_base
+    : B G T WS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_bgt_aliasIH1_10start_base", "i_bgt_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bgt"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@13), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$13, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bltz_aliasIH1_10start_base
+    : B L T Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bltz_aliasIH1_10start_base", "i_bltz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bltz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bnez_aliasIH1_10start_base
+    : B N E Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bnez_aliasIH1_10start_base", "i_bnez_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bnez"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_blez_aliasIH1_10start_base
+    : B L E Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_blez_aliasIH1_10start_base", "i_blez_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "blez"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bleu_aliasIH1_10start_base
+    : B L E U WS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bleu_aliasIH1_10start_base", "i_bleu_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bleu"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@14), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$14, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bgtu_aliasIH1_10start_base
+    : B G T U WS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bgtu_aliasIH1_10start_base", "i_bgtu_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bgtu"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@14), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$14, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_ble_aliasIH1_10start_base
+    : B L E WS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_ble_aliasIH1_10start_base", "i_ble_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ble"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@13), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$13, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bgez_aliasIH1_10start_base
+    : B G E Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bgez_aliasIH1_10start_base", "i_bgez_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bgez"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_bgtz_aliasIH1_10start_base
+    : B G T Z WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_bgtz_aliasIH1_10start_base", "i_bgtz_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "bgtz"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr12IH1_10start_base13_10rel_addr124addr", "rel_addr12", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@10), "MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12", "addr", *$10, 12, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI16i_jump_reg_aliasIH1_10start_base
+    : J R WS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16i_jump_reg_aliasIH1_10start_base", "i_jump_reg_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jr"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+    }
+    ;
+
+MI16i_call_reg_aliasIH1_10start_base
+    : C A L L '.' R E G WS MI7reg_anyIH1_10start_base9_7reg_any3src %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI16i_call_reg_aliasIH1_10start_base", "i_call_reg_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "call.reg"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // WS
+        $$->AddChild(*$10);
+    }
+    ;
+
+MI6i_jalrIH1_10start_base_broken_identifier_identifier
+    : MI6i_jalrIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_jalrIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_jalrIH1_10start_base_identifier_identifier
+    : J A L R WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6i_jalrIH1_10start_base_identifier_identifier", "i_jalr", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_jalrIH1_10start_base10_8opc_jalr3opc", "opc_jalr", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jalr"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI11i_jlr_aliasIH1_10start_base_broken_identifier_identifier
+    : MI11i_jlr_aliasIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_jlr_aliasIH1_10start_base_broken_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI11i_jlr_aliasIH1_10start_base_identifier_identifier
+    : J R WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_jlr_aliasIH1_10start_base_identifier_identifier", "i_jlr_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jr"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@6), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(*$8);
+    }
+    ;
+
+MI12i_load_storeIH1_10start_base_identifier_identifier
+    : MI19i_load_global_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI20i_store_global_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI19i_load_global_aliasIH1_10start_base
+    : MI9opc_loadsIH1_10start_base11_9opc_loads3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI19i_load_global_aliasIH1_10start_base", "i_load_global_alias", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr32IH1_10start_base13_10rel_addr324addr", "rel_addr32", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@7), "MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32", "addr", *$7, 32, 1));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI9opc_loadsIH1_10start_base11_9opc_loads3opc
+    : L W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9opc_loadsIH1_10start_base11_9opc_loads3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_loadwIH1_10start_base11_9opc_loads3opc", "opc_loadw", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lw"));
+        $$->AddChild(*x1);
+    }
+    | L H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9opc_loadsIH1_10start_base11_9opc_loads3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_loadhIH1_10start_base11_9opc_loads3opc", "opc_loadh", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lh"));
+        $$->AddChild(*x1);
+    }
+    | L H U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9opc_loadsIH1_10start_base11_9opc_loads3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_loadhuIH1_10start_base11_9opc_loads3opc", "opc_loadhu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lhu"));
+        $$->AddChild(*x1);
+    }
+    | L B %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9opc_loadsIH1_10start_base11_9opc_loads3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_loadbIH1_10start_base11_9opc_loads3opc", "opc_loadb", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lb"));
+        $$->AddChild(*x1);
+    }
+    | L B U %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9opc_loadsIH1_10start_base11_9opc_loads3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_loadbuIH1_10start_base11_9opc_loads3opc", "opc_loadbu", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lbu"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI20i_store_global_aliasIH1_10start_base
+    : MI10opc_storesIH1_10start_base13_10opc_stores3opc WS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS Attribute MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI20i_store_global_aliasIH1_10start_base", "i_store_global_alias", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10rel_addr32IH1_10start_base13_10rel_addr324addr", "rel_addr32", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@7), "MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32", "addr", *$7, 32, 1));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI10opc_storesIH1_10start_base13_10opc_stores3opc
+    : S W %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI10opc_storesIH1_10start_base13_10opc_stores3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_storewIH1_10start_base13_10opc_stores3opc", "opc_storew", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sw"));
+        $$->AddChild(*x1);
+    }
+    | S H %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI10opc_storesIH1_10start_base13_10opc_stores3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_storehIH1_10start_base13_10opc_stores3opc", "opc_storeh", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sh"));
+        $$->AddChild(*x1);
+    }
+    | S B %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI10opc_storesIH1_10start_base13_10opc_stores3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10opc_storebIH1_10start_base13_10opc_stores3opc", "opc_storeb", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "sb"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI10start_base_identifier_non_identifier
+    : MI16roots_start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10start_base_identifier_non_identifier", "", 0, 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI16roots_start_base_identifier_non_identifier
+    : MI3isaIH1_10start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI16roots_start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI3isaIH1_10start_base_identifier_non_identifier
+    : MI6i_compIH1_10start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI9i_controlIH1_10start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_load_storeIH1_10start_base_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI3isaIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_compIH1_10start_base_identifier_non_identifier
+    : MI10i_auipc_hiIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI8i_lui_hiIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI15i_comp_2reg_immIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_ori_aliasIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_addi_aliasIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_andi_aliasIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_xori_aliasIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_compIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI10i_auipc_hiIH1_10start_base
+    : A U I P C WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI11imm20_relocIH1_10start_base14_11imm20_reloc3imm %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI10i_auipc_hiIH1_10start_base", "i_auipc_hi", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9opc_auipcIH1_10start_base11_9opc_auipc3opc", "opc_auipc", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "auipc"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // WS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI11imm20_relocIH1_10start_base14_11imm20_reloc3imm
+    : '%' H I MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11imm20_relocIH1_10start_base14_11imm20_reloc3imm", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8imm20_hiIH1_10start_base14_11imm20_reloc3imm", "imm20_hi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%hi"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@7), "MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi", "val", *$7, 20, 0));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ")"));
+        $$->AddChild(*x1);
+    }
+    | '%' P C R E L '_' H I MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11imm20_relocIH1_10start_base14_11imm20_reloc3imm", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI14imm20_pcrel_hiIH1_10start_base14_11imm20_reloc3imm", "imm20_pcrel_hi", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%pcrel_hi"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@13), "MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi", "val", *$13, 20, 1));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@14), $14)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@15), ")"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI8i_lui_hiIH1_10start_base
+    : L U I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS '%' H I MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8i_lui_hiIH1_10start_base", "i_lui_hi", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7opc_luiIH1_10start_base9_7opc_lui3opc", "opc_lui", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "lui"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        ast::assembler::Node* x2 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8imm20_hiIH1_10start_base10_8imm20_hi3imm", "imm20_hi", 0, 0);
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), "%hi"));
+        x2->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@13), "("));
+        x2->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@14), $14)); // MWS
+        x2->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@15), "MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi", "val", *$15, 20, 0));
+        x2->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@16), $16)); // MWS
+        x2->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@17), ")"));
+        $$->AddChild(*x2);
+    }
+    ;
+
+MI15i_comp_2reg_immIH1_10start_base_broken_identifier_non_identifier
+    : MI15i_comp_2reg_immIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI15i_comp_2reg_immIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI15i_comp_2reg_immIH1_10start_base_non_identifier_non_identifier
+    : MI17opc_comp_2reg_immIH1_10start_base20_17opc_comp_2reg_imm3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15i_comp_2reg_immIH1_10start_base_non_identifier_non_identifier", "i_comp_2reg_imm", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+    }
+    ;
+
+MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier
+    : '%' L O MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI9simm12_loIH1_10start_base8_6simm126simm12", "simm12_lo", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%lo"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@7), "MI3valIH1_10start_base8_6simm126simm121_9simm12_lo", "val", *$7, 12, 0));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ")"));
+        $$->AddChild(*x1);
+    }
+    | '%' P C R E L '_' L O MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI15simm12_pcrel_loIH1_10start_base8_6simm126simm12", "simm12_pcrel_lo", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%pcrel_lo"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@13), "MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo", "val", *$13, 12, 1));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@14), $14)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@15), ")"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI11i_ori_aliasIH1_10start_base_broken_identifier_non_identifier
+    : MI11i_ori_aliasIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_ori_aliasIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI11i_ori_aliasIH1_10start_base_non_identifier_non_identifier
+    : O R I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_ori_aliasIH1_10start_base_non_identifier_non_identifier", "i_ori_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "ori"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // WS
+        $$->AddChild(*$5);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(*$13);
+    }
+    ;
+
+MI12i_addi_aliasIH1_10start_base_broken_identifier_non_identifier
+    : MI12i_addi_aliasIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_addi_aliasIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_addi_aliasIH1_10start_base_non_identifier_non_identifier
+    : A D D I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_addi_aliasIH1_10start_base_non_identifier_non_identifier", "i_addi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "addi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI12i_andi_aliasIH1_10start_base_broken_identifier_non_identifier
+    : MI12i_andi_aliasIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_andi_aliasIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_andi_aliasIH1_10start_base_non_identifier_non_identifier
+    : A N D I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_andi_aliasIH1_10start_base_non_identifier_non_identifier", "i_andi_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "andi"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI12i_xori_aliasIH1_10start_base_broken_identifier_non_identifier
+    : MI12i_xori_aliasIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_xori_aliasIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI12i_xori_aliasIH1_10start_base_non_identifier_non_identifier
+    : X O R I WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_xori_aliasIH1_10start_base_non_identifier_non_identifier", "i_xori_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "xori"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI9i_controlIH1_10start_base_identifier_non_identifier
+    : MI6i_jalrIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI11i_jlr_aliasIH1_10start_base_broken_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI9i_controlIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_jalrIH1_10start_base_broken_identifier_non_identifier
+    : MI6i_jalrIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_jalrIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_jalrIH1_10start_base_non_identifier_non_identifier
+    : J A L R WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6i_jalrIH1_10start_base_non_identifier_non_identifier", "i_jalr", 0, 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI8opc_jalrIH1_10start_base10_8opc_jalr3opc", "opc_jalr", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jalr"));
+        $$->AddChild(*x1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // WS
+        $$->AddChild(*$6);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@8), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@9), $9)); // MWS
+        $$->AddChild(*$10);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@11), $11)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@12), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@13), $13)); // MWS
+        $$->AddChild(*$14);
+    }
+    ;
+
+MI11i_jlr_aliasIH1_10start_base_broken_identifier_non_identifier
+    : MI11i_jlr_aliasIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI11i_jlr_aliasIH1_10start_base_broken_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI11i_jlr_aliasIH1_10start_base_non_identifier_non_identifier
+    : J R WS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11i_jlr_aliasIH1_10start_base_non_identifier_non_identifier", "i_jlr_alias", 0, 0);
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "jr"));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@3), $3)); // WS
+        $$->AddChild(*$4);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@5), $5)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@6), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@7), $7)); // MWS
+        $$->AddChild(*$8);
+    }
+    ;
+
+MI12i_load_storeIH1_10start_base_identifier_non_identifier
+    : MI6i_loadIH1_10start_base_broken %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI7i_storeIH1_10start_base_broken %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI12i_load_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI13i_store_aliasIH1_10start_base %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI12i_load_storeIH1_10start_base_identifier_non_identifier", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_loadIH1_10start_base_broken
+    : MI6i_loadIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_loadIH1_10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI6i_loadIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI6i_loadIH1_10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI6i_loadIH1_10start_base_identifier_identifier
+    : MI9opc_loadsIH1_10start_base11_9opc_loads3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_identifier_identifier MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6i_loadIH1_10start_base_identifier_identifier", "i_load", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@13), ")"));
+    }
+    ;
+
+MI6i_loadIH1_10start_base_non_identifier_non_identifier
+    : MI9opc_loadsIH1_10start_base11_9opc_loads3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS MI6simm12IH1_10start_base8_6simm126simm12_non_identifier_non_identifier MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI6i_loadIH1_10start_base_non_identifier_non_identifier", "i_load", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@13), ")"));
+    }
+    ;
+
+MI7i_storeIH1_10start_base_broken
+    : MI7i_storeIH1_10start_base_identifier_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7i_storeIH1_10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    | MI7i_storeIH1_10start_base_non_identifier_non_identifier %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI7i_storeIH1_10start_base_broken", "", 0);
+        $$->AddChild(*$1);
+    }
+    ;
+
+MI7i_storeIH1_10start_base_identifier_identifier
+    : MI10opc_storesIH1_10start_base13_10opc_stores3opc WS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_identifier_identifier MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_storeIH1_10start_base_identifier_identifier", "i_store", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@13), ")"));
+    }
+    ;
+
+MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_identifier_identifier
+    : Attribute %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_identifier_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13simm12_simpleIH1_10start_base10_8simm12_s8simm12_s", "simm12_simple", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@1), "MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple", "simm", *$1, 12, 0));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI7i_storeIH1_10start_base_non_identifier_non_identifier
+    : MI10opc_storesIH1_10start_base13_10opc_stores3opc WS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_non_identifier_non_identifier MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI7i_storeIH1_10start_base_non_identifier_non_identifier", "i_store", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(*$7);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(*$11);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@13), ")"));
+    }
+    ;
+
+MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_non_identifier_non_identifier
+    : '%' L O MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_non_identifier_non_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI11simm12_s_loIH1_10start_base10_8simm12_s8simm12_s", "simm12_s_lo", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%lo"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@7), "MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo", "val", *$7, 12, 0));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@9), ")"));
+        $$->AddChild(*x1);
+    }
+    | '%' P C R E L '_' L O MWS '(' MWS Attribute MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI8simm12_sIH1_10start_base10_8simm12_s8simm12_s_non_identifier_non_identifier", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI17simm12_s_pcrel_loIH1_10start_base10_8simm12_s8simm12_s", "simm12_s_pcrel_lo", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "%pcrel_lo"));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), "("));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@12), $12)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateAttribute(GetLocation(@13), "MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo", "val", *$13, 12, 0));
+        x1->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@14), $14)); // MWS
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@15), ")"));
+        $$->AddChild(*x1);
+    }
+    ;
+
+MI12i_load_aliasIH1_10start_base
+    : MI9opc_loadsIH1_10start_base11_9opc_loads3opc WS MI7reg_anyIH1_10start_base9_7reg_any3dst MWS ',' MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any3src MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI12i_load_aliasIH1_10start_base", "i_load_alias", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ")"));
+    }
+    ;
+
+MI13i_store_aliasIH1_10start_base
+    : MI10opc_storesIH1_10start_base13_10opc_stores3opc WS MI7reg_anyIH1_10start_base9_7reg_any4src2 MWS ',' MWS '(' MWS MI7reg_anyIH1_10start_base9_7reg_any4src1 MWS ')' %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI13i_store_aliasIH1_10start_base", "i_store_alias", 0, 0);
+        $$->AddChild(*$1);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@2), $2)); // WS
+        $$->AddChild(*$3);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@4), $4)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@5), ","));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@6), $6)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@7), "("));
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@8), $8)); // MWS
+        $$->AddChild(*$9);
+        $$->AddChild(ast::assembler::Builder::CreateSpace(GetLocation(@10), $10)); // MWS
+        $$->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@11), ")"));
+    }
+    ;
+
+%%

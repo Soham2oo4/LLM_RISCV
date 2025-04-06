@@ -1,0 +1,46 @@
+#ifndef _TINFO_
+#define _TINFO_
+
+// tinfo [debug/trace mode]:
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#if defined(OVERRIDE_EXPLICIT_TINFO)
+#if OVERRIDE_EXPLICIT_TINFO != 0xFF
+#define OVERRIDE_TINFO_HOW OVERRIDE_EXPLICIT_TINFO
+#endif
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#if defined(OVERRIDE_TINFO_HOW)
+//----------------------------------------------------------------------------------------------------------
+
+set program_instruction
+{
+    constraints
+    {
+        weights
+        {
+            OVERRIDE_I_CONTROL_REGISTERS_HOW(OVERRIDE_TINFO_HOW)(, tinfo);
+        };
+    };
+};
+
+#if OVERRIDE_TINFO_HOW == 2
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_ONLYZERO(tinfo);
+#endif
+
+#if OVERRIDE_TINFO_HOW == 3
+CHANGE_ELEMENT_I_CONTROL_REGISTERS_IMM5_NONEZERO(tinfo);
+#endif
+
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OVERRIDE_TINFO_HOW)
+//----------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------
+#endif //defined(OPTION_OCD)
+//----------------------------------------------------------------------------------------------------------
+
+#endif //_TINFO_

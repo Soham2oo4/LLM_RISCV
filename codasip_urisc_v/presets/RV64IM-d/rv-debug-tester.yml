@@ -1,0 +1,285 @@
+#
+# RISC-V Debug transport over JTAG (JTAG registers "dmi", "dtmcs")
+#
+dmi_databits: 32
+dtmcs_abits: 7
+dtmcs_idle: 7
+#
+# Basic info
+#
+core_xlen: 64
+supported_modes:
+- M
+supported_extensions:
+- I
+- M
+initial_pc_value: 0x1000
+wfi_is_nop: false
+#
+# Capabilities of "dmcontrol" & "dmstatus" debug module registers
+#
+resethaltreq_implemented: false
+dmstatus_confsptrvalid: false
+dmstatus_impebreak: false
+dm_always_authenticated: true
+dmcontrol_hasel_implemented: false
+unavailable_state_implemented: false
+harts_get_resumed_when_dm_is_reset: true
+#
+# "hartinfo" debug module register
+#
+hartinfo_implemented: false
+hartinfo_expected_dataaccess: 0
+hartinfo_expected_dataaddr: 0
+hartinfo_expected_datasize: 0
+hartinfo_expected_nscratch: 0
+#
+# "dcsr" register (Debug CSR)
+#
+dcsr_valid_ebreakm: !!set {0, 1}
+dcsr_valid_ebreaks: !!set {0, 1}
+dcsr_valid_ebreaku: !!set {0, 1}
+dcsr_valid_mprven: !!set {0}
+dcsr_valid_stepie: !!set {0}
+dcsr_valid_stopcount: !!set {0, 1}
+dcsr_valid_stoptime: !!set {0}
+#
+# Program Buffer
+#
+progbufsize: 4
+progbuf_execution_clobbers_dpc: false
+progbuf_mapped_to_memory: true
+progbuf_base_address: 0xff0
+progbuf_jumps_out_of_buffer_allowed: false
+progbuf_jumps_within_buffer_allowed: false
+progbuf_auipc_instruction_is_legal: false
+progbuf_is_writable: false
+#
+# Abstract Memory Access
+#
+abstract_memory_supported: false
+#
+# Abstract Quick Access
+#
+abstract_quick_access_supported: false
+#
+# Abstract Register Access
+#
+abstract_aarpostincrement_supported: false
+abstractauto_implemented_mask: 0x3
+abstractcs_datacount: 2
+cmderr_inaccessible_reg: 3
+cmderr_nonexistent_reg: 3
+cmderr_too_small_write: 2
+support_abstract_read_when_running: false
+support_abstract_write_when_running: false
+#
+# Processor registers
+#
+csrs:
+- mstatus
+- mie
+- mtvec
+- mscratch
+- mepc
+- mcause
+- mtval
+- mip
+- misa
+- mvendorid
+- marchid
+- mimpid
+- mhartid
+- tselect
+- tdata1
+- tdata2
+- tinfo
+- dpc
+- dcsr
+- tcontrol
+- mcountinhibit
+# mhpmcounter
+- mcycle
+- minstret
+- mhpmcounter3
+- mhpmcounter4
+- mhpmcounter5
+- mhpmcounter6
+- mhpmcounter7
+- mhpmcounter8
+- mhpmcounter9
+- mhpmcounter10
+- mhpmcounter11
+- mhpmcounter12
+- mhpmcounter13
+- mhpmcounter14
+- mhpmcounter15
+- mhpmcounter16
+- mhpmcounter17
+- mhpmcounter18
+- mhpmcounter19
+- mhpmcounter20
+- mhpmcounter21
+- mhpmcounter22
+- mhpmcounter23
+- mhpmcounter24
+- mhpmcounter25
+- mhpmcounter26
+- mhpmcounter27
+- mhpmcounter28
+- mhpmcounter29
+- mhpmcounter30
+- mhpmcounter31
+# mhpmevent
+- mhpmevent3
+- mhpmevent4
+- mhpmevent5
+- mhpmevent6
+- mhpmevent7
+- mhpmevent8
+- mhpmevent9
+- mhpmevent10
+- mhpmevent11
+- mhpmevent12
+- mhpmevent13
+- mhpmevent14
+- mhpmevent15
+- mhpmevent16
+- mhpmevent17
+- mhpmevent18
+- mhpmevent19
+- mhpmevent20
+- mhpmevent21
+- mhpmevent22
+- mhpmevent23
+- mhpmevent24
+- mhpmevent25
+- mhpmevent26
+- mhpmevent27
+- mhpmevent28
+- mhpmevent29
+- mhpmevent30
+- mhpmevent31
+csrs_by_abstract_access:
+- dpc
+csrs_nonexistent:
+- dscratch0
+- dscratch1
+- tdata3
+- mcontext
+- scontext
+- medeleg
+- mideleg
+- scounteren
+- satp
+- stvec
+- sstatus
+- sip
+- sie
+- sscratch
+- sepc
+- scause
+- stval
+- fcsr
+- frm
+- fflags
+- pmpcfg1
+- pmpcfg0
+- pmpcfg14
+- pmpcfg15
+- pmpaddr63
+- pmpaddr62
+- pmpaddr0
+- pmpaddr1
+- cycle
+- instret
+- cycleh
+- instreth
+- mcounteren
+# mhpmcounterh
+- mcycleh
+- minstreth
+- mhpmcounter3h
+- mhpmcounter4h
+- mhpmcounter5h
+- mhpmcounter6h
+- mhpmcounter7h
+- mhpmcounter8h
+- mhpmcounter9h
+- mhpmcounter10h
+- mhpmcounter11h
+- mhpmcounter12h
+- mhpmcounter13h
+- mhpmcounter14h
+- mhpmcounter15h
+- mhpmcounter16h
+- mhpmcounter17h
+- mhpmcounter18h
+- mhpmcounter19h
+- mhpmcounter20h
+- mhpmcounter21h
+- mhpmcounter22h
+- mhpmcounter23h
+- mhpmcounter24h
+- mhpmcounter25h
+- mhpmcounter26h
+- mhpmcounter27h
+- mhpmcounter28h
+- mhpmcounter29h
+- mhpmcounter30h
+- mhpmcounter31h
+num_pmp_entries: 0
+#
+# Codasip Cache
+#
+has_codasip_d_cache: false
+has_codasip_i_cache: false
+codasip_cache_base:
+codasip_d_cache_data_bits:
+fence_invalidates_d_cache: true
+#
+# Float
+#
+abstract_access_to_fpr: false
+accepted_values_of_fcsr_frm: !!set {}
+#
+# Triggers
+#
+expected_trigger_types:
+- !!set {2}
+- !!set {2}
+- !!set {2}
+- !!set {2}
+trigger_supported_actions: !!set {0, 1}
+mcontrol_chain_supported: false
+mcontrol_dmode_supported_values: !!set {0, 1}
+mcontrol_execute_supported: true
+mcontrol_expected_maxmask: 0
+mcontrol_fixed_timing_value: 0
+mcontrol_has_fixed_timing_bit: true
+mcontrol_hit_supported: false
+mcontrol_load_supported: true
+mcontrol_match_supported_values: !!set {0}
+mcontrol_select_supported_values: !!set {0}
+mcontrol_size_supported_values: !!set {0}
+mcontrol_store_supported: true
+#
+# System Bus Access (sysbus)
+#
+sysbus_access_implemented: false
+sbcs_expected_sbasize:
+sbcs_expected_sbversion:
+sbcs_supported_sbaccess_widths: {}
+#
+# Memory Addresses for the purpose of testing
+#
+sysbus_illegal_addr: 0x201500
+sysbus_playground_size_bytes: 2048
+sysbus_playground_start_addr: 0x3000
+mem_zerofill_range: 2048
+mem_zerofill_start: 0x1000
+#
+# List of expected fails (XFAILs) in a dictionary form:
+# "test_name": "human-readable reason, preferably with JIRA ticket number mentioned"
+#
+expected_fails: {}
