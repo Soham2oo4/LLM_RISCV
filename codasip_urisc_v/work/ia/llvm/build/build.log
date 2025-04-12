@@ -1,8 +1,8 @@
-[1/76] Building CodasipGenCallingConv.inc...
-[2/76] Building CodasipGenRegisterInfo.inc...
+[1/76] Building CodasipGenRegisterInfo.inc...
+[2/76] Building CodasipGenAsmWriter.inc...
 [3/76] Building CodasipGenDisassemblerTables.inc...
-[4/76] Building CodasipGenAsmWriter.inc...
-[5/76] Building CodasipGenMCCodeEmitter.inc...
+[4/76] Building CodasipGenMCCodeEmitter.inc...
+[5/76] Building CodasipGenCallingConv.inc...
 [6/76] Building CodasipGenAsmMatcher.inc...
 [7/76] Building CodasipGenDAGISel.inc...
 [8/76] Building CodasipGenInstrInfo.inc...
@@ -12,7 +12,8 @@
 [12/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenFrameLowering.cpp.o
 [13/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenRegisterInfo.cpp.o
 [14/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenMachineFunction.cpp.o
-[15/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenInstrInfo.cpp.o
+[15/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipAsmPrinter.cpp.o
+[16/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenInstrInfo.cpp.o
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipGenInstrInfo.cpp: In member function ‘virtual void llvm::CodasipGenInstrInfo2::storeRegToStackSlot(llvm::MachineBasicBlock&, llvm::MachineBasicBlock::iterator, unsigned int, bool, int, const llvm::TargetRegisterClass*, const llvm::TargetRegisterInfo*) const’:
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipGenInstrInfo.cpp:214:24: warning: unused variable ‘finfo’ [-Wunused-variable]
    CodasipFunctionInfo *finfo = MF.getInfo<CodasipFunctionInfo>();
@@ -25,7 +26,6 @@
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipGenInstrInfo.cpp:10499:27: warning: unused variable ‘CST’ [-Wunused-variable]
    const CodasipSubtarget &CST = MF.getSubtarget<CodasipSubtarget>();
                            ^~~
-[16/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipAsmPrinter.cpp.o
 [17/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenISelLowering.cpp.o
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipGenISelLowering.cpp: In constructor ‘llvm::CodasipGenTargetLowering::CodasipGenTargetLowering(llvm::CodasipTargetMachine&)’:
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipGenISelLowering.cpp:61:27: warning: unused variable ‘CST’ [-Wunused-variable]
@@ -51,9 +51,9 @@
        ^~~~~
 [20/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipMCExpr.cpp.o
 [21/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipInstrInfo.cpp.o
-[22/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipISelDAGToDAG.cpp.o
+[22/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipInstructionSemantics.cpp.o
 [23/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipISelLowering.cpp.o
-[24/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipInstructionSemantics.cpp.o
+[24/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipISelDAGToDAG.cpp.o
 [25/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipJumpLengthCheck.cpp.o
 [26/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipJumpInfo.cpp.o
 [27/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipSelectionDAGInfo.cpp.o
@@ -61,52 +61,52 @@
 [29/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipMiscPasses.cpp.o
 [30/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipMoiOptim.cpp.o
 [31/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipRegisterInfo.cpp.o
-[32/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipNoopAdder.cpp.o
-[33/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipTargetObjectFile.cpp.o
+[32/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipTargetObjectFile.cpp.o
+[33/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipNoopAdder.cpp.o
 [34/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipVliwNoopAdder.cpp.o
 [35/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipSubtarget.cpp.o
 [36/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipGenPassConfig.cpp.o
 [37/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipCustPassConfig.cpp.o
 [38/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipInstrSizeOptim.cpp.o
 [39/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/CodasipAsmParserHooks.cpp.o
-[40/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipPeephole.cpp.o
+[40/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipTargetMachine.cpp.o
+[41/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipPeephole.cpp.o
 /home/project/codasip_urisc_v/work/ia/llvm/llvm/lib/Target/Codasip/CodasipPeephole.cpp:86:13: warning: ‘bool {anonymous}::getCheckImmOperandValue(const llvm::MachineOperand&, int64_t&, llvm::LTOFileInfo*)’ defined but not used [-Wunused-function]
  static bool getCheckImmOperandValue(const MachineOperand &mo, int64_t &result,
              ^~~~~~~~~~~~~~~~~~~~~~~
-[41/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipTargetMachine.cpp.o
-[42/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/CodasipAsmParserHooksGen.cpp.o
+[42/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipCfiAdder.cpp.o
 [43/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipDoubleJumpPass.cpp.o
-[44/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipCfiAdder.cpp.o
+[44/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/CodasipAsmParserHooksGen.cpp.o
 [45/76] Building CXX object lib/Target/Codasip/Disassembler/CMakeFiles/LLVMCodasipGenDisassembler.dir/CodasipDebundleFunctionGen.cpp.o
 [46/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/merged_scanner_gen.cpp.o
-[47/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/CodasipAsmParser.cpp.o
-[48/76] Building CXX object lib/Target/Codasip/TargetInfo/CMakeFiles/LLVMCodasipGenInfo.dir/CodasipTargetInfo.cpp.o
-[49/76] Linking CXX static library lib/libLLVMCodasipGenInfo.a
-[50/76] Building CXX object lib/Target/Codasip/Disassembler/CMakeFiles/LLVMCodasipGenDisassembler.dir/CodasipDisassembler.cpp.o
-[51/76] Linking CXX static library lib/libLLVMCodasipGenDisassembler.a
-[52/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipPropagateBuiltinConstants.cpp.o
+[47/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/CodasipPropagateBuiltinConstants.cpp.o
+[48/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/CodasipAsmParser.cpp.o
+[49/76] Building CXX object lib/Target/Codasip/TargetInfo/CMakeFiles/LLVMCodasipGenInfo.dir/CodasipTargetInfo.cpp.o
+[50/76] Linking CXX static library lib/libLLVMCodasipGenInfo.a
+[51/76] Building CXX object lib/Target/Codasip/Disassembler/CMakeFiles/LLVMCodasipGenDisassembler.dir/CodasipDisassembler.cpp.o
+[52/76] Linking CXX static library lib/libLLVMCodasipGenDisassembler.a
 [53/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipBundleFunction.cpp.o
 [54/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipAsmBackend.cpp.o
 [55/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipCustomFixupEncoder.cpp.o
-[56/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipCustomFixupEncoderGen.cpp.o
-[57/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipBundleFunctionGen.cpp.o
+[56/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipBundleFunctionGen.cpp.o
+[57/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipCustomFixupEncoderGen.cpp.o
 [58/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCAsmInfo.cpp.o
-[59/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipELFStreamer.cpp.o
-[60/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipELFObjectWriter.cpp.o
-[61/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipGenAsmBackend.cpp.o
+[59/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipELFObjectWriter.cpp.o
+[60/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipELFStreamer.cpp.o
+[61/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCELFStreamer.cpp.o
 [62/76] Building CXX object lib/Target/Codasip/CustomModules/CMakeFiles/LLVMCodasipCustomModules.dir/dummy.cpp.o
-[63/76] Linking CXX static library lib/libLLVMCodasipCustomModules.a
-[64/76] Building CXX object tools/llvm-mc/CMakeFiles/codasip-llvm-mc.dir/dummy.cpp.o
-[65/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCELFStreamer.cpp.o
+[63/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipGenAsmBackend.cpp.o
+[64/76] Linking CXX static library lib/libLLVMCodasipCustomModules.a
+[65/76] Building CXX object tools/llvm-mc/CMakeFiles/codasip-llvm-mc.dir/dummy.cpp.o
 [66/76] Building CXX object lib/Target/Codasip/InstPrinter/CMakeFiles/LLVMCodasipGenAsmPrinter.dir/CodasipInstPrinter.cpp.o
 [67/76] Linking CXX static library lib/libLLVMCodasipGenAsmPrinter.a
-[68/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipTargetStreamer.cpp.o
-[69/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/merged_parser_gen.cpp.o
-[70/76] Linking CXX static library lib/libLLVMCodasipGenAsmParser.a
-[71/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/TargetTransformInfo/CodasipGenTargetTransformInfo.cpp.o
-[72/76] Linking CXX static library lib/libLLVMCodasipGenCodeGen.a
-[73/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCCodeEmitter.cpp.o
-[74/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCTargetDesc.cpp.o
+[68/76] Building CXX object lib/Target/Codasip/AsmParser/CMakeFiles/LLVMCodasipGenAsmParser.dir/merged_parser_gen.cpp.o
+[69/76] Linking CXX static library lib/libLLVMCodasipGenAsmParser.a
+[70/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipTargetStreamer.cpp.o
+[71/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCTargetDesc.cpp.o
+[72/76] Building CXX object lib/Target/Codasip/CMakeFiles/LLVMCodasipGenCodeGen.dir/TargetTransformInfo/CodasipGenTargetTransformInfo.cpp.o
+[73/76] Linking CXX static library lib/libLLVMCodasipGenCodeGen.a
+[74/76] Building CXX object lib/Target/Codasip/MCTargetDesc/CMakeFiles/LLVMCodasipGenDesc.dir/CodasipMCCodeEmitter.cpp.o
 [75/76] Linking CXX static library lib/libLLVMCodasipGenDesc.a
 [76/76] Linking CXX executable /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-llvm-mc
 [1/2] Building CXX object tools/llc/CMakeFiles/codasip-llc.dir/dummy.cpp.o
@@ -114,8 +114,8 @@
 [1/3] Creating export file for LLVMGengold
 [2/3] Building CXX object tools/gold/CMakeFiles/LLVMGengold.dir/gold-plugin.cpp.o
 [3/3] Linking CXX shared module lib/LLVMgold.so
-[1/3] Building CXX object lib/Target/Codasip/TargetTransformInfo/CMakeFiles/codasip-tti.dir/CodasipTTI.cpp.o
-[2/3] Building CXX object lib/Target/Codasip/TargetTransformInfo/CMakeFiles/codasip-tti.dir/CodasipGenTargetTransformInfo.cpp.o
+[1/3] Building CXX object lib/Target/Codasip/TargetTransformInfo/CMakeFiles/codasip-tti.dir/CodasipGenTargetTransformInfo.cpp.o
+[2/3] Building CXX object lib/Target/Codasip/TargetTransformInfo/CMakeFiles/codasip-tti.dir/CodasipTTI.cpp.o
 [3/3] Linking CXX shared module lib/codasip_urisc_v-ia-tti.so
 [1/2] Building CXX object tools/llvm-objdump/CMakeFiles/codasip-llvm-objdump.dir/dummy.cpp.o
 [2/2] Linking CXX executable /home/project/codasip_urisc_v/work/ia/sdk/bin/codasip_urisc_v-ia-llvm-objdump

@@ -2,5 +2,6 @@
   "files.exclude": {
     ".theia": true,
     ".vscode": true
-  }
+},
+"git.ignoreLimitWarning": true
 }

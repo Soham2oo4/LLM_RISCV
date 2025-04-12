@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-12
  * \author  Codasip (c) simulator generator
  * \version 9.4.2
  * \brief   Source files for simulator
@@ -22,8 +22,8 @@
 #include "getopt_common/interface/basicoptions.h"
 static const codasip::getopt::ToolInfoSetter g_ToolInfo(codasip::getopt::ToolInfo("Codasip  (C49_2265_2231)", 
 "codasip_urisc_v", 
-"7104132535de99582e3acb0cf037da4817f46aab101d4bd614123c098f6a0ab3", 
-"2025-04-06 06:42:09", 
+"5b0a7e3c8e912e2d4fcf2ac39a1ab2269dc1ba4eea2a2de91e460950d199cfe6", 
+"2025-04-12 09:04:28", 
 ""
 ));
 #include <sstream>
@@ -3127,7 +3127,7 @@ bool Sim::MemoryWrite(const debugger::Tid tid, const debugger::Did dwarf, const 
 void Sim::InitRspJson()
 {
     std::stringstream rspJson;
-    rspJson << "{\"__generated_by\": \"Codasip Studio version 9.4.2\", \"__generated_date\": \"2025-04-06\", \"address_spaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"default\": 1, \"description\": \"\", \"dwarf\": 0, \"encoding\": \"uint\", \"endian\": \"little\", \"format\": \"hex\", \"function-result\": [10, 11, 12, 13], \"interfaces\": [\"if_ldst\", \"if_fetch\"], \"name\": \"as_all\", \"set\": \"Address spaces\", \"type\": \"code-and-data\", \"uid\": 33, \"wordsize\": 32}], \"hostinfo\": {\"arch\": \"codasip_le\", \"callee-saved\": [9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 8], \"datalayout\": \"e-p:32:32:32-S64-a0:0:32-n32\", \"endian\": \"little\", \"harts_count\": 1, \"hostname\": \"codasip_urisc_v\", \"instruction-sizes\": [32], \"ostype\": \"standalone\", \"ptrsize\": 4, \"stack_alignment\": 2, \"syscalls\": 1, \"triple\": \"codasip_le-Codasip-standalone\", \"vendor\": \"Codasip\", \"watchpoint_exceptions_received\": \"after\", \"watchpoint_simulator\": 0}, \"interfaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 C";
+    rspJson << "{\"__generated_by\": \"Codasip Studio version 9.4.2\", \"__generated_date\": \"2025-04-12\", \"address_spaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"default\": 1, \"description\": \"\", \"dwarf\": 0, \"encoding\": \"uint\", \"endian\": \"little\", \"format\": \"hex\", \"function-result\": [10, 11, 12, 13], \"interfaces\": [\"if_ldst\", \"if_fetch\"], \"name\": \"as_all\", \"set\": \"Address spaces\", \"type\": \"code-and-data\", \"uid\": 33, \"wordsize\": 32}], \"hostinfo\": {\"arch\": \"codasip_le\", \"callee-saved\": [9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 8], \"datalayout\": \"e-p:32:32:32-S64-a0:0:32-n32\", \"endian\": \"little\", \"harts_count\": 1, \"hostname\": \"codasip_urisc_v\", \"instruction-sizes\": [32], \"ostype\": \"standalone\", \"ptrsize\": 4, \"stack_alignment\": 2, \"syscalls\": 1, \"triple\": \"codasip_le-Codasip-standalone\", \"vendor\": \"Codasip\", \"watchpoint_exceptions_received\": \"after\", \"watchpoint_simulator\": 0}, \"interfaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 C";
     rspJson << "odasip\", \"dwarf\": 1, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"RW\", \"format\": \"hex\", \"name\": \"if_ldst\", \"set\": \"Memories\", \"uid\": 37, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [32], \"description\": \"\", \"dwarf\": 2, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"R\", \"format\": \"hex\", \"name\": \"if_fetch\", \"set\": \"Memories\", \"uid\": 38, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"\", \"dwarf\": 4, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"RW\", \"format\": \"hex\", \"name\": \"testbench_m_memory_if_ldst\", \"set\": \"Memories\", \"uid\": 48, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"\", \"dwarf\": 5, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"R\", \"format\": \"hex\", \"name\": \"testbench_m_memory_if_fetch\", \"set\": \"Memories\", \"uid\": 49, \"wordsize\": 32}], \"ports\": [{\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 64, \"encoding\": \"uint\", \"format\": \"hex\", \"nam";
     rspJson << "e\": \"p_meip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 39}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 65, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_msip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 40}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 66, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_mtip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 41}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"OUT\", \"dwarf\": 67, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_wfi\", \"set\": \"Out Port(s)\", \"type\": \"CONTROL\", \"uid\": 42}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 68, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_nmi\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 43}, {\"bitsize\": 32, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 69, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_nmi_mtval\", \"set\": \"In Port(s)\", \"type\": \"DATA\", \"uid\": 44}, {\"bitsize\": 32, \"description\": \"\", \"direction\": \"IN\", \"dwa";
     rspJson << "rf\": 70, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_boot_addr\", \"set\": \"In Port(s)\", \"type\": \"DATA\", \"uid\": 45}], \"registers\": [{\"arch\": 0, \"bitsize\": 32, \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 Codasip\", \"dwarf\": 49, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 0, \"name\": \"r_instr_fetch\", \"set\": \"Micro-architectural Registers\", \"uid\": 1}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 50, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 1, \"name\": \"r_fetch_fault\", \"set\": \"Micro-architectural Registers\", \"uid\": 2}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 51, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 2, \"name\": \"r_pf_mem_error\", \"set\": \"Micro-architectural Registers\", \"uid\": 3}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 52, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 3, \"name\": \"r_minstret_written\", \"set\": \"Micro-architectural Registers\", \"uid\": 4}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 53, \"encoding\": \"uint\", \"format\"";
@@ -6704,14 +6704,15 @@ void Sim::MI7i_storeIH5_3isa3isa()
 void Sim::MI14i_ext_hackatonIH5_3isa3isa()
 {
     {
-        MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_1.read());
-        MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_2.read());
+        MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_1.read()));
+        MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_2.read()));
         MI11rf_gpr_read(MI51codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any3dst.read());
         MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.write(MI82codasip_return_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc.read());
         switch (static_cast<uint8_t>(MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.read()))
         {
             case 0:
             {
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()) >> int32_t(8));
                 break;
             }
             case 1:

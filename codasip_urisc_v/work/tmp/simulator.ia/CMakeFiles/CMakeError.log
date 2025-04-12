@@ -1,11 +1,11 @@
 Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/tmp/simulator.ia/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_1ad14 && [1/2] Building CXX object CMakeFiles/cmTC_1ad14.dir/src.cxx.o
-[2/2] Linking CXX executable cmTC_1ad14
-FAILED: cmTC_1ad14 
-: && /contrib/bin/g++ -O0  CMakeFiles/cmTC_1ad14.dir/src.cxx.o -o cmTC_1ad14   && :
-/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_1ad14.dir/src.cxx.o: in function `main':
+Run Build Command(s):/contrib/bin/ninja cmTC_84a3a && [1/2] Building CXX object CMakeFiles/cmTC_84a3a.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_84a3a
+FAILED: cmTC_84a3a 
+: && /contrib/bin/g++ -O0  CMakeFiles/cmTC_84a3a.dir/src.cxx.o -o cmTC_84a3a   && :
+/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_84a3a.dir/src.cxx.o: in function `main':
 src.cxx:(.text+0x2d): undefined reference to `pthread_create'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.cxx:(.text+0x39): undefined reference to `pthread_detach'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.cxx:(.text+0x45): undefined reference to `pthread_cancel'
@@ -38,10 +38,10 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/tmp/simulator.ia/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_ff756 && [1/2] Building CXX object CMakeFiles/cmTC_ff756.dir/CheckFunctionExists.cxx.o
-[2/2] Linking CXX executable cmTC_ff756
-FAILED: cmTC_ff756 
-: && /contrib/bin/g++ -O0 -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_ff756.dir/CheckFunctionExists.cxx.o -o cmTC_ff756  -lpthreads && :
+Run Build Command(s):/contrib/bin/ninja cmTC_ec520 && [1/2] Building CXX object CMakeFiles/cmTC_ec520.dir/CheckFunctionExists.cxx.o
+[2/2] Linking CXX executable cmTC_ec520
+FAILED: cmTC_ec520 
+: && /contrib/bin/g++ -O0 -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_ec520.dir/CheckFunctionExists.cxx.o -o cmTC_ec520  -lpthreads && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.

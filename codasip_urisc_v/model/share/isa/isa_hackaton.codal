@@ -35,6 +35,7 @@ element i_ext_hackaton
         switch (opc)
         {
             case OPC_HACKATON_CUSTOM_A:
+                result = (s1 * s2) >> 8;
                 //result = ADD_OPERATION;                
                 break;
             case OPC_HACKATON_CUSTOM_B:

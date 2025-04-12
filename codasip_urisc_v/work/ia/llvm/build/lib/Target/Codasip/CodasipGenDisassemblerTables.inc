@@ -779,7 +779,7 @@ static const uint8_t DecoderTable32[] = {
 /* 3800 */    MCD::OPC_Decode, 199, 8, 19, // Opcode: i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
 /* 3804 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 3815
 /* 3811 */    MCD::OPC_Decode, 203, 8, 20, // Opcode: i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
-/* 3815 */    MCD::OPC_Decode, 205, 8, 21, // Opcode: i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
+/* 3815 */    MCD::OPC_Decode, 205, 8, 22, // Opcode: i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
 /* 3819 */    MCD::OPC_FilterValue, 2, 90, 0, 0, // Skip to: 3914
 /* 3824 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 3827 */    MCD::OPC_FilterValue, 0, 64, 7, 0, // Skip to: 5688
@@ -798,7 +798,7 @@ static const uint8_t DecoderTable32[] = {
 /* 3895 */    MCD::OPC_Decode, 226, 8, 19, // Opcode: i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__
 /* 3899 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 3910
 /* 3906 */    MCD::OPC_Decode, 230, 8, 20, // Opcode: i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
-/* 3910 */    MCD::OPC_Decode, 232, 8, 21, // Opcode: i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
+/* 3910 */    MCD::OPC_Decode, 232, 8, 22, // Opcode: i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
 /* 3914 */    MCD::OPC_FilterValue, 3, 90, 0, 0, // Skip to: 4009
 /* 3919 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 3922 */    MCD::OPC_FilterValue, 0, 225, 6, 0, // Skip to: 5688
@@ -817,7 +817,7 @@ static const uint8_t DecoderTable32[] = {
 /* 3990 */    MCD::OPC_Decode, 253, 8, 19, // Opcode: i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__
 /* 3994 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4005
 /* 4001 */    MCD::OPC_Decode, 129, 9, 20, // Opcode: i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
-/* 4005 */    MCD::OPC_Decode, 131, 9, 21, // Opcode: i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
+/* 4005 */    MCD::OPC_Decode, 131, 9, 22, // Opcode: i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
 /* 4009 */    MCD::OPC_FilterValue, 4, 138, 6, 0, // Skip to: 5688
 /* 4014 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4017 */    MCD::OPC_FilterValue, 0, 130, 6, 0, // Skip to: 5688
@@ -836,7 +836,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4085 */    MCD::OPC_Decode, 152, 9, 19, // Opcode: i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__
 /* 4089 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4100
 /* 4096 */    MCD::OPC_Decode, 156, 9, 20, // Opcode: i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
-/* 4100 */    MCD::OPC_Decode, 158, 9, 21, // Opcode: i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
+/* 4100 */    MCD::OPC_Decode, 158, 9, 22, // Opcode: i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
 /* 4104 */    MCD::OPC_FilterValue, 51, 169, 3, 0, // Skip to: 5046
 /* 4109 */    MCD::OPC_ExtractField, 12, 3,  // Inst{14-12} ...
 /* 4112 */    MCD::OPC_FilterValue, 0, 177, 0, 0, // Skip to: 4294
@@ -857,7 +857,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4188 */    MCD::OPC_Decode, 239, 4, 19, // Opcode: i_comp_3reg__opc_add__regs__reg0__regs__
 /* 4192 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4203
 /* 4199 */    MCD::OPC_Decode, 243, 4, 20, // Opcode: i_comp_3reg__opc_add__regs__regs__reg0__
-/* 4203 */    MCD::OPC_Decode, 245, 4, 22, // Opcode: i_comp_3reg__opc_add__regs__regs__regs__
+/* 4203 */    MCD::OPC_Decode, 245, 4, 21, // Opcode: i_comp_3reg__opc_add__regs__regs__regs__
 /* 4207 */    MCD::OPC_FilterValue, 32, 196, 5, 0, // Skip to: 5688
 /* 4212 */    MCD::OPC_ExtractField, 7, 5,  // Inst{11-7} ...
 /* 4215 */    MCD::OPC_FilterValue, 0, 37, 0, 0, // Skip to: 4257
@@ -874,7 +874,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4275 */    MCD::OPC_Decode, 199, 6, 19, // Opcode: i_comp_3reg__opc_sub__regs__reg0__regs__
 /* 4279 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4290
 /* 4286 */    MCD::OPC_Decode, 203, 6, 20, // Opcode: i_comp_3reg__opc_sub__regs__regs__reg0__
-/* 4290 */    MCD::OPC_Decode, 205, 6, 21, // Opcode: i_comp_3reg__opc_sub__regs__regs__regs__
+/* 4290 */    MCD::OPC_Decode, 205, 6, 22, // Opcode: i_comp_3reg__opc_sub__regs__regs__regs__
 /* 4294 */    MCD::OPC_FilterValue, 1, 90, 0, 0, // Skip to: 4389
 /* 4299 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4302 */    MCD::OPC_FilterValue, 0, 101, 5, 0, // Skip to: 5688
@@ -893,7 +893,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4370 */    MCD::OPC_Decode, 192, 5, 19, // Opcode: i_comp_3reg__opc_sll__regs__reg0__regs__
 /* 4374 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4385
 /* 4381 */    MCD::OPC_Decode, 196, 5, 20, // Opcode: i_comp_3reg__opc_sll__regs__regs__reg0__
-/* 4385 */    MCD::OPC_Decode, 198, 5, 21, // Opcode: i_comp_3reg__opc_sll__regs__regs__regs__
+/* 4385 */    MCD::OPC_Decode, 198, 5, 22, // Opcode: i_comp_3reg__opc_sll__regs__regs__regs__
 /* 4389 */    MCD::OPC_FilterValue, 2, 90, 0, 0, // Skip to: 4484
 /* 4394 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4397 */    MCD::OPC_FilterValue, 0, 6, 5, 0, // Skip to: 5688
@@ -912,7 +912,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4465 */    MCD::OPC_Decode, 219, 5, 19, // Opcode: i_comp_3reg__opc_slt__regs__reg0__regs__
 /* 4469 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4480
 /* 4476 */    MCD::OPC_Decode, 223, 5, 20, // Opcode: i_comp_3reg__opc_slt__regs__regs__reg0__
-/* 4480 */    MCD::OPC_Decode, 225, 5, 21, // Opcode: i_comp_3reg__opc_slt__regs__regs__regs__
+/* 4480 */    MCD::OPC_Decode, 225, 5, 22, // Opcode: i_comp_3reg__opc_slt__regs__regs__regs__
 /* 4484 */    MCD::OPC_FilterValue, 3, 90, 0, 0, // Skip to: 4579
 /* 4489 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4492 */    MCD::OPC_FilterValue, 0, 167, 4, 0, // Skip to: 5688
@@ -931,7 +931,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4560 */    MCD::OPC_Decode, 246, 5, 19, // Opcode: i_comp_3reg__opc_sltu__regs__reg0__regs__
 /* 4564 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4575
 /* 4571 */    MCD::OPC_Decode, 250, 5, 20, // Opcode: i_comp_3reg__opc_sltu__regs__regs__reg0__
-/* 4575 */    MCD::OPC_Decode, 252, 5, 21, // Opcode: i_comp_3reg__opc_sltu__regs__regs__regs__
+/* 4575 */    MCD::OPC_Decode, 252, 5, 22, // Opcode: i_comp_3reg__opc_sltu__regs__regs__regs__
 /* 4579 */    MCD::OPC_FilterValue, 4, 90, 0, 0, // Skip to: 4674
 /* 4584 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4587 */    MCD::OPC_FilterValue, 0, 72, 4, 0, // Skip to: 5688
@@ -950,7 +950,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4655 */    MCD::OPC_Decode, 226, 6, 19, // Opcode: i_comp_3reg__opc_xor__regs__reg0__regs__
 /* 4659 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4670
 /* 4666 */    MCD::OPC_Decode, 230, 6, 20, // Opcode: i_comp_3reg__opc_xor__regs__regs__reg0__
-/* 4670 */    MCD::OPC_Decode, 232, 6, 22, // Opcode: i_comp_3reg__opc_xor__regs__regs__regs__
+/* 4670 */    MCD::OPC_Decode, 232, 6, 21, // Opcode: i_comp_3reg__opc_xor__regs__regs__regs__
 /* 4674 */    MCD::OPC_FilterValue, 5, 177, 0, 0, // Skip to: 4856
 /* 4679 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4682 */    MCD::OPC_FilterValue, 0, 82, 0, 0, // Skip to: 4769
@@ -969,7 +969,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4750 */    MCD::OPC_Decode, 172, 6, 19, // Opcode: i_comp_3reg__opc_srl__regs__reg0__regs__
 /* 4754 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4765
 /* 4761 */    MCD::OPC_Decode, 176, 6, 20, // Opcode: i_comp_3reg__opc_srl__regs__regs__reg0__
-/* 4765 */    MCD::OPC_Decode, 178, 6, 21, // Opcode: i_comp_3reg__opc_srl__regs__regs__regs__
+/* 4765 */    MCD::OPC_Decode, 178, 6, 22, // Opcode: i_comp_3reg__opc_srl__regs__regs__regs__
 /* 4769 */    MCD::OPC_FilterValue, 32, 146, 3, 0, // Skip to: 5688
 /* 4774 */    MCD::OPC_ExtractField, 7, 5,  // Inst{11-7} ...
 /* 4777 */    MCD::OPC_FilterValue, 0, 37, 0, 0, // Skip to: 4819
@@ -986,7 +986,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4837 */    MCD::OPC_Decode, 145, 6, 19, // Opcode: i_comp_3reg__opc_sra__regs__reg0__regs__
 /* 4841 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4852
 /* 4848 */    MCD::OPC_Decode, 149, 6, 20, // Opcode: i_comp_3reg__opc_sra__regs__regs__reg0__
-/* 4852 */    MCD::OPC_Decode, 151, 6, 21, // Opcode: i_comp_3reg__opc_sra__regs__regs__regs__
+/* 4852 */    MCD::OPC_Decode, 151, 6, 22, // Opcode: i_comp_3reg__opc_sra__regs__regs__regs__
 /* 4856 */    MCD::OPC_FilterValue, 6, 90, 0, 0, // Skip to: 4951
 /* 4861 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4864 */    MCD::OPC_FilterValue, 0, 51, 3, 0, // Skip to: 5688
@@ -1005,7 +1005,7 @@ static const uint8_t DecoderTable32[] = {
 /* 4932 */    MCD::OPC_Decode, 165, 5, 19, // Opcode: i_comp_3reg__opc_or__regs__reg0__regs__
 /* 4936 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 4947
 /* 4943 */    MCD::OPC_Decode, 169, 5, 20, // Opcode: i_comp_3reg__opc_or__regs__regs__reg0__
-/* 4947 */    MCD::OPC_Decode, 171, 5, 22, // Opcode: i_comp_3reg__opc_or__regs__regs__regs__
+/* 4947 */    MCD::OPC_Decode, 171, 5, 21, // Opcode: i_comp_3reg__opc_or__regs__regs__regs__
 /* 4951 */    MCD::OPC_FilterValue, 7, 220, 2, 0, // Skip to: 5688
 /* 4956 */    MCD::OPC_ExtractField, 25, 7,  // Inst{31-25} ...
 /* 4959 */    MCD::OPC_FilterValue, 0, 212, 2, 0, // Skip to: 5688
@@ -1024,7 +1024,7 @@ static const uint8_t DecoderTable32[] = {
 /* 5027 */    MCD::OPC_Decode, 138, 5, 19, // Opcode: i_comp_3reg__opc_and__regs__reg0__regs__
 /* 5031 */    MCD::OPC_CheckField, 20, 5, 0, 4, 0, 0, // Skip to: 5042
 /* 5038 */    MCD::OPC_Decode, 142, 5, 20, // Opcode: i_comp_3reg__opc_and__regs__regs__reg0__
-/* 5042 */    MCD::OPC_Decode, 144, 5, 22, // Opcode: i_comp_3reg__opc_and__regs__regs__regs__
+/* 5042 */    MCD::OPC_Decode, 144, 5, 21, // Opcode: i_comp_3reg__opc_and__regs__regs__regs__
 /* 5046 */    MCD::OPC_FilterValue, 55, 15, 0, 0, // Skip to: 5066
 /* 5051 */    MCD::OPC_CheckField, 7, 5, 0, 4, 0, 0, // Skip to: 5062
 /* 5058 */    MCD::OPC_Decode, 176, 13, 9, // Opcode: i_lui__opc_lui__reg0__imm20_s12__
@@ -1292,17 +1292,17 @@ static DecodeStatus decodeToMCInst(DecodeStatus S, unsigned Idx, InsnType insn, 
   case 21:
     tmp = fieldFromInstruction(insn, 7, 5);
     if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
-    tmp = fieldFromInstruction(insn, 15, 5);
-    if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
     tmp = fieldFromInstruction(insn, 20, 5);
+    if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
+    tmp = fieldFromInstruction(insn, 15, 5);
     if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
     return S;
   case 22:
     tmp = fieldFromInstruction(insn, 7, 5);
     if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
-    tmp = fieldFromInstruction(insn, 20, 5);
-    if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
     tmp = fieldFromInstruction(insn, 15, 5);
+    if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
+    tmp = fieldFromInstruction(insn, 20, 5);
     if (DecoderegsRegisterClass(MI, tmp, Address, Decoder) == MCDisassembler::Fail) { return MCDisassembler::Fail; }
     return S;
   case 23:

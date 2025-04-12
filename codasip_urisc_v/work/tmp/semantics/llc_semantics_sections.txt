@@ -931,7 +931,11 @@ i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
-        %4 = i32 0;
+        %6 = i32 regop(reg_2);
+        %7 = i32 regop(reg_1);
+        %5 = i32 mul(i32 %6, i32 %7);
+        %8 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %8);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
@@ -943,19 +947,19 @@ i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__
@@ -967,19 +971,19 @@ i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__
@@ -991,19 +995,19 @@ i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__
@@ -1015,19 +1019,19 @@ i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
-        %4 = i32 0;
+        %4 = i32 undef();
         regop(reg_0) = i32 %4;
 
 i_fence__opc_fence__opc_hint_fence__opc_hint_fence__

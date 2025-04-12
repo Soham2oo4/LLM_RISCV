@@ -112,30 +112,40 @@ int16_t dot_S7_8( int16_t *a, int16_t *b, int size) {
     return saturate_i16(acc);
 }
 
+// Inline function using custom instruction
+static inline int16_t mul_shift_s7_8(int16_t a, int16_t b) {
+    int16_t result;
+    asm volatile(
+        "hackaton_custom_instr_a %0, %1, %2"
+        : "=r"(result)
+        : "r"(a), "r"(b)
+    );
+    return result;
+}
 
-// ---------------------------------------------------------
-// 2) Integer matrix-vector multiply: out = mat(rows x cols) * vec(cols x 1)
-//    Both stored in S7_8; final result also in S7_8
-// ---------------------------------------------------------
-void matvec_mul_S7_8(int16_t *mat, // [rows * cols] in S7_8
-                   volatile int16_t *vec, // [cols] in S7_8
-                   int16_t       *out, // [rows] in S7_8
-                   int            rows,
-                   int            cols)
+
+
+// Matrix-vector multiply in S7.8 using custom instruction
+void matvec_mul_S7_8(int16_t *mat,             // [rows * cols] in S7.8
+                     volatile int16_t *vec,    // [cols] in S7.8
+                     int16_t *out,             // [rows] in S7.8
+                     int rows,
+                     int cols)
 {
     for (int r = 0; r < rows; r++) {
-        // Accumulate in 32-bit
         int32_t acc = 0;
         for (int c = 0; c < cols; c++) {
-            // S7_8 x S7_8 => Q16, then shift back to S7_8
-            int32_t mul = (int32_t)mat[r * cols + c] * (int32_t)vec[c];
-            // shift down by Q_SHIFT to return to S7_8
-            acc += (mul >> Q_SHIFT); // Truncating
+            // Use custom instruction for mul + shift
+            int16_t partial = mul_shift_s7_8(mat[r * cols + c], vec[c]);
+            acc += partial;
         }
-        // saturate to int16
+        // Saturate to int16
         out[r] = saturate_i16(acc);
     }
 }
+
+
+
 
 // ---------------------------------------------------------
 // 3) "Fake" Softmax in integer domain

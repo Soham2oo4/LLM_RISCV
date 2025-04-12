@@ -19,7 +19,7 @@ struct AvailableComponent {
   /// The list of libraries required when linking this component.
   const char *RequiredLibraries[6];
 } AvailableComponents[13] = {
-  { "all", 0, 1, { "nativecodegen", "engine", "native", "all-targets" } },
+  { "all", 0, 1, { "all-targets", "native", "nativecodegen", "engine" } },
   { "all-targets", 0, 1, { "codasip" } },
   { "codasip", 0, 1, { "codasipcustommodules", "codasipgenasmprinter", "codasipgeninfo", "codasipgendesc", "codasipgencodegen" } },
   { "codasipcustommodules", "libLLVMCodasipCustomModules.a", 1, { "target" } },

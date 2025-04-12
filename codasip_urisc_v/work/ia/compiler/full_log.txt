@@ -138,13 +138,14 @@ In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__: warnin
 
 In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__: warning: (BGW589): Has unused operands.
 
-In instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: warning: (BGW589): Has unused operands.
-
 In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: warning: (BGW564): All results of the instruction are undefined.
+The instruction could have become like this during processing.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__: warning: (BGW589): Has unused operands.
 
@@ -158,6 +159,9 @@ In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__: warnin
 
 In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__: warning: (BGW589): Has unused operands.
 
+In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__: warning: (BGW564): All results of the instruction are undefined.
+The instruction could have become like this during processing.
+
 In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__: warning: (BGW589): Has unused operands.
@@ -170,6 +174,9 @@ In instruction i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__reg0__: warnin
 
 In instruction i_ext_hackaton__opc_hackaton_custom_d__reg0__regs__regs__: warning: (BGW589): Has unused operands.
 
+In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__: warning: (BGW564): All results of the instruction are undefined.
+The instruction could have become like this during processing.
+
 In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__: warning: (BGW589): Has unused operands.
@@ -181,6 +188,9 @@ In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__: warnin
 In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__reg0__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_e__reg0__regs__regs__: warning: (BGW589): Has unused operands.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__: warning: (BGW564): All results of the instruction are undefined.
+The instruction could have become like this during processing.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__: warning: (BGW589): Has unused operands.
 

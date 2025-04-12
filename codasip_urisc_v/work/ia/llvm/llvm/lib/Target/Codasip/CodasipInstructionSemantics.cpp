@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-12
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-06 06:40:46
+ *                Date: 2025-04-12 09:03:18
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -53,34 +53,34 @@ llvm::SelectionDAG *llvm::GetCodasipPattern(const TargetMachine &TM,
   switch (icode) {
   case Codasip::i_call_reg_alias__regs__:
     if (lowlevel) {
-SDValue node0x1680e980 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x16202ce0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1680e790 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x16202ce0);
-SDValue node0x1642b6a0 = dag->getCopyToReg(node0x1680e790, dl, dag->getRegister(Codasip::rf_gpr_1, MVT::i32), node0x1680e980, SDValue());
+SDValue node0x383d99f0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x383fcdc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x383d9800 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x383fcdc0);
+SDValue node0x383d8da0 = dag->getCopyToReg(node0x383d9800, dl, dag->getRegister(Codasip::rf_gpr_1, MVT::i32), node0x383d99f0, SDValue());
 roots.reserve(2);
-roots.push_back(node0x1642b6a0);
-roots.push_back(node0x1680e790);
-dag->setRoot(node0x1642b6a0);
+roots.push_back(node0x383d8da0);
+roots.push_back(node0x383d9800);
+dag->setRoot(node0x383d8da0);
     } else     {
 dag->setRoot(entry);
     }
     break;
   case Codasip::i_jump_reg_alias__regs__:
     {
-SDValue node0x1657cd80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1657cb50 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x1657cd80);
+SDValue node0x38147d80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38147b50 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x38147d80);
 roots.reserve(1);
-roots.push_back(node0x1657cb50);
-dag->setRoot(node0x1657cb50);
+roots.push_back(node0x38147b50);
+dag->setRoot(node0x38147b50);
     }
     break;
   case Codasip::i_jmp_rel_alias__rel_addr20__:
     {
-SDValue node0x1657b520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x1657b7a0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x1657b520);
+SDValue node0x38146520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x381467a0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x38146520);
 roots.reserve(1);
-roots.push_back(node0x1657b7a0);
-dag->setRoot(node0x1657b7a0);
+roots.push_back(node0x381467a0);
+dag->setRoot(node0x381467a0);
     }
     break;
   case Codasip::i_get_pc_alias__reg0__:
@@ -91,13 +91,13 @@ dag->setRoot(entry);
     break;
   case Codasip::i_get_pc_alias__regs__:
     {
-SDValue node0x16794250 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x16561410 = dag->getConstant(-4LL, dl, MVT::i32);
-SDValue node0x16561630 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16794250, node0x16561410);
-SDValue node0x165613c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16561630, SDValue());
+SDValue node0x380d25c0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3812c410 = dag->getConstant(-4LL, dl, MVT::i32);
+SDValue node0x3812c630 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x380d25c0, node0x3812c410);
+SDValue node0x3812c3c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3812c630, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165613c0);
-dag->setRoot(node0x165613c0);
+roots.push_back(node0x3812c3c0);
+dag->setRoot(node0x3812c3c0);
     }
     break;
   case Codasip::i_mv_alias__reg0__reg0__:
@@ -108,20 +108,20 @@ dag->setRoot(entry);
     break;
   case Codasip::i_mv_alias__regs__reg0__:
     {
-SDValue node0x165fabc0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x165fab70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165fabc0, SDValue());
+SDValue node0x381d0060 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381d0010 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381d0060, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165fab70);
-dag->setRoot(node0x165fab70);
+roots.push_back(node0x381d0010);
+dag->setRoot(node0x381d0010);
     }
     break;
   case Codasip::i_mv_alias__regs__regs__:
     {
-SDValue node0x165fbc50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165fba00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165fbc50, SDValue());
+SDValue node0x381d10f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381d0ea0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381d10f0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165fba00);
-dag->setRoot(node0x165fba00);
+roots.push_back(node0x381d0ea0);
+dag->setRoot(node0x381d0ea0);
     }
     break;
   case Codasip::i_seqz_alias__reg0__reg0__:
@@ -132,22 +132,22 @@ dag->setRoot(entry);
     break;
   case Codasip::i_seqz_alias__regs__reg0__:
     {
-SDValue node0x16619b20 = dag->getConstant(1LL, dl, MVT::i32);
-SDValue node0x16619ad0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16619b20, SDValue());
+SDValue node0x381eefc0 = dag->getConstant(1LL, dl, MVT::i32);
+SDValue node0x381eef70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381eefc0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16619ad0);
-dag->setRoot(node0x16619ad0);
+roots.push_back(node0x381eef70);
+dag->setRoot(node0x381eef70);
     }
     break;
   case Codasip::i_seqz_alias__regs__regs__:
     {
-SDValue node0x1661aad0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1661ac50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1661ad00 = dag->getSetCC(dl, MVT::i32, node0x1661ac50, node0x1661aad0, ISD::SETEQ);
-SDValue node0x1661aa00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1661ad00, SDValue());
+SDValue node0x381eff70 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381f00f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381f01a0 = dag->getSetCC(dl, MVT::i32, node0x381f00f0, node0x381eff70, ISD::SETEQ);
+SDValue node0x381efea0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381f01a0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1661aa00);
-dag->setRoot(node0x1661aa00);
+roots.push_back(node0x381efea0);
+dag->setRoot(node0x381efea0);
     }
     break;
   case Codasip::i_snez_alias__reg0__reg0__:
@@ -158,34 +158,34 @@ dag->setRoot(entry);
     break;
   case Codasip::i_snez_alias__regs__reg0__:
     {
-SDValue node0x166246d0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16624680 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166246d0, SDValue());
+SDValue node0x381f9b70 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381f9b20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381f9b70, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16624680);
-dag->setRoot(node0x16624680);
+roots.push_back(node0x381f9b20);
+dag->setRoot(node0x381f9b20);
     }
     break;
   case Codasip::i_snez_alias__regs__regs__:
     {
-SDValue node0x166255e0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16625760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16625810 = dag->getSetCC(dl, MVT::i32, node0x16625760, node0x166255e0, ISD::SETNE);
-SDValue node0x16625510 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16625810, SDValue());
+SDValue node0x381faa80 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381fac00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381facb0 = dag->getSetCC(dl, MVT::i32, node0x381fac00, node0x381faa80, ISD::SETNE);
+SDValue node0x381fa9b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381facb0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16625510);
-dag->setRoot(node0x16625510);
+roots.push_back(node0x381fa9b0);
+dag->setRoot(node0x381fa9b0);
     }
     break;
   case Codasip::i_jalr__opc_jalr__regs__regs__simm12_simple__immspec_1_:
     {
-SDValue node0x1669da20 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x1669c160 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1669da20, SDValue());
-SDValue node0x1669dd90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1669ded0 = dag->getNode(ISD::BRIND, dl, MVT::Other, node0x1669c160, node0x1669dd90);
+SDValue node0x38273320 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x38271a60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38273320, SDValue());
+SDValue node0x38273690 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382737d0 = dag->getNode(ISD::BRIND, dl, MVT::Other, node0x38271a60, node0x38273690);
 roots.reserve(2);
-roots.push_back(node0x1669c160);
-roots.push_back(node0x1669ded0);
-dag->setRoot(node0x1669ded0);
+roots.push_back(node0x38271a60);
+roots.push_back(node0x382737d0);
+dag->setRoot(node0x382737d0);
     }
     break;
   case Codasip::i_call_rel_alias__rel_addr20__:
@@ -193,666 +193,666 @@ case Codasip::i_call_rel_alias__rel_addr20__ES:
 case Codasip::i_call_rel_alias__rel_addr20__MC:
 case Codasip::i_call_rel_alias__rel_addr20__BA:
     if (lowlevel) {
-SDValue node0x1680f760 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x1680f970 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x1680fbf0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x1680f970);
-SDValue node0x1680ee10 = dag->getCopyToReg(node0x1680fbf0, dl, dag->getRegister(Codasip::rf_gpr_1, MVT::i32), node0x1680f760, SDValue());
+SDValue node0x383da730 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x383da940 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x383dabc0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x383da940);
+SDValue node0x383d9e80 = dag->getCopyToReg(node0x383dabc0, dl, dag->getRegister(Codasip::rf_gpr_1, MVT::i32), node0x383da730, SDValue());
 roots.reserve(2);
-roots.push_back(node0x1680ee10);
-roots.push_back(node0x1680fbf0);
-dag->setRoot(node0x1680ee10);
+roots.push_back(node0x383d9e80);
+roots.push_back(node0x383dabc0);
+dag->setRoot(node0x383d9e80);
     } else     {
 dag->setRoot(entry);
     }
     break;
   case Codasip::i_jal_abs__opc_jal__reg0__rel_addr20__:
     {
-SDValue node0x16564330 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16564030 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16564330);
+SDValue node0x3812f330 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x3812f030 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x3812f330);
 roots.reserve(1);
-roots.push_back(node0x16564030);
-dag->setRoot(node0x16564030);
+roots.push_back(node0x3812f030);
+dag->setRoot(node0x3812f030);
     }
     break;
   case Codasip::i_jal_abs__opc_jal__regs__rel_addr20__:
     {
-SDValue node0x16564910 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x165638e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16564910, SDValue());
-SDValue node0x16564c80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x165648b0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x165638e0, node0x16564c80);
+SDValue node0x3812f910 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3812e8e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3812f910, SDValue());
+SDValue node0x3812fc80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3812f8b0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x3812e8e0, node0x3812fc80);
 roots.reserve(2);
-roots.push_back(node0x165638e0);
-roots.push_back(node0x165648b0);
-dag->setRoot(node0x165648b0);
+roots.push_back(node0x3812e8e0);
+roots.push_back(node0x3812f8b0);
+dag->setRoot(node0x3812f8b0);
     }
     break;
   case Codasip::i_control_conditional__opc_beq__reg0__reg0__rel_addr12__:
     {
-SDValue node0x16735900 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16735bb0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16735900);
+SDValue node0x382fd6c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x382fd970 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x382fd6c0);
 roots.reserve(1);
-roots.push_back(node0x16735bb0);
-dag->setRoot(node0x16735bb0);
+roots.push_back(node0x382fd970);
+dag->setRoot(node0x382fd970);
     }
     break;
   case Codasip::i_control_conditional__opc_beq__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16736e80 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16737000 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167370b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16737150 = dag->getSetCC(dl, MVT::iAny, node0x16737000, node0x16736e80, ISD::SETEQ);
-SDValue node0x16737370 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16737150, node0x167370b0);
+SDValue node0x382fec40 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382fedc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382fee70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x382fef10 = dag->getSetCC(dl, MVT::iAny, node0x382fedc0, node0x382fec40, ISD::SETEQ);
+SDValue node0x382ff130 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x382fef10, node0x382fee70);
 roots.reserve(1);
-roots.push_back(node0x16737370);
-dag->setRoot(node0x16737370);
+roots.push_back(node0x382ff130);
+dag->setRoot(node0x382ff130);
     } else     {
-SDValue node0x16736e80 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16737000 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167370b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16737150 = dag->getSetCC(dl, MVT::i32, node0x16737000, node0x16736e80, ISD::SETEQ);
-SDValue node0x16737370 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16737150, node0x167370b0);
+SDValue node0x382fec40 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382fedc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382fee70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x382fef10 = dag->getSetCC(dl, MVT::i32, node0x382fedc0, node0x382fec40, ISD::SETEQ);
+SDValue node0x382ff130 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x382fef10, node0x382fee70);
 roots.reserve(1);
-roots.push_back(node0x16737370);
-dag->setRoot(node0x16737370);
+roots.push_back(node0x382ff130);
+dag->setRoot(node0x382ff130);
     }
     break;
   case Codasip::i_control_conditional__opc_beq__regs__reg0__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16739820 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x167399a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16739a50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16739af0 = dag->getSetCC(dl, MVT::iAny, node0x167399a0, node0x16739820, ISD::SETEQ);
-SDValue node0x16739d10 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16739af0, node0x16739a50);
+SDValue node0x383015e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38301760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38301810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383018b0 = dag->getSetCC(dl, MVT::iAny, node0x38301760, node0x383015e0, ISD::SETEQ);
+SDValue node0x38301ad0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383018b0, node0x38301810);
 roots.reserve(1);
-roots.push_back(node0x16739d10);
-dag->setRoot(node0x16739d10);
+roots.push_back(node0x38301ad0);
+dag->setRoot(node0x38301ad0);
     } else     {
-SDValue node0x16739820 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x167399a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16739a50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16739af0 = dag->getSetCC(dl, MVT::i32, node0x167399a0, node0x16739820, ISD::SETEQ);
-SDValue node0x16739d10 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16739af0, node0x16739a50);
+SDValue node0x383015e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38301760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38301810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383018b0 = dag->getSetCC(dl, MVT::i32, node0x38301760, node0x383015e0, ISD::SETEQ);
+SDValue node0x38301ad0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383018b0, node0x38301810);
 roots.reserve(1);
-roots.push_back(node0x16739d10);
-dag->setRoot(node0x16739d10);
+roots.push_back(node0x38301ad0);
+dag->setRoot(node0x38301ad0);
     }
     break;
   case Codasip::i_control_conditional__opc_beq__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1673b490 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1673b540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1673b5f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1673b690 = dag->getSetCC(dl, MVT::iAny, node0x1673b540, node0x1673b490, ISD::SETEQ);
-SDValue node0x1673b8b0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1673b690, node0x1673b5f0);
+SDValue node0x38303250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38303300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x383033b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38303450 = dag->getSetCC(dl, MVT::iAny, node0x38303300, node0x38303250, ISD::SETEQ);
+SDValue node0x38303670 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38303450, node0x383033b0);
 roots.reserve(1);
-roots.push_back(node0x1673b8b0);
-dag->setRoot(node0x1673b8b0);
+roots.push_back(node0x38303670);
+dag->setRoot(node0x38303670);
     } else     {
-SDValue node0x1673b490 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1673b540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1673b5f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1673b690 = dag->getSetCC(dl, MVT::i32, node0x1673b540, node0x1673b490, ISD::SETEQ);
-SDValue node0x1673b8b0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1673b690, node0x1673b5f0);
+SDValue node0x38303250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38303300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x383033b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38303450 = dag->getSetCC(dl, MVT::i32, node0x38303300, node0x38303250, ISD::SETEQ);
+SDValue node0x38303670 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38303450, node0x383033b0);
 roots.reserve(1);
-roots.push_back(node0x1673b8b0);
-dag->setRoot(node0x1673b8b0);
+roots.push_back(node0x38303670);
+dag->setRoot(node0x38303670);
     }
     break;
   case Codasip::i_control_conditional__opc_bge__reg0__reg0__rel_addr12__:
     {
-SDValue node0x1673c810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x1673cac0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x1673c810);
+SDValue node0x383045d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x38304880 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x383045d0);
 roots.reserve(1);
-roots.push_back(node0x1673cac0);
-dag->setRoot(node0x1673cac0);
+roots.push_back(node0x38304880);
+dag->setRoot(node0x38304880);
     }
     break;
   case Codasip::i_control_conditional__opc_bge__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1673da20 = dag->getConstant(1LL, dl, MVT::i32);
-SDValue node0x1673dd80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1673de30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1673ded0 = dag->getSetCC(dl, MVT::iAny, node0x1673dd80, node0x1673da20, ISD::SETLT);
-SDValue node0x1673e0f0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1673ded0, node0x1673de30);
+SDValue node0x383057e0 = dag->getConstant(1LL, dl, MVT::i32);
+SDValue node0x38305b40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38305bf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38305c90 = dag->getSetCC(dl, MVT::iAny, node0x38305b40, node0x383057e0, ISD::SETLT);
+SDValue node0x38305eb0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38305c90, node0x38305bf0);
 roots.reserve(1);
-roots.push_back(node0x1673e0f0);
-dag->setRoot(node0x1673e0f0);
+roots.push_back(node0x38305eb0);
+dag->setRoot(node0x38305eb0);
     } else     {
-SDValue node0x1673da20 = dag->getConstant(1LL, dl, MVT::i32);
-SDValue node0x1673dd80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1673de30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1673ded0 = dag->getSetCC(dl, MVT::i32, node0x1673dd80, node0x1673da20, ISD::SETLT);
-SDValue node0x1673e0f0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1673ded0, node0x1673de30);
+SDValue node0x383057e0 = dag->getConstant(1LL, dl, MVT::i32);
+SDValue node0x38305b40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38305bf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38305c90 = dag->getSetCC(dl, MVT::i32, node0x38305b40, node0x383057e0, ISD::SETLT);
+SDValue node0x38305eb0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38305c90, node0x38305bf0);
 roots.reserve(1);
-roots.push_back(node0x1673e0f0);
-dag->setRoot(node0x1673e0f0);
+roots.push_back(node0x38305eb0);
+dag->setRoot(node0x38305eb0);
     }
     break;
   case Codasip::i_control_conditional__opc_bge__regs__reg0__rel_addr12__:
     if (lowlevel) {
-SDValue node0x167406e0 = dag->getConstant(-1LL, dl, MVT::i32);
-SDValue node0x167407c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16740870 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16740910 = dag->getSetCC(dl, MVT::iAny, node0x167407c0, node0x167406e0, ISD::SETGT);
-SDValue node0x16740b30 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16740910, node0x16740870);
+SDValue node0x383084a0 = dag->getConstant(-1LL, dl, MVT::i32);
+SDValue node0x38308580 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38308630 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383086d0 = dag->getSetCC(dl, MVT::iAny, node0x38308580, node0x383084a0, ISD::SETGT);
+SDValue node0x383088f0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383086d0, node0x38308630);
 roots.reserve(1);
-roots.push_back(node0x16740b30);
-dag->setRoot(node0x16740b30);
+roots.push_back(node0x383088f0);
+dag->setRoot(node0x383088f0);
     } else     {
-SDValue node0x167406e0 = dag->getConstant(-1LL, dl, MVT::i32);
-SDValue node0x167407c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16740870 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16740910 = dag->getSetCC(dl, MVT::i32, node0x167407c0, node0x167406e0, ISD::SETGT);
-SDValue node0x16740b30 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16740910, node0x16740870);
+SDValue node0x383084a0 = dag->getConstant(-1LL, dl, MVT::i32);
+SDValue node0x38308580 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38308630 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383086d0 = dag->getSetCC(dl, MVT::i32, node0x38308580, node0x383084a0, ISD::SETGT);
+SDValue node0x383088f0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383086d0, node0x38308630);
 roots.reserve(1);
-roots.push_back(node0x16740b30);
-dag->setRoot(node0x16740b30);
+roots.push_back(node0x383088f0);
+dag->setRoot(node0x383088f0);
     }
     break;
   case Codasip::i_control_conditional__opc_bge__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x167422b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16742360 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16742410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x167424b0 = dag->getSetCC(dl, MVT::iAny, node0x16742360, node0x167422b0, ISD::SETGE);
-SDValue node0x167426d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x167424b0, node0x16742410);
+SDValue node0x3830a070 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3830a120 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3830a1d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x3830a270 = dag->getSetCC(dl, MVT::iAny, node0x3830a120, node0x3830a070, ISD::SETGE);
+SDValue node0x3830a490 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3830a270, node0x3830a1d0);
 roots.reserve(1);
-roots.push_back(node0x167426d0);
-dag->setRoot(node0x167426d0);
+roots.push_back(node0x3830a490);
+dag->setRoot(node0x3830a490);
     } else     {
-SDValue node0x167422b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16742360 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16742410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x167424b0 = dag->getSetCC(dl, MVT::i32, node0x16742360, node0x167422b0, ISD::SETGE);
-SDValue node0x167426d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x167424b0, node0x16742410);
+SDValue node0x3830a070 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3830a120 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3830a1d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x3830a270 = dag->getSetCC(dl, MVT::i32, node0x3830a120, node0x3830a070, ISD::SETGE);
+SDValue node0x3830a490 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3830a270, node0x3830a1d0);
 roots.reserve(1);
-roots.push_back(node0x167426d0);
-dag->setRoot(node0x167426d0);
+roots.push_back(node0x3830a490);
+dag->setRoot(node0x3830a490);
     }
     break;
   case Codasip::i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__:
     {
-SDValue node0x16743630 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x167438e0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16743630);
+SDValue node0x3830b3f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x3830b6a0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x3830b3f0);
 roots.reserve(1);
-roots.push_back(node0x167438e0);
-dag->setRoot(node0x167438e0);
+roots.push_back(node0x3830b6a0);
+dag->setRoot(node0x3830b6a0);
     }
     break;
   case Codasip::i_control_conditional__opc_bgeu__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16744a20 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16744ba0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16744c50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16744cf0 = dag->getSetCC(dl, MVT::iAny, node0x16744ba0, node0x16744a20, ISD::SETEQ);
-SDValue node0x16744f10 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16744cf0, node0x16744c50);
+SDValue node0x3830c7e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3830c960 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3830ca10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3830cab0 = dag->getSetCC(dl, MVT::iAny, node0x3830c960, node0x3830c7e0, ISD::SETEQ);
+SDValue node0x3830ccd0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3830cab0, node0x3830ca10);
 roots.reserve(1);
-roots.push_back(node0x16744f10);
-dag->setRoot(node0x16744f10);
+roots.push_back(node0x3830ccd0);
+dag->setRoot(node0x3830ccd0);
     } else     {
-SDValue node0x16744a20 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16744ba0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16744c50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16744cf0 = dag->getSetCC(dl, MVT::i32, node0x16744ba0, node0x16744a20, ISD::SETEQ);
-SDValue node0x16744f10 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16744cf0, node0x16744c50);
+SDValue node0x3830c7e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3830c960 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3830ca10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3830cab0 = dag->getSetCC(dl, MVT::i32, node0x3830c960, node0x3830c7e0, ISD::SETEQ);
+SDValue node0x3830ccd0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3830cab0, node0x3830ca10);
 roots.reserve(1);
-roots.push_back(node0x16744f10);
-dag->setRoot(node0x16744f10);
+roots.push_back(node0x3830ccd0);
+dag->setRoot(node0x3830ccd0);
     }
     break;
   case Codasip::i_control_conditional__opc_bgeu__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16748fc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16749070 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16749120 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x167491c0 = dag->getSetCC(dl, MVT::iAny, node0x16749070, node0x16748fc0, ISD::SETUGE);
-SDValue node0x167493e0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x167491c0, node0x16749120);
+SDValue node0x38310d80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38310e30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38310ee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38310f80 = dag->getSetCC(dl, MVT::iAny, node0x38310e30, node0x38310d80, ISD::SETUGE);
+SDValue node0x383111a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38310f80, node0x38310ee0);
 roots.reserve(1);
-roots.push_back(node0x167493e0);
-dag->setRoot(node0x167493e0);
+roots.push_back(node0x383111a0);
+dag->setRoot(node0x383111a0);
     } else     {
-SDValue node0x16748fc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16749070 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16749120 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x167491c0 = dag->getSetCC(dl, MVT::i32, node0x16749070, node0x16748fc0, ISD::SETUGE);
-SDValue node0x167493e0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x167491c0, node0x16749120);
+SDValue node0x38310d80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38310e30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38310ee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38310f80 = dag->getSetCC(dl, MVT::i32, node0x38310e30, node0x38310d80, ISD::SETUGE);
+SDValue node0x383111a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38310f80, node0x38310ee0);
 roots.reserve(1);
-roots.push_back(node0x167493e0);
-dag->setRoot(node0x167493e0);
+roots.push_back(node0x383111a0);
+dag->setRoot(node0x383111a0);
     }
     break;
   case Codasip::i_control_conditional__opc_blt__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1674b020 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1674b1a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674b250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1674b2f0 = dag->getSetCC(dl, MVT::iAny, node0x1674b1a0, node0x1674b020, ISD::SETGT);
-SDValue node0x1674b510 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674b2f0, node0x1674b250);
+SDValue node0x38312de0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38312f60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38313010 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383130b0 = dag->getSetCC(dl, MVT::iAny, node0x38312f60, node0x38312de0, ISD::SETGT);
+SDValue node0x383132d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383130b0, node0x38313010);
 roots.reserve(1);
-roots.push_back(node0x1674b510);
-dag->setRoot(node0x1674b510);
+roots.push_back(node0x383132d0);
+dag->setRoot(node0x383132d0);
     } else     {
-SDValue node0x1674b020 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1674b1a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674b250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1674b2f0 = dag->getSetCC(dl, MVT::i32, node0x1674b1a0, node0x1674b020, ISD::SETGT);
-SDValue node0x1674b510 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674b2f0, node0x1674b250);
+SDValue node0x38312de0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38312f60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38313010 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x383130b0 = dag->getSetCC(dl, MVT::i32, node0x38312f60, node0x38312de0, ISD::SETGT);
+SDValue node0x383132d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x383130b0, node0x38313010);
 roots.reserve(1);
-roots.push_back(node0x1674b510);
-dag->setRoot(node0x1674b510);
+roots.push_back(node0x383132d0);
+dag->setRoot(node0x383132d0);
     }
     break;
   case Codasip::i_control_conditional__opc_blt__regs__reg0__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1674da10 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1674db90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674dc40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1674dce0 = dag->getSetCC(dl, MVT::iAny, node0x1674db90, node0x1674da10, ISD::SETLT);
-SDValue node0x1674df00 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674dce0, node0x1674dc40);
+SDValue node0x383157d0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38315950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38315a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38315aa0 = dag->getSetCC(dl, MVT::iAny, node0x38315950, node0x383157d0, ISD::SETLT);
+SDValue node0x38315cc0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38315aa0, node0x38315a00);
 roots.reserve(1);
-roots.push_back(node0x1674df00);
-dag->setRoot(node0x1674df00);
+roots.push_back(node0x38315cc0);
+dag->setRoot(node0x38315cc0);
     } else     {
-SDValue node0x1674da10 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1674db90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674dc40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1674dce0 = dag->getSetCC(dl, MVT::i32, node0x1674db90, node0x1674da10, ISD::SETLT);
-SDValue node0x1674df00 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674dce0, node0x1674dc40);
+SDValue node0x383157d0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38315950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38315a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38315aa0 = dag->getSetCC(dl, MVT::i32, node0x38315950, node0x383157d0, ISD::SETLT);
+SDValue node0x38315cc0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38315aa0, node0x38315a00);
 roots.reserve(1);
-roots.push_back(node0x1674df00);
-dag->setRoot(node0x1674df00);
+roots.push_back(node0x38315cc0);
+dag->setRoot(node0x38315cc0);
     }
     break;
   case Codasip::i_control_conditional__opc_blt__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1674f680 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1674f730 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674f7e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1674f880 = dag->getSetCC(dl, MVT::iAny, node0x1674f730, node0x1674f680, ISD::SETLT);
-SDValue node0x1674faa0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674f880, node0x1674f7e0);
+SDValue node0x38317440 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383174f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x383175a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38317640 = dag->getSetCC(dl, MVT::iAny, node0x383174f0, node0x38317440, ISD::SETLT);
+SDValue node0x38317860 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38317640, node0x383175a0);
 roots.reserve(1);
-roots.push_back(node0x1674faa0);
-dag->setRoot(node0x1674faa0);
+roots.push_back(node0x38317860);
+dag->setRoot(node0x38317860);
     } else     {
-SDValue node0x1674f680 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1674f730 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1674f7e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1674f880 = dag->getSetCC(dl, MVT::i32, node0x1674f730, node0x1674f680, ISD::SETLT);
-SDValue node0x1674faa0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1674f880, node0x1674f7e0);
+SDValue node0x38317440 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383174f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x383175a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38317640 = dag->getSetCC(dl, MVT::i32, node0x383174f0, node0x38317440, ISD::SETLT);
+SDValue node0x38317860 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38317640, node0x383175a0);
 roots.reserve(1);
-roots.push_back(node0x1674faa0);
-dag->setRoot(node0x1674faa0);
+roots.push_back(node0x38317860);
+dag->setRoot(node0x38317860);
     }
     break;
   case Codasip::i_control_conditional__opc_bltu__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16751690 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16751810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167518c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16751960 = dag->getSetCC(dl, MVT::iAny, node0x16751810, node0x16751690, ISD::SETNE);
-SDValue node0x16751b80 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16751960, node0x167518c0);
+SDValue node0x38319450 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x383195d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38319680 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38319720 = dag->getSetCC(dl, MVT::iAny, node0x383195d0, node0x38319450, ISD::SETNE);
+SDValue node0x38319940 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38319720, node0x38319680);
 roots.reserve(1);
-roots.push_back(node0x16751b80);
-dag->setRoot(node0x16751b80);
+roots.push_back(node0x38319940);
+dag->setRoot(node0x38319940);
     } else     {
-SDValue node0x16751690 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16751810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167518c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16751960 = dag->getSetCC(dl, MVT::i32, node0x16751810, node0x16751690, ISD::SETNE);
-SDValue node0x16751b80 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16751960, node0x167518c0);
+SDValue node0x38319450 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x383195d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38319680 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38319720 = dag->getSetCC(dl, MVT::i32, node0x383195d0, node0x38319450, ISD::SETNE);
+SDValue node0x38319940 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38319720, node0x38319680);
 roots.reserve(1);
-roots.push_back(node0x16751b80);
-dag->setRoot(node0x16751b80);
+roots.push_back(node0x38319940);
+dag->setRoot(node0x38319940);
     }
     break;
   case Codasip::i_control_conditional__opc_bltu__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16755480 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16755530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167555e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16755680 = dag->getSetCC(dl, MVT::iAny, node0x16755530, node0x16755480, ISD::SETULT);
-SDValue node0x167558a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16755680, node0x167555e0);
+SDValue node0x3831d240 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3831d2f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3831d3a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x3831d440 = dag->getSetCC(dl, MVT::iAny, node0x3831d2f0, node0x3831d240, ISD::SETULT);
+SDValue node0x3831d660 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3831d440, node0x3831d3a0);
 roots.reserve(1);
-roots.push_back(node0x167558a0);
-dag->setRoot(node0x167558a0);
+roots.push_back(node0x3831d660);
+dag->setRoot(node0x3831d660);
     } else     {
-SDValue node0x16755480 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16755530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x167555e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16755680 = dag->getSetCC(dl, MVT::i32, node0x16755530, node0x16755480, ISD::SETULT);
-SDValue node0x167558a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16755680, node0x167555e0);
+SDValue node0x3831d240 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3831d2f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3831d3a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x3831d440 = dag->getSetCC(dl, MVT::i32, node0x3831d2f0, node0x3831d240, ISD::SETULT);
+SDValue node0x3831d660 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3831d440, node0x3831d3a0);
 roots.reserve(1);
-roots.push_back(node0x167558a0);
-dag->setRoot(node0x167558a0);
+roots.push_back(node0x3831d660);
+dag->setRoot(node0x3831d660);
     }
     break;
   case Codasip::i_control_conditional__opc_bne__reg0__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16757530 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x167576b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16757760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16757800 = dag->getSetCC(dl, MVT::iAny, node0x167576b0, node0x16757530, ISD::SETNE);
-SDValue node0x16757a20 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16757800, node0x16757760);
+SDValue node0x3831f2f0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3831f470 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3831f520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3831f5c0 = dag->getSetCC(dl, MVT::iAny, node0x3831f470, node0x3831f2f0, ISD::SETNE);
+SDValue node0x3831f7e0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3831f5c0, node0x3831f520);
 roots.reserve(1);
-roots.push_back(node0x16757a20);
-dag->setRoot(node0x16757a20);
+roots.push_back(node0x3831f7e0);
+dag->setRoot(node0x3831f7e0);
     } else     {
-SDValue node0x16757530 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x167576b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16757760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16757800 = dag->getSetCC(dl, MVT::i32, node0x167576b0, node0x16757530, ISD::SETNE);
-SDValue node0x16757a20 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16757800, node0x16757760);
+SDValue node0x3831f2f0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3831f470 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3831f520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3831f5c0 = dag->getSetCC(dl, MVT::i32, node0x3831f470, node0x3831f2f0, ISD::SETNE);
+SDValue node0x3831f7e0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x3831f5c0, node0x3831f520);
 roots.reserve(1);
-roots.push_back(node0x16757a20);
-dag->setRoot(node0x16757a20);
+roots.push_back(node0x3831f7e0);
+dag->setRoot(node0x3831f7e0);
     }
     break;
   case Codasip::i_control_conditional__opc_bne__regs__reg0__rel_addr12__:
     if (lowlevel) {
-SDValue node0x16759f20 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1675a0a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1675a150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1675a1f0 = dag->getSetCC(dl, MVT::iAny, node0x1675a0a0, node0x16759f20, ISD::SETNE);
-SDValue node0x1675a410 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1675a1f0, node0x1675a150);
+SDValue node0x38321ce0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38321e60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38321f10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38321fb0 = dag->getSetCC(dl, MVT::iAny, node0x38321e60, node0x38321ce0, ISD::SETNE);
+SDValue node0x383221d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38321fb0, node0x38321f10);
 roots.reserve(1);
-roots.push_back(node0x1675a410);
-dag->setRoot(node0x1675a410);
+roots.push_back(node0x383221d0);
+dag->setRoot(node0x383221d0);
     } else     {
-SDValue node0x16759f20 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1675a0a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1675a150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1675a1f0 = dag->getSetCC(dl, MVT::i32, node0x1675a0a0, node0x16759f20, ISD::SETNE);
-SDValue node0x1675a410 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1675a1f0, node0x1675a150);
+SDValue node0x38321ce0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38321e60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38321f10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x38321fb0 = dag->getSetCC(dl, MVT::i32, node0x38321e60, node0x38321ce0, ISD::SETNE);
+SDValue node0x383221d0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38321fb0, node0x38321f10);
 roots.reserve(1);
-roots.push_back(node0x1675a410);
-dag->setRoot(node0x1675a410);
+roots.push_back(node0x383221d0);
+dag->setRoot(node0x383221d0);
     }
     break;
   case Codasip::i_control_conditional__opc_bne__regs__regs__rel_addr12__:
     if (lowlevel) {
-SDValue node0x1675bb90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1675bc40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1675bcf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1675bd90 = dag->getSetCC(dl, MVT::iAny, node0x1675bc40, node0x1675bb90, ISD::SETNE);
-SDValue node0x1675bfb0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1675bd90, node0x1675bcf0);
+SDValue node0x38323950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38323a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38323ab0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38323b50 = dag->getSetCC(dl, MVT::iAny, node0x38323a00, node0x38323950, ISD::SETNE);
+SDValue node0x38323d70 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38323b50, node0x38323ab0);
 roots.reserve(1);
-roots.push_back(node0x1675bfb0);
-dag->setRoot(node0x1675bfb0);
+roots.push_back(node0x38323d70);
+dag->setRoot(node0x38323d70);
     } else     {
-SDValue node0x1675bb90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1675bc40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1675bcf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x1675bd90 = dag->getSetCC(dl, MVT::i32, node0x1675bc40, node0x1675bb90, ISD::SETNE);
-SDValue node0x1675bfb0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x1675bd90, node0x1675bcf0);
+SDValue node0x38323950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38323a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38323ab0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38323b50 = dag->getSetCC(dl, MVT::i32, node0x38323a00, node0x38323950, ISD::SETNE);
+SDValue node0x38323d70 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38323b50, node0x38323ab0);
 roots.reserve(1);
-roots.push_back(node0x1675bfb0);
-dag->setRoot(node0x1675bfb0);
+roots.push_back(node0x38323d70);
+dag->setRoot(node0x38323d70);
     }
     break;
   case Codasip::i_control_conditional__opc_bge__regs__regs__rel_addr12__swappedCmpClone0__:
     if (lowlevel) {
-SDValue node0x166904c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16690720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166907d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16690880 = dag->getSetCC(dl, MVT::iAny, node0x16690720, node0x166907d0, ISD::SETLE);
-SDValue node0x16690920 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16690880, node0x166904c0);
+SDValue node0x38265dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38266020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382660d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38266180 = dag->getSetCC(dl, MVT::iAny, node0x38266020, node0x382660d0, ISD::SETLE);
+SDValue node0x38266220 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38266180, node0x38265dc0);
 roots.reserve(1);
-roots.push_back(node0x16690920);
-dag->setRoot(node0x16690920);
+roots.push_back(node0x38266220);
+dag->setRoot(node0x38266220);
     } else     {
-SDValue node0x166904c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16690720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166907d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16690880 = dag->getSetCC(dl, MVT::i32, node0x16690720, node0x166907d0, ISD::SETLE);
-SDValue node0x16690920 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16690880, node0x166904c0);
+SDValue node0x38265dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38266020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382660d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38266180 = dag->getSetCC(dl, MVT::i32, node0x38266020, node0x382660d0, ISD::SETLE);
+SDValue node0x38266220 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38266180, node0x38265dc0);
 roots.reserve(1);
-roots.push_back(node0x16690920);
-dag->setRoot(node0x16690920);
+roots.push_back(node0x38266220);
+dag->setRoot(node0x38266220);
     }
     break;
   case Codasip::i_control_conditional__opc_bgeu__regs__regs__rel_addr12__swappedCmpClone0__:
     if (lowlevel) {
-SDValue node0x166913e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16691670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16691720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166917d0 = dag->getSetCC(dl, MVT::iAny, node0x16691670, node0x16691720, ISD::SETULE);
-SDValue node0x166918a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x166917d0, node0x166913e0);
+SDValue node0x38266ce0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38266f70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38267020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382670d0 = dag->getSetCC(dl, MVT::iAny, node0x38266f70, node0x38267020, ISD::SETULE);
+SDValue node0x382671a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x382670d0, node0x38266ce0);
 roots.reserve(1);
-roots.push_back(node0x166918a0);
-dag->setRoot(node0x166918a0);
+roots.push_back(node0x382671a0);
+dag->setRoot(node0x382671a0);
     } else     {
-SDValue node0x166913e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16691670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16691720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166917d0 = dag->getSetCC(dl, MVT::i32, node0x16691670, node0x16691720, ISD::SETULE);
-SDValue node0x166918a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x166917d0, node0x166913e0);
+SDValue node0x38266ce0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38266f70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38267020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382670d0 = dag->getSetCC(dl, MVT::i32, node0x38266f70, node0x38267020, ISD::SETULE);
+SDValue node0x382671a0 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x382670d0, node0x38266ce0);
 roots.reserve(1);
-roots.push_back(node0x166918a0);
-dag->setRoot(node0x166918a0);
+roots.push_back(node0x382671a0);
+dag->setRoot(node0x382671a0);
     }
     break;
   case Codasip::i_control_conditional__opc_blt__regs__regs__rel_addr12__swappedCmpClone0__:
     if (lowlevel) {
-SDValue node0x166922b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16692540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166925f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166926a0 = dag->getSetCC(dl, MVT::iAny, node0x16692540, node0x166925f0, ISD::SETGT);
-SDValue node0x16692770 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x166926a0, node0x166922b0);
+SDValue node0x38267bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38267e40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38267ef0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38267fa0 = dag->getSetCC(dl, MVT::iAny, node0x38267e40, node0x38267ef0, ISD::SETGT);
+SDValue node0x38268070 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38267fa0, node0x38267bb0);
 roots.reserve(1);
-roots.push_back(node0x16692770);
-dag->setRoot(node0x16692770);
+roots.push_back(node0x38268070);
+dag->setRoot(node0x38268070);
     } else     {
-SDValue node0x166922b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16692540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166925f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166926a0 = dag->getSetCC(dl, MVT::i32, node0x16692540, node0x166925f0, ISD::SETGT);
-SDValue node0x16692770 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x166926a0, node0x166922b0);
+SDValue node0x38267bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38267e40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38267ef0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38267fa0 = dag->getSetCC(dl, MVT::i32, node0x38267e40, node0x38267ef0, ISD::SETGT);
+SDValue node0x38268070 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38267fa0, node0x38267bb0);
 roots.reserve(1);
-roots.push_back(node0x16692770);
-dag->setRoot(node0x16692770);
+roots.push_back(node0x38268070);
+dag->setRoot(node0x38268070);
     }
     break;
   case Codasip::i_control_conditional__opc_bltu__regs__regs__rel_addr12__swappedCmpClone0__:
     if (lowlevel) {
-SDValue node0x16693180 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16693410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166934c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16693570 = dag->getSetCC(dl, MVT::iAny, node0x16693410, node0x166934c0, ISD::SETUGT);
-SDValue node0x16693640 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16693570, node0x16693180);
+SDValue node0x38268a80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38268d10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38268dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38268e70 = dag->getSetCC(dl, MVT::iAny, node0x38268d10, node0x38268dc0, ISD::SETUGT);
+SDValue node0x38268f40 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38268e70, node0x38268a80);
 roots.reserve(1);
-roots.push_back(node0x16693640);
-dag->setRoot(node0x16693640);
+roots.push_back(node0x38268f40);
+dag->setRoot(node0x38268f40);
     } else     {
-SDValue node0x16693180 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
-SDValue node0x16693410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166934c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16693570 = dag->getSetCC(dl, MVT::i32, node0x16693410, node0x166934c0, ISD::SETUGT);
-SDValue node0x16693640 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x16693570, node0x16693180);
+SDValue node0x38268a80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::Other);
+SDValue node0x38268d10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38268dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38268e70 = dag->getSetCC(dl, MVT::i32, node0x38268d10, node0x38268dc0, ISD::SETUGT);
+SDValue node0x38268f40 = dag->getNode(ISD::BRCOND, dl, MVT::Other, entry, node0x38268e70, node0x38268a80);
 roots.reserve(1);
-roots.push_back(node0x16693640);
-dag->setRoot(node0x16693640);
+roots.push_back(node0x38268f40);
+dag->setRoot(node0x38268f40);
     }
     break;
   case Codasip::i_jalr__opc_jalr__reg0__reg0__simm12_simple__:
     {
-SDValue node0x16566c60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16566990 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16566c60);
+SDValue node0x38131c60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x38131990 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x38131c60);
 roots.reserve(1);
-roots.push_back(node0x16566990);
-dag->setRoot(node0x16566990);
+roots.push_back(node0x38131990);
+dag->setRoot(node0x38131990);
     }
     break;
   case Codasip::i_jalr__opc_jalr__regs__reg0__simm12_simple__:
     {
-SDValue node0x16571220 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x16570940 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16571220, SDValue());
-SDValue node0x16571590 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x165711f0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x16570940, node0x16571590);
+SDValue node0x3813c220 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3813b940 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3813c220, SDValue());
+SDValue node0x3813c590 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3813c1f0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x3813b940, node0x3813c590);
 roots.reserve(2);
-roots.push_back(node0x16570940);
-roots.push_back(node0x165711f0);
-dag->setRoot(node0x165711f0);
+roots.push_back(node0x3813b940);
+roots.push_back(node0x3813c1f0);
+dag->setRoot(node0x3813c1f0);
     }
     break;
   case Codasip::i_auipc__opc_auipc__regs__imm20_s12__:
     {
-SDValue node0x16204770 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x16204a60 = dag->getConstant(-4LL, dl, MVT::i32);
-SDValue node0x16204c80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16204d20 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16204770, node0x16204c80);
-SDValue node0x16204db0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16204d20, node0x16204a60);
-SDValue node0x16204720 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16204db0, SDValue());
+SDValue node0x383bd020 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x37df6230 = dag->getConstant(-4LL, dl, MVT::i32);
+SDValue node0x383bc620 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383bc6c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x383bd020, node0x383bc620);
+SDValue node0x37e03110 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x383bc6c0, node0x37df6230);
+SDValue node0x383bcfd0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e03110, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16204720);
-dag->setRoot(node0x16204720);
+roots.push_back(node0x383bcfd0);
+dag->setRoot(node0x383bcfd0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__reg0__simm12_simple__:
     {
-SDValue node0x16446c00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164459f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16446c00, SDValue());
+SDValue node0x37de2330 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37de1120 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37de2330, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164459f0);
-dag->setRoot(node0x164459f0);
+roots.push_back(node0x37de1120);
+dag->setRoot(node0x37de1120);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__:
     {
-SDValue node0x164161b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x161ff650 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x161ff6f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x164161b0, node0x161ff650);
-SDValue node0x161fe170 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x161ff6f0, SDValue());
+SDValue node0x380205f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3801d460 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3801d500 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x380205f0, node0x3801d460);
+SDValue node0x3801bf80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3801d500, SDValue());
 roots.reserve(1);
-roots.push_back(node0x161fe170);
-dag->setRoot(node0x161fe170);
+roots.push_back(node0x3801bf80);
+dag->setRoot(node0x3801bf80);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_andi__regs__regs__simm12_simple__:
     {
-SDValue node0x16220f30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16220fe0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16221080 = dag->getNode(ISD::AND, dl, MVT::i32, node0x16220f30, node0x16220fe0);
-SDValue node0x1621fa70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16221080, SDValue());
+SDValue node0x383dc330 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383dc3e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383dc480 = dag->getNode(ISD::AND, dl, MVT::i32, node0x383dc330, node0x383dc3e0);
+SDValue node0x3837af80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383dc480, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1621fa70);
-dag->setRoot(node0x1621fa70);
+roots.push_back(node0x3837af80);
+dag->setRoot(node0x3837af80);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__reg0__simm12_simple__:
     {
-SDValue node0x1622be10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1622aca0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1622be10, SDValue());
+SDValue node0x383e7210 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383e60a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383e7210, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622aca0);
-dag->setRoot(node0x1622aca0);
+roots.push_back(node0x383e60a0);
+dag->setRoot(node0x383e60a0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__regs__simm12_simple__:
     {
-SDValue node0x167f00f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x167f01a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x167f0240 = dag->getNode(ISD::OR, dl, MVT::i32, node0x167f00f0, node0x167f01a0);
-SDValue node0x1622eb00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x167f0240, SDValue());
+SDValue node0x383eb3b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383eb460 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383eb500 = dag->getNode(ISD::OR, dl, MVT::i32, node0x383eb3b0, node0x383eb460);
+SDValue node0x383e9f00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383eb500, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622eb00);
-dag->setRoot(node0x1622eb00);
+roots.push_back(node0x383e9f00);
+dag->setRoot(node0x383e9f00);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__:
     {
-SDValue node0x164544a0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16454580 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16454620 = dag->getSetCC(dl, MVT::i32, node0x16454580, node0x164544a0, ISD::SETGT);
-SDValue node0x164531c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16454620, SDValue());
+SDValue node0x383f6960 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x383f6a40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383f6ae0 = dag->getSetCC(dl, MVT::i32, node0x383f6a40, node0x383f6960, ISD::SETGT);
+SDValue node0x383f5680 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383f6ae0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164531c0);
-dag->setRoot(node0x164531c0);
+roots.push_back(node0x383f5680);
+dag->setRoot(node0x383f5680);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__regs__simm12_simple__:
     {
-SDValue node0x16458ac0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16458b70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16458c10 = dag->getSetCC(dl, MVT::i32, node0x16458ac0, node0x16458b70, ISD::SETLT);
-SDValue node0x164574b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16458c10, SDValue());
+SDValue node0x383faf80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383fb030 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383fb0d0 = dag->getSetCC(dl, MVT::i32, node0x383faf80, node0x383fb030, ISD::SETLT);
+SDValue node0x383f9970 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383fb0d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164574b0);
-dag->setRoot(node0x164574b0);
+roots.push_back(node0x383f9970);
+dag->setRoot(node0x383f9970);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__:
     {
-SDValue node0x164640e0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164641c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16464260 = dag->getSetCC(dl, MVT::i32, node0x164641c0, node0x164640e0, ISD::SETNE);
-SDValue node0x16462e00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16464260, SDValue());
+SDValue node0x3802c1d0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3802c2b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3802c350 = dag->getSetCC(dl, MVT::i32, node0x3802c2b0, node0x3802c1d0, ISD::SETNE);
+SDValue node0x3802aef0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3802c350, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16462e00);
-dag->setRoot(node0x16462e00);
+roots.push_back(node0x3802aef0);
+dag->setRoot(node0x3802aef0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_simple__:
     {
-SDValue node0x16468700 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164687b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16468850 = dag->getSetCC(dl, MVT::i32, node0x16468700, node0x164687b0, ISD::SETULT);
-SDValue node0x164670f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16468850, SDValue());
+SDValue node0x380307f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x380308a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38030940 = dag->getSetCC(dl, MVT::i32, node0x380307f0, node0x380308a0, ISD::SETULT);
+SDValue node0x3802f1e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38030940, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164670f0);
-dag->setRoot(node0x164670f0);
+roots.push_back(node0x3802f1e0);
+dag->setRoot(node0x3802f1e0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__reg0__simm12_simple__:
     {
-SDValue node0x16473a10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16472800 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16473a10, SDValue());
+SDValue node0x3803bb00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3803a8f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803bb00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16472800);
-dag->setRoot(node0x16472800);
+roots.push_back(node0x3803a8f0);
+dag->setRoot(node0x3803a8f0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__regs__simm12_simple__:
     {
-SDValue node0x16477cf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16477da0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16477e40 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x16477cf0, node0x16477da0);
-SDValue node0x164767a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16477e40, SDValue());
+SDValue node0x3803fde0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3803fe90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3803ff30 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x3803fde0, node0x3803fe90);
+SDValue node0x3803e890 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803ff30, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164767a0);
-dag->setRoot(node0x164767a0);
+roots.push_back(node0x3803e890);
+dag->setRoot(node0x3803e890);
     }
     break;
   case Codasip::i_comp_2reg_imm_shift__opc_slli__regs__regs__shift_imm__:
     {
-SDValue node0x1647cbb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1647cc60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1647cd00 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x1647cbb0, node0x1647cc60);
-SDValue node0x1647c700 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1647cd00, SDValue());
+SDValue node0x38044ca0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38044d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38044df0 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x38044ca0, node0x38044d50);
+SDValue node0x380447f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38044df0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1647c700);
-dag->setRoot(node0x1647c700);
+roots.push_back(node0x380447f0);
+dag->setRoot(node0x380447f0);
     }
     break;
   case Codasip::i_comp_2reg_imm_shift__opc_srai__regs__regs__shift_imm__:
     {
-SDValue node0x16481cd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16481d80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16481e20 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x16481cd0, node0x16481d80);
-SDValue node0x16481820 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16481e20, SDValue());
+SDValue node0x38049dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38049e70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38049f10 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x38049dc0, node0x38049e70);
+SDValue node0x38049910 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38049f10, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16481820);
-dag->setRoot(node0x16481820);
+roots.push_back(node0x38049910);
+dag->setRoot(node0x38049910);
     }
     break;
   case Codasip::i_comp_2reg_imm_shift__opc_srli__regs__regs__shift_imm__:
     {
-SDValue node0x16486df0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16486ea0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16486f40 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x16486df0, node0x16486ea0);
-SDValue node0x16486940 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16486f40, SDValue());
+SDValue node0x3804eee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3804ef90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3804f030 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x3804eee0, node0x3804ef90);
+SDValue node0x3804ea30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3804f030, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16486940);
-dag->setRoot(node0x16486940);
+roots.push_back(node0x3804ea30);
+dag->setRoot(node0x3804ea30);
     }
     break;
   case Codasip::i_comp_3reg__opc_add__reg0__reg0__reg0__:
@@ -863,40 +863,40 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_add__regs__reg0__reg0__:
     {
-SDValue node0x1649c890 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1649aa40 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1649c890, SDValue());
+SDValue node0x38064980 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38062b30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38064980, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1649aa40);
-dag->setRoot(node0x1649aa40);
+roots.push_back(node0x38062b30);
+dag->setRoot(node0x38062b30);
     }
     break;
   case Codasip::i_comp_3reg__opc_add__regs__reg0__regs__:
     {
-SDValue node0x1649da80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1649ca80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1649da80, SDValue());
+SDValue node0x38065b70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38064b70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38065b70, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1649ca80);
-dag->setRoot(node0x1649ca80);
+roots.push_back(node0x38064b70);
+dag->setRoot(node0x38064b70);
     }
     break;
   case Codasip::i_comp_3reg__opc_add__regs__regs__reg0__:
     {
-SDValue node0x1649fae0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1649dc10 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1649fae0, SDValue());
+SDValue node0x38067bd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38065d00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38067bd0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1649dc10);
-dag->setRoot(node0x1649dc10);
+roots.push_back(node0x38065d00);
+dag->setRoot(node0x38065d00);
     }
     break;
   case Codasip::i_comp_3reg__opc_add__regs__regs__regs__:
     {
-SDValue node0x164a0e10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164a0ec0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164a0f70 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x164a0e10, node0x164a0ec0);
-SDValue node0x164a0b20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164a0f70, SDValue());
+SDValue node0x38068f00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38068fb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38069060 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38068f00, node0x38068fb0);
+SDValue node0x38068c10 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38069060, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164a0b20);
-dag->setRoot(node0x164a0b20);
+roots.push_back(node0x38068c10);
+dag->setRoot(node0x38068c10);
     }
     break;
   case Codasip::i_comp_3reg__opc_and__reg0__reg0__reg0__:
@@ -907,22 +907,22 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_and__regs__reg0__reg0__:
     {
-SDValue node0x164a9280 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164a7430 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164a9280, SDValue());
+SDValue node0x38071370 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3806f520 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38071370, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164a7430);
-dag->setRoot(node0x164a7430);
+roots.push_back(node0x3806f520);
+dag->setRoot(node0x3806f520);
     }
     break;
   case Codasip::i_comp_3reg__opc_and__regs__regs__regs__:
     {
-SDValue node0x164ad510 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164ad5c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164ad670 = dag->getNode(ISD::AND, dl, MVT::i32, node0x164ad510, node0x164ad5c0);
-SDValue node0x164ac370 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164ad670, SDValue());
+SDValue node0x38075600 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x380756b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38075760 = dag->getNode(ISD::AND, dl, MVT::i32, node0x38075600, node0x380756b0);
+SDValue node0x38074460 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38075760, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164ac370);
-dag->setRoot(node0x164ac370);
+roots.push_back(node0x38074460);
+dag->setRoot(node0x38074460);
     }
     break;
   case Codasip::i_comp_3reg__opc_or__reg0__reg0__reg0__:
@@ -933,40 +933,40 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_or__regs__reg0__reg0__:
     {
-SDValue node0x164b5b00 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164b3cb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164b5b00, SDValue());
+SDValue node0x3807dbf0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3807bda0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3807dbf0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164b3cb0);
-dag->setRoot(node0x164b3cb0);
+roots.push_back(node0x3807bda0);
+dag->setRoot(node0x3807bda0);
     }
     break;
   case Codasip::i_comp_3reg__opc_or__regs__reg0__regs__:
     {
-SDValue node0x164b6d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164b5cf0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164b6d50, SDValue());
+SDValue node0x3807ee40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3807dde0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3807ee40, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164b5cf0);
-dag->setRoot(node0x164b5cf0);
+roots.push_back(node0x3807dde0);
+dag->setRoot(node0x3807dde0);
     }
     break;
   case Codasip::i_comp_3reg__opc_or__regs__regs__reg0__:
     {
-SDValue node0x164b8e10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164b6ee0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164b8e10, SDValue());
+SDValue node0x38080f00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3807efd0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38080f00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164b6ee0);
-dag->setRoot(node0x164b6ee0);
+roots.push_back(node0x3807efd0);
+dag->setRoot(node0x3807efd0);
     }
     break;
   case Codasip::i_comp_3reg__opc_or__regs__regs__regs__:
     {
-SDValue node0x164ba150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164ba200 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164ba2b0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x164ba150, node0x164ba200);
-SDValue node0x164b8fa0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164ba2b0, SDValue());
+SDValue node0x38082240 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x380822f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x380823a0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x38082240, node0x380822f0);
+SDValue node0x38081090 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x380823a0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164b8fa0);
-dag->setRoot(node0x164b8fa0);
+roots.push_back(node0x38081090);
+dag->setRoot(node0x38081090);
     }
     break;
   case Codasip::i_comp_3reg__opc_sll__reg0__reg0__reg0__:
@@ -977,31 +977,31 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_sll__regs__reg0__reg0__:
     {
-SDValue node0x164c2620 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164c07d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164c2620, SDValue());
+SDValue node0x3808a710 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x380888c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3808a710, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164c07d0);
-dag->setRoot(node0x164c07d0);
+roots.push_back(node0x380888c0);
+dag->setRoot(node0x380888c0);
     }
     break;
   case Codasip::i_comp_3reg__opc_sll__regs__regs__reg0__:
     {
-SDValue node0x164c5720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164c3800 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164c5720, SDValue());
+SDValue node0x3808d810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3808b8f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3808d810, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164c3800);
-dag->setRoot(node0x164c3800);
+roots.push_back(node0x3808b8f0);
+dag->setRoot(node0x3808b8f0);
     }
     break;
   case Codasip::i_comp_3reg__opc_sll__regs__regs__regs__:
     {
-SDValue node0x164c6aa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x164c6b50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164c6c90 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x164c6aa0, node0x164c6b50);
-SDValue node0x164c58b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164c6c90, SDValue());
+SDValue node0x3808eb90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3808ec40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3808ed80 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x3808eb90, node0x3808ec40);
+SDValue node0x3808d9a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3808ed80, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164c58b0);
-dag->setRoot(node0x164c58b0);
+roots.push_back(node0x3808d9a0);
+dag->setRoot(node0x3808d9a0);
     }
     break;
   case Codasip::i_comp_3reg__opc_slt__reg0__reg0__reg0__:
@@ -1012,44 +1012,44 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_slt__regs__reg0__reg0__:
     {
-SDValue node0x166f0e90 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166ef040 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166f0e90, SDValue());
+SDValue node0x380970c0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38095270 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x380970c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166ef040);
-dag->setRoot(node0x166ef040);
+roots.push_back(node0x38095270);
+dag->setRoot(node0x38095270);
     }
     break;
   case Codasip::i_comp_3reg__opc_slt__regs__reg0__regs__:
     {
-SDValue node0x166f1f00 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166f2080 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166f2130 = dag->getSetCC(dl, MVT::i32, node0x166f2080, node0x166f1f00, ISD::SETGT);
-SDValue node0x166f1080 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166f2130, SDValue());
+SDValue node0x38098130 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x380982b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38098360 = dag->getSetCC(dl, MVT::i32, node0x380982b0, node0x38098130, ISD::SETGT);
+SDValue node0x380972b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38098360, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166f1080);
-dag->setRoot(node0x166f1080);
+roots.push_back(node0x380972b0);
+dag->setRoot(node0x380972b0);
     }
     break;
   case Codasip::i_comp_3reg__opc_slt__regs__regs__reg0__:
     {
-SDValue node0x166f40e0 = dag->getConstant(31LL, dl, MVT::i32);
-SDValue node0x166f4300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166f43b0 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x166f4300, node0x166f40e0);
-SDValue node0x166f2450 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166f43b0, SDValue());
+SDValue node0x3809a310 = dag->getConstant(31LL, dl, MVT::i32);
+SDValue node0x3809a530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3809a5e0 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x3809a530, node0x3809a310);
+SDValue node0x38098680 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3809a5e0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166f2450);
-dag->setRoot(node0x166f2450);
+roots.push_back(node0x38098680);
+dag->setRoot(node0x38098680);
     }
     break;
   case Codasip::i_comp_3reg__opc_slt__regs__regs__regs__:
     {
-SDValue node0x166f56a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166f5750 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x166f5800 = dag->getSetCC(dl, MVT::i32, node0x166f56a0, node0x166f5750, ISD::SETLT);
-SDValue node0x166f45c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166f5800, SDValue());
+SDValue node0x3809b8d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3809b980 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3809ba30 = dag->getSetCC(dl, MVT::i32, node0x3809b8d0, node0x3809b980, ISD::SETLT);
+SDValue node0x3809a7f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3809ba30, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166f45c0);
-dag->setRoot(node0x166f45c0);
+roots.push_back(node0x3809a7f0);
+dag->setRoot(node0x3809a7f0);
     }
     break;
   case Codasip::i_comp_3reg__opc_sltu__reg0__reg0__reg0__:
@@ -1060,33 +1060,33 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_sltu__regs__reg0__reg0__:
     {
-SDValue node0x166fdbd0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166fbee0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166fdbd0, SDValue());
+SDValue node0x382c5990 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x380a2110 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382c5990, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166fbee0);
-dag->setRoot(node0x166fbee0);
+roots.push_back(node0x380a2110);
+dag->setRoot(node0x380a2110);
     }
     break;
   case Codasip::i_comp_3reg__opc_sltu__regs__reg0__regs__:
     {
-SDValue node0x166fec40 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166fedc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166fee70 = dag->getSetCC(dl, MVT::i32, node0x166fedc0, node0x166fec40, ISD::SETNE);
-SDValue node0x166fddc0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166fee70, SDValue());
+SDValue node0x382c6a00 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382c6b80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382c6c30 = dag->getSetCC(dl, MVT::i32, node0x382c6b80, node0x382c6a00, ISD::SETNE);
+SDValue node0x382c5b80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382c6c30, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166fddc0);
-dag->setRoot(node0x166fddc0);
+roots.push_back(node0x382c5b80);
+dag->setRoot(node0x382c5b80);
     }
     break;
   case Codasip::i_comp_3reg__opc_sltu__regs__regs__regs__:
     {
-SDValue node0x16702130 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x167021e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16702290 = dag->getSetCC(dl, MVT::i32, node0x16702130, node0x167021e0, ISD::SETULT);
-SDValue node0x16700f90 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16702290, SDValue());
+SDValue node0x382c9ef0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382c9fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382ca050 = dag->getSetCC(dl, MVT::i32, node0x382c9ef0, node0x382c9fa0, ISD::SETULT);
+SDValue node0x382c8d50 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382ca050, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16700f90);
-dag->setRoot(node0x16700f90);
+roots.push_back(node0x382c8d50);
+dag->setRoot(node0x382c8d50);
     }
     break;
   case Codasip::i_comp_3reg__opc_sra__reg0__reg0__reg0__:
@@ -1097,31 +1097,31 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_sra__regs__reg0__reg0__:
     {
-SDValue node0x1670a660 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16708810 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1670a660, SDValue());
+SDValue node0x382d2420 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382d05d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382d2420, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16708810);
-dag->setRoot(node0x16708810);
+roots.push_back(node0x382d05d0);
+dag->setRoot(node0x382d05d0);
     }
     break;
   case Codasip::i_comp_3reg__opc_sra__regs__regs__reg0__:
     {
-SDValue node0x1670d760 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1670b840 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1670d760, SDValue());
+SDValue node0x382d5520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382d3600 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382d5520, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1670b840);
-dag->setRoot(node0x1670b840);
+roots.push_back(node0x382d3600);
+dag->setRoot(node0x382d3600);
     }
     break;
   case Codasip::i_comp_3reg__opc_sra__regs__regs__regs__:
     {
-SDValue node0x1670eae0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1670eb90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1670ecd0 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x1670eae0, node0x1670eb90);
-SDValue node0x1670d8f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1670ecd0, SDValue());
+SDValue node0x382d68a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382d6950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382d6a90 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x382d68a0, node0x382d6950);
+SDValue node0x382d56b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382d6a90, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1670d8f0);
-dag->setRoot(node0x1670d8f0);
+roots.push_back(node0x382d56b0);
+dag->setRoot(node0x382d56b0);
     }
     break;
   case Codasip::i_comp_3reg__opc_srl__reg0__reg0__reg0__:
@@ -1132,31 +1132,31 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_srl__regs__reg0__reg0__:
     {
-SDValue node0x16717010 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x167151c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16717010, SDValue());
+SDValue node0x382dedd0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382dcf80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382dedd0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x167151c0);
-dag->setRoot(node0x167151c0);
+roots.push_back(node0x382dcf80);
+dag->setRoot(node0x382dcf80);
     }
     break;
   case Codasip::i_comp_3reg__opc_srl__regs__regs__reg0__:
     {
-SDValue node0x1671a110 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x167181f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1671a110, SDValue());
+SDValue node0x382e1ed0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382dffb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382e1ed0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x167181f0);
-dag->setRoot(node0x167181f0);
+roots.push_back(node0x382dffb0);
+dag->setRoot(node0x382dffb0);
     }
     break;
   case Codasip::i_comp_3reg__opc_srl__regs__regs__regs__:
     {
-SDValue node0x1671b490 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1671b540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1671b680 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x1671b490, node0x1671b540);
-SDValue node0x1671a2a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1671b680, SDValue());
+SDValue node0x382e3250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382e3300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382e3440 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x382e3250, node0x382e3300);
+SDValue node0x382e2060 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382e3440, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1671a2a0);
-dag->setRoot(node0x1671a2a0);
+roots.push_back(node0x382e2060);
+dag->setRoot(node0x382e2060);
     }
     break;
   case Codasip::i_comp_3reg__opc_sub__reg0__reg0__reg0__:
@@ -1167,42 +1167,42 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_sub__regs__reg0__reg0__:
     {
-SDValue node0x167239c0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16721b70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x167239c0, SDValue());
+SDValue node0x382eb780 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382e9930 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382eb780, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16721b70);
-dag->setRoot(node0x16721b70);
+roots.push_back(node0x382e9930);
+dag->setRoot(node0x382e9930);
     }
     break;
   case Codasip::i_comp_3reg__opc_sub__regs__reg0__regs__:
     {
-SDValue node0x167249b0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16724bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16724c60 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x167249b0, node0x16724bb0);
-SDValue node0x16723bb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16724c60, SDValue());
+SDValue node0x382ec770 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382ec970 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382eca20 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x382ec770, node0x382ec970);
+SDValue node0x382eb970 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382eca20, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16723bb0);
-dag->setRoot(node0x16723bb0);
+roots.push_back(node0x382eb970);
+dag->setRoot(node0x382eb970);
     }
     break;
   case Codasip::i_comp_3reg__opc_sub__regs__regs__reg0__:
     {
-SDValue node0x16726cd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16724e70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16726cd0, SDValue());
+SDValue node0x382eea90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382ecc30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382eea90, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16724e70);
-dag->setRoot(node0x16724e70);
+roots.push_back(node0x382ecc30);
+dag->setRoot(node0x382ecc30);
     }
     break;
   case Codasip::i_comp_3reg__opc_sub__regs__regs__regs__:
     {
-SDValue node0x16727fb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16728060 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16728110 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x16727fb0, node0x16728060);
-SDValue node0x16726e60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16728110, SDValue());
+SDValue node0x382efd70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382efe20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382efed0 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x382efd70, node0x382efe20);
+SDValue node0x382eec20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382efed0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16726e60);
-dag->setRoot(node0x16726e60);
+roots.push_back(node0x382eec20);
+dag->setRoot(node0x382eec20);
     }
     break;
   case Codasip::i_comp_3reg__opc_xor__reg0__reg0__reg0__:
@@ -1213,40 +1213,40 @@ dag->setRoot(entry);
     break;
   case Codasip::i_comp_3reg__opc_xor__regs__reg0__reg0__:
     {
-SDValue node0x16730420 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1672e5d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16730420, SDValue());
+SDValue node0x382f81e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382f6390 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382f81e0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1672e5d0);
-dag->setRoot(node0x1672e5d0);
+roots.push_back(node0x382f6390);
+dag->setRoot(node0x382f6390);
     }
     break;
   case Codasip::i_comp_3reg__opc_xor__regs__reg0__regs__:
     {
-SDValue node0x16731610 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16730610 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16731610, SDValue());
+SDValue node0x382f93d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382f83d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382f93d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16730610);
-dag->setRoot(node0x16730610);
+roots.push_back(node0x382f83d0);
+dag->setRoot(node0x382f83d0);
     }
     break;
   case Codasip::i_comp_3reg__opc_xor__regs__regs__reg0__:
     {
-SDValue node0x16733670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x167317a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16733670, SDValue());
+SDValue node0x382fb430 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382f9560 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382fb430, SDValue());
 roots.reserve(1);
-roots.push_back(node0x167317a0);
-dag->setRoot(node0x167317a0);
+roots.push_back(node0x382f9560);
+dag->setRoot(node0x382f9560);
     }
     break;
   case Codasip::i_comp_3reg__opc_xor__regs__regs__regs__:
     {
-SDValue node0x16734950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16734a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16734ab0 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x16734950, node0x16734a00);
-SDValue node0x16733800 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16734ab0, SDValue());
+SDValue node0x382fc710 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382fc7c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382fc870 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x382fc710, node0x382fc7c0);
+SDValue node0x382fb5c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382fc870, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16733800);
-dag->setRoot(node0x16733800);
+roots.push_back(node0x382fb5c0);
+dag->setRoot(node0x382fb5c0);
     }
     break;
   case Codasip::i_load__opc_loadb__reg0__simm12_simple__reg0__:
@@ -1263,24 +1263,24 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__reg0__:
     {
-SDValue node0x1658f830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165858b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1658f830, mpi, MVT::i8, 1);
-SDValue node0x1658ebb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165858b0, SDValue());
+SDValue node0x3815a830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381508b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3815a830, mpi, MVT::i8, 1);
+SDValue node0x38159bb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381508b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1658ebb0);
-dag->setRoot(node0x1658ebb0);
+roots.push_back(node0x38159bb0);
+dag->setRoot(node0x38159bb0);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__regs__:
     {
-SDValue node0x16590b50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16590c00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16590ca0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16590b50, node0x16590c00);
-SDValue node0x16584640 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x16590ca0, mpi, MVT::i8, 1);
-SDValue node0x1658ea70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16584640, SDValue());
+SDValue node0x3815bb50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3815bc00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3815bca0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3815bb50, node0x3815bc00);
+SDValue node0x3814f640 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3815bca0, mpi, MVT::i8, 1);
+SDValue node0x38159a70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3814f640, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1658ea70);
-dag->setRoot(node0x1658ea70);
+roots.push_back(node0x38159a70);
+dag->setRoot(node0x38159a70);
     }
     break;
   case Codasip::i_load__opc_loadbu__reg0__simm12_simple__reg0__:
@@ -1297,24 +1297,24 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__reg0__:
     {
-SDValue node0x165a13a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16597070 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165a13a0, mpi, MVT::i8, 1);
-SDValue node0x165a0720 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16597070, SDValue());
+SDValue node0x3816c3a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38162070 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3816c3a0, mpi, MVT::i8, 1);
+SDValue node0x3816b720 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38162070, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165a0720);
-dag->setRoot(node0x165a0720);
+roots.push_back(node0x3816b720);
+dag->setRoot(node0x3816b720);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__regs__:
     {
-SDValue node0x165a26c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a2770 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165a2810 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165a26c0, node0x165a2770);
-SDValue node0x16595e00 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165a2810, mpi, MVT::i8, 1);
-SDValue node0x165a05e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16595e00, SDValue());
+SDValue node0x3816d6c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3816d770 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3816d810 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3816d6c0, node0x3816d770);
+SDValue node0x38160e00 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3816d810, mpi, MVT::i8, 1);
+SDValue node0x3816b5e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38160e00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165a05e0);
-dag->setRoot(node0x165a05e0);
+roots.push_back(node0x3816b5e0);
+dag->setRoot(node0x3816b5e0);
     }
     break;
   case Codasip::i_load__opc_loadh__reg0__simm12_simple__reg0__:
@@ -1331,24 +1331,24 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__reg0__:
     {
-SDValue node0x165b2f30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a8c00 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165b2f30, mpi, MVT::i16, 1);
-SDValue node0x165b22b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165a8c00, SDValue());
+SDValue node0x3817df30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38173c00 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3817df30, mpi, MVT::i16, 1);
+SDValue node0x3817d2b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38173c00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165b22b0);
-dag->setRoot(node0x165b22b0);
+roots.push_back(node0x3817d2b0);
+dag->setRoot(node0x3817d2b0);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__regs__:
     {
-SDValue node0x165b4250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165b4300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165b43a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165b4250, node0x165b4300);
-SDValue node0x165a7990 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165b43a0, mpi, MVT::i16, 1);
-SDValue node0x165b2170 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165a7990, SDValue());
+SDValue node0x3817f250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817f300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3817f3a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3817f250, node0x3817f300);
+SDValue node0x38172990 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3817f3a0, mpi, MVT::i16, 1);
+SDValue node0x3817d170 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38172990, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165b2170);
-dag->setRoot(node0x165b2170);
+roots.push_back(node0x3817d170);
+dag->setRoot(node0x3817d170);
     }
     break;
   case Codasip::i_load__opc_loadhu__reg0__simm12_simple__reg0__:
@@ -1365,24 +1365,24 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__reg0__:
     {
-SDValue node0x165c4aa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165ba770 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165c4aa0, mpi, MVT::i16, 1);
-SDValue node0x165c3e20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165ba770, SDValue());
+SDValue node0x3818faa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38185770 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3818faa0, mpi, MVT::i16, 1);
+SDValue node0x3818ee20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38185770, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165c3e20);
-dag->setRoot(node0x165c3e20);
+roots.push_back(node0x3818ee20);
+dag->setRoot(node0x3818ee20);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__regs__:
     {
-SDValue node0x165c5dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c5e70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165c5f10 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165c5dc0, node0x165c5e70);
-SDValue node0x165b9500 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165c5f10, mpi, MVT::i16, 1);
-SDValue node0x165c3ce0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165b9500, SDValue());
+SDValue node0x38190dc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38190e70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38190f10 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38190dc0, node0x38190e70);
+SDValue node0x38184500 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38190f10, mpi, MVT::i16, 1);
+SDValue node0x3818ece0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38184500, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165c3ce0);
-dag->setRoot(node0x165c3ce0);
+roots.push_back(node0x3818ece0);
+dag->setRoot(node0x3818ece0);
     }
     break;
   case Codasip::i_load__opc_loadw__reg0__simm12_simple__reg0__:
@@ -1399,33 +1399,33 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__reg0__:
     {
-SDValue node0x165d6030 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d60d0 = dag->getLoad(MVT::i32, dl, entry, node0x165d6030, mpi, 1);
-SDValue node0x165d5400 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d60d0, SDValue());
+SDValue node0x381ab670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381ab710 = dag->getLoad(MVT::i32, dl, entry, node0x381ab670, mpi, 1);
+SDValue node0x381a06d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381ab710, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d5400);
-dag->setRoot(node0x165d5400);
+roots.push_back(node0x381a06d0);
+dag->setRoot(node0x381a06d0);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__regs__:
     {
-SDValue node0x165d72f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d73a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165d7440 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165d72f0, node0x165d73a0);
-SDValue node0x165d74d0 = dag->getLoad(MVT::i32, dl, entry, node0x165d7440, mpi, 1);
-SDValue node0x165d5310 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d74d0, SDValue());
+SDValue node0x381ac930 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381ac9e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381aca80 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x381ac930, node0x381ac9e0);
+SDValue node0x381acb10 = dag->getLoad(MVT::i32, dl, entry, node0x381aca80, mpi, 1);
+SDValue node0x381a05e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381acb10, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d5310);
-dag->setRoot(node0x165d5310);
+roots.push_back(node0x381a05e0);
+dag->setRoot(node0x381a05e0);
     }
     break;
   case Codasip::i_lui__opc_lui__regs__imm20_s12__:
     {
-SDValue node0x165f2d30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165f2900 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165f2d30, SDValue());
+SDValue node0x381c81d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381c7da0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381c81d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165f2900);
-dag->setRoot(node0x165f2900);
+roots.push_back(node0x381c7da0);
+dag->setRoot(node0x381c7da0);
     }
     break;
   case Codasip::i_neg_alias__reg0__reg0__:
@@ -1436,251 +1436,251 @@ dag->setRoot(entry);
     break;
   case Codasip::i_neg_alias__regs__reg0__:
     {
-SDValue node0x165fe790 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x165fe740 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165fe790, SDValue());
+SDValue node0x381d3c30 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381d3be0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381d3c30, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165fe740);
-dag->setRoot(node0x165fe740);
+roots.push_back(node0x381d3be0);
+dag->setRoot(node0x381d3be0);
     }
     break;
   case Codasip::i_neg_alias__regs__regs__:
     {
-SDValue node0x165ff620 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x165ff820 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165ff8d0 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x165ff620, node0x165ff820);
-SDValue node0x165ff5d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165ff8d0, SDValue());
+SDValue node0x381d4ac0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x381d4cc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381d4d70 = dag->getNode(ISD::SUB, dl, MVT::i32, node0x381d4ac0, node0x381d4cc0);
+SDValue node0x381d4a70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381d4d70, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165ff5d0);
-dag->setRoot(node0x165ff5d0);
+roots.push_back(node0x381d4a70);
+dag->setRoot(node0x381d4a70);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__reg0__:
     {
-SDValue node0x1662a9a0 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x1662ac40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1662ace0 = dag->getStore(entry, dl, node0x1662a9a0, node0x1662ac40, mpi, 1);
+SDValue node0x381ffd20 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x381fffc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x381a0d60 = dag->getStore(entry, dl, node0x381ffd20, node0x381fffc0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1662ace0);
-dag->setRoot(node0x1662ace0);
+roots.push_back(node0x381a0d60);
+dag->setRoot(node0x381a0d60);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__regs__:
     {
-SDValue node0x1662b970 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x1662bcb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1662bd60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1662be00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1662bcb0, node0x1662bd60);
-SDValue node0x1662be90 = dag->getStore(entry, dl, node0x1662b970, node0x1662be00, mpi, 1);
+SDValue node0x38200c90 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x38200fd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38201080 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38201120 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38200fd0, node0x38201080);
+SDValue node0x382011b0 = dag->getStore(entry, dl, node0x38200c90, node0x38201120, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1662be90);
-dag->setRoot(node0x1662be90);
+roots.push_back(node0x382011b0);
+dag->setRoot(node0x382011b0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_simple__reg0__:
     {
-SDValue node0x16636ca0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16636d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166c2310 = dag->getTruncStore(entry, dl, node0x16636ca0, node0x16636d50, mpi, MVT::i8, 1);
+SDValue node0x3820bfc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3820c070 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38297c60 = dag->getTruncStore(entry, dl, node0x3820bfc0, node0x3820c070, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x166c2310);
-dag->setRoot(node0x166c2310);
+roots.push_back(node0x38297c60);
+dag->setRoot(node0x38297c60);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_simple__regs__:
     {
-SDValue node0x16638020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166380d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16638180 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x166382d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x166380d0, node0x16638180);
-SDValue node0x16636ea0 = dag->getTruncStore(entry, dl, node0x16638020, node0x166382d0, mpi, MVT::i8, 1);
+SDValue node0x3820d340 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3820d3f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3820d4a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3820d5f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3820d3f0, node0x3820d4a0);
+SDValue node0x3820c1c0 = dag->getTruncStore(entry, dl, node0x3820d340, node0x3820d5f0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x16636ea0);
-dag->setRoot(node0x16636ea0);
+roots.push_back(node0x3820c1c0);
+dag->setRoot(node0x3820c1c0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__reg0__:
     {
-SDValue node0x1663d780 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x1663da20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1663dac0 = dag->getStore(entry, dl, node0x1663d780, node0x1663da20, mpi, 1);
+SDValue node0x38212aa0 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x38212d40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38212de0 = dag->getStore(entry, dl, node0x38212aa0, node0x38212d40, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1663dac0);
-dag->setRoot(node0x1663dac0);
+roots.push_back(node0x38212de0);
+dag->setRoot(node0x38212de0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__regs__:
     {
-SDValue node0x1663e940 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x1663ec80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1663ed30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1663edd0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1663ec80, node0x1663ed30);
-SDValue node0x1663ee60 = dag->getStore(entry, dl, node0x1663e940, node0x1663edd0, mpi, 1);
+SDValue node0x38213c60 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x38213fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38214050 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382140f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38213fa0, node0x38214050);
+SDValue node0x38214180 = dag->getStore(entry, dl, node0x38213c60, node0x382140f0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1663ee60);
-dag->setRoot(node0x1663ee60);
+roots.push_back(node0x38214180);
+dag->setRoot(node0x38214180);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_simple__reg0__:
     {
-SDValue node0x16649c70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16649d20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166c2870 = dag->getTruncStore(entry, dl, node0x16649c70, node0x16649d20, mpi, MVT::i16, 1);
+SDValue node0x3821ef90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3821f040 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382981c0 = dag->getTruncStore(entry, dl, node0x3821ef90, node0x3821f040, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x166c2870);
-dag->setRoot(node0x166c2870);
+roots.push_back(node0x382981c0);
+dag->setRoot(node0x382981c0);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_simple__regs__:
     {
-SDValue node0x1664aff0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1664b0a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1664b150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1664b2a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1664b0a0, node0x1664b150);
-SDValue node0x16649e70 = dag->getTruncStore(entry, dl, node0x1664aff0, node0x1664b2a0, mpi, MVT::i16, 1);
+SDValue node0x38220310 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382203c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38220470 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382205c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x382203c0, node0x38220470);
+SDValue node0x3821f190 = dag->getTruncStore(entry, dl, node0x38220310, node0x382205c0, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x16649e70);
-dag->setRoot(node0x16649e70);
+roots.push_back(node0x3821f190);
+dag->setRoot(node0x3821f190);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_simple__reg0__:
     {
-SDValue node0x166504d0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166506d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16650770 = dag->getStore(entry, dl, node0x166504d0, node0x166506d0, mpi, 1);
+SDValue node0x382257f0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382259f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38225a90 = dag->getStore(entry, dl, node0x382257f0, node0x382259f0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16650770);
-dag->setRoot(node0x16650770);
+roots.push_back(node0x38225a90);
+dag->setRoot(node0x38225a90);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_simple__regs__:
     {
-SDValue node0x166515f0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16651890 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16651940 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166519e0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16651890, node0x16651940);
-SDValue node0x16651a70 = dag->getStore(entry, dl, node0x166515f0, node0x166519e0, mpi, 1);
+SDValue node0x38226910 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38226bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38226c60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38226d00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38226bb0, node0x38226c60);
+SDValue node0x38226d90 = dag->getStore(entry, dl, node0x38226910, node0x38226d00, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16651a70);
-dag->setRoot(node0x16651a70);
+roots.push_back(node0x38226d90);
+dag->setRoot(node0x38226d90);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__reg0__:
     {
-SDValue node0x1665c570 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1665c620 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1665c6c0 = dag->getStore(entry, dl, node0x1665c570, node0x1665c620, mpi, 1);
+SDValue node0x38231890 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38231940 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382319e0 = dag->getStore(entry, dl, node0x38231890, node0x38231940, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1665c6c0);
-dag->setRoot(node0x1665c6c0);
+roots.push_back(node0x382319e0);
+dag->setRoot(node0x382319e0);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__regs__:
     {
-SDValue node0x1665d890 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1665d940 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1665d9f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1665da90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1665d940, node0x1665d9f0);
-SDValue node0x1665db20 = dag->getStore(entry, dl, node0x1665d890, node0x1665da90, mpi, 1);
+SDValue node0x38232bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38232c60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38232d10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38232db0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38232c60, node0x38232d10);
+SDValue node0x38232e40 = dag->getStore(entry, dl, node0x38232bb0, node0x38232db0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1665db20);
-dag->setRoot(node0x1665db20);
+roots.push_back(node0x38232e40);
+dag->setRoot(node0x38232e40);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__immSpecClone__imm_1__0__:
     {
-SDValue node0x1668d700 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1668d4e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668d700, SDValue());
+SDValue node0x38263000 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38262de0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38263000, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668d4e0);
-dag->setRoot(node0x1668d4e0);
+roots.push_back(node0x38262de0);
+dag->setRoot(node0x38262de0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__reg0__simm12_simple__immSpecClone__imm_1__1__:
     {
-SDValue node0x1668d260 = dag->getConstant(1LL, dl, MVT::i32);
-SDValue node0x167b7d40 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668d260, SDValue());
+SDValue node0x38262b60 = dag->getConstant(1LL, dl, MVT::i32);
+SDValue node0x382622c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38262b60, SDValue());
 roots.reserve(1);
-roots.push_back(node0x167b7d40);
-dag->setRoot(node0x167b7d40);
+roots.push_back(node0x382622c0);
+dag->setRoot(node0x382622c0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__immSpecClone__imm_1__0__:
     {
-SDValue node0x1668e600 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1668dc90 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668e600, SDValue());
+SDValue node0x38263f00 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38263590 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38263f00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668dc90);
-dag->setRoot(node0x1668dc90);
+roots.push_back(node0x38263590);
+dag->setRoot(node0x38263590);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_simple__immSpecClone__imm_1__1__:
     {
-SDValue node0x1668de60 = dag->getConstant(1LL, dl, MVT::i32);
-SDValue node0x1668d590 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668de60, SDValue());
+SDValue node0x38263760 = dag->getConstant(1LL, dl, MVT::i32);
+SDValue node0x38262e90 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38263760, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668d590);
-dag->setRoot(node0x1668d590);
+roots.push_back(node0x38262e90);
+dag->setRoot(node0x38262e90);
     }
     break;
   case Codasip::i_comp_3reg__opc_sll__regs__regs__regs__SHIFT_MASK_CLONE_:
     {
-SDValue node0x16574c50 = dag->getConstant(31LL, dl, MVT::i32);
-SDValue node0x165c3ad0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16574a60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16649dc0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x16574a60, node0x16574c50);
-SDValue node0x16638220 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x165c3ad0, node0x16649dc0);
-SDValue node0x166c0b80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16638220, SDValue());
+SDValue node0x3813fc50 = dag->getConstant(31LL, dl, MVT::i32);
+SDValue node0x3818ead0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3813e7a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3821f0e0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x3813e7a0, node0x3813fc50);
+SDValue node0x3820d540 = dag->getNode(ISD::SHL, dl, MVT::i32, node0x3818ead0, node0x3821f0e0);
+SDValue node0x382964d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3820d540, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166c0b80);
-dag->setRoot(node0x166c0b80);
+roots.push_back(node0x382964d0);
+dag->setRoot(node0x382964d0);
     }
     break;
   case Codasip::i_comp_3reg__opc_slt__regs__regs__regs__swappedCmpClone0__:
     {
-SDValue node0x164ca5e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1668c3b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1668eea0 = dag->getSetCC(dl, MVT::i32, node0x164ca5e0, node0x1668c3b0, ISD::SETGT);
-SDValue node0x1668eb30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668eea0, SDValue());
+SDValue node0x38262310 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38262440 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382647a0 = dag->getSetCC(dl, MVT::i32, node0x38262310, node0x38262440, ISD::SETGT);
+SDValue node0x38264430 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382647a0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668eb30);
-dag->setRoot(node0x1668eb30);
+roots.push_back(node0x38264430);
+dag->setRoot(node0x38264430);
     }
     break;
   case Codasip::i_comp_3reg__opc_sltu__regs__regs__regs__swappedCmpClone0__:
     {
-SDValue node0x1668f720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1668f870 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1668f920 = dag->getSetCC(dl, MVT::i32, node0x1668f720, node0x1668f870, ISD::SETUGT);
-SDValue node0x1668e430 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668f920, SDValue());
+SDValue node0x38265020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38265170 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38265220 = dag->getSetCC(dl, MVT::i32, node0x38265020, node0x38265170, ISD::SETUGT);
+SDValue node0x38263d30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38265220, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668e430);
-dag->setRoot(node0x1668e430);
+roots.push_back(node0x38263d30);
+dag->setRoot(node0x38263d30);
     }
     break;
   case Codasip::i_comp_3reg__opc_sra__regs__regs__regs__SHIFT_MASK_CLONE_:
     {
-SDValue node0x164c6880 = dag->getConstant(31LL, dl, MVT::i32);
-SDValue node0x165737a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16569a90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164c6c00 = dag->getNode(ISD::AND, dl, MVT::i32, node0x16569a90, node0x164c6880);
-SDValue node0x16636df0 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x165737a0, node0x164c6c00);
-SDValue node0x166e9870 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16636df0, SDValue());
+SDValue node0x3808e970 = dag->getConstant(31LL, dl, MVT::i32);
+SDValue node0x38134a90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38133a60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3808ecf0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x38133a60, node0x3808e970);
+SDValue node0x3820c110 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x38134a90, node0x3808ecf0);
+SDValue node0x382bef20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3820c110, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166e9870);
-dag->setRoot(node0x166e9870);
+roots.push_back(node0x382bef20);
+dag->setRoot(node0x382bef20);
     }
     break;
   case Codasip::i_comp_3reg__opc_srl__regs__regs__regs__SHIFT_MASK_CLONE_:
     {
-SDValue node0x1670e8c0 = dag->getConstant(31LL, dl, MVT::i32);
-SDValue node0x16568a60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165cc010 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1670ec40 = dag->getNode(ISD::AND, dl, MVT::i32, node0x165cc010, node0x1670e8c0);
-SDValue node0x166258b0 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x16568a60, node0x1670ec40);
-SDValue node0x166ea250 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166258b0, SDValue());
+SDValue node0x382d6680 = dag->getConstant(31LL, dl, MVT::i32);
+SDValue node0x37dd3140 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381972e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382d6a00 = dag->getNode(ISD::AND, dl, MVT::i32, node0x381972e0, node0x382d6680);
+SDValue node0x381fad50 = dag->getNode(ISD::SRL, dl, MVT::i32, node0x37dd3140, node0x382d6a00);
+SDValue node0x382bf900 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381fad50, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166ea250);
-dag->setRoot(node0x166ea250);
+roots.push_back(node0x382bf900);
+dag->setRoot(node0x382bf900);
     }
     break;
   case Codasip::i_load__opc_loadb__reg0__simm12_simple__regs__immspec_1_:
@@ -1691,86 +1691,86 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__reg0__AEXT_CLONE_:
     {
-SDValue node0x1657b150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1658f8d0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x1657b150, mpi, MVT::i8, 1);
-SDValue node0x1621bf20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1658f8d0, SDValue());
+SDValue node0x38146150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3815a8d0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38146150, mpi, MVT::i8, 1);
+SDValue node0x38377430 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3815a8d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1621bf20);
-dag->setRoot(node0x1621bf20);
+roots.push_back(node0x38377430);
+dag->setRoot(node0x38377430);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__regs__AEXT_CLONE_:
     {
-SDValue node0x16590d30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16590810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16590e00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16590d30, node0x16590810);
-SDValue node0x166a8a20 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x16590e00, mpi, MVT::i8, 1);
-SDValue node0x164f89b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166a8a20, SDValue());
+SDValue node0x3815bd30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3815b810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3815be00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3815bd30, node0x3815b810);
+SDValue node0x3827e320 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x3815be00, mpi, MVT::i8, 1);
+SDValue node0x380c36d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3827e320, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164f89b0);
-dag->setRoot(node0x164f89b0);
+roots.push_back(node0x380c36d0);
+dag->setRoot(node0x380c36d0);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x1669eea0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16697c00 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1669eea0, mpi, MVT::i8, 1);
-SDValue node0x1669aba0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16697c00, SDValue());
+SDValue node0x382747a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826d500 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x382747a0, mpi, MVT::i8, 1);
+SDValue node0x382704a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826d500, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1669aba0);
-dag->setRoot(node0x1669aba0);
+roots.push_back(node0x382704a0);
+dag->setRoot(node0x382704a0);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_simple__regs__immspec_1_AEXT_CLONE_:
     {
-SDValue node0x1669ef50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16697140 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x1669ef50, mpi, MVT::i8, 1);
-SDValue node0x1668f4d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16697140, SDValue());
+SDValue node0x38274850 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826ca40 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38274850, mpi, MVT::i8, 1);
+SDValue node0x38264dd0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826ca40, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668f4d0);
-dag->setRoot(node0x1668f4d0);
+roots.push_back(node0x38264dd0);
+dag->setRoot(node0x38264dd0);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__reg0__AEXT_CLONE_:
     {
-SDValue node0x16595b60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a1440 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x16595b60, mpi, MVT::i8, 1);
-SDValue node0x164dd250 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165a1440, SDValue());
+SDValue node0x38160b60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3816c440 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38160b60, mpi, MVT::i8, 1);
+SDValue node0x380a7af0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3816c440, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164dd250);
-dag->setRoot(node0x164dd250);
+roots.push_back(node0x380a7af0);
+dag->setRoot(node0x380a7af0);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__regs__AEXT_CLONE_:
     {
-SDValue node0x165a28a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a2380 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165a2970 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165a28a0, node0x165a2380);
-SDValue node0x166bd980 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x165a2970, mpi, MVT::i8, 1);
-SDValue node0x16717200 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166bd980, SDValue());
+SDValue node0x3816d8a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3816d380 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3816d970 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3816d8a0, node0x3816d380);
+SDValue node0x3828f0c0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x3816d970, mpi, MVT::i8, 1);
+SDValue node0x382d2610 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3828f0c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16717200);
-dag->setRoot(node0x16717200);
+roots.push_back(node0x382d2610);
+dag->setRoot(node0x382d2610);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x1669f810 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16696610 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x1669f810, mpi, MVT::i8, 1);
-SDValue node0x1669b6a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16696610, SDValue());
+SDValue node0x38275110 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826bf10 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38275110, mpi, MVT::i8, 1);
+SDValue node0x38270fa0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826bf10, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1669b6a0);
-dag->setRoot(node0x1669b6a0);
+roots.push_back(node0x38270fa0);
+dag->setRoot(node0x38270fa0);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_simple__regs__immspec_1_AEXT_CLONE_:
     {
-SDValue node0x1669f8c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16695b90 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x1669f8c0, mpi, MVT::i8, 1);
-SDValue node0x1668ff00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16695b90, SDValue());
+SDValue node0x382751c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826b490 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x382751c0, mpi, MVT::i8, 1);
+SDValue node0x38265800 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826b490, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668ff00);
-dag->setRoot(node0x1668ff00);
+roots.push_back(node0x38265800);
+dag->setRoot(node0x38265800);
     }
     break;
   case Codasip::i_load__opc_loadh__reg0__simm12_simple__regs__immspec_1_:
@@ -1781,86 +1781,86 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__reg0__AEXT_CLONE_:
     {
-SDValue node0x165a76f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165b2fd0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x165a76f0, mpi, MVT::i16, 1);
-SDValue node0x166be4c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165b2fd0, SDValue());
+SDValue node0x381726f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817dfd0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x381726f0, mpi, MVT::i16, 1);
+SDValue node0x38293e10 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3817dfd0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166be4c0);
-dag->setRoot(node0x166be4c0);
+roots.push_back(node0x38293e10);
+dag->setRoot(node0x38293e10);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__regs__AEXT_CLONE_:
     {
-SDValue node0x165b4430 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165b3f10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165b4500 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165b4430, node0x165b3f10);
-SDValue node0x166befd0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x165b4500, mpi, MVT::i16, 1);
-SDValue node0x166bf060 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166befd0, SDValue());
+SDValue node0x3817f430 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817ef10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3817f500 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3817f430, node0x3817ef10);
+SDValue node0x38294920 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x3817f500, mpi, MVT::i16, 1);
+SDValue node0x382949b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38294920, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166bf060);
-dag->setRoot(node0x166bf060);
+roots.push_back(node0x382949b0);
+dag->setRoot(node0x382949b0);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a0ae0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166a0270 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x166a0ae0, mpi, MVT::i16, 1);
-SDValue node0x1669f450 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166a0270, SDValue());
+SDValue node0x382763e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38275b70 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x382763e0, mpi, MVT::i16, 1);
+SDValue node0x38274d50 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38275b70, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1669f450);
-dag->setRoot(node0x1669f450);
+roots.push_back(node0x38274d50);
+dag->setRoot(node0x38274d50);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_simple__regs__immspec_1_AEXT_CLONE_:
     {
-SDValue node0x166a0b90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16695ae0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x166a0b90, mpi, MVT::i16, 1);
-SDValue node0x166ea620 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16695ae0, SDValue());
+SDValue node0x38276490 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826b3e0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38276490, mpi, MVT::i16, 1);
+SDValue node0x382bfcd0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826b3e0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166ea620);
-dag->setRoot(node0x166ea620);
+roots.push_back(node0x382bfcd0);
+dag->setRoot(node0x382bfcd0);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__reg0__AEXT_CLONE_:
     {
-SDValue node0x165b9260 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c4b40 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x165b9260, mpi, MVT::i16, 1);
-SDValue node0x166bfc70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165c4b40, SDValue());
+SDValue node0x38184260 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3818fb40 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38184260, mpi, MVT::i16, 1);
+SDValue node0x382955c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3818fb40, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166bfc70);
-dag->setRoot(node0x166bfc70);
+roots.push_back(node0x382955c0);
+dag->setRoot(node0x382955c0);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__regs__AEXT_CLONE_:
     {
-SDValue node0x165c5fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c5a80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165c6070 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165c5fa0, node0x165c5a80);
-SDValue node0x166c0780 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x165c6070, mpi, MVT::i16, 1);
-SDValue node0x166c0810 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166c0780, SDValue());
+SDValue node0x38190fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38190a80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38191070 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38190fa0, node0x38190a80);
+SDValue node0x382960d0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38191070, mpi, MVT::i16, 1);
+SDValue node0x38296160 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382960d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166c0810);
-dag->setRoot(node0x166c0810);
+roots.push_back(node0x38296160);
+dag->setRoot(node0x38296160);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a1450 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16694ef0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x166a1450, mpi, MVT::i16, 1);
-SDValue node0x1669d800 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16694ef0, SDValue());
+SDValue node0x38276d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826a7f0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38276d50, mpi, MVT::i16, 1);
+SDValue node0x38273100 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3826a7f0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1669d800);
-dag->setRoot(node0x1669d800);
+roots.push_back(node0x38273100);
+dag->setRoot(node0x38273100);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_simple__regs__immspec_1_AEXT_CLONE_:
     {
-SDValue node0x166a1500 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165cada0 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x166a1500, mpi, MVT::i16, 1);
-SDValue node0x16698bc0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165cada0, SDValue());
+SDValue node0x38276e00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38196070 = dag->getExtLoad(ISD::EXTLOAD, dl, MVT::i32, entry, node0x38276e00, mpi, MVT::i16, 1);
+SDValue node0x3826e4c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38196070, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16698bc0);
-dag->setRoot(node0x16698bc0);
+roots.push_back(node0x3826e4c0);
+dag->setRoot(node0x3826e4c0);
     }
     break;
   case Codasip::i_load__opc_loadw__reg0__simm12_simple__regs__immspec_1_:
@@ -1871,93 +1871,93 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a2720 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166a27d0 = dag->getLoad(MVT::i32, dl, entry, node0x166a2720, mpi, 1);
-SDValue node0x166a1090 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x166a27d0, SDValue());
+SDValue node0x38278020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382780d0 = dag->getLoad(MVT::i32, dl, entry, node0x38278020, mpi, 1);
+SDValue node0x38276990 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382780d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166a1090);
-dag->setRoot(node0x166a1090);
+roots.push_back(node0x38276990);
+dag->setRoot(node0x38276990);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a2e30 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x166a3050 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a2dd0 = dag->getStore(entry, dl, node0x166a2e30, node0x166a3050, mpi, 1);
+SDValue node0x38278730 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x38278950 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382786d0 = dag->getStore(entry, dl, node0x38278730, node0x38278950, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166a2dd0);
-dag->setRoot(node0x166a2dd0);
+roots.push_back(node0x382786d0);
+dag->setRoot(node0x382786d0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a3840 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a38f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16698dc0 = dag->getTruncStore(entry, dl, node0x166a3840, node0x166a38f0, mpi, MVT::i8, 1);
+SDValue node0x38279140 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382791f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3826e6c0 = dag->getTruncStore(entry, dl, node0x38279140, node0x382791f0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x16698dc0);
-dag->setRoot(node0x16698dc0);
+roots.push_back(node0x3826e6c0);
+dag->setRoot(node0x3826e6c0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a3f90 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x166a41b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a3f30 = dag->getStore(entry, dl, node0x166a3f90, node0x166a41b0, mpi, 1);
+SDValue node0x38279890 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x38279ab0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38279830 = dag->getStore(entry, dl, node0x38279890, node0x38279ab0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166a3f30);
-dag->setRoot(node0x166a3f30);
+roots.push_back(node0x38279830);
+dag->setRoot(node0x38279830);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a4a10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a4ac0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1669b860 = dag->getTruncStore(entry, dl, node0x166a4a10, node0x166a4ac0, mpi, MVT::i16, 1);
+SDValue node0x3827a310 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3827a3c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38271160 = dag->getTruncStore(entry, dl, node0x3827a310, node0x3827a3c0, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x1669b860);
-dag->setRoot(node0x1669b860);
+roots.push_back(node0x38271160);
+dag->setRoot(node0x38271160);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a5160 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x166a52e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a5100 = dag->getStore(entry, dl, node0x166a5160, node0x166a52e0, mpi, 1);
+SDValue node0x3827aa60 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3827abe0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3827aa00 = dag->getStore(entry, dl, node0x3827aa60, node0x3827abe0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166a5100);
-dag->setRoot(node0x166a5100);
+roots.push_back(node0x3827aa00);
+dag->setRoot(node0x3827aa00);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__regs__immspec_1_:
     {
-SDValue node0x166a5b40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166a5bf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166a5980 = dag->getStore(entry, dl, node0x166a5b40, node0x166a5bf0, mpi, 1);
+SDValue node0x3827b440 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3827b4f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3827b280 = dag->getStore(entry, dl, node0x3827b440, node0x3827b4f0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166a5980);
-dag->setRoot(node0x166a5980);
+roots.push_back(node0x3827b280);
+dag->setRoot(node0x3827b280);
     }
     break;
   case Codasip::i_jal__opc_jal__reg0__rel_addr20__:
     {
-SDValue node0x16562170 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16562360 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16562170);
+SDValue node0x3812d170 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x3812d360 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x3812d170);
 roots.reserve(1);
-roots.push_back(node0x16562360);
-dag->setRoot(node0x16562360);
+roots.push_back(node0x3812d360);
+dag->setRoot(node0x3812d360);
     }
     break;
   case Codasip::i_jal__opc_jal__regs__rel_addr20__:
     {
-SDValue node0x16563120 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x165617a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16563120, SDValue());
-SDValue node0x16563530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x16563720 = dag->getNode(ISD::BR, dl, MVT::Other, node0x165617a0, node0x16563530);
+SDValue node0x3812e120 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3812c7a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3812e120, SDValue());
+SDValue node0x3812e530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3812e720 = dag->getNode(ISD::BR, dl, MVT::Other, node0x3812c7a0, node0x3812e530);
 roots.reserve(2);
-roots.push_back(node0x165617a0);
-roots.push_back(node0x16563720);
-dag->setRoot(node0x16563720);
+roots.push_back(node0x3812c7a0);
+roots.push_back(node0x3812e720);
+dag->setRoot(node0x3812e720);
     }
     break;
   case Codasip::i_ebreak__opc_ebreak__:
@@ -1980,11 +1980,24 @@ dag->setRoot(entry);
     break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__:
     {
-SDValue node0x164cafd0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164caf30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164cafd0, SDValue());
+SDValue node0x3835e270 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3835e1d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3835e270, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164caf30);
-dag->setRoot(node0x164caf30);
+roots.push_back(node0x3835e1d0);
+dag->setRoot(node0x3835e1d0);
+    }
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__:
+    {
+SDValue node0x38362b00 = dag->getConstant(8LL, dl, MVT::i32);
+SDValue node0x38362d20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38362dd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3835c010 = dag->getNode(ISD::MUL, dl, MVT::i32, node0x38362d20, node0x38362dd0);
+SDValue node0x38362ea0 = dag->getNode(ISD::SRA, dl, MVT::i32, node0x3835c010, node0x38362b00);
+SDValue node0x38362940 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38362ea0, SDValue());
+roots.reserve(1);
+roots.push_back(node0x38362940);
+dag->setRoot(node0x38362940);
     }
     break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__:
@@ -1993,28 +2006,10 @@ roots.reserve(0);
 dag->setRoot(entry);
     }
     break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__:
-    {
-SDValue node0x164d8b80 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164d8ae0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164d8b80, SDValue());
-roots.reserve(1);
-roots.push_back(node0x164d8ae0);
-dag->setRoot(node0x164d8ae0);
-    }
-    break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__:
     {
 roots.reserve(0);
 dag->setRoot(entry);
-    }
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__:
-    {
-SDValue node0x164e6730 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164e6690 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164e6730, SDValue());
-roots.reserve(1);
-roots.push_back(node0x164e6690);
-dag->setRoot(node0x164e6690);
     }
     break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__:
@@ -2023,28 +2018,10 @@ roots.reserve(0);
 dag->setRoot(entry);
     }
     break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__:
-    {
-SDValue node0x164f42e0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164f4240 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164f42e0, SDValue());
-roots.reserve(1);
-roots.push_back(node0x164f4240);
-dag->setRoot(node0x164f4240);
-    }
-    break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__:
     {
 roots.reserve(0);
 dag->setRoot(entry);
-    }
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__:
-    {
-SDValue node0x16501ef0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16501e50 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16501ef0, SDValue());
-roots.reserve(1);
-roots.push_back(node0x16501e50);
-dag->setRoot(node0x16501e50);
     }
     break;
   case Codasip::i_fence__opc_fence__opc_hint_fence__opc_hint_fence__:
@@ -3597,22 +3574,22 @@ dag->setRoot(entry);
     break;
   case Codasip::i_ori_emulation_alias__regs__reg0__simm12_simple__:
     {
-SDValue node0x16614600 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166136a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16614600, SDValue());
+SDValue node0x381e9aa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381e8b40 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381e9aa0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166136a0);
-dag->setRoot(node0x166136a0);
+roots.push_back(node0x381e8b40);
+dag->setRoot(node0x381e8b40);
     }
     break;
   case Codasip::i_ori_emulation_alias__regs__regs__simm12_simple__:
     {
-SDValue node0x16616bc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16616c70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16616d10 = dag->getNode(ISD::OR, dl, MVT::i32, node0x16616bc0, node0x16616c70);
-SDValue node0x16615980 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16616d10, SDValue());
+SDValue node0x381ec060 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381ec110 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381ec1b0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x381ec060, node0x381ec110);
+SDValue node0x381eae20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381ec1b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16615980);
-dag->setRoot(node0x16615980);
+roots.push_back(node0x381eae20);
+dag->setRoot(node0x381eae20);
     }
     break;
   case Codasip::i_xret__opc_mret__:
@@ -3628,11 +3605,11 @@ case Codasip::e_movi32__BA:
 case Codasip::e_movi32__JT:
 case Codasip::e_movi32__CP:
     {
-SDValue node0x167b7cc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1668c2c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x167b7cc0, SDValue());
+SDValue node0x382618d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382615e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x382618d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668c2c0);
-dag->setRoot(node0x1668c2c0);
+roots.push_back(node0x382615e0);
+dag->setRoot(node0x382615e0);
     }
     break;
   case Codasip::i_jump_reg_alias__regs__TAILCALL_CLONE_:
@@ -3698,66 +3675,66 @@ dag->setRoot(entry);
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__reg0__i32_TRUNC_CLONE_:
     {
-SDValue node0x16252500 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16252580 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16253080 = dag->getTruncStore(entry, dl, node0x16252500, node0x16252580, mpi, MVT::i8, 1);
+SDValue node0x37e29a20 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e29aa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2a5a0 = dag->getTruncStore(entry, dl, node0x37e29a20, node0x37e29aa0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x16253080);
-dag->setRoot(node0x16253080);
+roots.push_back(node0x37e2a5a0);
+dag->setRoot(node0x37e2a5a0);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__regs__i32_TRUNC_CLONE_:
     {
-SDValue node0x16252400 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x162522e0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16252480 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1624e860 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x162522e0, node0x16252480);
-SDValue node0x16253a00 = dag->getTruncStore(entry, dl, node0x16252400, node0x1624e860, mpi, MVT::i8, 1);
+SDValue node0x37e29920 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e29800 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e299a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e25d80 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e29800, node0x37e299a0);
+SDValue node0x37e2af20 = dag->getTruncStore(entry, dl, node0x37e29920, node0x37e25d80, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x16253a00);
-dag->setRoot(node0x16253a00);
+roots.push_back(node0x37e2af20);
+dag->setRoot(node0x37e2af20);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__reg0__i32_TRUNC_CLONE_:
     {
-SDValue node0x16252600 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16254020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16254310 = dag->getTruncStore(entry, dl, node0x16252600, node0x16254020, mpi, MVT::i16, 1);
+SDValue node0x37e29b20 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e2b540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2b830 = dag->getTruncStore(entry, dl, node0x37e29b20, node0x37e2b540, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x16254310);
-dag->setRoot(node0x16254310);
+roots.push_back(node0x37e2b830);
+dag->setRoot(node0x37e2b830);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__regs__i32_TRUNC_CLONE_:
     {
-SDValue node0x16254930 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1624e460 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x162549b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1624d520 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1624e460, node0x162549b0);
-SDValue node0x16254d90 = dag->getTruncStore(entry, dl, node0x16254930, node0x1624d520, mpi, MVT::i16, 1);
+SDValue node0x37e2be50 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e25980 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2bed0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e250c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e25980, node0x37e2bed0);
+SDValue node0x37e2c2b0 = dag->getTruncStore(entry, dl, node0x37e2be50, node0x37e250c0, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x16254d90);
-dag->setRoot(node0x16254d90);
+roots.push_back(node0x37e2c2b0);
+dag->setRoot(node0x37e2c2b0);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_simple__regs__immspec_1_i32_TRUNC_CLONE_:
     {
-SDValue node0x16255120 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16252250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16255310 = dag->getTruncStore(entry, dl, node0x16255120, node0x16252250, mpi, MVT::i8, 1);
+SDValue node0x37e2c640 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e29770 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2c830 = dag->getTruncStore(entry, dl, node0x37e2c640, node0x37e29770, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x16255310);
-dag->setRoot(node0x16255310);
+roots.push_back(node0x37e2c830);
+dag->setRoot(node0x37e2c830);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_simple__regs__immspec_1_i32_TRUNC_CLONE_:
     {
-SDValue node0x16255700 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16252370 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x162558e0 = dag->getTruncStore(entry, dl, node0x16255700, node0x16252370, mpi, MVT::i16, 1);
+SDValue node0x37e2cc20 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x37e29890 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2ce00 = dag->getTruncStore(entry, dl, node0x37e2cc20, node0x37e29890, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x162558e0);
-dag->setRoot(node0x162558e0);
+roots.push_back(node0x37e2ce00);
+dag->setRoot(node0x37e2ce00);
     }
     break;
   case Codasip::i_jump_reg_alias__regs___RET_EMUL_:
@@ -3767,399 +3744,399 @@ dag->setRoot(entry);
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__regs__0_REG_EMUL_:
     {
-SDValue node0x16255cf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x162571f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16257410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625c2c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x162571f0, node0x16257410);
-SDValue node0x162520e0 = dag->getStore(entry, dl, node0x16255cf0, node0x1625c2c0, mpi, 1);
+SDValue node0x37e2d210 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2e710 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e2e930 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e337e0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e2e710, node0x37e2e930);
+SDValue node0x37e29600 = dag->getStore(entry, dl, node0x37e2d210, node0x37e337e0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x162520e0);
-dag->setRoot(node0x162520e0);
+roots.push_back(node0x37e29600);
+dag->setRoot(node0x37e29600);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__regs__1_BIGIMM_EMUL_:
     {
-SDValue node0x162562d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16256fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1625b150 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625b7e0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16256fa0, node0x1625b150);
-SDValue node0x16257d40 = dag->getStore(entry, dl, node0x162562d0, node0x1625b7e0, mpi, 1);
+SDValue node0x37e2d7f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e2e4c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e32670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e32d00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e2e4c0, node0x37e32670);
+SDValue node0x37e2f260 = dag->getStore(entry, dl, node0x37e2d7f0, node0x37e32d00, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16257d40);
-dag->setRoot(node0x16257d40);
+roots.push_back(node0x37e2f260);
+dag->setRoot(node0x37e2f260);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__regs__2_REG_EMUL_:
     {
-SDValue node0x16255b00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1625c040 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625c8f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16255b00, node0x1625c040);
-SDValue node0x1625a2a0 = dag->getLoad(MVT::i32, dl, entry, node0x1625c8f0, mpi, 1);
-SDValue node0x1625d130 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1625a2a0, SDValue());
+SDValue node0x37e2d020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e33560 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e33e10 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e2d020, node0x37e33560);
+SDValue node0x37e317c0 = dag->getLoad(MVT::i32, dl, entry, node0x37e33e10, mpi, 1);
+SDValue node0x37e34650 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e317c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1625d130);
-dag->setRoot(node0x1625d130);
+roots.push_back(node0x37e34650);
+dag->setRoot(node0x37e34650);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__regs__3_BIGIMM_EMUL_:
     {
-SDValue node0x1625b250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1625e530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625b0e0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1625b250, node0x1625e530);
-SDValue node0x1625c860 = dag->getLoad(MVT::i32, dl, entry, node0x1625b0e0, mpi, 1);
-SDValue node0x1625e5e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1625c860, SDValue());
+SDValue node0x37e32770 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e35a50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e32600 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e32770, node0x37e35a50);
+SDValue node0x37e33d80 = dag->getLoad(MVT::i32, dl, entry, node0x37e32600, mpi, 1);
+SDValue node0x37e35b00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e33d80, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1625e5e0);
-dag->setRoot(node0x1625e5e0);
+roots.push_back(node0x37e35b00);
+dag->setRoot(node0x37e35b00);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_simple__regs__4_BIGIMM_EMUL_:
     {
-SDValue node0x1625aee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16259e90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1625ed70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625b770 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16259e90, node0x1625ed70);
-SDValue node0x16255e40 = dag->getStore(entry, dl, node0x1625aee0, node0x1625b770, mpi, 1);
+SDValue node0x37e32400 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x37e313b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e36290 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e32c90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e313b0, node0x37e36290);
+SDValue node0x37e2d360 = dag->getStore(entry, dl, node0x37e32400, node0x37e32c90, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16255e40);
-dag->setRoot(node0x16255e40);
+roots.push_back(node0x37e2d360);
+dag->setRoot(node0x37e2d360);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_simple__regs__5_BIGIMM_EMUL_:
     {
-SDValue node0x1625c4f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1625f8f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625c7f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1625c4f0, node0x1625f8f0);
-SDValue node0x162566d0 = dag->getLoad(MVT::i32, dl, entry, node0x1625c7f0, mpi, 1);
-SDValue node0x1625f970 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x162566d0, SDValue());
+SDValue node0x37e33a10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e36e10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e33d10 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e33a10, node0x37e36e10);
+SDValue node0x37e2dbf0 = dag->getLoad(MVT::i32, dl, entry, node0x37e33d10, mpi, 1);
+SDValue node0x37e36e90 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e2dbf0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1625f970);
-dag->setRoot(node0x1625f970);
+roots.push_back(node0x37e36e90);
+dag->setRoot(node0x37e36e90);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__6_BIGIMM_EMUL_:
     {
-SDValue node0x1625c0d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16260410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625b700 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1625c0d0, node0x16260410);
-SDValue node0x16260490 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1625b700, SDValue());
+SDValue node0x37e335f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e37930 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e32c20 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e335f0, node0x37e37930);
+SDValue node0x37e379b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e32c20, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16260490);
-dag->setRoot(node0x16260490);
+roots.push_back(node0x37e379b0);
+dag->setRoot(node0x37e379b0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__7_BIGIMM_EMUL_:
     {
-SDValue node0x1625aa30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16260fd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1625af70 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1625aa30, node0x16260fd0);
-SDValue node0x16261050 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1625af70, SDValue());
+SDValue node0x37e31f50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e384f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e32490 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e31f50, node0x37e384f0);
+SDValue node0x37e38570 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e32490, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16261050);
-dag->setRoot(node0x16261050);
+roots.push_back(node0x37e38570);
+dag->setRoot(node0x37e38570);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__8_BIGIMM_EMUL_:
     {
-SDValue node0x16260a00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16261b80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16259fe0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16260a00, node0x16261b80);
-SDValue node0x16261c00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16259fe0, SDValue());
+SDValue node0x37e37f20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e390a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37e31500 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e37f20, node0x37e390a0);
+SDValue node0x37e39120 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37e31500, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16261c00);
-dag->setRoot(node0x16261c00);
+roots.push_back(node0x37e39120);
+dag->setRoot(node0x37e39120);
     }
     break;
   case Codasip::c_addi_lo__opc_addi__regs__regs__:
     {
-SDValue node0x16209500 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x162176a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16810f50 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16209500, node0x162176a0);
-SDValue node0x16810f00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16810f50, SDValue());
+SDValue node0x37e08050 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383d6cc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x37dd2a10 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37e08050, node0x383d6cc0);
+SDValue node0x37dd29c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37dd2a10, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16810f00);
-dag->setRoot(node0x16810f00);
+roots.push_back(node0x37dd29c0);
+dag->setRoot(node0x37dd29c0);
     }
     break;
   case Codasip::c_lui_hi__opc_lui__regs__:
     {
-SDValue node0x16436f70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16811130 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16436f70, SDValue());
+SDValue node0x37dd30c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37dd2c20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37dd30c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16811130);
-dag->setRoot(node0x16811130);
+roots.push_back(node0x37dd2c20);
+dag->setRoot(node0x37dd2c20);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__reg0__simm12_lo__:
     {
-SDValue node0x16445300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16444fe0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16445300, SDValue());
+SDValue node0x37de0a30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37de0710 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37de0a30, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16444fe0);
-dag->setRoot(node0x16444fe0);
+roots.push_back(node0x37de0710);
+dag->setRoot(node0x37de0710);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x16445f80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16445430 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16445f80, SDValue());
+SDValue node0x37de16b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37de0b60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x37de16b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16445430);
-dag->setRoot(node0x16445430);
+roots.push_back(node0x37de0b60);
+dag->setRoot(node0x37de0b60);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_lo__:
     {
-SDValue node0x16448560 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x161fd900 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x161fd9a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16448560, node0x161fd900);
-SDValue node0x161fd5a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x161fd9a0, SDValue());
+SDValue node0x37ddae40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3801b710 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3801b7b0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x37ddae40, node0x3801b710);
+SDValue node0x3801b330 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3801b7b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x161fd5a0);
-dag->setRoot(node0x161fd5a0);
+roots.push_back(node0x3801b330);
+dag->setRoot(node0x3801b330);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_addi__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x1622fbf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x161fe820 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x161fe8c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1622fbf0, node0x161fe820);
-SDValue node0x161fdbb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x161fe8c0, SDValue());
+SDValue node0x380a46c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3801c630 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3801c6d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x380a46c0, node0x3801c630);
+SDValue node0x3801b9c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3801c6d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x161fdbb0);
-dag->setRoot(node0x161fdbb0);
+roots.push_back(node0x3801b9c0);
+dag->setRoot(node0x3801b9c0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_andi__regs__regs__simm12_lo__:
     {
-SDValue node0x1620db30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1621f200 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1621f2a0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x1620db30, node0x1621f200);
-SDValue node0x1621ee20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1621f2a0, SDValue());
+SDValue node0x37fee2c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3837a710 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3837a7b0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x37fee2c0, node0x3837a710);
+SDValue node0x3837a330 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3837a7b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1621ee20);
-dag->setRoot(node0x1621ee20);
+roots.push_back(node0x3837a330);
+dag->setRoot(node0x3837a330);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_andi__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x16216f70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16220120 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x162201c0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x16216f70, node0x16220120);
-SDValue node0x1621f4b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x162201c0, SDValue());
+SDValue node0x383d6590 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x37e0afc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3837b4b0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x383d6590, node0x37e0afc0);
+SDValue node0x3837a9c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3837b4b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1621f4b0);
-dag->setRoot(node0x1621f4b0);
+roots.push_back(node0x3837a9c0);
+dag->setRoot(node0x3837a9c0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__reg0__simm12_lo__:
     {
-SDValue node0x1622a5b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1622a290 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1622a5b0, SDValue());
+SDValue node0x383e59b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383e5690 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383e59b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622a290);
-dag->setRoot(node0x1622a290);
+roots.push_back(node0x383e5690);
+dag->setRoot(node0x383e5690);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x1622b230 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1622a6e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1622b230, SDValue());
+SDValue node0x383e6630 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383e5ae0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383e6630, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622a6e0);
-dag->setRoot(node0x1622a6e0);
+roots.push_back(node0x383e5ae0);
+dag->setRoot(node0x383e5ae0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__regs__simm12_lo__:
     {
-SDValue node0x1622df60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1622e290 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1622e330 = dag->getNode(ISD::OR, dl, MVT::i32, node0x1622df60, node0x1622e290);
-SDValue node0x1622de20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1622e330, SDValue());
+SDValue node0x383e9360 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383e9690 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383e9730 = dag->getNode(ISD::OR, dl, MVT::i32, node0x383e9360, node0x383e9690);
+SDValue node0x383e9220 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383e9730, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622de20);
-dag->setRoot(node0x1622de20);
+roots.push_back(node0x383e9220);
+dag->setRoot(node0x383e9220);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_ori__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x1622ef10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1622f240 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1622f2e0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x1622ef10, node0x1622f240);
-SDValue node0x1622e540 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1622f2e0, SDValue());
+SDValue node0x383ea310 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383ea640 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383ea6e0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x383ea310, node0x383ea640);
+SDValue node0x383e9940 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383ea6e0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1622e540);
-dag->setRoot(node0x1622e540);
+roots.push_back(node0x383e9940);
+dag->setRoot(node0x383e9940);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__reg0__simm12_lo__:
     {
-SDValue node0x164527b0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16452890 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16452930 = dag->getSetCC(dl, MVT::i32, node0x16452890, node0x164527b0, ISD::SETGT);
-SDValue node0x16452570 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16452930, SDValue());
+SDValue node0x383f4c70 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x383f4d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383f4df0 = dag->getSetCC(dl, MVT::i32, node0x383f4d50, node0x383f4c70, ISD::SETGT);
+SDValue node0x383f4a30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383f4df0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16452570);
-dag->setRoot(node0x16452570);
+roots.push_back(node0x383f4a30);
+dag->setRoot(node0x383f4a30);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x164536a0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x16453780 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16453820 = dag->getSetCC(dl, MVT::i32, node0x16453780, node0x164536a0, ISD::SETGT);
-SDValue node0x16452c00 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16453820, SDValue());
+SDValue node0x383f5b60 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x383f5c40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383f5ce0 = dag->getSetCC(dl, MVT::i32, node0x383f5c40, node0x383f5b60, ISD::SETGT);
+SDValue node0x383f50c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383f5ce0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16452c00);
-dag->setRoot(node0x16452c00);
+roots.push_back(node0x383f50c0);
+dag->setRoot(node0x383f50c0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__regs__simm12_lo__:
     {
-SDValue node0x16456800 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16456b30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16456bd0 = dag->getSetCC(dl, MVT::i32, node0x16456800, node0x16456b30, ISD::SETLT);
-SDValue node0x164566c0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16456bd0, SDValue());
+SDValue node0x383f8cc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383f8ff0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383f9090 = dag->getSetCC(dl, MVT::i32, node0x383f8cc0, node0x383f8ff0, ISD::SETLT);
+SDValue node0x383f8b80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383f9090, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164566c0);
-dag->setRoot(node0x164566c0);
+roots.push_back(node0x383f8b80);
+dag->setRoot(node0x383f8b80);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_slti__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x164578c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16457bf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16457c90 = dag->getSetCC(dl, MVT::i32, node0x164578c0, node0x16457bf0, ISD::SETLT);
-SDValue node0x16456ef0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16457c90, SDValue());
+SDValue node0x383f9d80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x383fa0b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x383fa150 = dag->getSetCC(dl, MVT::i32, node0x383f9d80, node0x383fa0b0, ISD::SETLT);
+SDValue node0x383f93b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x383fa150, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16456ef0);
-dag->setRoot(node0x16456ef0);
+roots.push_back(node0x383f93b0);
+dag->setRoot(node0x383f93b0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_lo__:
     {
-SDValue node0x164623f0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164624d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16462570 = dag->getSetCC(dl, MVT::i32, node0x164624d0, node0x164623f0, ISD::SETNE);
-SDValue node0x164621b0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16462570, SDValue());
+SDValue node0x3802a4e0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3802a5c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3802a660 = dag->getSetCC(dl, MVT::i32, node0x3802a5c0, node0x3802a4e0, ISD::SETNE);
+SDValue node0x3802a2a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3802a660, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164621b0);
-dag->setRoot(node0x164621b0);
+roots.push_back(node0x3802a2a0);
+dag->setRoot(node0x3802a2a0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x164632e0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x164633c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16463460 = dag->getSetCC(dl, MVT::i32, node0x164633c0, node0x164632e0, ISD::SETNE);
-SDValue node0x16462840 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16463460, SDValue());
+SDValue node0x3802b3d0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x3802b4b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3802b550 = dag->getSetCC(dl, MVT::i32, node0x3802b4b0, node0x3802b3d0, ISD::SETNE);
+SDValue node0x3802a930 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3802b550, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16462840);
-dag->setRoot(node0x16462840);
+roots.push_back(node0x3802a930);
+dag->setRoot(node0x3802a930);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_lo__:
     {
-SDValue node0x16466440 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16466770 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16466810 = dag->getSetCC(dl, MVT::i32, node0x16466440, node0x16466770, ISD::SETULT);
-SDValue node0x16466300 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16466810, SDValue());
+SDValue node0x3802e530 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3802e860 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3802e900 = dag->getSetCC(dl, MVT::i32, node0x3802e530, node0x3802e860, ISD::SETULT);
+SDValue node0x3802e3f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3802e900, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16466300);
-dag->setRoot(node0x16466300);
+roots.push_back(node0x3802e3f0);
+dag->setRoot(node0x3802e3f0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x16467500 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16467830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x164678d0 = dag->getSetCC(dl, MVT::i32, node0x16467500, node0x16467830, ISD::SETULT);
-SDValue node0x16466b30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x164678d0, SDValue());
+SDValue node0x3802f5f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3802f920 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3802f9c0 = dag->getSetCC(dl, MVT::i32, node0x3802f5f0, node0x3802f920, ISD::SETULT);
+SDValue node0x3802ec20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3802f9c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16466b30);
-dag->setRoot(node0x16466b30);
+roots.push_back(node0x3802ec20);
+dag->setRoot(node0x3802ec20);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__reg0__simm12_lo__:
     {
-SDValue node0x16472110 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16471df0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16472110, SDValue());
+SDValue node0x3803a200 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38039ee0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803a200, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16471df0);
-dag->setRoot(node0x16471df0);
+roots.push_back(node0x38039ee0);
+dag->setRoot(node0x38039ee0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x16472d90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16472240 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16472d90, SDValue());
+SDValue node0x3803ae80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3803a330 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803ae80, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16472240);
-dag->setRoot(node0x16472240);
+roots.push_back(node0x3803a330);
+dag->setRoot(node0x3803a330);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__regs__simm12_lo__:
     {
-SDValue node0x16475c00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16475f30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16475fd0 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x16475c00, node0x16475f30);
-SDValue node0x16475ac0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16475fd0, SDValue());
+SDValue node0x3803dcf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3803e020 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3803e0c0 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x3803dcf0, node0x3803e020);
+SDValue node0x3803dbb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803e0c0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16475ac0);
-dag->setRoot(node0x16475ac0);
+roots.push_back(node0x3803dbb0);
+dag->setRoot(node0x3803dbb0);
     }
     break;
   case Codasip::i_comp_2reg_imm__opc_xori__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x16476bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16476ee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16476f80 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x16476bb0, node0x16476ee0);
-SDValue node0x164761e0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16476f80, SDValue());
+SDValue node0x3803eca0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3803efd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3803f070 = dag->getNode(ISD::XOR, dl, MVT::i32, node0x3803eca0, node0x3803efd0);
+SDValue node0x3803e2d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3803f070, SDValue());
 roots.reserve(1);
-roots.push_back(node0x164761e0);
-dag->setRoot(node0x164761e0);
+roots.push_back(node0x3803e2d0);
+dag->setRoot(node0x3803e2d0);
     }
     break;
   case Codasip::i_jalr__opc_jalr__reg0__reg0__simm12_lo__:
     {
-SDValue node0x16565640 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16565340 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x16565640);
+SDValue node0x38130640 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x38130340 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x38130640);
 roots.reserve(1);
-roots.push_back(node0x16565340);
-dag->setRoot(node0x16565340);
+roots.push_back(node0x38130340);
+dag->setRoot(node0x38130340);
     }
     break;
   case Codasip::i_jalr__opc_jalr__reg0__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x165660c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
-SDValue node0x16565df0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x165660c0);
+SDValue node0x381310c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::Other);
+SDValue node0x38130df0 = dag->getNode(ISD::BR, dl, MVT::Other, entry, node0x381310c0);
 roots.reserve(1);
-roots.push_back(node0x16565df0);
-dag->setRoot(node0x16565df0);
+roots.push_back(node0x38130df0);
+dag->setRoot(node0x38130df0);
     }
     break;
   case Codasip::i_jalr__opc_jalr__regs__reg0__simm12_lo__:
     {
-SDValue node0x1656f7d0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x1656df20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1656f7d0, SDValue());
-SDValue node0x1656fb40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x1656f7a0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x1656df20, node0x1656fb40);
+SDValue node0x3813a7d0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x38138f20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3813a7d0, SDValue());
+SDValue node0x3813ab40 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3813a7a0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x38138f20, node0x3813ab40);
 roots.reserve(2);
-roots.push_back(node0x1656df20);
-roots.push_back(node0x1656f7a0);
-dag->setRoot(node0x1656f7a0);
+roots.push_back(node0x38138f20);
+roots.push_back(node0x3813a7a0);
+dag->setRoot(node0x3813a7a0);
     }
     break;
   case Codasip::i_jalr__opc_jalr__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x165704e0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x1656fd20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165704e0, SDValue());
-SDValue node0x16570850 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
-SDValue node0x165704b0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x1656fd20, node0x16570850);
+SDValue node0x3813b4e0 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3813ad20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3813b4e0, SDValue());
+SDValue node0x3813b850 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::Other);
+SDValue node0x3813b4b0 = dag->getNode(ISD::BR, dl, MVT::Other, node0x3813ad20, node0x3813b850);
 roots.reserve(2);
-roots.push_back(node0x1656fd20);
-roots.push_back(node0x165704b0);
-dag->setRoot(node0x165704b0);
+roots.push_back(node0x3813ad20);
+roots.push_back(node0x3813b4b0);
+dag->setRoot(node0x3813b4b0);
     }
     break;
   case Codasip::i_load__opc_loadb__reg0__simm12_lo__reg0__:
@@ -4188,46 +4165,46 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_lo__reg0__:
     {
-SDValue node0x1658a970 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16581390 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1658a970, mpi, MVT::i8, 1);
-SDValue node0x16589d60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16581390, SDValue());
+SDValue node0x38155970 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3813fa60 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x38155970, mpi, MVT::i8, 1);
+SDValue node0x38154d60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3813fa60, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16589d60);
-dag->setRoot(node0x16589d60);
+roots.push_back(node0x38154d60);
+dag->setRoot(node0x38154d60);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_lo__regs__:
     {
-SDValue node0x1658bd50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1658c080 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1658c120 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1658bd50, node0x1658c080);
-SDValue node0x1658aa10 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1658c120, mpi, MVT::i8, 1);
-SDValue node0x1658acc0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1658aa10, SDValue());
+SDValue node0x38156d50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38157080 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38157120 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38156d50, node0x38157080);
+SDValue node0x38155a10 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x38157120, mpi, MVT::i8, 1);
+SDValue node0x38155cc0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38155a10, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1658acc0);
-dag->setRoot(node0x1658acc0);
+roots.push_back(node0x38155cc0);
+dag->setRoot(node0x38155cc0);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_pcrel_lo__reg0__:
     {
-SDValue node0x1658d130 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1658c1b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1658d130, mpi, MVT::i8, 1);
-SDValue node0x1658c550 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1658c1b0, SDValue());
+SDValue node0x38158130 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381571b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x38158130, mpi, MVT::i8, 1);
+SDValue node0x38157550 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381571b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1658c550);
-dag->setRoot(node0x1658c550);
+roots.push_back(node0x38157550);
+dag->setRoot(node0x38157550);
     }
     break;
   case Codasip::i_load__opc_loadb__regs__simm12_pcrel_lo__regs__:
     {
-SDValue node0x1658e400 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1658e730 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1658e7d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1658e400, node0x1658e730);
-SDValue node0x1658d1d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x1658e7d0, mpi, MVT::i8, 1);
-SDValue node0x1658c370 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1658d1d0, SDValue());
+SDValue node0x38159400 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38159730 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381597d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38159400, node0x38159730);
+SDValue node0x381581d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x381597d0, mpi, MVT::i8, 1);
+SDValue node0x38157370 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381581d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1658c370);
-dag->setRoot(node0x1658c370);
+roots.push_back(node0x38157370);
+dag->setRoot(node0x38157370);
     }
     break;
   case Codasip::i_load__opc_loadbu__reg0__simm12_lo__reg0__:
@@ -4256,46 +4233,46 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_lo__reg0__:
     {
-SDValue node0x1659c410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1658e860 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x1659c410, mpi, MVT::i8, 1);
-SDValue node0x1659b980 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1658e860, SDValue());
+SDValue node0x38167410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38159860 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38167410, mpi, MVT::i8, 1);
+SDValue node0x38166980 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38159860, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1659b980);
-dag->setRoot(node0x1659b980);
+roots.push_back(node0x38166980);
+dag->setRoot(node0x38166980);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_lo__regs__:
     {
-SDValue node0x1659d8c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1659dbf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1659dc90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1659d8c0, node0x1659dbf0);
-SDValue node0x1659c4b0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x1659dc90, mpi, MVT::i8, 1);
-SDValue node0x1659c760 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1659c4b0, SDValue());
+SDValue node0x381688c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38168bf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38168c90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x381688c0, node0x38168bf0);
+SDValue node0x381674b0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38168c90, mpi, MVT::i8, 1);
+SDValue node0x38167760 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381674b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1659c760);
-dag->setRoot(node0x1659c760);
+roots.push_back(node0x38167760);
+dag->setRoot(node0x38167760);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0__:
     {
-SDValue node0x1659ecf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1659dd20 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x1659ecf0, mpi, MVT::i8, 1);
-SDValue node0x1659e070 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1659dd20, SDValue());
+SDValue node0x38169cf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38168d20 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x38169cf0, mpi, MVT::i8, 1);
+SDValue node0x38169070 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38168d20, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1659e070);
-dag->setRoot(node0x1659e070);
+roots.push_back(node0x38169070);
+dag->setRoot(node0x38169070);
     }
     break;
   case Codasip::i_load__opc_loadbu__regs__simm12_pcrel_lo__regs__:
     {
-SDValue node0x1659ff70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a02a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165a0340 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1659ff70, node0x165a02a0);
-SDValue node0x1659ed90 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165a0340, mpi, MVT::i8, 1);
-SDValue node0x1659df30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1659ed90, SDValue());
+SDValue node0x3816af70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3816b2a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3816b340 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3816af70, node0x3816b2a0);
+SDValue node0x38169d90 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3816b340, mpi, MVT::i8, 1);
+SDValue node0x38168f30 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38169d90, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1659df30);
-dag->setRoot(node0x1659df30);
+roots.push_back(node0x38168f30);
+dag->setRoot(node0x38168f30);
     }
     break;
   case Codasip::i_load__opc_loadh__reg0__simm12_lo__reg0__:
@@ -4324,46 +4301,46 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_lo__reg0__:
     {
-SDValue node0x165adfa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165a03d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165adfa0, mpi, MVT::i16, 1);
-SDValue node0x165ad390 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165a03d0, SDValue());
+SDValue node0x38178fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3816b3d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x38178fa0, mpi, MVT::i16, 1);
+SDValue node0x38178390 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3816b3d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165ad390);
-dag->setRoot(node0x165ad390);
+roots.push_back(node0x38178390);
+dag->setRoot(node0x38178390);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_lo__regs__:
     {
-SDValue node0x165af450 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165af780 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165af820 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165af450, node0x165af780);
-SDValue node0x165ae040 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165af820, mpi, MVT::i16, 1);
-SDValue node0x165ae2f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165ae040, SDValue());
+SDValue node0x3817a450 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817a780 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3817a820 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3817a450, node0x3817a780);
+SDValue node0x38179040 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3817a820, mpi, MVT::i16, 1);
+SDValue node0x381792f0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38179040, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165ae2f0);
-dag->setRoot(node0x165ae2f0);
+roots.push_back(node0x381792f0);
+dag->setRoot(node0x381792f0);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_pcrel_lo__reg0__:
     {
-SDValue node0x165b0830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165af8b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165b0830, mpi, MVT::i16, 1);
-SDValue node0x165afc50 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165af8b0, SDValue());
+SDValue node0x3817b830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817a8b0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3817b830, mpi, MVT::i16, 1);
+SDValue node0x3817ac50 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3817a8b0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165afc50);
-dag->setRoot(node0x165afc50);
+roots.push_back(node0x3817ac50);
+dag->setRoot(node0x3817ac50);
     }
     break;
   case Codasip::i_load__opc_loadh__regs__simm12_pcrel_lo__regs__:
     {
-SDValue node0x165b1b00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165b1e30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165b1ed0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165b1b00, node0x165b1e30);
-SDValue node0x165b08d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x165b1ed0, mpi, MVT::i16, 1);
-SDValue node0x165afa70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165b08d0, SDValue());
+SDValue node0x3817cb00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817ce30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3817ced0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3817cb00, node0x3817ce30);
+SDValue node0x3817b8d0 = dag->getExtLoad(ISD::SEXTLOAD, dl, MVT::i32, entry, node0x3817ced0, mpi, MVT::i16, 1);
+SDValue node0x3817aa70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3817b8d0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165afa70);
-dag->setRoot(node0x165afa70);
+roots.push_back(node0x3817aa70);
+dag->setRoot(node0x3817aa70);
     }
     break;
   case Codasip::i_load__opc_loadhu__reg0__simm12_lo__reg0__:
@@ -4392,46 +4369,46 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_lo__reg0__:
     {
-SDValue node0x165bfb10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165b1f60 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165bfb10, mpi, MVT::i16, 1);
-SDValue node0x165bf080 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165b1f60, SDValue());
+SDValue node0x3818ab10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3817cf60 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3818ab10, mpi, MVT::i16, 1);
+SDValue node0x3818a080 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3817cf60, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165bf080);
-dag->setRoot(node0x165bf080);
+roots.push_back(node0x3818a080);
+dag->setRoot(node0x3818a080);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_lo__regs__:
     {
-SDValue node0x165c0fc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c12f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165c1390 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165c0fc0, node0x165c12f0);
-SDValue node0x165bfbb0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165c1390, mpi, MVT::i16, 1);
-SDValue node0x165bfe60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165bfbb0, SDValue());
+SDValue node0x3818bfc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3818c2f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3818c390 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3818bfc0, node0x3818c2f0);
+SDValue node0x3818abb0 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3818c390, mpi, MVT::i16, 1);
+SDValue node0x3818ae60 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3818abb0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165bfe60);
-dag->setRoot(node0x165bfe60);
+roots.push_back(node0x3818ae60);
+dag->setRoot(node0x3818ae60);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0__:
     {
-SDValue node0x165c23f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c1420 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165c23f0, mpi, MVT::i16, 1);
-SDValue node0x165c1770 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165c1420, SDValue());
+SDValue node0x3818d3f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3818c420 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3818d3f0, mpi, MVT::i16, 1);
+SDValue node0x3818c770 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3818c420, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165c1770);
-dag->setRoot(node0x165c1770);
+roots.push_back(node0x3818c770);
+dag->setRoot(node0x3818c770);
     }
     break;
   case Codasip::i_load__opc_loadhu__regs__simm12_pcrel_lo__regs__:
     {
-SDValue node0x165c3670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165c39a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165c3a40 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165c3670, node0x165c39a0);
-SDValue node0x165c2490 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x165c3a40, mpi, MVT::i16, 1);
-SDValue node0x165c1630 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165c2490, SDValue());
+SDValue node0x3818e670 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3818e9a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3818ea40 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3818e670, node0x3818e9a0);
+SDValue node0x3818d490 = dag->getExtLoad(ISD::ZEXTLOAD, dl, MVT::i32, entry, node0x3818ea40, mpi, MVT::i16, 1);
+SDValue node0x3818c630 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3818d490, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165c1630);
-dag->setRoot(node0x165c1630);
+roots.push_back(node0x3818c630);
+dag->setRoot(node0x3818c630);
     }
     break;
   case Codasip::i_load__opc_loadw__reg0__simm12_lo__reg0__:
@@ -4460,363 +4437,363 @@ dag->setRoot(entry);
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_lo__reg0__:
     {
-SDValue node0x165d13b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d1450 = dag->getLoad(MVT::i32, dl, entry, node0x165d13b0, mpi, 1);
-SDValue node0x165d07a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d1450, SDValue());
+SDValue node0x3819c680 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3819c720 = dag->getLoad(MVT::i32, dl, entry, node0x3819c680, mpi, 1);
+SDValue node0x3819ba70 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3819c720, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d07a0);
-dag->setRoot(node0x165d07a0);
+roots.push_back(node0x3819ba70);
+dag->setRoot(node0x3819ba70);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_lo__regs__:
     {
-SDValue node0x165d27b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d2ae0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165d2b80 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165d27b0, node0x165d2ae0);
-SDValue node0x165d2c10 = dag->getLoad(MVT::i32, dl, entry, node0x165d2b80, mpi, 1);
-SDValue node0x165d1600 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d2c10, SDValue());
+SDValue node0x3819da80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3819ddb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3819de50 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3819da80, node0x3819ddb0);
+SDValue node0x3819dee0 = dag->getLoad(MVT::i32, dl, entry, node0x3819de50, mpi, 1);
+SDValue node0x3819c8d0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3819dee0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d1600);
-dag->setRoot(node0x165d1600);
+roots.push_back(node0x3819c8d0);
+dag->setRoot(node0x3819c8d0);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_pcrel_lo__reg0__:
     {
-SDValue node0x165d3a90 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d3b30 = dag->getLoad(MVT::i32, dl, entry, node0x165d3a90, mpi, 1);
-SDValue node0x165d2eb0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d3b30, SDValue());
+SDValue node0x3819ed60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3819ee00 = dag->getLoad(MVT::i32, dl, entry, node0x3819ed60, mpi, 1);
+SDValue node0x3819e180 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x3819ee00, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d2eb0);
-dag->setRoot(node0x165d2eb0);
+roots.push_back(node0x3819e180);
+dag->setRoot(node0x3819e180);
     }
     break;
   case Codasip::i_load__opc_loadw__regs__simm12_pcrel_lo__regs__:
     {
-SDValue node0x165d4d00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165d5030 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x165d50d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165d4d00, node0x165d5030);
-SDValue node0x165d5160 = dag->getLoad(MVT::i32, dl, entry, node0x165d50d0, mpi, 1);
-SDValue node0x165d2dc0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165d5160, SDValue());
+SDValue node0x3819ffd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381a0300 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381a03a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3819ffd0, node0x381a0300);
+SDValue node0x381a0430 = dag->getLoad(MVT::i32, dl, entry, node0x381a03a0, mpi, 1);
+SDValue node0x3819e090 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381a0430, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165d2dc0);
-dag->setRoot(node0x165d2dc0);
+roots.push_back(node0x3819e090);
+dag->setRoot(node0x3819e090);
     }
     break;
   case Codasip::i_lui_hi__opc_lui__regs__imm20_hi__:
     {
-SDValue node0x165f4580 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x165f4600 = dag->getConstant(2048LL, dl, MVT::i32);
-SDValue node0x165f46c0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x165f4580, node0x165f4600);
-SDValue node0x165f4730 = dag->getConstant(-4096LL, dl, MVT::i32);
-SDValue node0x165f47f0 = dag->getNode(ISD::AND, dl, MVT::i32, node0x165f46c0, node0x165f4730);
-SDValue node0x165f4290 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x165f47f0, SDValue());
+SDValue node0x381c9a20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381c9aa0 = dag->getConstant(2048LL, dl, MVT::i32);
+SDValue node0x381c9b60 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x381c9a20, node0x381c9aa0);
+SDValue node0x381c9bd0 = dag->getConstant(-4096LL, dl, MVT::i32);
+SDValue node0x381c9c90 = dag->getNode(ISD::AND, dl, MVT::i32, node0x381c9b60, node0x381c9bd0);
+SDValue node0x381c9730 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381c9c90, SDValue());
 roots.reserve(1);
-roots.push_back(node0x165f4290);
-dag->setRoot(node0x165f4290);
+roots.push_back(node0x381c9730);
+dag->setRoot(node0x381c9730);
     }
     break;
   case Codasip::i_ori_emulation_alias__regs__reg0__simm12_lo__:
     {
-SDValue node0x16612f60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166100a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16612f60, SDValue());
+SDValue node0x381e8400 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381e5540 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381e8400, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166100a0);
-dag->setRoot(node0x166100a0);
+roots.push_back(node0x381e5540);
+dag->setRoot(node0x381e5540);
     }
     break;
   case Codasip::i_ori_emulation_alias__regs__reg0__simm12_pcrel_lo__:
     {
-SDValue node0x16613b00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16613090 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16613b00, SDValue());
+SDValue node0x381e8fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381e8530 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381e8fa0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16613090);
-dag->setRoot(node0x16613090);
+roots.push_back(node0x381e8530);
+dag->setRoot(node0x381e8530);
     }
     break;
   case Codasip::i_ori_emulation_alias__regs__regs__simm12_lo__:
     {
-SDValue node0x16614e30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16615160 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16615200 = dag->getNode(ISD::OR, dl, MVT::i32, node0x16614e30, node0x16615160);
-SDValue node0x166141a0 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16615200, SDValue());
+SDValue node0x381ea2d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381ea600 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381ea6a0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x381ea2d0, node0x381ea600);
+SDValue node0x381e9640 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381ea6a0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x166141a0);
-dag->setRoot(node0x166141a0);
+roots.push_back(node0x381e9640);
+dag->setRoot(node0x381e9640);
     }
     break;
   case Codasip::i_ori_emulation_alias__regs__regs__simm12_pcrel_lo__:
     {
-SDValue node0x16615c30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16615f60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16616000 = dag->getNode(ISD::OR, dl, MVT::i32, node0x16615c30, node0x16615f60);
-SDValue node0x16615370 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16616000, SDValue());
+SDValue node0x381eb0d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381eb400 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x381eb4a0 = dag->getNode(ISD::OR, dl, MVT::i32, node0x381eb0d0, node0x381eb400);
+SDValue node0x381ea810 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x381eb4a0, SDValue());
 roots.reserve(1);
-roots.push_back(node0x16615370);
-dag->setRoot(node0x16615370);
+roots.push_back(node0x381ea810);
+dag->setRoot(node0x381ea810);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_s_lo__reg0__:
     {
-SDValue node0x16626270 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x16626510 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x164ffdc0 = dag->getStore(entry, dl, node0x16626270, node0x16626510, mpi, 1);
+SDValue node0x381fb710 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x381fb9b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3838bde0 = dag->getStore(entry, dl, node0x381fb710, node0x381fb9b0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x164ffdc0);
-dag->setRoot(node0x164ffdc0);
+roots.push_back(node0x3838bde0);
+dag->setRoot(node0x3838bde0);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_s_lo__regs__:
     {
-SDValue node0x16627390 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x166274f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16627780 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16627820 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x166274f0, node0x16627780);
-SDValue node0x166278b0 = dag->getStore(entry, dl, node0x16627390, node0x16627820, mpi, 1);
+SDValue node0x381fc830 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x381fc990 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x381fcc20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381fccc0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x381fc990, node0x381fcc20);
+SDValue node0x3838e660 = dag->getStore(entry, dl, node0x381fc830, node0x381fccc0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166278b0);
-dag->setRoot(node0x166278b0);
+roots.push_back(node0x3838e660);
+dag->setRoot(node0x3838e660);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x16628430 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x166286d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16628770 = dag->getStore(entry, dl, node0x16628430, node0x166286d0, mpi, 1);
+SDValue node0x381fd870 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x381fdb10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x380192d0 = dag->getStore(entry, dl, node0x381fd870, node0x381fdb10, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16628770);
-dag->setRoot(node0x16628770);
+roots.push_back(node0x380192d0);
+dag->setRoot(node0x380192d0);
     }
     break;
   case Codasip::i_store__opc_storeb__reg0__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x16629920 = dag->getConstant(0LL, dl, MVT::i8);
-SDValue node0x16629a80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16629d10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16629db0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16629a80, node0x16629d10);
-SDValue node0x16629e40 = dag->getStore(entry, dl, node0x16629920, node0x16629db0, mpi, 1);
+SDValue node0x381fed00 = dag->getConstant(0LL, dl, MVT::i8);
+SDValue node0x381fee60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x381ff0f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x381ff190 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x381fee60, node0x381ff0f0);
+SDValue node0x37df62d0 = dag->getStore(entry, dl, node0x381fed00, node0x381ff190, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16629e40);
-dag->setRoot(node0x16629e40);
+roots.push_back(node0x37df62d0);
+dag->setRoot(node0x37df62d0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_s_lo__reg0__:
     {
-SDValue node0x16631940 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16631c80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166e3240 = dag->getTruncStore(entry, dl, node0x16631940, node0x16631c80, mpi, MVT::i8, 1);
+SDValue node0x38206c60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38206fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382b88f0 = dag->getTruncStore(entry, dl, node0x38206c60, node0x38206fa0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x166e3240);
-dag->setRoot(node0x166e3240);
+roots.push_back(node0x382b88f0);
+dag->setRoot(node0x382b88f0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_s_lo__regs__:
     {
-SDValue node0x16632fd0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166331d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16633460 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16633500 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x166331d0, node0x16633460);
-SDValue node0x166e3420 = dag->getTruncStore(entry, dl, node0x16632fd0, node0x16633500, mpi, MVT::i8, 1);
+SDValue node0x382082f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382084f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38208780 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x38208820 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x382084f0, node0x38208780);
+SDValue node0x382b8ad0 = dag->getTruncStore(entry, dl, node0x382082f0, node0x38208820, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x166e3420);
-dag->setRoot(node0x166e3420);
+roots.push_back(node0x382b8ad0);
+dag->setRoot(node0x382b8ad0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x16634250 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16634590 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166e3620 = dag->getTruncStore(entry, dl, node0x16634250, node0x16634590, mpi, MVT::i8, 1);
+SDValue node0x38209570 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382098b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382b8cd0 = dag->getTruncStore(entry, dl, node0x38209570, node0x382098b0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x166e3620);
-dag->setRoot(node0x166e3620);
+roots.push_back(node0x382b8cd0);
+dag->setRoot(node0x382b8cd0);
     }
     break;
   case Codasip::i_store__opc_storeb__regs__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x16635860 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16635a60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16635cf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16635d90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16635a60, node0x16635cf0);
-SDValue node0x166e3800 = dag->getTruncStore(entry, dl, node0x16635860, node0x16635d90, mpi, MVT::i8, 1);
+SDValue node0x3820ab80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3820ad80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3820b010 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3820b0b0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3820ad80, node0x3820b010);
+SDValue node0x382b8eb0 = dag->getTruncStore(entry, dl, node0x3820ab80, node0x3820b0b0, mpi, MVT::i8, 1);
 roots.reserve(1);
-roots.push_back(node0x166e3800);
-dag->setRoot(node0x166e3800);
+roots.push_back(node0x382b8eb0);
+dag->setRoot(node0x382b8eb0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_s_lo__reg0__:
     {
-SDValue node0x16638e70 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x16639110 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166391b0 = dag->getStore(entry, dl, node0x16638e70, node0x16639110, mpi, 1);
+SDValue node0x3820e190 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x3820e430 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3820e4d0 = dag->getStore(entry, dl, node0x3820e190, node0x3820e430, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x166391b0);
-dag->setRoot(node0x166391b0);
+roots.push_back(node0x3820e4d0);
+dag->setRoot(node0x3820e4d0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_s_lo__regs__:
     {
-SDValue node0x1663a170 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x1663a2d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1663a560 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1663a600 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1663a2d0, node0x1663a560);
-SDValue node0x1663a690 = dag->getStore(entry, dl, node0x1663a170, node0x1663a600, mpi, 1);
+SDValue node0x3820f490 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x3820f5f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3820f880 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3820f920 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3820f5f0, node0x3820f880);
+SDValue node0x3820f9b0 = dag->getStore(entry, dl, node0x3820f490, node0x3820f920, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1663a690);
-dag->setRoot(node0x1663a690);
+roots.push_back(node0x3820f9b0);
+dag->setRoot(node0x3820f9b0);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x1663b210 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x1663b4b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1663b550 = dag->getStore(entry, dl, node0x1663b210, node0x1663b4b0, mpi, 1);
+SDValue node0x38210530 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x382107d0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38210870 = dag->getStore(entry, dl, node0x38210530, node0x382107d0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1663b550);
-dag->setRoot(node0x1663b550);
+roots.push_back(node0x38210870);
+dag->setRoot(node0x38210870);
     }
     break;
   case Codasip::i_store__opc_storeh__reg0__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x1663c700 = dag->getConstant(0LL, dl, MVT::i16);
-SDValue node0x1663c860 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1663caf0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1663cb90 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1663c860, node0x1663caf0);
-SDValue node0x1663cc20 = dag->getStore(entry, dl, node0x1663c700, node0x1663cb90, mpi, 1);
+SDValue node0x38211a20 = dag->getConstant(0LL, dl, MVT::i16);
+SDValue node0x38211b80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38211e10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38211eb0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38211b80, node0x38211e10);
+SDValue node0x38211f40 = dag->getStore(entry, dl, node0x38211a20, node0x38211eb0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1663cc20);
-dag->setRoot(node0x1663cc20);
+roots.push_back(node0x38211f40);
+dag->setRoot(node0x38211f40);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_s_lo__reg0__:
     {
-SDValue node0x16644910 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16644c50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166e44e0 = dag->getTruncStore(entry, dl, node0x16644910, node0x16644c50, mpi, MVT::i16, 1);
+SDValue node0x38219c30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38219f70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382b9b90 = dag->getTruncStore(entry, dl, node0x38219c30, node0x38219f70, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x166e44e0);
-dag->setRoot(node0x166e44e0);
+roots.push_back(node0x382b9b90);
+dag->setRoot(node0x382b9b90);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_s_lo__regs__:
     {
-SDValue node0x16645fa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166461a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16646430 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x166464d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x166461a0, node0x16646430);
-SDValue node0x166e46c0 = dag->getTruncStore(entry, dl, node0x16645fa0, node0x166464d0, mpi, MVT::i16, 1);
+SDValue node0x3821b2c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3821b4c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3821b750 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3821b7f0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3821b4c0, node0x3821b750);
+SDValue node0x382b9d70 = dag->getTruncStore(entry, dl, node0x3821b2c0, node0x3821b7f0, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x166e46c0);
-dag->setRoot(node0x166e46c0);
+roots.push_back(node0x382b9d70);
+dag->setRoot(node0x382b9d70);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x16647220 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16647560 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x166e48c0 = dag->getTruncStore(entry, dl, node0x16647220, node0x16647560, mpi, MVT::i16, 1);
+SDValue node0x3821c540 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3821c880 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382b9f70 = dag->getTruncStore(entry, dl, node0x3821c540, node0x3821c880, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x166e48c0);
-dag->setRoot(node0x166e48c0);
+roots.push_back(node0x382b9f70);
+dag->setRoot(node0x382b9f70);
     }
     break;
   case Codasip::i_store__opc_storeh__regs__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x16648830 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16648a30 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16648cc0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16648d60 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16648a30, node0x16648cc0);
-SDValue node0x166e4aa0 = dag->getTruncStore(entry, dl, node0x16648830, node0x16648d60, mpi, MVT::i16, 1);
+SDValue node0x3821db50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3821dd50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3821dfe0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3821e080 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3821dd50, node0x3821dfe0);
+SDValue node0x382ba150 = dag->getTruncStore(entry, dl, node0x3821db50, node0x3821e080, mpi, MVT::i16, 1);
 roots.reserve(1);
-roots.push_back(node0x166e4aa0);
-dag->setRoot(node0x166e4aa0);
+roots.push_back(node0x382ba150);
+dag->setRoot(node0x382ba150);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_s_lo__reg0__:
     {
-SDValue node0x1664be40 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1664c040 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1664c0e0 = dag->getStore(entry, dl, node0x1664be40, node0x1664c040, mpi, 1);
+SDValue node0x38221160 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38221360 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38221400 = dag->getStore(entry, dl, node0x38221160, node0x38221360, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1664c0e0);
-dag->setRoot(node0x1664c0e0);
+roots.push_back(node0x38221400);
+dag->setRoot(node0x38221400);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_s_lo__regs__:
     {
-SDValue node0x1664d0a0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1664d200 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1664d3f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1664d490 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1664d200, node0x1664d3f0);
-SDValue node0x1664d520 = dag->getStore(entry, dl, node0x1664d0a0, node0x1664d490, mpi, 1);
+SDValue node0x382223c0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38222520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38222710 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x382227b0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38222520, node0x38222710);
+SDValue node0x38222840 = dag->getStore(entry, dl, node0x382223c0, node0x382227b0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1664d520);
-dag->setRoot(node0x1664d520);
+roots.push_back(node0x38222840);
+dag->setRoot(node0x38222840);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x1664e0a0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1664e2a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1664e340 = dag->getStore(entry, dl, node0x1664e0a0, node0x1664e2a0, mpi, 1);
+SDValue node0x382233c0 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x382235c0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38223660 = dag->getStore(entry, dl, node0x382233c0, node0x382235c0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1664e340);
-dag->setRoot(node0x1664e340);
+roots.push_back(node0x38223660);
+dag->setRoot(node0x38223660);
     }
     break;
   case Codasip::i_store__opc_storew__reg0__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x1664f4f0 = dag->getConstant(0LL, dl, MVT::i32);
-SDValue node0x1664f650 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1664f840 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1664f8e0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1664f650, node0x1664f840);
-SDValue node0x1664f970 = dag->getStore(entry, dl, node0x1664f4f0, node0x1664f8e0, mpi, 1);
+SDValue node0x38224810 = dag->getConstant(0LL, dl, MVT::i32);
+SDValue node0x38224970 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38224b60 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38224c00 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x38224970, node0x38224b60);
+SDValue node0x38224c90 = dag->getStore(entry, dl, node0x38224810, node0x38224c00, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1664f970);
-dag->setRoot(node0x1664f970);
+roots.push_back(node0x38224c90);
+dag->setRoot(node0x38224c90);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_s_lo__reg0__:
     {
-SDValue node0x16657520 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x166577b0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16654fe0 = dag->getStore(entry, dl, node0x16657520, node0x166577b0, mpi, 1);
+SDValue node0x3822c840 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3822cad0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3822a300 = dag->getStore(entry, dl, node0x3822c840, node0x3822cad0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16654fe0);
-dag->setRoot(node0x16654fe0);
+roots.push_back(node0x3822a300);
+dag->setRoot(node0x3822a300);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_s_lo__regs__:
     {
-SDValue node0x16658b00 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16658c50 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16658ee0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x16658f80 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x16658c50, node0x16658ee0);
-SDValue node0x16659010 = dag->getStore(entry, dl, node0x16658b00, node0x16658f80, mpi, 1);
+SDValue node0x3822de20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3822df70 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3822e200 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x3822e2a0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x3822df70, node0x3822e200);
+SDValue node0x3822e330 = dag->getStore(entry, dl, node0x3822de20, node0x3822e2a0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16659010);
-dag->setRoot(node0x16659010);
+roots.push_back(node0x3822e330);
+dag->setRoot(node0x3822e330);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0__:
     {
-SDValue node0x16659c80 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x16659f10 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16659fb0 = dag->getStore(entry, dl, node0x16659c80, node0x16659f10, mpi, 1);
+SDValue node0x3822efa0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x3822f230 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x3822f2d0 = dag->getStore(entry, dl, node0x3822efa0, node0x3822f230, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x16659fb0);
-dag->setRoot(node0x16659fb0);
+roots.push_back(node0x3822f2d0);
+dag->setRoot(node0x3822f2d0);
     }
     break;
   case Codasip::i_store__opc_storew__regs__simm12_s_pcrel_lo__regs__:
     {
-SDValue node0x1665b230 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1665b380 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1665b610 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
-SDValue node0x1665b6b0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x1665b380, node0x1665b610);
-SDValue node0x1665b740 = dag->getStore(entry, dl, node0x1665b230, node0x1665b6b0, mpi, 1);
+SDValue node0x38230550 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x382306a0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38230930 = dag->getRegister(TargetRegisterInfo::index2VirtReg(2), MVT::i32);
+SDValue node0x382309d0 = dag->getNode(ISD::ADD, dl, MVT::i32, node0x382306a0, node0x38230930);
+SDValue node0x38230a60 = dag->getStore(entry, dl, node0x38230550, node0x382309d0, mpi, 1);
 roots.reserve(1);
-roots.push_back(node0x1665b740);
-dag->setRoot(node0x1665b740);
+roots.push_back(node0x38230a60);
+dag->setRoot(node0x38230a60);
     }
     break;
   case Codasip::i_unimp__opc_unimp__:
@@ -4833,32 +4810,32 @@ dag->setRoot(entry);
     break;
   case Codasip::load_imm32__regs__regs__regs__:
     {
-SDValue node0x1668c0f0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x1668be20 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x1668c0f0, SDValue());
+SDValue node0x38261410 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38261140 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38261410, SDValue());
 roots.reserve(1);
-roots.push_back(node0x1668be20);
-dag->setRoot(node0x1668be20);
+roots.push_back(node0x38261140);
+dag->setRoot(node0x38261140);
     }
     break;
   case Codasip::i_jalr__opc_jalr__reg0__regs__simm12_simple__:
     {
-SDValue node0x1656abb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
-SDValue node0x1656ae50 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x1656abb0);
+SDValue node0x38135bb0 = dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32);
+SDValue node0x38135e50 = dag->getNode(ISD::BRIND, dl, MVT::Other, entry, node0x38135bb0);
 roots.reserve(1);
-roots.push_back(node0x1656ae50);
-dag->setRoot(node0x1656ae50);
+roots.push_back(node0x38135e50);
+dag->setRoot(node0x38135e50);
     }
     break;
   case Codasip::i_jalr__opc_jalr__regs__regs__simm12_simple__:
     {
-SDValue node0x16575870 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
-SDValue node0x16573e80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x16575870, SDValue());
-SDValue node0x16575d20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
-SDValue node0x16575fc0 = dag->getNode(ISD::BRIND, dl, MVT::Other, node0x16573e80, node0x16575d20);
+SDValue node0x38140870 = dag->getNode(CodasipISD::GET_PC, dl, MVT::i32);
+SDValue node0x3813ee80 = dag->getCopyToReg(entry, dl, dag->getRegister(TargetRegisterInfo::index2VirtReg(0), MVT::i32), node0x38140870, SDValue());
+SDValue node0x38140d20 = dag->getRegister(TargetRegisterInfo::index2VirtReg(1), MVT::i32);
+SDValue node0x38140fc0 = dag->getNode(ISD::BRIND, dl, MVT::Other, node0x3813ee80, node0x38140d20);
 roots.reserve(2);
-roots.push_back(node0x16573e80);
-roots.push_back(node0x16575fc0);
-dag->setRoot(node0x16575fc0);
+roots.push_back(node0x3813ee80);
+roots.push_back(node0x38140fc0);
+dag->setRoot(node0x38140fc0);
     }
     break;
   

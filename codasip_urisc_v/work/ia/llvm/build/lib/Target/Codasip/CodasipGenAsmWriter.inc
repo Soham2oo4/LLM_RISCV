@@ -2047,7 +2047,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     875187U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__regs__
     134240947U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
     151018163U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0_alias__
-    1442863795U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
+    918575795U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
     8155U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
     10624U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0_alias__
     84719U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__

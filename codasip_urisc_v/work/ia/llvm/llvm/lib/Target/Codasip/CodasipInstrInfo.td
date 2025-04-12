@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-12
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-06 06:40:46
+ *                Date: 2025-04-12 09:03:18
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -3240,6 +3240,26 @@ let Inst{6-0} = 0b0101011;
 // i_ext_hackaton(opc_hackaton_custom_a,regs,reg0,reg0)
 }
 
+def i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
+{
+let AsmString = "hackaton_custom_instr_a $op0, $op2, $op1";
+let Pattern = [(set i32:$op0, (i32 (sra (i32 (mul (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2))), (i32 8))))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+bits<5> op0;
+bits<5> op2;
+bits<5> op1;
+let Inst{31-25} = 0b0000000;
+let Inst{24-20} = op1;
+let Inst{19-15} = op2;
+let Inst{14-12} = 0b000;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_a,regs,regs,regs)
+}
+
 def i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__: CodasipMicroClass_<(outs), (ins)>
 {
 let AsmString = "hackaton_custom_instr_b x0, x0, x0";
@@ -3250,21 +3270,6 @@ let mayLoad = 0;
 let mayStore = 0;
 let Inst{31-0} = 0b00000000000000000001000000101011;
 // i_ext_hackaton(opc_hackaton_custom_b,reg0,reg0,reg0)
-}
-
-def i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins)>
-{
-let AsmString = "hackaton_custom_instr_b $op0, x0, x0";
-let Pattern = [(set i32:$op0, (i32 0))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000001;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_b,regs,reg0,reg0)
 }
 
 def i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__: CodasipMicroClass_<(outs), (ins)>
@@ -3279,21 +3284,6 @@ let Inst{31-0} = 0b00000000000000000010000000101011;
 // i_ext_hackaton(opc_hackaton_custom_c,reg0,reg0,reg0)
 }
 
-def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins)>
-{
-let AsmString = "hackaton_custom_instr_c $op0, x0, x0";
-let Pattern = [(set i32:$op0, (i32 0))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000010;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,reg0)
-}
-
 def i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__: CodasipMicroClass_<(outs), (ins)>
 {
 let AsmString = "hackaton_custom_instr_d x0, x0, x0";
@@ -3306,21 +3296,6 @@ let Inst{31-0} = 0b00000000000000000011000000101011;
 // i_ext_hackaton(opc_hackaton_custom_d,reg0,reg0,reg0)
 }
 
-def i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins)>
-{
-let AsmString = "hackaton_custom_instr_d $op0, x0, x0";
-let Pattern = [(set i32:$op0, (i32 0))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000011;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_d,regs,reg0,reg0)
-}
-
 def i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__: CodasipMicroClass_<(outs), (ins)>
 {
 let AsmString = "hackaton_custom_instr_e x0, x0, x0";
@@ -3331,21 +3306,6 @@ let mayLoad = 0;
 let mayStore = 0;
 let Inst{31-0} = 0b00000000000000000100000000101011;
 // i_ext_hackaton(opc_hackaton_custom_e,reg0,reg0,reg0)
-}
-
-def i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins)>
-{
-let AsmString = "hackaton_custom_instr_e $op0, x0, x0";
-let Pattern = [(set i32:$op0, (i32 0))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000100;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_e,regs,reg0,reg0)
 }
 
 def i_fence__opc_fence__opc_hint_fence__opc_hint_fence__: CodasipMicroClass_<(outs), (ins)>
@@ -28559,27 +28519,6 @@ let Inst{6-0} = 0b0101011;
 }
 
 // warning: (BGW589): Has unused operands.
-def i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1, regs:$op2)>
-{
-let AsmString = "hackaton_custom_instr_a $op0, $op1, $op2";
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-let hasSideEffects = 0;
-bits<5> op0;
-bits<5> op1;
-bits<5> op2;
-let Inst{31-25} = 0b0000000;
-let Inst{24-20} = op2;
-let Inst{19-15} = op1;
-let Inst{14-12} = 0b000;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_a,regs,regs,regs)
-}
-
-// warning: (BGW589): Has unused operands.
 def i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__: CodasipMicroClass_<(outs), (ins regs:$op0)>
 {
 let AsmString = "hackaton_custom_instr_b x0, x0, $op0";
@@ -28627,6 +28566,22 @@ let Inst{24-20} = op1;
 let Inst{19-15} = op0;
 let Inst{14-0} = 0b001000000101011;
 // i_ext_hackaton(opc_hackaton_custom_b,reg0,regs,regs)
+}
+
+// warning: (BGW564): All results of the instruction are undefined.
+def i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let AsmString = "hackaton_custom_instr_b $op0, x0, x0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+let hasSideEffects = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000001;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_b,regs,reg0,reg0)
 }
 
 // warning: (BGW589): Has unused operands.
@@ -28738,6 +28693,22 @@ let Inst{14-0} = 0b010000000101011;
 // i_ext_hackaton(opc_hackaton_custom_c,reg0,regs,regs)
 }
 
+// warning: (BGW564): All results of the instruction are undefined.
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let AsmString = "hackaton_custom_instr_c $op0, x0, x0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+let hasSideEffects = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000010;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,reg0)
+}
+
 // warning: (BGW589): Has unused operands.
 def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1)>
 {
@@ -28847,6 +28818,22 @@ let Inst{14-0} = 0b011000000101011;
 // i_ext_hackaton(opc_hackaton_custom_d,reg0,regs,regs)
 }
 
+// warning: (BGW564): All results of the instruction are undefined.
+def i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let AsmString = "hackaton_custom_instr_d $op0, x0, x0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+let hasSideEffects = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000011;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_d,regs,reg0,reg0)
+}
+
 // warning: (BGW589): Has unused operands.
 def i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1)>
 {
@@ -28954,6 +28941,22 @@ let Inst{24-20} = op1;
 let Inst{19-15} = op0;
 let Inst{14-0} = 0b100000000101011;
 // i_ext_hackaton(opc_hackaton_custom_e,reg0,regs,regs)
+}
+
+// warning: (BGW564): All results of the instruction are undefined.
+def i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let AsmString = "hackaton_custom_instr_e $op0, x0, x0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+let hasSideEffects = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000100;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_e,regs,reg0,reg0)
 }
 
 // warning: (BGW589): Has unused operands.
