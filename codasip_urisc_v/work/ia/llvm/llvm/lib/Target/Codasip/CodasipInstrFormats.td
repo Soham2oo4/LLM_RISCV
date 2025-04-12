@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-12 09:03:18
+ *                Date: 2025-04-12 19:55:17
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -297,11 +297,11 @@ def CheckFI_i32_regs: PatLeaf<(i32 regs:$r), "return CheckFI(N, Codasip::regsReg
 // note: brtarg versions should be OPERAND_PCREL but our passes want this
 let OperandType = "OPERAND_IMMEDIATE" in
 {
-def MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12_i32: Operand<i32>
+def MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12";
 }
-def MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12_iAny: Operand<iAny>
+def MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12";
 }
@@ -309,11 +309,11 @@ def MI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12_brtarg: Operand<OtherVT>
  let EncoderMethod = "encodeMI3immIH1_10start_base11_9imm20_s123imm1_9imm20_s12";
 }
 
-def MI3immIH1_10start_base1_10load_imm32_i32: Operand<i32>
+def MI3immIH1_10start_base1_10load_imm32_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_10load_imm32";
 }
-def MI3immIH1_10start_base1_10load_imm32_iAny: Operand<iAny>
+def MI3immIH1_10start_base1_10load_imm32_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_10load_imm32";
 }
@@ -321,11 +321,11 @@ def MI3immIH1_10start_base1_10load_imm32_brtarg: Operand<OtherVT>{
  let EncoderMethod = "encodeMI3immIH1_10start_base1_10load_imm32";
 }
 
-def MI3immIH1_10start_base1_8c_lui_hi_i32: Operand<i32>
+def MI3immIH1_10start_base1_8c_lui_hi_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_8c_lui_hi";
 }
-def MI3immIH1_10start_base1_8c_lui_hi_iAny: Operand<iAny>
+def MI3immIH1_10start_base1_8c_lui_hi_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_8c_lui_hi";
 }
@@ -333,11 +333,11 @@ def MI3immIH1_10start_base1_8c_lui_hi_brtarg: Operand<OtherVT>{
  let EncoderMethod = "encodeMI3immIH1_10start_base1_8c_lui_hi";
 }
 
-def MI3immIH1_10start_base1_9c_addi_lo_i32: Operand<i32>
+def MI3immIH1_10start_base1_9c_addi_lo_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_9c_addi_lo";
 }
-def MI3immIH1_10start_base1_9c_addi_lo_iAny: Operand<iAny>
+def MI3immIH1_10start_base1_9c_addi_lo_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base1_9c_addi_lo";
 }
@@ -345,11 +345,11 @@ def MI3immIH1_10start_base1_9c_addi_lo_brtarg: Operand<OtherVT>{
  let EncoderMethod = "encodeMI3immIH1_10start_base1_9c_addi_lo";
 }
 
-def MI3immIH1_10start_base6_4imm53imm1_4imm5_i32: Operand<i32>
+def MI3immIH1_10start_base6_4imm53imm1_4imm5_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base6_4imm53imm1_4imm5";
 }
-def MI3immIH1_10start_base6_4imm53imm1_4imm5_iAny: Operand<iAny>
+def MI3immIH1_10start_base6_4imm53imm1_4imm5_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base6_4imm53imm1_4imm5";
 }
@@ -357,11 +357,11 @@ def MI3immIH1_10start_base6_4imm53imm1_4imm5_brtarg: Operand<OtherVT>{
  let EncoderMethod = "encodeMI3immIH1_10start_base6_4imm53imm1_4imm5";
 }
 
-def MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm_i32: Operand<i32>
+def MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base8_6op_csr3csr1_7csr_imm";
 }
-def MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm_iAny: Operand<iAny>
+def MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3immIH1_10start_base8_6op_csr3csr1_7csr_imm";
 }
@@ -369,12 +369,12 @@ def MI3immIH1_10start_base8_6op_csr3csr1_7csr_imm_brtarg: Operand<OtherVT>{
  let EncoderMethod = "encodeMI3immIH1_10start_base8_6op_csr3csr1_7csr_imm";
 }
 
-def MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi_i32: Operand<i32>
+def MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi";
 }
-def MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi_iAny: Operand<iAny>
+def MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi";
@@ -384,12 +384,12 @@ def MI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi_brtarg: Operand<OtherVT>{
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8imm20_hi3imm1_8imm20_hi";
 }
 
-def MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo_i32: Operand<i32>
+def MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo";
 }
-def MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo_iAny: Operand<iAny>
+def MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo";
@@ -399,12 +399,12 @@ def MI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo_brtarg: Operand<O
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_11simm12_s_lo";
 }
 
-def MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo_i32: Operand<i32>
+def MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo";
 }
-def MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo_iAny: Operand<iAny>
+def MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo";
@@ -414,12 +414,12 @@ def MI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo_brtarg: Ope
  let DecoderMethod = "decodeMI3valIH1_10start_base10_8simm12_s8simm12_s1_17simm12_s_pcrel_lo";
 }
 
-def MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi_i32: Operand<i32>
+def MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi";
 }
-def MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi_iAny: Operand<iAny>
+def MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi";
@@ -429,12 +429,12 @@ def MI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi_brtarg: Operand
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_14imm20_pcrel_hi";
 }
 
-def MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi_i32: Operand<i32>
+def MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi";
 }
-def MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi_iAny: Operand<iAny>
+def MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi";
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi";
@@ -444,12 +444,12 @@ def MI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi_brtarg: Operand<OtherV
  let DecoderMethod = "decodeMI3valIH1_10start_base14_11imm20_reloc3imm1_8imm20_hi";
 }
 
-def MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo_i32: Operand<i32>
+def MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo";
 }
-def MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo_iAny: Operand<iAny>
+def MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo";
@@ -459,12 +459,12 @@ def MI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo_brtarg: Operand<Ot
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_15simm12_pcrel_lo";
 }
 
-def MI3valIH1_10start_base8_6simm126simm121_9simm12_lo_i32: Operand<i32>
+def MI3valIH1_10start_base8_6simm126simm121_9simm12_lo_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base8_6simm126simm121_9simm12_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_9simm12_lo";
 }
-def MI3valIH1_10start_base8_6simm126simm121_9simm12_lo_iAny: Operand<iAny>
+def MI3valIH1_10start_base8_6simm126simm121_9simm12_lo_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI3valIH1_10start_base8_6simm126simm121_9simm12_lo";
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_9simm12_lo";
@@ -474,12 +474,12 @@ def MI3valIH1_10start_base8_6simm126simm121_9simm12_lo_brtarg: Operand<OtherVT>{
  let DecoderMethod = "decodeMI3valIH1_10start_base8_6simm126simm121_9simm12_lo";
 }
 
-def MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12_i32: Operand<i32>
+def MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12";
 }
-def MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12_iAny: Operand<iAny>
+def MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12";
@@ -489,12 +489,12 @@ def MI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12_brtarg: Operand<Ot
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr124addr1_10rel_addr12";
 }
 
-def MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20_i32: Operand<i32>
+def MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20";
 }
-def MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20_iAny: Operand<iAny>
+def MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20";
@@ -504,12 +504,12 @@ def MI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20_brtarg: Operand<Ot
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr204addr1_10rel_addr20";
 }
 
-def MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32_i32: Operand<i32>
+def MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32";
 }
-def MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32_iAny: Operand<iAny>
+def MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32";
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32";
@@ -519,12 +519,12 @@ def MI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32_brtarg: Operand<Ot
  let DecoderMethod = "decodeMI4addrIH1_10start_base13_10rel_addr324addr1_10rel_addr32";
 }
 
-def MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi_i32: Operand<i32>
+def MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi";
  let DecoderMethod = "decodeMI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi";
 }
-def MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi_iAny: Operand<iAny>
+def MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi";
  let DecoderMethod = "decodeMI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi";
@@ -534,12 +534,12 @@ def MI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi_brtarg: Ope
  let DecoderMethod = "decodeMI4addrIH1_10start_base17_14imm32_lui_addi3imm1_14imm32_lui_addi";
 }
 
-def MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple_i32: Operand<i32>
+def MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple";
  let DecoderMethod = "decodeMI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple";
 }
-def MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple_iAny: Operand<iAny>
+def MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple";
  let DecoderMethod = "decodeMI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple";
@@ -549,11 +549,11 @@ def MI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tai
  let DecoderMethod = "decodeMI4addrIH1_10start_base23_20rel_addr32_call_tail4addr1_27rel_addr32_call_tail_simple";
 }
 
-def MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple_i32: Operand<i32>
+def MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple";
 }
-def MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple_iAny: Operand<iAny>
+def MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple";
 }
@@ -561,11 +561,11 @@ def MI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple_brtarg: Operan
  let EncoderMethod = "encodeMI4simmIH1_10start_base10_8simm12_s8simm12_s1_13simm12_simple";
 }
 
-def MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple_i32: Operand<i32>
+def MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI4simmIH1_10start_base8_6simm126simm121_13simm12_simple";
 }
-def MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple_iAny: Operand<iAny>
+def MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI4simmIH1_10start_base8_6simm126simm121_13simm12_simple";
 }
@@ -573,11 +573,11 @@ def MI4simmIH1_10start_base8_6simm126simm121_13simm12_simple_brtarg: Operand<Oth
  let EncoderMethod = "encodeMI4simmIH1_10start_base8_6simm126simm121_13simm12_simple";
 }
 
-def MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm_i32: Operand<i32>
+def MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm_iAny: Operand<iAny>
 {
  let EncoderMethod = "encodeMI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm";
 }
-def MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm_iAny: Operand<iAny>
+def MI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm_i32: Operand<i32>
 {
  let EncoderMethod = "encodeMI5shiftIH1_10start_base11_9shift_imm3imm1_9shift_imm";
 }

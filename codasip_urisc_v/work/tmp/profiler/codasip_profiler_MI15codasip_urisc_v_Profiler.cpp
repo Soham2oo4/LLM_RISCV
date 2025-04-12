@@ -20,8 +20,8 @@
 #include "getopt_common/interface/basicoptions.h"
 static const codasip::getopt::ToolInfoSetter g_ToolInfo(codasip::getopt::ToolInfo("Codasip  (C49_2265_2231)", 
 "codasip_urisc_v", 
-"5b0a7e3c8e912e2d4fcf2ac39a1ab2269dc1ba4eea2a2de91e460950d199cfe6", 
-"2025-04-12 09:04:21", 
+"977917a703b238f9ba89c02cd1dcdab27fef2368ff075463f7f94c6ff8cf1f07", 
+"2025-04-12 19:56:28", 
 ""
 ));
 

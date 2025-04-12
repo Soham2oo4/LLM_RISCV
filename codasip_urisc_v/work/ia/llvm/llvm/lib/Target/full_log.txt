@@ -144,14 +144,9 @@ In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__: warnin
 
 In instruction i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__: warning: (BGW589): Has unused operands.
 
-In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: warning: (BGW564): All results of the instruction are undefined.
-The instruction could have become like this during processing.
-
 In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__: warning: (BGW589): Has unused operands.
-
-In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__: warning: (BGW589): Has unused operands.
 
 In instruction i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__: warning: (BGW589): Has unused operands.
 
@@ -367,6 +362,8 @@ In instruction i_jalr__opc_jalr__regs__reg0__simm12_simple__: warning: (BGW545):
 In instruction i_auipc__opc_auipc__regs__imm20_s12__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
 
 In instruction i_jal__opc_jal__regs__rel_addr20__: warning: (BGW545): The instruction contains invalid operation ('GET_PC') even after the high-level analysis. The semantic pattern will be commented out.
+
+In instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: warning: (BGW565): The instruction performs a move from a register into itself.
 
 warning: (BGW536): There's no support for 'truncate store' over type 'i32 to i1' (with all operands being registers). The compiler can be generated, but compilation may fail if such an operation is needed in the compiled C/C++ code.
 

@@ -102,27 +102,34 @@ static inline int16_t saturate_i16(int32_t x) {
 // ---------------------------------------------------------
 // 1) Dot product (S7_8) => also produce a S7_8 result
 // ---------------------------------------------------------
-int16_t dot_S7_8( int16_t *a, int16_t *b, int size) {
-    int32_t acc = 0;
-    for(int i = 0; i < size; i++){
-        // S7_8 x S7_8 => Q16; shift down => S7_8
-        int32_t mul = (int32_t)a[i] * (int32_t)b[i];
-        acc += (mul >> Q_SHIFT);
-    }
-    return saturate_i16(acc);
-}
+// int16_t dot_S7_8( int16_t *a, int16_t *b, int size) {
+//     int32_t acc = 0;
+//     for(int i = 0; i < size; i++){
+//         // S7_8 x S7_8 => Q16; shift down => S7_8
+//         int32_t mul = (int32_t)a[i] * (int32_t)b[i];
+//         acc += (mul >> Q_SHIFT);
+//     }
+//     return saturate_i16(acc);
+// }
 
-// Inline function using custom instruction
-static inline int16_t mul_shift_s7_8(int16_t a, int16_t b) {
-    int16_t result;
+static inline int32_t multiply(int16_t a, int16_t b, int32_t acc) {
+    int32_t result = acc;
     asm volatile(
-        "hackaton_custom_instr_a %0, %1, %2"
-        : "=r"(result)
+        "hackaton_custom_instr_b %0, %1, %2"
+        : "+r"(result)
         : "r"(a), "r"(b)
     );
     return result;
 }
 
+//DOT PRODUCT
+int16_t dot_S7_8(int16_t *a, int16_t *b, int size) {
+    int32_t acc = 0;
+    for(int i = 0; i < size; i++){
+        acc = multiply(a[i], b[i], acc); 
+    }
+    return saturate_i16(acc); 
+}
 
 
 // Matrix-vector multiply in S7.8 using custom instruction
@@ -136,15 +143,24 @@ void matvec_mul_S7_8(int16_t *mat,             // [rows * cols] in S7.8
         int32_t acc = 0;
         for (int c = 0; c < cols; c++) {
             // Use custom instruction for mul + shift
-            int16_t partial = mul_shift_s7_8(mat[r * cols + c], vec[c]);
-            acc += partial;
+            acc = multiply(mat[r * cols + c], vec[c], acc);
+            
         }
         // Saturate to int16
         out[r] = saturate_i16(acc);
     }
 }
 
-
+//DIVISION OPTI
+static inline int32_t division(int32_t numerator, int32_t denominator) {
+    int32_t result;
+    asm volatile (
+        "hackaton_custom_instr_a %0, %1, %2"   
+        : "=r"(result)                         
+        : "r"(numerator), "r"(denominator)     
+    );
+    return result;
+}
 
 
 // ---------------------------------------------------------
@@ -174,8 +190,11 @@ void fake_softmax_S7_8(int16_t *values, int length) {
     // 3c) Normalize so that sum(weights)=Q_SCALE
     for(int i = 0; i < length; i++){
         // scale to Q_SCALE
-        int32_t scaled = ((int32_t)values[i] * Q_SCALE) / sum;
+        int32_t numerator = (int32_t)values[i] * Q_SCALE;
+        int32_t scaled = hw_div(numerator, sum);
         values[i] = saturate_i16(scaled);
+
+
     }
 }
 
@@ -213,8 +232,8 @@ void single_head_attention_S7_8(int16_t Q[SEQ_LEN][MODEL_DIM],
             for(int j = 0; j < SEQ_LEN; j++){
                 // scores[j] is S7_8, V[j][d] is S7_8 => product is Q16
                 // we want final in S7_8 => sum of Q16 => shift down S7_8
-                int32_t mul = (int32_t)scores[j] * (int32_t)V[j][d];
-                acc += (mul >> Q_SHIFT); // now S7_8
+                //change here
+                acc = multiply(scores[j], V[j][d], acc);
             }
             out_attn[i][d] = saturate_i16(acc);
         }

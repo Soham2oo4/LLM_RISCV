@@ -22,8 +22,8 @@
 #include "getopt_common/interface/basicoptions.h"
 static const codasip::getopt::ToolInfoSetter g_ToolInfo(codasip::getopt::ToolInfo("Codasip  (C49_2265_2231)", 
 "codasip_urisc_v", 
-"5b0a7e3c8e912e2d4fcf2ac39a1ab2269dc1ba4eea2a2de91e460950d199cfe6", 
-"2025-04-12 09:04:28", 
+"977917a703b238f9ba89c02cd1dcdab27fef2368ff075463f7f94c6ff8cf1f07", 
+"2025-04-12 19:56:34", 
 ""
 ));
 #include <sstream>
@@ -6706,17 +6706,18 @@ void Sim::MI14i_ext_hackatonIH5_3isa3isa()
     {
         MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_1.read()));
         MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI11rf_gpr_read(MI52codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_2.read()));
-        MI11rf_gpr_read(MI51codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any3dst.read());
+        MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.write(MI11rf_gpr_read(MI51codasip_return_MI7reg_anyIH5_3isa3isa9_7reg_any3dst.read()));
         MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.write(MI82codasip_return_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc.read());
         switch (static_cast<uint8_t>(MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.read()))
         {
             case 0:
             {
-                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()) >> int32_t(8));
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write((MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read() + (MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read())) >> int32_t(8));
                 break;
             }
             case 1:
             {
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read() + ((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()) >> int32_t(8)));
                 break;
             }
             case 2:

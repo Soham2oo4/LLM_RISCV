@@ -1945,42 +1945,54 @@ t1: ch = ret t0, model/share/isa/isa_ops.codal:3383:1
     t0: ch = EntryToken
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__
-t6: ch = ret t7, model/share/isa/isa_ops.codal:3393:1
-    t7: ch = regop_write t0, Constant:i32<0>, Constant:i32<0>, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3392:5 ] ]
+t10: ch = ret t11, model/share/isa/isa_ops.codal:3393:1
+    t11: ch = regop_write t0, Constant:i32<0>, t6, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3392:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t3: i32 = Constant<0>
-        t4: i1 = Constant<-1>
+        t6: i32 = sra t12, Constant:i32<8>, model/ia/other/ia_utils.codal:55:1 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3392:5 ] ]
+            t12: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3392:5 ] ]
+                t3: i32 = Constant<0>
+            t5: i32 = Constant<8>
+        t8: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__
-t6: ch = ret t7, model/share/isa/isa_ops.codal:3404:1
-    t7: ch = regop_write t0, Constant:i32<0>, Constant:i32<0>, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3403:5 ] ]
+t10: ch = ret t11, model/share/isa/isa_ops.codal:3404:1
+    t11: ch = regop_write t0, Constant:i32<0>, t6, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3403:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t3: i32 = Constant<0>
-        t4: i1 = Constant<-1>
+        t6: i32 = sra t12, Constant:i32<8>, model/ia/other/ia_utils.codal:55:1 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3403:5 ] ]
+            t12: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3403:5 ] ]
+                t3: i32 = Constant<0>
+            t5: i32 = Constant<8>
+        t8: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
-t6: ch = ret t7, model/share/isa/isa_ops.codal:3415:1
-    t7: ch = regop_write t0, Constant:i32<0>, Constant:i32<0>, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3414:5 ] ]
+t10: ch = ret t11, model/share/isa/isa_ops.codal:3415:1
+    t11: ch = regop_write t0, Constant:i32<0>, t6, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3414:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t3: i32 = Constant<0>
-        t4: i1 = Constant<-1>
+        t6: i32 = sra t12, Constant:i32<8>, model/ia/other/ia_utils.codal:55:1 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3414:5 ] ]
+            t12: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3414:5 ] ]
+                t3: i32 = Constant<0>
+            t5: i32 = Constant<8>
+        t8: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
-t14: ch = ret t15, model/share/isa/isa_ops.codal:3427:1
-    t15: ch = regop_write t0, Constant:i32<0>, t9, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
+t16: ch = ret t17, model/share/isa/isa_ops.codal:3427:1
+    t17: ch = regop_write t0, Constant:i32<0>, t12, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
         t0: ch = EntryToken
-        t11: i32 = Constant<0>
-        t9: i32 = sra t7, Constant:i32<8>, model/share/isa/isa_hackaton.codal:38:152 @[ model/share/isa/isa_ops.codal:3426:5 ]
-            t7: i32 = mul nsw t16, t17, model/share/isa/isa_hackaton.codal:38:106 @[ model/share/isa/isa_ops.codal:3426:5 ]
-                t16: i32 = regop_read Constant:i32<2>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:32:49 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
-                    t5: i32 = Constant<2>
-                t17: i32 = regop_read Constant:i32<1>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:31:49 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
-                    t3: i32 = Constant<1>
-            t8: i32 = Constant<8>
-        t12: i1 = Constant<-1>
+        t7: i32 = Constant<0>
+        t12: i32 = sra t10, Constant:i32<8>, model/share/isa/isa_hackaton.codal:38:200 @[ model/share/isa/isa_ops.codal:3426:5 ]
+            t10: i32 = add nsw t18, t9, model/share/isa/isa_hackaton.codal:38:106 @[ model/share/isa/isa_ops.codal:3426:5 ]
+                t18: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
+                    t7: i32 = Constant<0>
+                t9: i32 = mul nsw t19, t20, model/share/isa/isa_hackaton.codal:38:152 @[ model/share/isa/isa_ops.codal:3426:5 ]
+                    t19: i32 = regop_read Constant:i32<2>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:32:49 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
+                        t5: i32 = Constant<2>
+                    t20: i32 = regop_read Constant:i32<1>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:31:49 @[ model/share/isa/isa_ops.codal:3426:5 ] ]
+                        t3: i32 = Constant<1>
+            t11: i32 = Constant<8>
+        t14: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
 t1: ch = ret t0, model/share/isa/isa_ops.codal:3436:1
@@ -1999,36 +2011,48 @@ t1: ch = ret t0, model/share/isa/isa_ops.codal:3467:1
     t0: ch = EntryToken
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__
-t7: ch = ret t8, model/share/isa/isa_ops.codal:3477:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3476:5 ] ]
+t8: ch = ret t9, model/share/isa/isa_ops.codal:3477:1
+    t9: ch = regop_write t0, Constant:i32<0>, t10, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3476:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t4: i32 = undef
-        t5: i1 = Constant<-1>
+        t10: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3476:5 ] ]
+            t3: i32 = Constant<0>
+        t6: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
-t7: ch = ret t8, model/share/isa/isa_ops.codal:3488:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3487:5 ] ]
+t8: ch = ret t9, model/share/isa/isa_ops.codal:3488:1
+    t9: ch = regop_write t0, Constant:i32<0>, t10, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3487:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t4: i32 = undef
-        t5: i1 = Constant<-1>
+        t10: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3487:5 ] ]
+            t3: i32 = Constant<0>
+        t6: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
-t7: ch = ret t8, model/share/isa/isa_ops.codal:3499:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3498:5 ] ]
+t8: ch = ret t9, model/share/isa/isa_ops.codal:3499:1
+    t9: ch = regop_write t0, Constant:i32<0>, t10, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3498:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
-        t4: i32 = undef
-        t5: i1 = Constant<-1>
+        t10: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3498:5 ] ]
+            t3: i32 = Constant<0>
+        t6: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
-t7: ch = ret t8, model/share/isa/isa_ops.codal:3511:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3510:5 ] ]
+t16: ch = ret t17, model/share/isa/isa_ops.codal:3511:1
+    t17: ch = regop_write t0, Constant:i32<0>, t12, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3510:5 ] ]
         t0: ch = EntryToken
-        t3: i32 = Constant<0>
-        t4: i32 = undef
-        t5: i1 = Constant<-1>
+        t7: i32 = Constant<0>
+        t12: i32 = add nsw t11, t18, model/share/isa/isa_hackaton.codal:43:104 @[ model/share/isa/isa_ops.codal:3510:5 ]
+            t11: i32 = sra t9, Constant:i32<8>, model/share/isa/isa_hackaton.codal:43:198 @[ model/share/isa/isa_ops.codal:3510:5 ]
+                t9: i32 = mul nsw t19, t20, model/share/isa/isa_hackaton.codal:43:152 @[ model/share/isa/isa_ops.codal:3510:5 ]
+                    t19: i32 = regop_read Constant:i32<2>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:32:49 @[ model/share/isa/isa_ops.codal:3510:5 ] ]
+                        t5: i32 = Constant<2>
+                    t20: i32 = regop_read Constant:i32<1>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:31:49 @[ model/share/isa/isa_ops.codal:3510:5 ] ]
+                        t3: i32 = Constant<1>
+                t10: i32 = Constant<8>
+            t18: i32 = regop_read Constant:i32<0>, model/ia/other/ia_utils.codal:52:33 @[ model/share/isa/isa_hackaton.codal:33:49 @[ model/share/isa/isa_ops.codal:3510:5 ] ]
+                t7: i32 = Constant<0>
+        t14: i1 = Constant<-1>
 
 i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__
 t1: ch = ret t0, model/share/isa/isa_ops.codal:3520:1
@@ -2048,7 +2072,7 @@ t1: ch = ret t0, model/share/isa/isa_ops.codal:3551:1
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3561:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3560:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3560:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2056,7 +2080,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3561:1
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3572:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3571:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3571:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2064,7 +2088,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3572:1
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3583:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3582:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3582:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2072,7 +2096,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3583:1
 
 i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3595:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3594:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3594:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2096,7 +2120,7 @@ t1: ch = ret t0, model/share/isa/isa_ops.codal:3635:1
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3645:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3644:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3644:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2104,7 +2128,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3645:1
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3656:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3655:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3655:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2112,7 +2136,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3656:1
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3667:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3666:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3666:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2120,7 +2144,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3667:1
 
 i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3679:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3678:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3678:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2144,7 +2168,7 @@ t1: ch = ret t0, model/share/isa/isa_ops.codal:3719:1
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3729:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3728:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3728:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2152,7 +2176,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3729:1
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3740:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3739:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3739:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2160,7 +2184,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3740:1
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3751:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3750:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3750:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef
@@ -2168,7 +2192,7 @@ t7: ch = ret t8, model/share/isa/isa_ops.codal:3751:1
 
 i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
 t7: ch = ret t8, model/share/isa/isa_ops.codal:3763:1
-    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:58:5 @[ model/share/isa/isa_ops.codal:3762:5 ] ]
+    t8: ch = regop_write t0, Constant:i32<0>, undef:i32, Constant:i1<-1>, model/ia/other/ia_utils.codal:84:40 @[ model/share/isa/isa_hackaton.codal:61:5 @[ model/share/isa/isa_ops.codal:3762:5 ] ]
         t0: ch = EntryToken
         t3: i32 = Constant<0>
         t4: i32 = undef

@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-12 09:03:18
+ *                Date: 2025-04-12 19:55:17
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -3223,41 +3223,6 @@ let mayLoad = 0;
 let mayStore = 0;
 let Inst{31-0} = 0b00000000000000000000000000101011;
 // i_ext_hackaton(opc_hackaton_custom_a,reg0,reg0,reg0)
-}
-
-def i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins)>
-{
-let AsmString = "hackaton_custom_instr_a $op0, x0, x0";
-let Pattern = [(set i32:$op0, (i32 0))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000000;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_a,regs,reg0,reg0)
-}
-
-def i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
-{
-let AsmString = "hackaton_custom_instr_a $op0, $op2, $op1";
-let Pattern = [(set i32:$op0, (i32 (sra (i32 (mul (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2))), (i32 8))))];
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-bits<5> op0;
-bits<5> op2;
-bits<5> op1;
-let Inst{31-25} = 0b0000000;
-let Inst{24-20} = op1;
-let Inst{19-15} = op2;
-let Inst{14-12} = 0b000;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_a,regs,regs,regs)
 }
 
 def i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__: CodasipMicroClass_<(outs), (ins)>
@@ -6536,6 +6501,64 @@ let usesCustomInserter = 1;
 let isPseudo = 1;
 let isCodeGenOnly = 1;
 // 
+}
+
+def i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1)>
+{
+let AsmString = "hackaton_custom_instr_a $op0, x0, x0";
+let Pattern = [(set i32:$op0, (i32 (sra (i32 NotFI_i32_regs:$op1), (i32 8))))];
+let Constraints = "$op1 = $op0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000000;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_a,regs,reg0,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2, regs:$op3)>
+{
+let AsmString = "hackaton_custom_instr_a $op0, $op3, $op2";
+let Pattern = [(set i32:$op0, (i32 (sra (i32 (add (i32 NotFI_i32_regs:$op1), (i32 (mul (i32 CheckFI_i32_regs:$op2), (i32 CheckFI_i32_regs:$op3))))), (i32 8))))];
+let Constraints = "$op1 = $op0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+bits<5> op0;
+bits<5> op3;
+bits<5> op2;
+let Inst{31-25} = 0b0000000;
+let Inst{24-20} = op2;
+let Inst{19-15} = op3;
+let Inst{14-12} = 0b000;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_a,regs,regs,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2, regs:$op3)>
+{
+let AsmString = "hackaton_custom_instr_b $op0, $op2, $op1";
+let Pattern = [(set i32:$op0, (i32 (add (i32 (sra (i32 (mul (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2))), (i32 8))), (i32 NotFI_i32_regs:$op3))))];
+let Constraints = "$op3 = $op0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+bits<5> op0;
+bits<5> op2;
+bits<5> op1;
+let Inst{31-25} = 0b0000000;
+let Inst{24-20} = op1;
+let Inst{19-15} = op2;
+let Inst{14-12} = 0b001;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_b,regs,regs,regs)
 }
 
 def i_jump_reg_alias__regs__TAILCALL_CLONE_: CodasipMicroClass_<(outs), (ins regs:$op0, variable_ops)>
@@ -28568,22 +28591,6 @@ let Inst{14-0} = 0b001000000101011;
 // i_ext_hackaton(opc_hackaton_custom_b,reg0,regs,regs)
 }
 
-// warning: (BGW564): All results of the instruction are undefined.
-def i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
-{
-let AsmString = "hackaton_custom_instr_b $op0, x0, x0";
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-let hasSideEffects = 0;
-bits<5> op0;
-let Inst{31-12} = 0b00000000000000000001;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_b,regs,reg0,reg0)
-}
-
 // warning: (BGW589): Has unused operands.
 def i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1)>
 {
@@ -28620,27 +28627,6 @@ let Inst{14-12} = 0b001;
 let Inst{11-7} = op0;
 let Inst{6-0} = 0b0101011;
 // i_ext_hackaton(opc_hackaton_custom_b,regs,regs,reg0)
-}
-
-// warning: (BGW589): Has unused operands.
-def i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1, regs:$op2)>
-{
-let AsmString = "hackaton_custom_instr_b $op0, $op1, $op2";
-let Size = 4;
-let isReMaterializable = 1;
-let mayLoad = 0;
-let mayStore = 0;
-let hasSideEffects = 0;
-bits<5> op0;
-bits<5> op1;
-bits<5> op2;
-let Inst{31-25} = 0b0000000;
-let Inst{24-20} = op2;
-let Inst{19-15} = op1;
-let Inst{14-12} = 0b001;
-let Inst{11-7} = op0;
-let Inst{6-0} = 0b0101011;
-// i_ext_hackaton(opc_hackaton_custom_b,regs,regs,regs)
 }
 
 // warning: (BGW589): Has unused operands.
@@ -29192,6 +29178,22 @@ let Inst{31-25} = 0b0000000;
 let Inst{24-20} = op0;
 let Inst{19-0} = 0b00000011000000110011;
 // i_snez_alias(reg0,regs)
+}
+
+// warning: (BGW565): The instruction performs a move from a register into itself.
+def i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let AsmString = "hackaton_custom_instr_b $op0, x0, x0";
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 0;
+let mayStore = 0;
+let hasSideEffects = 0;
+bits<5> op0;
+let Inst{31-12} = 0b00000000000000000001;
+let Inst{11-7} = op0;
+let Inst{6-0} = 0b0101011;
+// i_ext_hackaton(opc_hackaton_custom_b,regs,reg0,reg0)
 }
 
 

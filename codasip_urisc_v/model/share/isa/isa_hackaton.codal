@@ -35,12 +35,17 @@ element i_ext_hackaton
         switch (opc)
         {
             case OPC_HACKATON_CUSTOM_A:
-                result = (s1 * s2) >> 8;
-                //result = ADD_OPERATION;                
+                if (s2 != 0) {
+                    result = s1 / s2; // Perform division
+                } else {
+                    result = 0; // Handle division by zero case
+                }
                 break;
             case OPC_HACKATON_CUSTOM_B:
-                //result = ADD_OPERATION;
+            //Accumulate multiply shift and accumulate
+                result = s3 + ((s1 * s2) >> 8);                 
                 break;
+                //result = ADD_OPERATION;
             case OPC_HACKATON_CUSTOM_C:
                 //result = ADD_OPERATION;
                 break;

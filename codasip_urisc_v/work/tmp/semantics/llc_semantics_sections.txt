@@ -919,23 +919,31 @@ i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_a__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
-        %6 = i32 regop(reg_2);
-        %7 = i32 regop(reg_1);
-        %5 = i32 mul(i32 %6, i32 %7);
-        %8 = i32 8;
-        %4 = i32 sra(i32 %5, i32 %8);
+        %6 = i32 regop(reg_0);
+        %8 = i32 regop(reg_2);
+        %9 = i32 regop(reg_1);
+        %7 = i32 mul(i32 %8, i32 %9);
+        %5 = i32 add(i32 %6, i32 %7);
+        %10 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %10);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
@@ -947,19 +955,25 @@ i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__reg0__
 i_ext_hackaton__opc_hackaton_custom_b__reg0__regs__regs__
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
-        %4 = i32 undef();
+        %7 = i32 regop(reg_2);
+        %8 = i32 regop(reg_1);
+        %6 = i32 mul(i32 %7, i32 %8);
+        %9 = i32 8;
+        %5 = i32 sra(i32 %6, i32 %9);
+        %10 = i32 regop(reg_0);
+        %4 = i32 add(i32 %5, i32 %10);
         regop(reg_0) = i32 %4;
 
 i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__

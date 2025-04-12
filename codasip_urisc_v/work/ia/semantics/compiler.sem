@@ -10778,7 +10778,9 @@ instruction i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__
     binary { 0b00000000000000000000:bit[20] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_a, el:regs, el:reg0, el:reg0)";
@@ -10805,7 +10807,9 @@ instruction i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__
     binary { 0b0000000:bit[7] reg_1[4..0] 0b00000000:bit[8] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_a, el:regs, el:reg0, el:regs)";
@@ -10856,7 +10860,9 @@ instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
     binary { 0b000000000000:bit[12] reg_1[4..0] 0b000:bit[3] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 0;
+        %5 = i32 regop(reg_0);
+        %6 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %6);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_a, el:regs, el:regs, el:reg0)";
@@ -10883,11 +10889,13 @@ instruction i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
     binary { 0b0000000:bit[7] reg_2[4..0] reg_1[4..0] 0b000:bit[3] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %6 = i32 regop(reg_2);
-        %7 = i32 regop(reg_1);
-        %5 = i32 mul(i32 %6, i32 %7);
-        %8 = i32 8;
-        %4 = i32 sra(i32 %5, i32 %8);
+        %6 = i32 regop(reg_0);
+        %8 = i32 regop(reg_2);
+        %9 = i32 regop(reg_1);
+        %7 = i32 mul(i32 %8, i32 %9);
+        %5 = i32 add(i32 %6, i32 %7);
+        %10 = i32 8;
+        %4 = i32 sra(i32 %5, i32 %10);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_a, el:regs, el:regs, el:regs)";
@@ -11122,7 +11130,7 @@ instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__reg0__
     binary { 0b00000000000000000001:bit[20] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_b, el:regs, el:reg0, el:reg0)";
@@ -11149,7 +11157,7 @@ instruction i_ext_hackaton__opc_hackaton_custom_b__regs__reg0__regs__
     binary { 0b0000000:bit[7] reg_1[4..0] 0b00000001:bit[8] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_b, el:regs, el:reg0, el:regs)";
@@ -11200,7 +11208,7 @@ instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
     binary { 0b000000000000:bit[12] reg_1[4..0] 0b001:bit[3] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 undef();
+        %4 = i32 regop(reg_0);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_b, el:regs, el:regs, el:reg0)";
@@ -11227,7 +11235,13 @@ instruction i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
     binary { 0b0000000:bit[7] reg_2[4..0] reg_1[4..0] 0b001:bit[3] reg_0[4..0] 0b0101011:bit[7] };
     semantics
     {
-        %4 = i32 undef();
+        %7 = i32 regop(reg_2);
+        %8 = i32 regop(reg_1);
+        %6 = i32 mul(i32 %7, i32 %8);
+        %9 = i32 8;
+        %5 = i32 sra(i32 %6, i32 %9);
+        %10 = i32 regop(reg_0);
+        %4 = i32 add(i32 %5, i32 %10);
         regop(reg_0) = i32 %4;
     };
     element_tree = "el:i_ext_hackaton(el:opc_hackaton_custom_b, el:regs, el:regs, el:regs)";
