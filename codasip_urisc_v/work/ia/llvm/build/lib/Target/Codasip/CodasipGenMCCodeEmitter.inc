@@ -4361,8 +4361,6 @@ uint64_t CodasipMCCodeEmitter::getBinaryCodeForInstr(const MCInst &MI,
     case Codasip::i_comp_3reg__opc_sra__regs__regs__regs__:
     case Codasip::i_comp_3reg__opc_srl__regs__regs__regs__:
     case Codasip::i_comp_3reg__opc_sub__regs__regs__regs__:
-    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__:
-    case Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__:
     case Codasip::i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__: {
       // op: op0
       op = getMachineOpValue(MI, MI.getOperand(0), Fixups, STI);
@@ -4555,7 +4553,10 @@ uint64_t CodasipMCCodeEmitter::getBinaryCodeForInstr(const MCInst &MI,
     case Codasip::i_comp_3reg__opc_and__regs__regs__regs__:
     case Codasip::i_comp_3reg__opc_or__regs__regs__regs__:
     case Codasip::i_comp_3reg__opc_xor__regs__regs__regs__:
-    case Codasip::i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__: {
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__:
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__:
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__:
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__: {
       // op: op0
       op = getMachineOpValue(MI, MI.getOperand(0), Fixups, STI);
       op &= UINT64_C(31);
@@ -4568,24 +4569,6 @@ uint64_t CodasipMCCodeEmitter::getBinaryCodeForInstr(const MCInst &MI,
       Value |= op;
       // op: op1
       op = getMachineOpValue(MI, MI.getOperand(1), Fixups, STI);
-      op &= UINT64_C(31);
-      op <<= 20;
-      Value |= op;
-      break;
-    }
-    case Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__: {
-      // op: op0
-      op = getMachineOpValue(MI, MI.getOperand(0), Fixups, STI);
-      op &= UINT64_C(31);
-      op <<= 7;
-      Value |= op;
-      // op: op3
-      op = getMachineOpValue(MI, MI.getOperand(3), Fixups, STI);
-      op &= UINT64_C(31);
-      op <<= 15;
-      Value |= op;
-      // op: op2
-      op = getMachineOpValue(MI, MI.getOperand(2), Fixups, STI);
       op &= UINT64_C(31);
       op <<= 20;
       Value |= op;

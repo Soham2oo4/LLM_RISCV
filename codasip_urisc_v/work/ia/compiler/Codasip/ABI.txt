@@ -52,27 +52,27 @@ i32
 Legal data types: 
   i32 : abi alignment = 32, representative register class: regs
 Other data types from datalayout:
+  i16: bit width = 16, abi alignment = 16
   i8: bit width = 8, abi alignment = 8
+  v1i512: bit width = 512, abi alignment = 32
+  i512: bit width = 512, abi alignment = 32
   v1i1024: bit width = 1024, abi alignment = 32
   v1i2048: bit width = 2048, abi alignment = 32
   i1024: bit width = 1024, abi alignment = 32
   i2048: bit width = 2048, abi alignment = 32
+  i256: bit width = 256, abi alignment = 32
+  v1i64: bit width = 64, abi alignment = 32
   v1i128: bit width = 128, abi alignment = 32
-  i512: bit width = 512, abi alignment = 32
+  i64: bit width = 64, abi alignment = 32
   f64: bit width = 64, abi alignment = 32
   i128: bit width = 128, abi alignment = 32
-  i16: bit width = 16, abi alignment = 16
   f128: bit width = 128, abi alignment = 32
   v1i256: bit width = 256, abi alignment = 32
-  i256: bit width = 256, abi alignment = 32
-  v1i512: bit width = 512, abi alignment = 32
-  i64: bit width = 64, abi alignment = 32
+  f32: bit width = 32, abi alignment = 32
   v1i8: bit width = 8, abi alignment = 8
   v1i16: bit width = 16, abi alignment = 16
   v1i32: bit width = 32, abi alignment = 32
   f16: bit width = 16, abi alignment = 16
-  f32: bit width = 32, abi alignment = 32
-  v1i64: bit width = 64, abi alignment = 32
   i32: bit width = 32, abi alignment = 32
 
 little endian

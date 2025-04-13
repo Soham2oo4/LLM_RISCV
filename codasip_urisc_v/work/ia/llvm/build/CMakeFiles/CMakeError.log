@@ -65,9 +65,9 @@ compilation terminated.
 Determining if the include file malloc/malloc.h exists failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_1acfd && [1/2] Building C object CMakeFiles/cmTC_1acfd.dir/CheckIncludeFile.c.o
-FAILED: CMakeFiles/cmTC_1acfd.dir/CheckIncludeFile.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_1acfd.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command(s):/contrib/bin/ninja cmTC_f877d && [1/2] Building C object CMakeFiles/cmTC_f877d.dir/CheckIncludeFile.c.o
+FAILED: CMakeFiles/cmTC_f877d.dir/CheckIncludeFile.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_f877d.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: malloc/malloc.h: No such file or directory
  #include <malloc/malloc.h>
           ^~~~~~~~~~~~~~~~~
@@ -79,9 +79,9 @@ ninja: build stopped: subcommand failed.
 Determining if the include file valgrind/valgrind.h exists failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_a8caa && [1/2] Building C object CMakeFiles/cmTC_a8caa.dir/CheckIncludeFile.c.o
-FAILED: CMakeFiles/cmTC_a8caa.dir/CheckIncludeFile.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_a8caa.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command(s):/contrib/bin/ninja cmTC_733ec && [1/2] Building C object CMakeFiles/cmTC_733ec.dir/CheckIncludeFile.c.o
+FAILED: CMakeFiles/cmTC_733ec.dir/CheckIncludeFile.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_733ec.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: valgrind/valgrind.h: No such file or directory
  #include <valgrind/valgrind.h>
           ^~~~~~~~~~~~~~~~~~~~~
@@ -93,9 +93,9 @@ ninja: build stopped: subcommand failed.
 Determining if the include file mach/mach.h exists failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_0d465 && [1/2] Building C object CMakeFiles/cmTC_0d465.dir/CheckIncludeFile.c.o
-FAILED: CMakeFiles/cmTC_0d465.dir/CheckIncludeFile.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_0d465.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command(s):/contrib/bin/ninja cmTC_67412 && [1/2] Building C object CMakeFiles/cmTC_67412.dir/CheckIncludeFile.c.o
+FAILED: CMakeFiles/cmTC_67412.dir/CheckIncludeFile.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_67412.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: mach/mach.h: No such file or directory
  #include <mach/mach.h>
           ^~~~~~~~~~~~~
@@ -107,9 +107,9 @@ ninja: build stopped: subcommand failed.
 Determining if the include file CrashReporterClient.h exists failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_ac44e && [1/2] Building C object CMakeFiles/cmTC_ac44e.dir/CheckIncludeFile.c.o
-FAILED: CMakeFiles/cmTC_ac44e.dir/CheckIncludeFile.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_ac44e.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Run Build Command(s):/contrib/bin/ninja cmTC_37830 && [1/2] Building C object CMakeFiles/cmTC_37830.dir/CheckIncludeFile.c.o
+FAILED: CMakeFiles/cmTC_37830.dir/CheckIncludeFile.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_37830.dir/CheckIncludeFile.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:10: fatal error: CrashReporterClient.h: No such file or directory
  #include <CrashReporterClient.h>
           ^~~~~~~~~~~~~~~~~~~~~~~
@@ -121,10 +121,10 @@ ninja: build stopped: subcommand failed.
 Determining if the function pfm_initialize exists in the pfm failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_941a6 && [1/2] Building C object CMakeFiles/cmTC_941a6.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_941a6
-FAILED: cmTC_941a6 
-: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pfm_initialize -static-libgcc -static-libstdc++ CMakeFiles/cmTC_941a6.dir/CheckFunctionExists.c.o -o cmTC_941a6  -lpfm  -lm && :
+Run Build Command(s):/contrib/bin/ninja cmTC_5ef53 && [1/2] Building C object CMakeFiles/cmTC_5ef53.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_5ef53
+FAILED: cmTC_5ef53 
+: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pfm_initialize -static-libgcc -static-libstdc++ CMakeFiles/cmTC_5ef53.dir/CheckFunctionExists.c.o -o cmTC_5ef53  -lpfm  -lm && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: cannot find -lpfm
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.
@@ -134,11 +134,11 @@ ninja: build stopped: subcommand failed.
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_b3bf2 && [1/2] Building C object CMakeFiles/cmTC_b3bf2.dir/src.c.o
-[2/2] Linking C executable cmTC_b3bf2
-FAILED: cmTC_b3bf2 
-: && /contrib/bin/gcc  -static-libgcc -static-libstdc++ CMakeFiles/cmTC_b3bf2.dir/src.c.o -o cmTC_b3bf2  -lm && :
-/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_b3bf2.dir/src.c.o: in function `main':
+Run Build Command(s):/contrib/bin/ninja cmTC_b1101 && [1/2] Building C object CMakeFiles/cmTC_b1101.dir/src.c.o
+[2/2] Linking C executable cmTC_b1101
+FAILED: cmTC_b1101 
+: && /contrib/bin/gcc  -static-libgcc -static-libstdc++ CMakeFiles/cmTC_b1101.dir/src.c.o -o cmTC_b1101  -lm && :
+/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_b1101.dir/src.c.o: in function `main':
 src.c:(.text+0x2d): undefined reference to `pthread_create'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.c:(.text+0x39): undefined reference to `pthread_detach'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.c:(.text+0x45): undefined reference to `pthread_cancel'
@@ -171,10 +171,10 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_60b1d && [1/2] Building C object CMakeFiles/cmTC_60b1d.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_60b1d
-FAILED: cmTC_60b1d 
-: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pthread_create -static-libgcc -static-libstdc++ CMakeFiles/cmTC_60b1d.dir/CheckFunctionExists.c.o -o cmTC_60b1d  -lpthreads  -lm && :
+Run Build Command(s):/contrib/bin/ninja cmTC_27a66 && [1/2] Building C object CMakeFiles/cmTC_27a66.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_27a66
+FAILED: cmTC_27a66 
+: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pthread_create -static-libgcc -static-libstdc++ CMakeFiles/cmTC_27a66.dir/CheckFunctionExists.c.o -o cmTC_27a66  -lpthreads  -lm && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.
@@ -184,10 +184,10 @@ ninja: build stopped: subcommand failed.
 Determining if the function xar_open exists in the xar failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_6f160 && [1/2] Building C object CMakeFiles/cmTC_6f160.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_6f160
-FAILED: cmTC_6f160 
-: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=xar_open -static-libgcc -static-libstdc++ CMakeFiles/cmTC_6f160.dir/CheckFunctionExists.c.o -o cmTC_6f160  -lxar  -lm && :
+Run Build Command(s):/contrib/bin/ninja cmTC_8988d && [1/2] Building C object CMakeFiles/cmTC_8988d.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_8988d
+FAILED: cmTC_8988d 
+: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=xar_open -static-libgcc -static-libstdc++ CMakeFiles/cmTC_8988d.dir/CheckFunctionExists.c.o -o cmTC_8988d  -lxar  -lm && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: cannot find -lxar
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.
@@ -197,9 +197,9 @@ ninja: build stopped: subcommand failed.
 Determining if the arc4random exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_96bc0 && [1/2] Building C object CMakeFiles/cmTC_96bc0.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_96bc0.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_96bc0.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_ebb14 && [1/2] Building C object CMakeFiles/cmTC_ebb14.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_ebb14.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_ebb14.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c: In function ‘main’:
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: ‘arc4random’ undeclared (first use in this function); did you mean ‘srandom’?
    return ((int*)(&arc4random))[argc];
@@ -226,9 +226,9 @@ int main(int argc, char** argv)
 Performing C SOURCE FILE Test C_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_3c9e4 && [1/2] Building C object CMakeFiles/cmTC_3c9e4.dir/src.c.o
-FAILED: CMakeFiles/cmTC_3c9e4.dir/src.c.o 
-/contrib/bin/gcc -DC_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW  -Werror=unguarded-availability-new -o CMakeFiles/cmTC_3c9e4.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_02c6d && [1/2] Building C object CMakeFiles/cmTC_02c6d.dir/src.c.o
+FAILED: CMakeFiles/cmTC_02c6d.dir/src.c.o 
+/contrib/bin/gcc -DC_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW  -Werror=unguarded-availability-new -o CMakeFiles/cmTC_02c6d.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 cc1: error: -Werror=unguarded-availability-new: no option -Wunguarded-availability-new
 ninja: build stopped: subcommand failed.
 
@@ -238,9 +238,9 @@ int main(void) { return 0; }
 Determining if the mallctl exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_b8ee8 && [1/2] Building C object CMakeFiles/cmTC_b8ee8.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_b8ee8.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_b8ee8.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_4f18f && [1/2] Building C object CMakeFiles/cmTC_4f18f.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_4f18f.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_4f18f.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:2:10: fatal error: malloc_np.h: No such file or directory
  #include <malloc_np.h>
           ^~~~~~~~~~~~~
@@ -265,9 +265,9 @@ int main(int argc, char** argv)
 Determining if the malloc_zone_statistics exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_d3e9e && [1/2] Building C object CMakeFiles/cmTC_d3e9e.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_d3e9e.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_d3e9e.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_778a7 && [1/2] Building C object CMakeFiles/cmTC_778a7.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_778a7.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_778a7.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:2:10: fatal error: malloc/malloc.h: No such file or directory
  #include <malloc/malloc.h>
           ^~~~~~~~~~~~~~~~~
@@ -292,9 +292,9 @@ int main(int argc, char** argv)
 Determining if the strerror_s exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_bce81 && [1/2] Building C object CMakeFiles/cmTC_bce81.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_bce81.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_bce81.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_28451 && [1/2] Building C object CMakeFiles/cmTC_28451.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_28451.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_28451.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c: In function ‘main’:
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: ‘strerror_s’ undeclared (first use in this function); did you mean ‘strerror_l’?
    return ((int*)(&strerror_s))[argc];
@@ -321,9 +321,9 @@ int main(int argc, char** argv)
 Determining if the dladdr exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_40a41 && [1/2] Building C object CMakeFiles/cmTC_40a41.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_40a41.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc    -o CMakeFiles/cmTC_40a41.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_6bbf1 && [1/2] Building C object CMakeFiles/cmTC_6bbf1.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_6bbf1.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc    -o CMakeFiles/cmTC_6bbf1.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c: In function ‘main’:
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:8:19: error: ‘dladdr’ undeclared (first use in this function)
    return ((int*)(&dladdr))[argc];
@@ -349,9 +349,9 @@ int main(int argc, char** argv)
 Performing C SOURCE FILE Test HAVE_STRUCT_STAT_ST_MTIMESPEC_TV_NSEC failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_ace1b && [1/2] Building C object CMakeFiles/cmTC_ace1b.dir/src.c.o
-FAILED: CMakeFiles/cmTC_ace1b.dir/src.c.o 
-/contrib/bin/gcc -DHAVE_STRUCT_STAT_ST_MTIMESPEC_TV_NSEC   -o CMakeFiles/cmTC_ace1b.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_4d7a8 && [1/2] Building C object CMakeFiles/cmTC_4d7a8.dir/src.c.o
+FAILED: CMakeFiles/cmTC_4d7a8.dir/src.c.o 
+/contrib/bin/gcc -DHAVE_STRUCT_STAT_ST_MTIMESPEC_TV_NSEC   -o CMakeFiles/cmTC_4d7a8.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c: In function ‘main’:
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c:7:36: error: ‘struct stat’ has no member named ‘st_mtimespec’; did you mean ‘st_mtim’?
    (void)sizeof(((struct stat *)0)->st_mtimespec.tv_nsec);
@@ -374,9 +374,9 @@ int main()
 Performing C++ SOURCE FILE Test SUPPORTS_GNU_ZERO_VARIADIC_MACRO_ARGUMENTS_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_5d22e && [1/2] Building CXX object CMakeFiles/cmTC_5d22e.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_5d22e.dir/src.cxx.o 
-/contrib/bin/g++ -DSUPPORTS_GNU_ZERO_VARIADIC_MACRO_ARGUMENTS_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal"    -Wgnu-zero-variadic-macro-arguments -o CMakeFiles/cmTC_5d22e.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):/contrib/bin/ninja cmTC_43e22 && [1/2] Building CXX object CMakeFiles/cmTC_43e22.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_43e22.dir/src.cxx.o 
+/contrib/bin/g++ -DSUPPORTS_GNU_ZERO_VARIADIC_MACRO_ARGUMENTS_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal"    -Wgnu-zero-variadic-macro-arguments -o CMakeFiles/cmTC_43e22.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
 g++: error: unrecognized command line option '-Wgnu-zero-variadic-macro-arguments'; did you mean '-Wno-variadic-macros'?
 ninja: build stopped: subcommand failed.
 
@@ -386,9 +386,9 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_c2d38 && [1/2] Building CXX object CMakeFiles/cmTC_c2d38.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_c2d38.dir/src.cxx.o 
-/contrib/bin/g++ -DCXX_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time    -Werror -Werror=unguarded-availability-new -o CMakeFiles/cmTC_c2d38.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):/contrib/bin/ninja cmTC_29ae5 && [1/2] Building CXX object CMakeFiles/cmTC_29ae5.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_29ae5.dir/src.cxx.o 
+/contrib/bin/g++ -DCXX_SUPPORTS_WERROR_UNGUARDED_AVAILABILITY_NEW  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time    -Werror -Werror=unguarded-availability-new -o CMakeFiles/cmTC_29ae5.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
 cc1plus: error: -Werror=unguarded-availability-new: no option -Wunguarded-availability-new
 ninja: build stopped: subcommand failed.
 
@@ -398,9 +398,9 @@ int main() { return 0; }
 Performing C SOURCE FILE Test C_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_7c796 && [1/2] Building C object CMakeFiles/cmTC_7c796.dir/src.c.o
-FAILED: CMakeFiles/cmTC_7c796.dir/src.c.o 
-/contrib/bin/gcc -DC_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wcovered-switch-default -o CMakeFiles/cmTC_7c796.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_a2d92 && [1/2] Building C object CMakeFiles/cmTC_a2d92.dir/src.c.o
+FAILED: CMakeFiles/cmTC_a2d92.dir/src.c.o 
+/contrib/bin/gcc -DC_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wcovered-switch-default -o CMakeFiles/cmTC_a2d92.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 gcc: error: unrecognized command line option '-Wcovered-switch-default'; did you mean '-Wno-switch-default'?
 ninja: build stopped: subcommand failed.
 
@@ -410,9 +410,9 @@ int main(void) { return 0; }
 Performing C++ SOURCE FILE Test CXX_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_98b0c && [1/2] Building CXX object CMakeFiles/cmTC_98b0c.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_98b0c.dir/src.cxx.o 
-/contrib/bin/g++ -DCXX_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wcovered-switch-default -o CMakeFiles/cmTC_98b0c.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):/contrib/bin/ninja cmTC_8d7b5 && [1/2] Building CXX object CMakeFiles/cmTC_8d7b5.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_8d7b5.dir/src.cxx.o 
+/contrib/bin/g++ -DCXX_SUPPORTS_COVERED_SWITCH_DEFAULT_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wcovered-switch-default -o CMakeFiles/cmTC_8d7b5.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
 g++: error: unrecognized command line option '-Wcovered-switch-default'; did you mean '-Wno-switch-default'?
 ninja: build stopped: subcommand failed.
 
@@ -422,9 +422,9 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test CXX_SUPPORTS_CLASS_MEMACCESS_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_bdb25 && [1/2] Building CXX object CMakeFiles/cmTC_bdb25.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_bdb25.dir/src.cxx.o 
-/contrib/bin/g++ -DCXX_SUPPORTS_CLASS_MEMACCESS_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized    -Wclass-memaccess -o CMakeFiles/cmTC_bdb25.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):/contrib/bin/ninja cmTC_dff23 && [1/2] Building CXX object CMakeFiles/cmTC_dff23.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_dff23.dir/src.cxx.o 
+/contrib/bin/g++ -DCXX_SUPPORTS_CLASS_MEMACCESS_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized    -Wclass-memaccess -o CMakeFiles/cmTC_dff23.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
 g++: error: unrecognized command line option '-Wclass-memaccess'
 ninja: build stopped: subcommand failed.
 
@@ -434,9 +434,9 @@ int main() { return 0; }
 Performing C SOURCE FILE Test C_SUPPORTS_DELETE_NON_VIRTUAL_DTOR_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_c1e84 && [1/2] Building C object CMakeFiles/cmTC_c1e84.dir/src.c.o
-FAILED: CMakeFiles/cmTC_c1e84.dir/src.c.o 
-/contrib/bin/gcc -DC_SUPPORTS_DELETE_NON_VIRTUAL_DTOR_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wdelete-non-virtual-dtor -o CMakeFiles/cmTC_c1e84.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_b90d7 && [1/2] Building C object CMakeFiles/cmTC_b90d7.dir/src.c.o
+FAILED: CMakeFiles/cmTC_b90d7.dir/src.c.o 
+/contrib/bin/gcc -DC_SUPPORTS_DELETE_NON_VIRTUAL_DTOR_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough    -Werror -Wdelete-non-virtual-dtor -o CMakeFiles/cmTC_b90d7.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 cc1: error: command line option '-Wdelete-non-virtual-dtor' is valid for C++/ObjC++ but not for C [-Werror]
 cc1: all warnings being treated as errors
 ninja: build stopped: subcommand failed.
@@ -447,9 +447,9 @@ int main(void) { return 0; }
 Performing C SOURCE FILE Test C_WCOMMENT_ALLOWS_LINE_WRAP failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_e9194 && [1/2] Building C object CMakeFiles/cmTC_e9194.dir/src.c.o
-FAILED: CMakeFiles/cmTC_e9194.dir/src.c.o 
-/contrib/bin/gcc -DC_WCOMMENT_ALLOWS_LINE_WRAP -D_GNU_SOURCE  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough  -Werror -Wcomment -o CMakeFiles/cmTC_e9194.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_bac62 && [1/2] Building C object CMakeFiles/cmTC_bac62.dir/src.c.o
+FAILED: CMakeFiles/cmTC_bac62.dir/src.c.o 
+/contrib/bin/gcc -DC_WCOMMENT_ALLOWS_LINE_WRAP -D_GNU_SOURCE  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough  -Werror -Wcomment -o CMakeFiles/cmTC_bac62.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c:1:1: error: multi-line comment [-Werror=comment]
  // \
  ^
@@ -464,9 +464,9 @@ int main() {return 0;}
 Performing C SOURCE FILE Test C_SUPPORTS_STRING_CONVERSION_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_e792a && [1/2] Building C object CMakeFiles/cmTC_e792a.dir/src.c.o
-FAILED: CMakeFiles/cmTC_e792a.dir/src.c.o 
-/contrib/bin/gcc -DC_SUPPORTS_STRING_CONVERSION_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-comment    -Werror -Wstring-conversion -o CMakeFiles/cmTC_e792a.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
+Run Build Command(s):/contrib/bin/ninja cmTC_6948a && [1/2] Building C object CMakeFiles/cmTC_6948a.dir/src.c.o
+FAILED: CMakeFiles/cmTC_6948a.dir/src.c.o 
+/contrib/bin/gcc -DC_SUPPORTS_STRING_CONVERSION_FLAG  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-comment    -Werror -Wstring-conversion -o CMakeFiles/cmTC_6948a.dir/src.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.c
 gcc: error: unrecognized command line option '-Wstring-conversion'; did you mean '-Wint-conversion'?
 ninja: build stopped: subcommand failed.
 
@@ -476,9 +476,9 @@ int main(void) { return 0; }
 Performing C++ SOURCE FILE Test CXX_SUPPORTS_STRING_CONVERSION_FLAG failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_6e232 && [1/2] Building CXX object CMakeFiles/cmTC_6e232.dir/src.cxx.o
-FAILED: CMakeFiles/cmTC_6e232.dir/src.cxx.o 
-/contrib/bin/g++ -DCXX_SUPPORTS_STRING_CONVERSION_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-noexcept-type -Wdelete-non-virtual-dtor -Wno-comment    -Werror -Wstring-conversion -o CMakeFiles/cmTC_6e232.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
+Run Build Command(s):/contrib/bin/ninja cmTC_ba7dd && [1/2] Building CXX object CMakeFiles/cmTC_ba7dd.dir/src.cxx.o
+FAILED: CMakeFiles/cmTC_ba7dd.dir/src.cxx.o 
+/contrib/bin/g++ -DCXX_SUPPORTS_STRING_CONVERSION_FLAG  -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-noexcept-type -Wdelete-non-virtual-dtor -Wno-comment    -Werror -Wstring-conversion -o CMakeFiles/cmTC_ba7dd.dir/src.cxx.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/src.cxx
 g++: error: unrecognized command line option '-Wstring-conversion'; did you mean '-Wint-conversion'?
 ninja: build stopped: subcommand failed.
 
@@ -488,10 +488,10 @@ int main() { return 0; }
 Performing C++ SOURCE FILE Test LINKER_SUPPORTS_COLOR_DIAGNOSTICS failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_d7434 && [1/2] Building CXX object CMakeFiles/cmTC_d7434.dir/src.cxx.o
-[2/2] Linking CXX executable cmTC_d7434
-FAILED: cmTC_d7434 
-: && /contrib/bin/g++ -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-noexcept-type -Wdelete-non-virtual-dtor -Wno-comment -fdiagnostics-color -static-libgcc -static-libstdc++ -fuse-ld=gold -Wl,--color-diagnostics CMakeFiles/cmTC_d7434.dir/src.cxx.o -o cmTC_d7434  -lm && :
+Run Build Command(s):/contrib/bin/ninja cmTC_eb001 && [1/2] Building CXX object CMakeFiles/cmTC_eb001.dir/src.cxx.o
+[2/2] Linking CXX executable cmTC_eb001
+FAILED: cmTC_eb001 
+: && /contrib/bin/g++ -I"/tools/include" -include "/home/project/codasip_urisc_v/work/codasip_urisc_v_options.hcodal" -fPIC -fvisibility-inlines-hidden -Werror=date-time -std=c++17 -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wcast-qual -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-maybe-uninitialized -Wno-noexcept-type -Wdelete-non-virtual-dtor -Wno-comment -fdiagnostics-color -static-libgcc -static-libstdc++ -fuse-ld=gold -Wl,--color-diagnostics CMakeFiles/cmTC_eb001.dir/src.cxx.o -o cmTC_eb001  -lm && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld.gold: --color-diagnostics: unknown option
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld.gold: use the --help option for usage information
 collect2: error: ld returned 1 exit status
@@ -503,9 +503,9 @@ int main() { return 0; }
 Determining if the os_signpost_interval_begin exist failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_89a07 && [1/2] Building C object CMakeFiles/cmTC_89a07.dir/CheckSymbolExists.c.o
-FAILED: CMakeFiles/cmTC_89a07.dir/CheckSymbolExists.c.o 
-/contrib/bin/gcc -D_GNU_SOURCE  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-comment -fdiagnostics-color -ffunction-sections -fdata-sections -o CMakeFiles/cmTC_89a07.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Run Build Command(s):/contrib/bin/ninja cmTC_e9334 && [1/2] Building C object CMakeFiles/cmTC_e9334.dir/CheckSymbolExists.c.o
+FAILED: CMakeFiles/cmTC_e9334.dir/CheckSymbolExists.c.o 
+/contrib/bin/gcc -D_GNU_SOURCE  -fPIC -Werror=date-time -Wall -Wextra -Wno-unused-parameter -Wwrite-strings -Wno-missing-field-initializers -pedantic -Wno-long-long -Wimplicit-fallthrough -Wno-comment -fdiagnostics-color -ffunction-sections -fdata-sections -o CMakeFiles/cmTC_e9334.dir/CheckSymbolExists.c.o -c /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
 /home/project/codasip_urisc_v/work/ia/llvm/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:2:10: fatal error: os/signpost.h: No such file or directory
  #include <os/signpost.h>
           ^~~~~~~~~~~~~~~

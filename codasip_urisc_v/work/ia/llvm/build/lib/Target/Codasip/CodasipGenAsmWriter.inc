@@ -1143,7 +1143,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     9837U,	// EH_SjLj_LongJmp
     9854U,	// EH_SjLj_SetJmp
     81921U,	// EH_SjLj_Setup
-    33577802U,	// c_addi_lo__opc_addi__regs__regs__
+    16800586U,	// c_addi_lo__opc_addi__regs__regs__
     2251793U,	// c_lui_hi__opc_lui__regs__
     0U,	// e_movi32__
     0U,	// e_movi32__BA
@@ -1202,15 +1202,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     213444U,	// i_ori_emulation_alias__reg0__reg0__simm12_lo__
     214544U,	// i_ori_emulation_alias__reg0__reg0__simm12_pcrel_lo__
     281689U,	// i_ori_emulation_alias__reg0__reg0__simm12_simple__
-    67457295U,	// i_ori_emulation_alias__reg0__regs__simm12_lo__
-    67522831U,	// i_ori_emulation_alias__reg0__regs__simm12_pcrel_lo__
-    100684047U,	// i_ori_emulation_alias__reg0__regs__simm12_simple__
+    33902863U,	// i_ori_emulation_alias__reg0__regs__simm12_lo__
+    33968399U,	// i_ori_emulation_alias__reg0__regs__simm12_pcrel_lo__
+    50352399U,	// i_ori_emulation_alias__reg0__regs__simm12_simple__
     4676691U,	// i_ori_emulation_alias__regs__reg0__simm12_lo__
     4742227U,	// i_ori_emulation_alias__regs__reg0__simm12_pcrel_lo__
     6904915U,	// i_ori_emulation_alias__regs__reg0__simm12_simple__
-    134241363U,	// i_ori_emulation_alias__regs__regs__simm12_lo__
-    167795795U,	// i_ori_emulation_alias__regs__regs__simm12_pcrel_lo__
-    738221139U,	// i_ori_emulation_alias__regs__regs__simm12_simple__
+    67132499U,	// i_ori_emulation_alias__regs__regs__simm12_lo__
+    83909715U,	// i_ori_emulation_alias__regs__regs__simm12_pcrel_lo__
+    369122387U,	// i_ori_emulation_alias__regs__regs__simm12_simple__
     0U,	// i_store__opc_storeb__reg0__simm12_simple__reg0__i32_TRUNC_CLONE_
     0U,	// i_store__opc_storeb__reg0__simm12_simple__regs__i32_TRUNC_CLONE_
     0U,	// i_store__opc_storeb__reg0__simm12_simple__regs__immspec_1_
@@ -1244,8 +1244,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672601U,	// i_addi_alias__reg0__reg0_alias__simm12_lo__
     673833U,	// i_addi_alias__reg0__reg0_alias__simm12_pcrel_lo__
     86862U,	// i_addi_alias__reg0__reg0_alias__simm12_simple__
-    235229307U,	// i_addi_alias__reg0__regs__simm12_lo__
-    235294843U,	// i_addi_alias__reg0__regs__simm12_pcrel_lo__
+    117788795U,	// i_addi_alias__reg0__regs__simm12_lo__
+    117854331U,	// i_addi_alias__reg0__regs__simm12_pcrel_lo__
     20603U,	// i_addi_alias__reg0__regs__simm12_simple__
     672277U,	// i_addi_alias__reg0_alias__reg0__simm12_lo__
     673401U,	// i_addi_alias__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1253,8 +1253,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672801U,	// i_addi_alias__reg0_alias__reg0_alias__simm12_lo__
     674087U,	// i_addi_alias__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87498U,	// i_addi_alias__reg0_alias__reg0_alias__simm12_simple__
-    235231378U,	// i_addi_alias__reg0_alias__regs__simm12_lo__
-    235296914U,	// i_addi_alias__reg0_alias__regs__simm12_pcrel_lo__
+    117790866U,	// i_addi_alias__reg0_alias__regs__simm12_lo__
+    117856402U,	// i_addi_alias__reg0_alias__regs__simm12_pcrel_lo__
     22674U,	// i_addi_alias__reg0_alias__regs__simm12_simple__
     2579422U,	// i_addi_alias__regs__reg0__simm12_lo__
     2644958U,	// i_addi_alias__regs__reg0__simm12_pcrel_lo__
@@ -1262,17 +1262,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744414U,	// i_addi_alias__regs__reg0_alias__simm12_lo__
     809950U,	// i_addi_alias__regs__reg0_alias__simm12_pcrel_lo__
     875486U,	// i_addi_alias__regs__reg0_alias__simm12_simple__
-    1207983070U,	// i_addi_alias__regs__regs__simm12_lo__
-    1241537502U,	// i_addi_alias__regs__regs__simm12_pcrel_lo__
-    2885704670U,	// i_addi_alias__regs__regs__simm12_simple__
+    604003294U,	// i_addi_alias__regs__regs__simm12_lo__
+    620780510U,	// i_addi_alias__regs__regs__simm12_pcrel_lo__
+    1442864094U,	// i_addi_alias__regs__regs__simm12_simple__
     672115U,	// i_andi_alias__reg0__reg0__simm12_lo__
     673191U,	// i_andi_alias__reg0__reg0__simm12_pcrel_lo__
     84957U,	// i_andi_alias__reg0__reg0__simm12_simple__
     672623U,	// i_andi_alias__reg0__reg0_alias__simm12_lo__
     673861U,	// i_andi_alias__reg0__reg0_alias__simm12_pcrel_lo__
     86878U,	// i_andi_alias__reg0__reg0_alias__simm12_simple__
-    235229317U,	// i_andi_alias__reg0__regs__simm12_lo__
-    235294853U,	// i_andi_alias__reg0__regs__simm12_pcrel_lo__
+    117788805U,	// i_andi_alias__reg0__regs__simm12_lo__
+    117854341U,	// i_andi_alias__reg0__regs__simm12_pcrel_lo__
     20613U,	// i_andi_alias__reg0__regs__simm12_simple__
     672299U,	// i_andi_alias__reg0_alias__reg0__simm12_lo__
     673429U,	// i_andi_alias__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1280,8 +1280,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672825U,	// i_andi_alias__reg0_alias__reg0_alias__simm12_lo__
     674117U,	// i_andi_alias__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87516U,	// i_andi_alias__reg0_alias__reg0_alias__simm12_simple__
-    235231390U,	// i_andi_alias__reg0_alias__regs__simm12_lo__
-    235296926U,	// i_andi_alias__reg0_alias__regs__simm12_pcrel_lo__
+    117790878U,	// i_andi_alias__reg0_alias__regs__simm12_lo__
+    117856414U,	// i_andi_alias__reg0_alias__regs__simm12_pcrel_lo__
     22686U,	// i_andi_alias__reg0_alias__regs__simm12_simple__
     2579428U,	// i_andi_alias__regs__reg0__simm12_lo__
     2644964U,	// i_andi_alias__regs__reg0__simm12_pcrel_lo__
@@ -1289,9 +1289,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744420U,	// i_andi_alias__regs__reg0_alias__simm12_lo__
     809956U,	// i_andi_alias__regs__reg0_alias__simm12_pcrel_lo__
     875492U,	// i_andi_alias__regs__reg0_alias__simm12_simple__
-    1207983076U,	// i_andi_alias__regs__regs__simm12_lo__
-    1241537508U,	// i_andi_alias__regs__regs__simm12_pcrel_lo__
-    2885704676U,	// i_andi_alias__regs__regs__simm12_simple__
+    604003300U,	// i_andi_alias__regs__regs__simm12_lo__
+    620780516U,	// i_andi_alias__regs__regs__simm12_pcrel_lo__
+    1442864100U,	// i_andi_alias__regs__regs__simm12_simple__
     85957U,	// i_auipc__opc_auipc__reg0__imm20_s12__
     87998U,	// i_auipc__opc_auipc__reg0_alias__imm20_s12__
     23325U,	// i_auipc__opc_auipc__regs__imm20_s12__
@@ -1315,7 +1315,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22887U,	// i_bgt_alias__reg0_alias__regs__rel_addr12__
     11099253U,	// i_bgt_alias__regs__reg0__rel_addr12__
     875637U,	// i_bgt_alias__regs__reg0_alias__rel_addr12__
-    2885704821U,	// i_bgt_alias__regs__regs__rel_addr12__
+    1442864245U,	// i_bgt_alias__regs__regs__rel_addr12__
     85175U,	// i_bgtu_alias__reg0__reg0__rel_addr12__
     87128U,	// i_bgtu_alias__reg0__reg0_alias__rel_addr12__
     20865U,	// i_bgtu_alias__reg0__regs__rel_addr12__
@@ -1324,7 +1324,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22990U,	// i_bgtu_alias__reg0_alias__regs__rel_addr12__
     11099302U,	// i_bgtu_alias__regs__reg0__rel_addr12__
     875686U,	// i_bgtu_alias__regs__reg0_alias__rel_addr12__
-    2885704870U,	// i_bgtu_alias__regs__regs__rel_addr12__
+    1442864294U,	// i_bgtu_alias__regs__regs__rel_addr12__
     86526U,	// i_bgtz_alias__reg0__rel_addr12__
     88677U,	// i_bgtz_alias__reg0_alias__rel_addr12__
     23797U,	// i_bgtz_alias__regs__rel_addr12__
@@ -1336,7 +1336,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22583U,	// i_ble_alias__reg0_alias__regs__rel_addr12__
     11098994U,	// i_ble_alias__regs__reg0__rel_addr12__
     875378U,	// i_ble_alias__regs__reg0_alias__rel_addr12__
-    2885704562U,	// i_ble_alias__regs__regs__rel_addr12__
+    1442863986U,	// i_ble_alias__regs__regs__rel_addr12__
     85146U,	// i_bleu_alias__reg0__reg0__rel_addr12__
     87095U,	// i_bleu_alias__reg0__reg0_alias__rel_addr12__
     20835U,	// i_bleu_alias__reg0__regs__rel_addr12__
@@ -1345,7 +1345,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22954U,	// i_bleu_alias__reg0_alias__regs__rel_addr12__
     11099284U,	// i_bleu_alias__regs__reg0__rel_addr12__
     875668U,	// i_bleu_alias__regs__reg0_alias__rel_addr12__
-    2885704852U,	// i_bleu_alias__regs__regs__rel_addr12__
+    1442864276U,	// i_bleu_alias__regs__regs__rel_addr12__
     86476U,	// i_blez_alias__reg0__rel_addr12__
     88617U,	// i_blez_alias__reg0_alias__rel_addr12__
     23767U,	// i_blez_alias__regs__rel_addr12__
@@ -1366,8 +1366,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672559U,	// i_comp_2reg_imm__opc_addi__reg0__reg0_alias__simm12_lo__
     673779U,	// i_comp_2reg_imm__opc_addi__reg0__reg0_alias__simm12_pcrel_lo__
     86736U,	// i_comp_2reg_imm__opc_addi__reg0__reg0_alias__simm12_simple__
-    235229176U,	// i_comp_2reg_imm__opc_addi__reg0__regs__simm12_lo__
-    235294712U,	// i_comp_2reg_imm__opc_addi__reg0__regs__simm12_pcrel_lo__
+    117788664U,	// i_comp_2reg_imm__opc_addi__reg0__regs__simm12_lo__
+    117854200U,	// i_comp_2reg_imm__opc_addi__reg0__regs__simm12_pcrel_lo__
     20472U,	// i_comp_2reg_imm__opc_addi__reg0__regs__simm12_simple__
     672235U,	// i_comp_2reg_imm__opc_addi__reg0_alias__reg0__simm12_lo__
     673347U,	// i_comp_2reg_imm__opc_addi__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1375,8 +1375,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672755U,	// i_comp_2reg_imm__opc_addi__reg0_alias__reg0_alias__simm12_lo__
     674029U,	// i_comp_2reg_imm__opc_addi__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87358U,	// i_comp_2reg_imm__opc_addi__reg0_alias__reg0_alias__simm12_simple__
-    235231223U,	// i_comp_2reg_imm__opc_addi__reg0_alias__regs__simm12_lo__
-    235296759U,	// i_comp_2reg_imm__opc_addi__reg0_alias__regs__simm12_pcrel_lo__
+    117790711U,	// i_comp_2reg_imm__opc_addi__reg0_alias__regs__simm12_lo__
+    117856247U,	// i_comp_2reg_imm__opc_addi__reg0_alias__regs__simm12_pcrel_lo__
     22519U,	// i_comp_2reg_imm__opc_addi__reg0_alias__regs__simm12_simple__
     2579274U,	// i_comp_2reg_imm__opc_addi__regs__reg0__simm12_lo__
     2644810U,	// i_comp_2reg_imm__opc_addi__regs__reg0__simm12_pcrel_lo__
@@ -1384,17 +1384,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744266U,	// i_comp_2reg_imm__opc_addi__regs__reg0_alias__simm12_lo__
     809802U,	// i_comp_2reg_imm__opc_addi__regs__reg0_alias__simm12_pcrel_lo__
     875338U,	// i_comp_2reg_imm__opc_addi__regs__reg0_alias__simm12_simple__
-    1207982922U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_lo__
-    1241537354U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_pcrel_lo__
-    2885704522U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__
+    604003146U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_lo__
+    620780362U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_pcrel_lo__
+    1442863946U,	// i_comp_2reg_imm__opc_addi__regs__regs__simm12_simple__
     672076U,	// i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_lo__
     673140U,	// i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_pcrel_lo__
     84844U,	// i_comp_2reg_imm__opc_andi__reg0__reg0__simm12_simple__
     672580U,	// i_comp_2reg_imm__opc_andi__reg0__reg0_alias__simm12_lo__
     673806U,	// i_comp_2reg_imm__opc_andi__reg0__reg0_alias__simm12_pcrel_lo__
     86751U,	// i_comp_2reg_imm__opc_andi__reg0__reg0_alias__simm12_simple__
-    235229185U,	// i_comp_2reg_imm__opc_andi__reg0__regs__simm12_lo__
-    235294721U,	// i_comp_2reg_imm__opc_andi__reg0__regs__simm12_pcrel_lo__
+    117788673U,	// i_comp_2reg_imm__opc_andi__reg0__regs__simm12_lo__
+    117854209U,	// i_comp_2reg_imm__opc_andi__reg0__regs__simm12_pcrel_lo__
     20481U,	// i_comp_2reg_imm__opc_andi__reg0__regs__simm12_simple__
     672256U,	// i_comp_2reg_imm__opc_andi__reg0_alias__reg0__simm12_lo__
     673374U,	// i_comp_2reg_imm__opc_andi__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1402,8 +1402,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672778U,	// i_comp_2reg_imm__opc_andi__reg0_alias__reg0_alias__simm12_lo__
     674058U,	// i_comp_2reg_imm__opc_andi__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87375U,	// i_comp_2reg_imm__opc_andi__reg0_alias__reg0_alias__simm12_simple__
-    235231234U,	// i_comp_2reg_imm__opc_andi__reg0_alias__regs__simm12_lo__
-    235296770U,	// i_comp_2reg_imm__opc_andi__reg0_alias__regs__simm12_pcrel_lo__
+    117790722U,	// i_comp_2reg_imm__opc_andi__reg0_alias__regs__simm12_lo__
+    117856258U,	// i_comp_2reg_imm__opc_andi__reg0_alias__regs__simm12_pcrel_lo__
     22530U,	// i_comp_2reg_imm__opc_andi__reg0_alias__regs__simm12_simple__
     2579279U,	// i_comp_2reg_imm__opc_andi__regs__reg0__simm12_lo__
     2644815U,	// i_comp_2reg_imm__opc_andi__regs__reg0__simm12_pcrel_lo__
@@ -1411,17 +1411,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744271U,	// i_comp_2reg_imm__opc_andi__regs__reg0_alias__simm12_lo__
     809807U,	// i_comp_2reg_imm__opc_andi__regs__reg0_alias__simm12_pcrel_lo__
     875343U,	// i_comp_2reg_imm__opc_andi__regs__reg0_alias__simm12_simple__
-    1207982927U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_lo__
-    1241537359U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_pcrel_lo__
-    2885704527U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_simple__
+    604003151U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_lo__
+    620780367U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_pcrel_lo__
+    1442863951U,	// i_comp_2reg_imm__opc_andi__regs__regs__simm12_simple__
     672196U,	// i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_lo__
     673296U,	// i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_pcrel_lo__
     85081U,	// i_comp_2reg_imm__opc_ori__reg0__reg0__simm12_simple__
     672712U,	// i_comp_2reg_imm__opc_ori__reg0__reg0_alias__simm12_lo__
     673974U,	// i_comp_2reg_imm__opc_ori__reg0__reg0_alias__simm12_pcrel_lo__
     87020U,	// i_comp_2reg_imm__opc_ori__reg0__reg0_alias__simm12_simple__
-    235229455U,	// i_comp_2reg_imm__opc_ori__reg0__regs__simm12_lo__
-    235294991U,	// i_comp_2reg_imm__opc_ori__reg0__regs__simm12_pcrel_lo__
+    117788943U,	// i_comp_2reg_imm__opc_ori__reg0__regs__simm12_lo__
+    117854479U,	// i_comp_2reg_imm__opc_ori__reg0__regs__simm12_pcrel_lo__
     20751U,	// i_comp_2reg_imm__opc_ori__reg0__regs__simm12_simple__
     672388U,	// i_comp_2reg_imm__opc_ori__reg0_alias__reg0__simm12_lo__
     673542U,	// i_comp_2reg_imm__opc_ori__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1429,8 +1429,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672922U,	// i_comp_2reg_imm__opc_ori__reg0_alias__reg0_alias__simm12_lo__
     674238U,	// i_comp_2reg_imm__opc_ori__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87676U,	// i_comp_2reg_imm__opc_ori__reg0_alias__reg0_alias__simm12_simple__
-    235231556U,	// i_comp_2reg_imm__opc_ori__reg0_alias__regs__simm12_lo__
-    235297092U,	// i_comp_2reg_imm__opc_ori__reg0_alias__regs__simm12_pcrel_lo__
+    117791044U,	// i_comp_2reg_imm__opc_ori__reg0_alias__regs__simm12_lo__
+    117856580U,	// i_comp_2reg_imm__opc_ori__reg0_alias__regs__simm12_pcrel_lo__
     22852U,	// i_comp_2reg_imm__opc_ori__reg0_alias__regs__simm12_simple__
     2579539U,	// i_comp_2reg_imm__opc_ori__regs__reg0__simm12_lo__
     2645075U,	// i_comp_2reg_imm__opc_ori__regs__reg0__simm12_pcrel_lo__
@@ -1438,17 +1438,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744531U,	// i_comp_2reg_imm__opc_ori__regs__reg0_alias__simm12_lo__
     810067U,	// i_comp_2reg_imm__opc_ori__regs__reg0_alias__simm12_pcrel_lo__
     875603U,	// i_comp_2reg_imm__opc_ori__regs__reg0_alias__simm12_simple__
-    1207983187U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_lo__
-    1241537619U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_pcrel_lo__
-    2885704787U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_simple__
+    604003411U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_lo__
+    620780627U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_pcrel_lo__
+    1442864211U,	// i_comp_2reg_imm__opc_ori__regs__regs__simm12_simple__
     672155U,	// i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_lo__
     673243U,	// i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_pcrel_lo__
     85013U,	// i_comp_2reg_imm__opc_slti__reg0__reg0__simm12_simple__
     672667U,	// i_comp_2reg_imm__opc_slti__reg0__reg0_alias__simm12_lo__
     673917U,	// i_comp_2reg_imm__opc_slti__reg0__reg0_alias__simm12_pcrel_lo__
     86942U,	// i_comp_2reg_imm__opc_slti__reg0__reg0_alias__simm12_simple__
-    235229369U,	// i_comp_2reg_imm__opc_slti__reg0__regs__simm12_lo__
-    235294905U,	// i_comp_2reg_imm__opc_slti__reg0__regs__simm12_pcrel_lo__
+    117788857U,	// i_comp_2reg_imm__opc_slti__reg0__regs__simm12_lo__
+    117854393U,	// i_comp_2reg_imm__opc_slti__reg0__regs__simm12_pcrel_lo__
     20665U,	// i_comp_2reg_imm__opc_slti__reg0__regs__simm12_simple__
     672343U,	// i_comp_2reg_imm__opc_slti__reg0_alias__reg0__simm12_lo__
     673485U,	// i_comp_2reg_imm__opc_slti__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1456,8 +1456,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672873U,	// i_comp_2reg_imm__opc_slti__reg0_alias__reg0_alias__simm12_lo__
     674177U,	// i_comp_2reg_imm__opc_slti__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87588U,	// i_comp_2reg_imm__opc_slti__reg0_alias__reg0_alias__simm12_simple__
-    235231452U,	// i_comp_2reg_imm__opc_slti__reg0_alias__regs__simm12_lo__
-    235296988U,	// i_comp_2reg_imm__opc_slti__reg0_alias__regs__simm12_pcrel_lo__
+    117790940U,	// i_comp_2reg_imm__opc_slti__reg0_alias__regs__simm12_lo__
+    117856476U,	// i_comp_2reg_imm__opc_slti__reg0_alias__regs__simm12_pcrel_lo__
     22748U,	// i_comp_2reg_imm__opc_slti__reg0_alias__regs__simm12_simple__
     2579467U,	// i_comp_2reg_imm__opc_slti__regs__reg0__simm12_lo__
     2645003U,	// i_comp_2reg_imm__opc_slti__regs__reg0__simm12_pcrel_lo__
@@ -1465,17 +1465,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744459U,	// i_comp_2reg_imm__opc_slti__regs__reg0_alias__simm12_lo__
     809995U,	// i_comp_2reg_imm__opc_slti__regs__reg0_alias__simm12_pcrel_lo__
     875531U,	// i_comp_2reg_imm__opc_slti__regs__reg0_alias__simm12_simple__
-    1207983115U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_lo__
-    1241537547U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_pcrel_lo__
-    2885704715U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_simple__
+    604003339U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_lo__
+    620780555U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_pcrel_lo__
+    1442864139U,	// i_comp_2reg_imm__opc_slti__regs__regs__simm12_simple__
     672214U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_lo__
     673320U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_pcrel_lo__
     85160U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0__simm12_simple__
     672732U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0_alias__simm12_lo__
     674000U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0_alias__simm12_pcrel_lo__
     87111U,	// i_comp_2reg_imm__opc_sltiu__reg0__reg0_alias__simm12_simple__
-    235229558U,	// i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_lo__
-    235295094U,	// i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_pcrel_lo__
+    117789046U,	// i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_lo__
+    117854582U,	// i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_pcrel_lo__
     20854U,	// i_comp_2reg_imm__opc_sltiu__reg0__regs__simm12_simple__
     672408U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__reg0__simm12_lo__
     673568U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1483,8 +1483,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672944U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__reg0_alias__simm12_lo__
     674266U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87779U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__reg0_alias__simm12_simple__
-    235231681U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__regs__simm12_lo__
-    235297217U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__regs__simm12_pcrel_lo__
+    117791169U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__regs__simm12_lo__
+    117856705U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__regs__simm12_pcrel_lo__
     22977U,	// i_comp_2reg_imm__opc_sltiu__reg0_alias__regs__simm12_simple__
     2579615U,	// i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_lo__
     2645151U,	// i_comp_2reg_imm__opc_sltiu__regs__reg0__simm12_pcrel_lo__
@@ -1492,17 +1492,17 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744607U,	// i_comp_2reg_imm__opc_sltiu__regs__reg0_alias__simm12_lo__
     810143U,	// i_comp_2reg_imm__opc_sltiu__regs__reg0_alias__simm12_pcrel_lo__
     875679U,	// i_comp_2reg_imm__opc_sltiu__regs__reg0_alias__simm12_simple__
-    1207983263U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_lo__
-    1241537695U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_pcrel_lo__
-    2885704863U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_simple__
+    604003487U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_lo__
+    620780703U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_pcrel_lo__
+    1442864287U,	// i_comp_2reg_imm__opc_sltiu__regs__regs__simm12_simple__
     672195U,	// i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_lo__
     673295U,	// i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_pcrel_lo__
     85080U,	// i_comp_2reg_imm__opc_xori__reg0__reg0__simm12_simple__
     672711U,	// i_comp_2reg_imm__opc_xori__reg0__reg0_alias__simm12_lo__
     673973U,	// i_comp_2reg_imm__opc_xori__reg0__reg0_alias__simm12_pcrel_lo__
     87019U,	// i_comp_2reg_imm__opc_xori__reg0__reg0_alias__simm12_simple__
-    235229454U,	// i_comp_2reg_imm__opc_xori__reg0__regs__simm12_lo__
-    235294990U,	// i_comp_2reg_imm__opc_xori__reg0__regs__simm12_pcrel_lo__
+    117788942U,	// i_comp_2reg_imm__opc_xori__reg0__regs__simm12_lo__
+    117854478U,	// i_comp_2reg_imm__opc_xori__reg0__regs__simm12_pcrel_lo__
     20750U,	// i_comp_2reg_imm__opc_xori__reg0__regs__simm12_simple__
     672387U,	// i_comp_2reg_imm__opc_xori__reg0_alias__reg0__simm12_lo__
     673541U,	// i_comp_2reg_imm__opc_xori__reg0_alias__reg0__simm12_pcrel_lo__
@@ -1510,8 +1510,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672921U,	// i_comp_2reg_imm__opc_xori__reg0_alias__reg0_alias__simm12_lo__
     674237U,	// i_comp_2reg_imm__opc_xori__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87675U,	// i_comp_2reg_imm__opc_xori__reg0_alias__reg0_alias__simm12_simple__
-    235231555U,	// i_comp_2reg_imm__opc_xori__reg0_alias__regs__simm12_lo__
-    235297091U,	// i_comp_2reg_imm__opc_xori__reg0_alias__regs__simm12_pcrel_lo__
+    117791043U,	// i_comp_2reg_imm__opc_xori__reg0_alias__regs__simm12_lo__
+    117856579U,	// i_comp_2reg_imm__opc_xori__reg0_alias__regs__simm12_pcrel_lo__
     22851U,	// i_comp_2reg_imm__opc_xori__reg0_alias__regs__simm12_simple__
     2579538U,	// i_comp_2reg_imm__opc_xori__regs__reg0__simm12_lo__
     2645074U,	// i_comp_2reg_imm__opc_xori__regs__reg0__simm12_pcrel_lo__
@@ -1519,9 +1519,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744530U,	// i_comp_2reg_imm__opc_xori__regs__reg0_alias__simm12_lo__
     810066U,	// i_comp_2reg_imm__opc_xori__regs__reg0_alias__simm12_pcrel_lo__
     875602U,	// i_comp_2reg_imm__opc_xori__regs__reg0_alias__simm12_simple__
-    1207983186U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_lo__
-    1241537618U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_pcrel_lo__
-    2885704786U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_simple__
+    604003410U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_lo__
+    620780626U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_pcrel_lo__
+    1442864210U,	// i_comp_2reg_imm__opc_xori__regs__regs__simm12_simple__
     85027U,	// i_comp_2reg_imm_shift__opc_slli__reg0__reg0__shift_imm__
     86958U,	// i_comp_2reg_imm_shift__opc_slli__reg0__reg0_alias__shift_imm__
     20705U,	// i_comp_2reg_imm_shift__opc_slli__reg0__regs__shift_imm__
@@ -1530,7 +1530,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22796U,	// i_comp_2reg_imm_shift__opc_slli__reg0_alias__regs__shift_imm__
     11099193U,	// i_comp_2reg_imm_shift__opc_slli__regs__reg0__shift_imm__
     875577U,	// i_comp_2reg_imm_shift__opc_slli__regs__reg0_alias__shift_imm__
-    2885704761U,	// i_comp_2reg_imm_shift__opc_slli__regs__regs__shift_imm__
+    1442864185U,	// i_comp_2reg_imm_shift__opc_slli__regs__regs__shift_imm__
     84706U,	// i_comp_2reg_imm_shift__opc_srai__reg0__reg0__shift_imm__
     86601U,	// i_comp_2reg_imm_shift__opc_srai__reg0__reg0_alias__shift_imm__
     20329U,	// i_comp_2reg_imm_shift__opc_srai__reg0__regs__shift_imm__
@@ -1539,7 +1539,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22358U,	// i_comp_2reg_imm_shift__opc_srai__reg0_alias__regs__shift_imm__
     11098833U,	// i_comp_2reg_imm_shift__opc_srai__regs__reg0__shift_imm__
     875217U,	// i_comp_2reg_imm_shift__opc_srai__regs__reg0_alias__shift_imm__
-    2885704401U,	// i_comp_2reg_imm_shift__opc_srai__regs__regs__shift_imm__
+    1442863825U,	// i_comp_2reg_imm_shift__opc_srai__regs__regs__shift_imm__
     85040U,	// i_comp_2reg_imm_shift__opc_srli__reg0__reg0__shift_imm__
     86973U,	// i_comp_2reg_imm_shift__opc_srli__reg0__reg0_alias__shift_imm__
     20714U,	// i_comp_2reg_imm_shift__opc_srli__reg0__regs__shift_imm__
@@ -1548,7 +1548,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22807U,	// i_comp_2reg_imm_shift__opc_srli__reg0_alias__regs__shift_imm__
     11099198U,	// i_comp_2reg_imm_shift__opc_srli__regs__reg0__shift_imm__
     875582U,	// i_comp_2reg_imm_shift__opc_srli__regs__reg0_alias__shift_imm__
-    2885704766U,	// i_comp_2reg_imm_shift__opc_srli__regs__regs__shift_imm__
+    1442864190U,	// i_comp_2reg_imm_shift__opc_srli__regs__regs__shift_imm__
     84971U,	// i_comp_2reg_imm_shift_slli_alias__reg0__reg0__shift_imm__
     86894U,	// i_comp_2reg_imm_shift_slli_alias__reg0__reg0_alias__shift_imm__
     20623U,	// i_comp_2reg_imm_shift_slli_alias__reg0__regs__shift_imm__
@@ -1557,7 +1557,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22698U,	// i_comp_2reg_imm_shift_slli_alias__reg0_alias__regs__shift_imm__
     11099114U,	// i_comp_2reg_imm_shift_slli_alias__regs__reg0__shift_imm__
     875498U,	// i_comp_2reg_imm_shift_slli_alias__regs__reg0_alias__shift_imm__
-    2885704682U,	// i_comp_2reg_imm_shift_slli_alias__regs__regs__shift_imm__
+    1442864106U,	// i_comp_2reg_imm_shift_slli_alias__regs__regs__shift_imm__
     84929U,	// i_comp_2reg_imm_shift_srai_alias__reg0__reg0__shift_imm__
     86846U,	// i_comp_2reg_imm_shift_srai_alias__reg0__reg0_alias__shift_imm__
     20581U,	// i_comp_2reg_imm_shift_srai_alias__reg0__regs__shift_imm__
@@ -1566,7 +1566,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22648U,	// i_comp_2reg_imm_shift_srai_alias__reg0_alias__regs__shift_imm__
     11099081U,	// i_comp_2reg_imm_shift_srai_alias__regs__reg0__shift_imm__
     875465U,	// i_comp_2reg_imm_shift_srai_alias__regs__reg0_alias__shift_imm__
-    2885704649U,	// i_comp_2reg_imm_shift_srai_alias__regs__regs__shift_imm__
+    1442864073U,	// i_comp_2reg_imm_shift_srai_alias__regs__regs__shift_imm__
     84985U,	// i_comp_2reg_imm_shift_srli_alias__reg0__reg0__shift_imm__
     86910U,	// i_comp_2reg_imm_shift_srli_alias__reg0__reg0_alias__shift_imm__
     20633U,	// i_comp_2reg_imm_shift_srli_alias__reg0__regs__shift_imm__
@@ -1575,7 +1575,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22710U,	// i_comp_2reg_imm_shift_srli_alias__reg0_alias__regs__shift_imm__
     11099120U,	// i_comp_2reg_imm_shift_srli_alias__regs__reg0__shift_imm__
     875504U,	// i_comp_2reg_imm_shift_srli_alias__regs__reg0_alias__shift_imm__
-    2885704688U,	// i_comp_2reg_imm_shift_srli_alias__regs__regs__shift_imm__
+    1442864112U,	// i_comp_2reg_imm_shift_srli_alias__regs__regs__shift_imm__
     8275U,	// i_comp_3reg__opc_add__reg0__reg0__reg0__
     10752U,	// i_comp_3reg__opc_add__reg0__reg0__reg0_alias__
     84831U,	// i_comp_3reg__opc_add__reg0__reg0__regs__
@@ -1600,9 +1600,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334090U,	// i_comp_3reg__opc_add__regs__reg0_alias__reg0__
     1399626U,	// i_comp_3reg__opc_add__regs__reg0_alias__reg0_alias__
     875338U,	// i_comp_3reg__opc_add__regs__reg0_alias__regs__
-    268458826U,	// i_comp_3reg__opc_add__regs__regs__reg0__
-    302013258U,	// i_comp_3reg__opc_add__regs__regs__reg0_alias__
-    1824545610U,	// i_comp_3reg__opc_add__regs__regs__regs__
+    134241098U,	// i_comp_3reg__opc_add__regs__regs__reg0__
+    151018314U,	// i_comp_3reg__opc_add__regs__regs__reg0_alias__
+    918575946U,	// i_comp_3reg__opc_add__regs__regs__regs__
     8290U,	// i_comp_3reg__opc_and__reg0__reg0__reg0__
     10769U,	// i_comp_3reg__opc_and__reg0__reg0__reg0_alias__
     84844U,	// i_comp_3reg__opc_and__reg0__reg0__regs__
@@ -1627,9 +1627,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334095U,	// i_comp_3reg__opc_and__regs__reg0_alias__reg0__
     1399631U,	// i_comp_3reg__opc_and__regs__reg0_alias__reg0_alias__
     875343U,	// i_comp_3reg__opc_and__regs__reg0_alias__regs__
-    268458831U,	// i_comp_3reg__opc_and__regs__regs__reg0__
-    302013263U,	// i_comp_3reg__opc_and__regs__regs__reg0_alias__
-    1824545615U,	// i_comp_3reg__opc_and__regs__regs__regs__
+    134241103U,	// i_comp_3reg__opc_and__regs__regs__reg0__
+    151018319U,	// i_comp_3reg__opc_and__regs__regs__reg0_alias__
+    918575951U,	// i_comp_3reg__opc_and__regs__regs__regs__
     8371U,	// i_comp_3reg__opc_or__reg0__reg0__reg0__
     10858U,	// i_comp_3reg__opc_or__reg0__reg0__reg0_alias__
     85081U,	// i_comp_3reg__opc_or__reg0__reg0__regs__
@@ -1654,9 +1654,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334355U,	// i_comp_3reg__opc_or__regs__reg0_alias__reg0__
     1399891U,	// i_comp_3reg__opc_or__regs__reg0_alias__reg0_alias__
     875603U,	// i_comp_3reg__opc_or__regs__reg0_alias__regs__
-    268459091U,	// i_comp_3reg__opc_or__regs__regs__reg0__
-    302013523U,	// i_comp_3reg__opc_or__regs__regs__reg0_alias__
-    1824545875U,	// i_comp_3reg__opc_or__regs__regs__regs__
+    134241363U,	// i_comp_3reg__opc_or__regs__regs__reg0__
+    151018579U,	// i_comp_3reg__opc_or__regs__regs__reg0_alias__
+    918576211U,	// i_comp_3reg__opc_or__regs__regs__regs__
     8340U,	// i_comp_3reg__opc_sll__reg0__reg0__reg0__
     10823U,	// i_comp_3reg__opc_sll__reg0__reg0__reg0_alias__
     85027U,	// i_comp_3reg__opc_sll__reg0__reg0__regs__
@@ -1681,9 +1681,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334329U,	// i_comp_3reg__opc_sll__regs__reg0_alias__reg0__
     1399865U,	// i_comp_3reg__opc_sll__regs__reg0_alias__reg0_alias__
     875577U,	// i_comp_3reg__opc_sll__regs__reg0_alias__regs__
-    268459065U,	// i_comp_3reg__opc_sll__regs__regs__reg0__
-    302013497U,	// i_comp_3reg__opc_sll__regs__regs__reg0_alias__
-    2885704761U,	// i_comp_3reg__opc_sll__regs__regs__regs__
+    134241337U,	// i_comp_3reg__opc_sll__regs__regs__reg0__
+    151018553U,	// i_comp_3reg__opc_sll__regs__regs__reg0_alias__
+    1442864185U,	// i_comp_3reg__opc_sll__regs__regs__regs__
     8385U,	// i_comp_3reg__opc_slt__reg0__reg0__reg0__
     10874U,	// i_comp_3reg__opc_slt__reg0__reg0__reg0_alias__
     85119U,	// i_comp_3reg__opc_slt__reg0__reg0__regs__
@@ -1708,9 +1708,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334399U,	// i_comp_3reg__opc_slt__regs__reg0_alias__reg0__
     1399935U,	// i_comp_3reg__opc_slt__regs__reg0_alias__reg0_alias__
     875647U,	// i_comp_3reg__opc_slt__regs__reg0_alias__regs__
-    268459135U,	// i_comp_3reg__opc_slt__regs__regs__reg0__
-    302013567U,	// i_comp_3reg__opc_slt__regs__regs__reg0_alias__
-    2885704831U,	// i_comp_3reg__opc_slt__regs__regs__regs__
+    134241407U,	// i_comp_3reg__opc_slt__regs__regs__reg0__
+    151018623U,	// i_comp_3reg__opc_slt__regs__regs__reg0_alias__
+    1442864255U,	// i_comp_3reg__opc_slt__regs__regs__regs__
     8400U,	// i_comp_3reg__opc_sltu__reg0__reg0__reg0__
     10891U,	// i_comp_3reg__opc_sltu__reg0__reg0__reg0_alias__
     85203U,	// i_comp_3reg__opc_sltu__reg0__reg0__regs__
@@ -1735,9 +1735,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334450U,	// i_comp_3reg__opc_sltu__regs__reg0_alias__reg0__
     1399986U,	// i_comp_3reg__opc_sltu__regs__reg0_alias__reg0_alias__
     875698U,	// i_comp_3reg__opc_sltu__regs__reg0_alias__regs__
-    268459186U,	// i_comp_3reg__opc_sltu__regs__regs__reg0__
-    302013618U,	// i_comp_3reg__opc_sltu__regs__regs__reg0_alias__
-    2885704882U,	// i_comp_3reg__opc_sltu__regs__regs__regs__
+    134241458U,	// i_comp_3reg__opc_sltu__regs__regs__reg0__
+    151018674U,	// i_comp_3reg__opc_sltu__regs__regs__reg0_alias__
+    1442864306U,	// i_comp_3reg__opc_sltu__regs__regs__regs__
     8140U,	// i_comp_3reg__opc_sra__reg0__reg0__reg0__
     10607U,	// i_comp_3reg__opc_sra__reg0__reg0__reg0_alias__
     84706U,	// i_comp_3reg__opc_sra__reg0__reg0__regs__
@@ -1762,9 +1762,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1333969U,	// i_comp_3reg__opc_sra__regs__reg0_alias__reg0__
     1399505U,	// i_comp_3reg__opc_sra__regs__reg0_alias__reg0_alias__
     875217U,	// i_comp_3reg__opc_sra__regs__reg0_alias__regs__
-    268458705U,	// i_comp_3reg__opc_sra__regs__regs__reg0__
-    302013137U,	// i_comp_3reg__opc_sra__regs__regs__reg0_alias__
-    2885704401U,	// i_comp_3reg__opc_sra__regs__regs__regs__
+    134240977U,	// i_comp_3reg__opc_sra__regs__regs__reg0__
+    151018193U,	// i_comp_3reg__opc_sra__regs__regs__reg0_alias__
+    1442863825U,	// i_comp_3reg__opc_sra__regs__regs__regs__
     8355U,	// i_comp_3reg__opc_srl__reg0__reg0__reg0__
     10840U,	// i_comp_3reg__opc_srl__reg0__reg0__reg0_alias__
     85040U,	// i_comp_3reg__opc_srl__reg0__reg0__regs__
@@ -1789,9 +1789,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334334U,	// i_comp_3reg__opc_srl__regs__reg0_alias__reg0__
     1399870U,	// i_comp_3reg__opc_srl__regs__reg0_alias__reg0_alias__
     875582U,	// i_comp_3reg__opc_srl__regs__reg0_alias__regs__
-    268459070U,	// i_comp_3reg__opc_srl__regs__regs__reg0__
-    302013502U,	// i_comp_3reg__opc_srl__regs__regs__reg0_alias__
-    2885704766U,	// i_comp_3reg__opc_srl__regs__regs__regs__
+    134241342U,	// i_comp_3reg__opc_srl__regs__regs__reg0__
+    151018558U,	// i_comp_3reg__opc_srl__regs__regs__reg0_alias__
+    1442864190U,	// i_comp_3reg__opc_srl__regs__regs__regs__
     8190U,	// i_comp_3reg__opc_sub__reg0__reg0__reg0__
     10661U,	// i_comp_3reg__opc_sub__reg0__reg0__reg0_alias__
     84752U,	// i_comp_3reg__opc_sub__reg0__reg0__regs__
@@ -1816,9 +1816,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334007U,	// i_comp_3reg__opc_sub__regs__reg0_alias__reg0__
     1399543U,	// i_comp_3reg__opc_sub__regs__reg0_alias__reg0_alias__
     875255U,	// i_comp_3reg__opc_sub__regs__reg0_alias__regs__
-    268458743U,	// i_comp_3reg__opc_sub__regs__regs__reg0__
-    302013175U,	// i_comp_3reg__opc_sub__regs__regs__reg0_alias__
-    2885704439U,	// i_comp_3reg__opc_sub__regs__regs__regs__
+    134241015U,	// i_comp_3reg__opc_sub__regs__regs__reg0__
+    151018231U,	// i_comp_3reg__opc_sub__regs__regs__reg0_alias__
+    1442863863U,	// i_comp_3reg__opc_sub__regs__regs__regs__
     8370U,	// i_comp_3reg__opc_xor__reg0__reg0__reg0__
     10857U,	// i_comp_3reg__opc_xor__reg0__reg0__reg0_alias__
     85080U,	// i_comp_3reg__opc_xor__reg0__reg0__regs__
@@ -1843,9 +1843,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334354U,	// i_comp_3reg__opc_xor__regs__reg0_alias__reg0__
     1399890U,	// i_comp_3reg__opc_xor__regs__reg0_alias__reg0_alias__
     875602U,	// i_comp_3reg__opc_xor__regs__reg0_alias__regs__
-    268459090U,	// i_comp_3reg__opc_xor__regs__regs__reg0__
-    302013522U,	// i_comp_3reg__opc_xor__regs__regs__reg0_alias__
-    1824545874U,	// i_comp_3reg__opc_xor__regs__regs__regs__
+    134241362U,	// i_comp_3reg__opc_xor__regs__regs__reg0__
+    151018578U,	// i_comp_3reg__opc_xor__regs__regs__reg0_alias__
+    918576210U,	// i_comp_3reg__opc_xor__regs__regs__regs__
     85053U,	// i_control_conditional__opc_beq__reg0__reg0__rel_addr12__
     0U,	// i_control_conditional__opc_beq__reg0__reg0__rel_addr12__TAILCALL_CLONE_
     0U,	// i_control_conditional__opc_beq__reg0__reg0__rel_addr12__TAILCALL_CLONE_BA
@@ -1858,7 +1858,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22818U,	// i_control_conditional__opc_beq__reg0_alias__regs__rel_addr12__
     11099203U,	// i_control_conditional__opc_beq__regs__reg0__rel_addr12__
     875587U,	// i_control_conditional__opc_beq__regs__reg0_alias__rel_addr12__
-    2885704771U,	// i_control_conditional__opc_beq__regs__regs__rel_addr12__
+    1442864195U,	// i_control_conditional__opc_beq__regs__regs__rel_addr12__
     84890U,	// i_control_conditional__opc_bge__reg0__reg0__rel_addr12__
     0U,	// i_control_conditional__opc_bge__reg0__reg0__rel_addr12__TAILCALL_CLONE_
     0U,	// i_control_conditional__opc_bge__reg0__reg0__rel_addr12__TAILCALL_CLONE_BA
@@ -1871,7 +1871,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22572U,	// i_control_conditional__opc_bge__reg0_alias__regs__rel_addr12__
     11098989U,	// i_control_conditional__opc_bge__regs__reg0__rel_addr12__
     875373U,	// i_control_conditional__opc_bge__regs__reg0_alias__rel_addr12__
-    2885704557U,	// i_control_conditional__opc_bge__regs__regs__rel_addr12__
+    1442863981U,	// i_control_conditional__opc_bge__regs__regs__rel_addr12__
     85132U,	// i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__
     0U,	// i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__TAILCALL_CLONE_
     0U,	// i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__TAILCALL_CLONE_BA
@@ -1884,7 +1884,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22942U,	// i_control_conditional__opc_bgeu__reg0_alias__regs__rel_addr12__
     11099278U,	// i_control_conditional__opc_bgeu__regs__reg0__rel_addr12__
     875662U,	// i_control_conditional__opc_bgeu__regs__reg0_alias__rel_addr12__
-    2885704846U,	// i_control_conditional__opc_bgeu__regs__regs__rel_addr12__
+    1442864270U,	// i_control_conditional__opc_bgeu__regs__regs__rel_addr12__
     85106U,	// i_control_conditional__opc_blt__reg0__reg0__rel_addr12__
     87049U,	// i_control_conditional__opc_blt__reg0__reg0_alias__rel_addr12__
     20789U,	// i_control_conditional__opc_blt__reg0__regs__rel_addr12__
@@ -1893,7 +1893,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22898U,	// i_control_conditional__opc_blt__reg0_alias__regs__rel_addr12__
     11099258U,	// i_control_conditional__opc_blt__regs__reg0__rel_addr12__
     875642U,	// i_control_conditional__opc_blt__regs__reg0_alias__rel_addr12__
-    2885704826U,	// i_control_conditional__opc_blt__regs__regs__rel_addr12__
+    1442864250U,	// i_control_conditional__opc_blt__regs__regs__rel_addr12__
     85189U,	// i_control_conditional__opc_bltu__reg0__reg0__rel_addr12__
     87144U,	// i_control_conditional__opc_bltu__reg0__reg0_alias__rel_addr12__
     20875U,	// i_control_conditional__opc_bltu__reg0__regs__rel_addr12__
@@ -1902,7 +1902,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     23002U,	// i_control_conditional__opc_bltu__reg0_alias__regs__rel_addr12__
     11099308U,	// i_control_conditional__opc_bltu__regs__reg0__rel_addr12__
     875692U,	// i_control_conditional__opc_bltu__regs__reg0_alias__rel_addr12__
-    2885704876U,	// i_control_conditional__opc_bltu__regs__regs__rel_addr12__
+    1442864300U,	// i_control_conditional__opc_bltu__regs__regs__rel_addr12__
     84916U,	// i_control_conditional__opc_bne__reg0__reg0__rel_addr12__
     86831U,	// i_control_conditional__opc_bne__reg0__reg0_alias__rel_addr12__
     20537U,	// i_control_conditional__opc_bne__reg0__regs__rel_addr12__
@@ -1911,25 +1911,25 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22594U,	// i_control_conditional__opc_bne__reg0_alias__regs__rel_addr12__
     11099016U,	// i_control_conditional__opc_bne__regs__reg0__rel_addr12__
     875400U,	// i_control_conditional__opc_bne__regs__reg0_alias__rel_addr12__
-    2885704584U,	// i_control_conditional__opc_bne__regs__regs__rel_addr12__
+    1442864008U,	// i_control_conditional__opc_bne__regs__regs__rel_addr12__
     14717039U,	// i_control_registers_imm__opc_csrrci__reg0__csr_imm__imm5__
     20591U,	// i_control_registers_imm__opc_csrrci__reg0__regs_csr__imm5__
     14719108U,	// i_control_registers_imm__opc_csrrci__reg0_alias__csr_imm__imm5__
     22660U,	// i_control_registers_imm__opc_csrrci__reg0_alias__regs_csr__imm5__
-    1824545743U,	// i_control_registers_imm__opc_csrrci__regs__csr_imm__imm5__
-    2885704655U,	// i_control_registers_imm__opc_csrrci__regs__regs_csr__imm5__
+    918576079U,	// i_control_registers_imm__opc_csrrci__regs__csr_imm__imm5__
+    1442864079U,	// i_control_registers_imm__opc_csrrci__regs__regs_csr__imm5__
     14717101U,	// i_control_registers_imm__opc_csrrsi__reg0__csr_imm__imm5__
     20653U,	// i_control_registers_imm__opc_csrrsi__reg0__regs_csr__imm5__
     14719182U,	// i_control_registers_imm__opc_csrrsi__reg0_alias__csr_imm__imm5__
     22734U,	// i_control_registers_imm__opc_csrrsi__reg0_alias__regs_csr__imm5__
-    1824545788U,	// i_control_registers_imm__opc_csrrsi__regs__csr_imm__imm5__
-    2885704700U,	// i_control_registers_imm__opc_csrrsi__regs__regs_csr__imm5__
+    918576124U,	// i_control_registers_imm__opc_csrrsi__regs__csr_imm__imm5__
+    1442864124U,	// i_control_registers_imm__opc_csrrsi__regs__regs_csr__imm5__
     14717132U,	// i_control_registers_imm__opc_csrrwi__reg0__csr_imm__imm5__
     20684U,	// i_control_registers_imm__opc_csrrwi__reg0__regs_csr__imm5__
     14719219U,	// i_control_registers_imm__opc_csrrwi__reg0_alias__csr_imm__imm5__
     22771U,	// i_control_registers_imm__opc_csrrwi__reg0_alias__regs_csr__imm5__
-    1824545814U,	// i_control_registers_imm__opc_csrrwi__regs__csr_imm__imm5__
-    2885704726U,	// i_control_registers_imm__opc_csrrwi__regs__regs_csr__imm5__
+    918576150U,	// i_control_registers_imm__opc_csrrwi__regs__csr_imm__imm5__
+    1442864150U,	// i_control_registers_imm__opc_csrrwi__regs__regs_csr__imm5__
     1069008U,	// i_control_registers_reg__opc_csrrc__reg0__csr_imm__reg0__
     1134544U,	// i_control_registers_reg__opc_csrrc__reg0__csr_imm__reg0_alias__
     14716880U,	// i_control_registers_reg__opc_csrrc__reg0__csr_imm__regs__
@@ -1942,12 +1942,12 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1071051U,	// i_control_registers_reg__opc_csrrc__reg0_alias__regs_csr__reg0__
     1136587U,	// i_control_registers_reg__opc_csrrc__reg0_alias__regs_csr__reg0_alias__
     22475U,	// i_control_registers_reg__opc_csrrc__reg0_alias__regs_csr__regs__
-    268458788U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__reg0__
-    302013220U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__reg0_alias__
-    2885704484U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__regs__
-    268458788U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0__
-    302013220U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0_alias__
-    2885704484U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__regs__
+    134241060U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__reg0__
+    151018276U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__reg0_alias__
+    1442863908U,	// i_control_registers_reg__opc_csrrc__regs__csr_imm__regs__
+    134241060U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0__
+    151018276U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__reg0_alias__
+    1442863908U,	// i_control_registers_reg__opc_csrrc__regs__regs_csr__regs__
     1069345U,	// i_control_registers_reg__opc_csrrs__reg0__csr_imm__reg0__
     1134881U,	// i_control_registers_reg__opc_csrrs__reg0__csr_imm__reg0_alias__
     14717217U,	// i_control_registers_reg__opc_csrrs__reg0__csr_imm__regs__
@@ -1960,12 +1960,12 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1071450U,	// i_control_registers_reg__opc_csrrs__reg0_alias__regs_csr__reg0__
     1136986U,	// i_control_registers_reg__opc_csrrs__reg0_alias__regs_csr__reg0_alias__
     22874U,	// i_control_registers_reg__opc_csrrs__reg0_alias__regs_csr__regs__
-    268459101U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__reg0__
-    302013533U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__reg0_alias__
-    2885704797U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__regs__
-    268459101U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0__
-    302013533U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0_alias__
-    2885704797U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__regs__
+    134241373U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__reg0__
+    151018589U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__reg0_alias__
+    1442864221U,	// i_control_registers_reg__opc_csrrs__regs__csr_imm__regs__
+    134241373U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0__
+    151018589U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__reg0_alias__
+    1442864221U,	// i_control_registers_reg__opc_csrrs__regs__regs_csr__regs__
     1069487U,	// i_control_registers_reg__opc_csrrw__reg0__csr_imm__reg0__
     1135023U,	// i_control_registers_reg__opc_csrrw__reg0__csr_imm__reg0_alias__
     14717359U,	// i_control_registers_reg__opc_csrrw__reg0__csr_imm__regs__
@@ -1978,12 +1978,12 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1071622U,	// i_control_registers_reg__opc_csrrw__reg0_alias__regs_csr__reg0__
     1137158U,	// i_control_registers_reg__opc_csrrw__reg0_alias__regs_csr__reg0_alias__
     23046U,	// i_control_registers_reg__opc_csrrw__reg0_alias__regs_csr__regs__
-    268459200U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__reg0__
-    302013632U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__reg0_alias__
-    2885704896U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__regs__
-    268459200U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0__
-    302013632U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0_alias__
-    2885704896U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__regs__
+    134241472U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__reg0__
+    151018688U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__reg0_alias__
+    1442864320U,	// i_control_registers_reg__opc_csrrw__regs__csr_imm__regs__
+    134241472U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0__
+    151018688U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__reg0_alias__
+    1442864320U,	// i_control_registers_reg__opc_csrrw__regs__regs_csr__regs__
     1071915U,	// i_csrc_alias__csr_imm__reg0__
     1137451U,	// i_csrc_alias__csr_imm__reg0_alias__
     14719787U,	// i_csrc_alias__csr_imm__regs__
@@ -2045,9 +2045,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1333939U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__reg0__
     1399475U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__reg0_alias__
     875187U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__regs__
-    268458675U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
-    302013107U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0_alias__
-    16800435U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
+    134240947U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__
+    151018163U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0_alias__
+    918575795U,	// i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
     8155U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__
     10624U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0_alias__
     84719U,	// i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__
@@ -2072,9 +2072,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1333974U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__reg0_alias__reg0__
     1399510U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__reg0_alias__reg0_alias__
     875222U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__reg0_alias__regs__
-    268458710U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
-    302013142U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0_alias__
-    1824545494U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
+    134240982U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0__
+    151018198U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__reg0_alias__
+    918575830U,	// i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__
     8205U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__
     10678U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0_alias__
     84765U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__
@@ -2099,9 +2099,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334012U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0_alias__reg0__
     1399548U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0_alias__reg0_alias__
     875260U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0_alias__regs__
-    268458748U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
-    302013180U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0_alias__
-    2885704444U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
+    134241020U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__
+    151018236U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0_alias__
+    918575868U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__
     8240U,	// i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__
     10715U,	// i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0_alias__
     84798U,	// i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__regs__
@@ -2126,9 +2126,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334065U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__reg0_alias__reg0__
     1399601U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__reg0_alias__reg0_alias__
     875313U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__reg0_alias__regs__
-    268458801U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
-    302013233U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0_alias__
-    2885704497U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
+    134241073U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__
+    151018289U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0_alias__
+    918575921U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
     8305U,	// i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__
     10786U,	// i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0_alias__
     84857U,	// i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__
@@ -2153,9 +2153,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1334100U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__reg0_alias__reg0__
     1399636U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__reg0_alias__reg0_alias__
     875348U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__reg0_alias__regs__
-    268458836U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
-    302013268U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0_alias__
-    2885704532U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
+    134241108U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0__
+    151018324U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__reg0_alias__
+    1442863956U,	// i_ext_hackaton__opc_hackaton_custom_e__regs__regs__regs__
     13363U,	// i_fence__opc_fence__opc_hint_fence__opc_hint_fence__
     10003U,	// i_fence__opc_fence__opc_hint_fence__opc_i_fence__
     10447U,	// i_fence__opc_fence__opc_hint_fence__opc_io_fence__
@@ -2438,8 +2438,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672689U,	// i_jalr__opc_jalr__reg0__reg0_alias__simm12_lo__
     673945U,	// i_jalr__opc_jalr__reg0__reg0_alias__simm12_pcrel_lo__
     87003U,	// i_jalr__opc_jalr__reg0__reg0_alias__simm12_simple__
-    235229444U,	// i_jalr__opc_jalr__reg0__regs__simm12_lo__
-    235294980U,	// i_jalr__opc_jalr__reg0__regs__simm12_pcrel_lo__
+    117788932U,	// i_jalr__opc_jalr__reg0__regs__simm12_lo__
+    117854468U,	// i_jalr__opc_jalr__reg0__regs__simm12_pcrel_lo__
     20740U,	// i_jalr__opc_jalr__reg0__regs__simm12_simple__
     672365U,	// i_jalr__opc_jalr__reg0_alias__reg0__simm12_lo__
     673513U,	// i_jalr__opc_jalr__reg0_alias__reg0__simm12_pcrel_lo__
@@ -2447,8 +2447,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672897U,	// i_jalr__opc_jalr__reg0_alias__reg0_alias__simm12_lo__
     674207U,	// i_jalr__opc_jalr__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87657U,	// i_jalr__opc_jalr__reg0_alias__reg0_alias__simm12_simple__
-    235231543U,	// i_jalr__opc_jalr__reg0_alias__regs__simm12_lo__
-    235297079U,	// i_jalr__opc_jalr__reg0_alias__regs__simm12_pcrel_lo__
+    117791031U,	// i_jalr__opc_jalr__reg0_alias__regs__simm12_lo__
+    117856567U,	// i_jalr__opc_jalr__reg0_alias__regs__simm12_pcrel_lo__
     22839U,	// i_jalr__opc_jalr__reg0_alias__regs__simm12_simple__
     2579532U,	// i_jalr__opc_jalr__regs__reg0__simm12_lo__
     2645068U,	// i_jalr__opc_jalr__regs__reg0__simm12_pcrel_lo__
@@ -2456,9 +2456,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744524U,	// i_jalr__opc_jalr__regs__reg0_alias__simm12_lo__
     810060U,	// i_jalr__opc_jalr__regs__reg0_alias__simm12_pcrel_lo__
     875596U,	// i_jalr__opc_jalr__regs__reg0_alias__simm12_simple__
-    1207983180U,	// i_jalr__opc_jalr__regs__regs__simm12_lo__
-    1241537612U,	// i_jalr__opc_jalr__regs__regs__simm12_pcrel_lo__
-    2885704780U,	// i_jalr__opc_jalr__regs__regs__simm12_simple__
+    604003404U,	// i_jalr__opc_jalr__regs__regs__simm12_lo__
+    620780620U,	// i_jalr__opc_jalr__regs__regs__simm12_pcrel_lo__
+    1442864204U,	// i_jalr__opc_jalr__regs__regs__simm12_simple__
     9747U,	// i_jalr_alias__reg0__
     12372U,	// i_jalr_alias__reg0_alias__
     89164U,	// i_jalr_alias__regs__
@@ -2468,8 +2468,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     673033U,	// i_jlr_alias__reg0_alias__simm12_lo__
     674385U,	// i_jlr_alias__reg0_alias__simm12_pcrel_lo__
     88365U,	// i_jlr_alias__reg0_alias__simm12_simple__
-    235232328U,	// i_jlr_alias__regs__simm12_lo__
-    235297864U,	// i_jlr_alias__regs__simm12_pcrel_lo__
+    117791816U,	// i_jlr_alias__regs__simm12_lo__
+    117857352U,	// i_jlr_alias__regs__simm12_pcrel_lo__
     23624U,	// i_jlr_alias__regs__simm12_simple__
     89125U,	// i_jmp_rel_alias__rel_addr20__
     0U,	// i_jmp_rel_alias__rel_addr20__TAILCALL_CLONE_
@@ -2508,15 +2508,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1660800U,	// i_load__opc_loadb__reg0_alias__simm12_simple__reg0__
     1726336U,	// i_load__opc_loadb__reg0_alias__simm12_simple__reg0_alias__
     1808256U,	// i_load__opc_loadb__reg0_alias__simm12_simple__regs__
-    335895279U,	// i_load__opc_loadb__regs__simm12_lo__reg0__
-    369449711U,	// i_load__opc_loadb__regs__simm12_lo__reg0_alias__
-    415587055U,	// i_load__opc_loadb__regs__simm12_lo__regs__
-    335960815U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__reg0__
-    369515247U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__reg0_alias__
-    415652591U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__regs__
-    436230895U,	// i_load__opc_loadb__regs__simm12_simple__reg0__
-    469785327U,	// i_load__opc_loadb__regs__simm12_simple__reg0_alias__
-    515922671U,	// i_load__opc_loadb__regs__simm12_simple__regs__
+    168123119U,	// i_load__opc_loadb__regs__simm12_lo__reg0__
+    184900335U,	// i_load__opc_loadb__regs__simm12_lo__reg0_alias__
+    214260463U,	// i_load__opc_loadb__regs__simm12_lo__regs__
+    168188655U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__reg0__
+    184965871U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__reg0_alias__
+    214325999U,	// i_load__opc_loadb__regs__simm12_pcrel_lo__regs__
+    218127087U,	// i_load__opc_loadb__regs__simm12_simple__reg0__
+    234904303U,	// i_load__opc_loadb__regs__simm12_simple__reg0_alias__
+    264264431U,	// i_load__opc_loadb__regs__simm12_simple__regs__
     1458933U,	// i_load__opc_loadbu__reg0__simm12_lo__reg0__
     1524469U,	// i_load__opc_loadbu__reg0__simm12_lo__reg0_alias__
     1606389U,	// i_load__opc_loadbu__reg0__simm12_lo__regs__
@@ -2535,15 +2535,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661331U,	// i_load__opc_loadbu__reg0_alias__simm12_simple__reg0__
     1726867U,	// i_load__opc_loadbu__reg0_alias__simm12_simple__reg0_alias__
     1808787U,	// i_load__opc_loadbu__reg0_alias__simm12_simple__regs__
-    335895689U,	// i_load__opc_loadbu__regs__simm12_lo__reg0__
-    369450121U,	// i_load__opc_loadbu__regs__simm12_lo__reg0_alias__
-    415587465U,	// i_load__opc_loadbu__regs__simm12_lo__regs__
-    335961225U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0__
-    369515657U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0_alias__
-    415653001U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__regs__
-    436231305U,	// i_load__opc_loadbu__regs__simm12_simple__reg0__
-    469785737U,	// i_load__opc_loadbu__regs__simm12_simple__reg0_alias__
-    515923081U,	// i_load__opc_loadbu__regs__simm12_simple__regs__
+    168123529U,	// i_load__opc_loadbu__regs__simm12_lo__reg0__
+    184900745U,	// i_load__opc_loadbu__regs__simm12_lo__reg0_alias__
+    214260873U,	// i_load__opc_loadbu__regs__simm12_lo__regs__
+    168189065U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0__
+    184966281U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__reg0_alias__
+    214326409U,	// i_load__opc_loadbu__regs__simm12_pcrel_lo__regs__
+    218127497U,	// i_load__opc_loadbu__regs__simm12_simple__reg0__
+    234904713U,	// i_load__opc_loadbu__regs__simm12_simple__reg0_alias__
+    264264841U,	// i_load__opc_loadbu__regs__simm12_simple__regs__
     1458891U,	// i_load__opc_loadh__reg0__simm12_lo__reg0__
     1524427U,	// i_load__opc_loadh__reg0__simm12_lo__reg0_alias__
     1606347U,	// i_load__opc_loadh__reg0__simm12_lo__regs__
@@ -2562,15 +2562,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661028U,	// i_load__opc_loadh__reg0_alias__simm12_simple__reg0__
     1726564U,	// i_load__opc_loadh__reg0_alias__simm12_simple__reg0_alias__
     1808484U,	// i_load__opc_loadh__reg0_alias__simm12_simple__regs__
-    335895477U,	// i_load__opc_loadh__regs__simm12_lo__reg0__
-    369449909U,	// i_load__opc_loadh__regs__simm12_lo__reg0_alias__
-    415587253U,	// i_load__opc_loadh__regs__simm12_lo__regs__
-    335961013U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__reg0__
-    369515445U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__reg0_alias__
-    415652789U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__regs__
-    436231093U,	// i_load__opc_loadh__regs__simm12_simple__reg0__
-    469785525U,	// i_load__opc_loadh__regs__simm12_simple__reg0_alias__
-    515922869U,	// i_load__opc_loadh__regs__simm12_simple__regs__
+    168123317U,	// i_load__opc_loadh__regs__simm12_lo__reg0__
+    184900533U,	// i_load__opc_loadh__regs__simm12_lo__reg0_alias__
+    214260661U,	// i_load__opc_loadh__regs__simm12_lo__regs__
+    168188853U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__reg0__
+    184966069U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__reg0_alias__
+    214326197U,	// i_load__opc_loadh__regs__simm12_pcrel_lo__regs__
+    218127285U,	// i_load__opc_loadh__regs__simm12_simple__reg0__
+    234904501U,	// i_load__opc_loadh__regs__simm12_simple__reg0_alias__
+    264264629U,	// i_load__opc_loadh__regs__simm12_simple__regs__
     1458948U,	// i_load__opc_loadhu__reg0__simm12_lo__reg0__
     1524484U,	// i_load__opc_loadhu__reg0__simm12_lo__reg0_alias__
     1606404U,	// i_load__opc_loadhu__reg0__simm12_lo__regs__
@@ -2589,15 +2589,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661366U,	// i_load__opc_loadhu__reg0_alias__simm12_simple__reg0__
     1726902U,	// i_load__opc_loadhu__reg0_alias__simm12_simple__reg0_alias__
     1808822U,	// i_load__opc_loadhu__reg0_alias__simm12_simple__regs__
-    335895706U,	// i_load__opc_loadhu__regs__simm12_lo__reg0__
-    369450138U,	// i_load__opc_loadhu__regs__simm12_lo__reg0_alias__
-    415587482U,	// i_load__opc_loadhu__regs__simm12_lo__regs__
-    335961242U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0__
-    369515674U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0_alias__
-    415653018U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__regs__
-    436231322U,	// i_load__opc_loadhu__regs__simm12_simple__reg0__
-    469785754U,	// i_load__opc_loadhu__regs__simm12_simple__reg0_alias__
-    515923098U,	// i_load__opc_loadhu__regs__simm12_simple__regs__
+    168123546U,	// i_load__opc_loadhu__regs__simm12_lo__reg0__
+    184900762U,	// i_load__opc_loadhu__regs__simm12_lo__reg0_alias__
+    214260890U,	// i_load__opc_loadhu__regs__simm12_lo__regs__
+    168189082U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0__
+    184966298U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__reg0_alias__
+    214326426U,	// i_load__opc_loadhu__regs__simm12_pcrel_lo__regs__
+    218127514U,	// i_load__opc_loadhu__regs__simm12_simple__reg0__
+    234904730U,	// i_load__opc_loadhu__regs__simm12_simple__reg0_alias__
+    264264858U,	// i_load__opc_loadhu__regs__simm12_simple__regs__
     1458963U,	// i_load__opc_loadw__reg0__simm12_lo__reg0__
     1524499U,	// i_load__opc_loadw__reg0__simm12_lo__reg0_alias__
     1606419U,	// i_load__opc_loadw__reg0__simm12_lo__regs__
@@ -2616,15 +2616,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661436U,	// i_load__opc_loadw__reg0_alias__simm12_simple__reg0__
     1726972U,	// i_load__opc_loadw__reg0_alias__simm12_simple__reg0_alias__
     1808892U,	// i_load__opc_loadw__reg0_alias__simm12_simple__regs__
-    335895740U,	// i_load__opc_loadw__regs__simm12_lo__reg0__
-    369450172U,	// i_load__opc_loadw__regs__simm12_lo__reg0_alias__
-    415587516U,	// i_load__opc_loadw__regs__simm12_lo__regs__
-    335961276U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__reg0__
-    369515708U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__reg0_alias__
-    415653052U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__regs__
-    436231356U,	// i_load__opc_loadw__regs__simm12_simple__reg0__
-    469785788U,	// i_load__opc_loadw__regs__simm12_simple__reg0_alias__
-    515923132U,	// i_load__opc_loadw__regs__simm12_simple__regs__
+    168123580U,	// i_load__opc_loadw__regs__simm12_lo__reg0__
+    184900796U,	// i_load__opc_loadw__regs__simm12_lo__reg0_alias__
+    214260924U,	// i_load__opc_loadw__regs__simm12_lo__regs__
+    168189116U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__reg0__
+    184966332U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__reg0_alias__
+    214326460U,	// i_load__opc_loadw__regs__simm12_pcrel_lo__regs__
+    218127548U,	// i_load__opc_loadw__regs__simm12_simple__reg0__
+    234904764U,	// i_load__opc_loadw__regs__simm12_simple__reg0_alias__
+    264264892U,	// i_load__opc_loadw__regs__simm12_simple__regs__
     7437U,	// i_load_alias__opc_loadb__reg0__reg0__
     7681U,	// i_load_alias__opc_loadb__reg0__reg0_alias__
     671761U,	// i_load_alias__opc_loadb__reg0__regs__
@@ -2734,8 +2734,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672646U,	// i_ori_alias__reg0__reg0_alias__simm12_lo__
     673890U,	// i_ori_alias__reg0__reg0_alias__simm12_pcrel_lo__
     86927U,	// i_ori_alias__reg0__reg0_alias__simm12_simple__
-    235229348U,	// i_ori_alias__reg0__regs__simm12_lo__
-    235294884U,	// i_ori_alias__reg0__regs__simm12_pcrel_lo__
+    117788836U,	// i_ori_alias__reg0__regs__simm12_lo__
+    117854372U,	// i_ori_alias__reg0__regs__simm12_pcrel_lo__
     20644U,	// i_ori_alias__reg0__regs__simm12_simple__
     672322U,	// i_ori_alias__reg0_alias__reg0__simm12_lo__
     673458U,	// i_ori_alias__reg0_alias__reg0__simm12_pcrel_lo__
@@ -2743,8 +2743,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672850U,	// i_ori_alias__reg0_alias__reg0_alias__simm12_lo__
     674148U,	// i_ori_alias__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87571U,	// i_ori_alias__reg0_alias__reg0_alias__simm12_simple__
-    235231427U,	// i_ori_alias__reg0_alias__regs__simm12_lo__
-    235296963U,	// i_ori_alias__reg0_alias__regs__simm12_pcrel_lo__
+    117790915U,	// i_ori_alias__reg0_alias__regs__simm12_lo__
+    117856451U,	// i_ori_alias__reg0_alias__regs__simm12_pcrel_lo__
     22723U,	// i_ori_alias__reg0_alias__regs__simm12_simple__
     2579447U,	// i_ori_alias__regs__reg0__simm12_lo__
     2644983U,	// i_ori_alias__regs__reg0__simm12_pcrel_lo__
@@ -2752,9 +2752,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744439U,	// i_ori_alias__regs__reg0_alias__simm12_lo__
     809975U,	// i_ori_alias__regs__reg0_alias__simm12_pcrel_lo__
     875511U,	// i_ori_alias__regs__reg0_alias__simm12_simple__
-    1207983095U,	// i_ori_alias__regs__regs__simm12_lo__
-    1241537527U,	// i_ori_alias__regs__regs__simm12_pcrel_lo__
-    2885704695U,	// i_ori_alias__regs__regs__simm12_simple__
+    604003319U,	// i_ori_alias__regs__regs__simm12_lo__
+    620780535U,	// i_ori_alias__regs__regs__simm12_pcrel_lo__
+    1442864119U,	// i_ori_alias__regs__regs__simm12_simple__
     13256U,	// i_ret_alias__
     8811U,	// i_seqz_alias__reg0__reg0__
     11342U,	// i_seqz_alias__reg0__reg0_alias__
@@ -2810,15 +2810,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1660810U,	// i_store__opc_storeb__reg0_alias__simm12_simple__reg0__
     1726346U,	// i_store__opc_storeb__reg0_alias__simm12_simple__reg0_alias__
     1808266U,	// i_store__opc_storeb__reg0_alias__simm12_simple__regs__
-    335895283U,	// i_store__opc_storeb__regs__simm12_s_lo__reg0__
-    369449715U,	// i_store__opc_storeb__regs__simm12_s_lo__reg0_alias__
-    415587059U,	// i_store__opc_storeb__regs__simm12_s_lo__regs__
-    335960819U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0__
-    369515251U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0_alias__
-    415652595U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__regs__
-    436230899U,	// i_store__opc_storeb__regs__simm12_simple__reg0__
-    469785331U,	// i_store__opc_storeb__regs__simm12_simple__reg0_alias__
-    515922675U,	// i_store__opc_storeb__regs__simm12_simple__regs__
+    168123123U,	// i_store__opc_storeb__regs__simm12_s_lo__reg0__
+    184900339U,	// i_store__opc_storeb__regs__simm12_s_lo__reg0_alias__
+    214260467U,	// i_store__opc_storeb__regs__simm12_s_lo__regs__
+    168188659U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0__
+    184965875U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__reg0_alias__
+    214326003U,	// i_store__opc_storeb__regs__simm12_s_pcrel_lo__regs__
+    218127091U,	// i_store__opc_storeb__regs__simm12_simple__reg0__
+    234904307U,	// i_store__opc_storeb__regs__simm12_simple__reg0_alias__
+    264264435U,	// i_store__opc_storeb__regs__simm12_simple__regs__
     1458905U,	// i_store__opc_storeh__reg0__simm12_s_lo__reg0__
     1524441U,	// i_store__opc_storeh__reg0__simm12_s_lo__reg0_alias__
     1606361U,	// i_store__opc_storeh__reg0__simm12_s_lo__regs__
@@ -2837,15 +2837,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661038U,	// i_store__opc_storeh__reg0_alias__simm12_simple__reg0__
     1726574U,	// i_store__opc_storeh__reg0_alias__simm12_simple__reg0_alias__
     1808494U,	// i_store__opc_storeh__reg0_alias__simm12_simple__regs__
-    335895481U,	// i_store__opc_storeh__regs__simm12_s_lo__reg0__
-    369449913U,	// i_store__opc_storeh__regs__simm12_s_lo__reg0_alias__
-    415587257U,	// i_store__opc_storeh__regs__simm12_s_lo__regs__
-    335961017U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0__
-    369515449U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0_alias__
-    415652793U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__regs__
-    436231097U,	// i_store__opc_storeh__regs__simm12_simple__reg0__
-    469785529U,	// i_store__opc_storeh__regs__simm12_simple__reg0_alias__
-    515922873U,	// i_store__opc_storeh__regs__simm12_simple__regs__
+    168123321U,	// i_store__opc_storeh__regs__simm12_s_lo__reg0__
+    184900537U,	// i_store__opc_storeh__regs__simm12_s_lo__reg0_alias__
+    214260665U,	// i_store__opc_storeh__regs__simm12_s_lo__regs__
+    168188857U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0__
+    184966073U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__reg0_alias__
+    214326201U,	// i_store__opc_storeh__regs__simm12_s_pcrel_lo__regs__
+    218127289U,	// i_store__opc_storeh__regs__simm12_simple__reg0__
+    234904505U,	// i_store__opc_storeh__regs__simm12_simple__reg0_alias__
+    264264633U,	// i_store__opc_storeh__regs__simm12_simple__regs__
     1458977U,	// i_store__opc_storew__reg0__simm12_s_lo__reg0__
     1524513U,	// i_store__opc_storew__reg0__simm12_s_lo__reg0_alias__
     1606433U,	// i_store__opc_storew__reg0__simm12_s_lo__regs__
@@ -2864,15 +2864,15 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1661459U,	// i_store__opc_storew__reg0_alias__simm12_simple__reg0__
     1726995U,	// i_store__opc_storew__reg0_alias__simm12_simple__reg0_alias__
     1808915U,	// i_store__opc_storew__reg0_alias__simm12_simple__regs__
-    335895757U,	// i_store__opc_storew__regs__simm12_s_lo__reg0__
-    369450189U,	// i_store__opc_storew__regs__simm12_s_lo__reg0_alias__
-    415587533U,	// i_store__opc_storew__regs__simm12_s_lo__regs__
-    335961293U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0__
-    369515725U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0_alias__
-    415653069U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__regs__
-    436231373U,	// i_store__opc_storew__regs__simm12_simple__reg0__
-    469785805U,	// i_store__opc_storew__regs__simm12_simple__reg0_alias__
-    515923149U,	// i_store__opc_storew__regs__simm12_simple__regs__
+    168123597U,	// i_store__opc_storew__regs__simm12_s_lo__reg0__
+    184900813U,	// i_store__opc_storew__regs__simm12_s_lo__reg0_alias__
+    214260941U,	// i_store__opc_storew__regs__simm12_s_lo__regs__
+    168189133U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0__
+    184966349U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__reg0_alias__
+    214326477U,	// i_store__opc_storew__regs__simm12_s_pcrel_lo__regs__
+    218127565U,	// i_store__opc_storew__regs__simm12_simple__reg0__
+    234904781U,	// i_store__opc_storew__regs__simm12_simple__reg0_alias__
+    264264909U,	// i_store__opc_storew__regs__simm12_simple__regs__
     7451U,	// i_store_alias__opc_storeb__reg0__reg0__
     7697U,	// i_store_alias__opc_storeb__reg0__reg0_alias__
     671771U,	// i_store_alias__opc_storeb__reg0__regs__
@@ -2906,27 +2906,27 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     1070986U,	// i_store_global_alias__opc_storeb__reg0_alias__rel_addr32__reg0__
     1136522U,	// i_store_global_alias__opc_storeb__reg0_alias__rel_addr32__reg0_alias__
     14718858U,	// i_store_global_alias__opc_storeb__reg0_alias__rel_addr32__regs__
-    268458739U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__reg0__
-    302013171U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__reg0_alias__
-    2885704435U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__regs__
+    134241011U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__reg0__
+    151018227U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__reg0_alias__
+    1442863859U,	// i_store_global_alias__opc_storeb__regs__rel_addr32__regs__
     1069149U,	// i_store_global_alias__opc_storeh__reg0__rel_addr32__reg0__
     1134685U,	// i_store_global_alias__opc_storeh__reg0__rel_addr32__reg0_alias__
     14717021U,	// i_store_global_alias__opc_storeh__reg0__rel_addr32__regs__
     1071214U,	// i_store_global_alias__opc_storeh__reg0_alias__rel_addr32__reg0__
     1136750U,	// i_store_global_alias__opc_storeh__reg0_alias__rel_addr32__reg0_alias__
     14719086U,	// i_store_global_alias__opc_storeh__reg0_alias__rel_addr32__regs__
-    268458937U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__reg0__
-    302013369U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__reg0_alias__
-    2885704633U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__regs__
+    134241209U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__reg0__
+    151018425U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__reg0_alias__
+    1442864057U,	// i_store_global_alias__opc_storeh__regs__rel_addr32__regs__
     1069498U,	// i_store_global_alias__opc_storew__reg0__rel_addr32__reg0__
     1135034U,	// i_store_global_alias__opc_storew__reg0__rel_addr32__reg0_alias__
     14717370U,	// i_store_global_alias__opc_storew__reg0__rel_addr32__regs__
     1071635U,	// i_store_global_alias__opc_storew__reg0_alias__rel_addr32__reg0__
     1137171U,	// i_store_global_alias__opc_storew__reg0_alias__rel_addr32__reg0_alias__
     14719507U,	// i_store_global_alias__opc_storew__reg0_alias__rel_addr32__regs__
-    268459213U,	// i_store_global_alias__opc_storew__regs__rel_addr32__reg0__
-    302013645U,	// i_store_global_alias__opc_storew__regs__rel_addr32__reg0_alias__
-    2885704909U,	// i_store_global_alias__opc_storew__regs__rel_addr32__regs__
+    134241485U,	// i_store_global_alias__opc_storew__regs__rel_addr32__reg0__
+    151018701U,	// i_store_global_alias__opc_storew__regs__rel_addr32__reg0_alias__
+    1442864333U,	// i_store_global_alias__opc_storew__regs__rel_addr32__regs__
     89133U,	// i_tail_alias__rel_addr32_call_tail_simple__
     9671U,	// i_timers_counters_aliases__opc_rdcycle__reg0__
     12282U,	// i_timers_counters_aliases__opc_rdcycle__reg0_alias__
@@ -2954,8 +2954,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672645U,	// i_xori_alias__reg0__reg0_alias__simm12_lo__
     673889U,	// i_xori_alias__reg0__reg0_alias__simm12_pcrel_lo__
     86926U,	// i_xori_alias__reg0__reg0_alias__simm12_simple__
-    235229347U,	// i_xori_alias__reg0__regs__simm12_lo__
-    235294883U,	// i_xori_alias__reg0__regs__simm12_pcrel_lo__
+    117788835U,	// i_xori_alias__reg0__regs__simm12_lo__
+    117854371U,	// i_xori_alias__reg0__regs__simm12_pcrel_lo__
     20643U,	// i_xori_alias__reg0__regs__simm12_simple__
     672321U,	// i_xori_alias__reg0_alias__reg0__simm12_lo__
     673457U,	// i_xori_alias__reg0_alias__reg0__simm12_pcrel_lo__
@@ -2963,8 +2963,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     672849U,	// i_xori_alias__reg0_alias__reg0_alias__simm12_lo__
     674147U,	// i_xori_alias__reg0_alias__reg0_alias__simm12_pcrel_lo__
     87570U,	// i_xori_alias__reg0_alias__reg0_alias__simm12_simple__
-    235231426U,	// i_xori_alias__reg0_alias__regs__simm12_lo__
-    235296962U,	// i_xori_alias__reg0_alias__regs__simm12_pcrel_lo__
+    117790914U,	// i_xori_alias__reg0_alias__regs__simm12_lo__
+    117856450U,	// i_xori_alias__reg0_alias__regs__simm12_pcrel_lo__
     22722U,	// i_xori_alias__reg0_alias__regs__simm12_simple__
     2579446U,	// i_xori_alias__regs__reg0__simm12_lo__
     2644982U,	// i_xori_alias__regs__reg0__simm12_pcrel_lo__
@@ -2972,9 +2972,9 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     744438U,	// i_xori_alias__regs__reg0_alias__simm12_lo__
     809974U,	// i_xori_alias__regs__reg0_alias__simm12_pcrel_lo__
     875510U,	// i_xori_alias__regs__reg0_alias__simm12_simple__
-    1207983094U,	// i_xori_alias__regs__regs__simm12_lo__
-    1241537526U,	// i_xori_alias__regs__regs__simm12_pcrel_lo__
-    2885704694U,	// i_xori_alias__regs__regs__simm12_simple__
+    604003318U,	// i_xori_alias__regs__regs__simm12_lo__
+    620780534U,	// i_xori_alias__regs__regs__simm12_pcrel_lo__
+    1442864118U,	// i_xori_alias__regs__regs__simm12_simple__
     13255U,	// i_xret__opc_mret__
   };
 
@@ -3177,8 +3177,8 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
   }
 
 
-  // Fragment 2 encoded into 4 bits for 9 unique commands.
-  switch ((Bits >> 21) & 15) {
+  // Fragment 2 encoded into 3 bits for 8 unique commands.
+  switch ((Bits >> 21) & 7) {
   default: llvm_unreachable("Invalid command number.");
   case 0:
     // CALLEND, CALLSTART, c_addi_lo__opc_addi__regs__regs__, i_jal_abs__opc_...
@@ -3223,18 +3223,11 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     printOperand(MI, 0, O);
     return;
     break;
-  case 8:
-    // i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__
-    printOperand(MI, 3, O);
-    O << ", ";
-    printOperand(MI, 2, O);
-    return;
-    break;
   }
 
 
   // Fragment 3 encoded into 4 bits for 16 unique commands.
-  switch ((Bits >> 25) & 15) {
+  switch ((Bits >> 24) & 15) {
   default: llvm_unreachable("Invalid command number.");
   case 0:
     // CALLEND, CALLSTART, i_jal_abs__opc_jal__regs__rel_addr20__, i_addi_ali...
@@ -3324,7 +3317,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
 
 
   // Fragment 4 encoded into 2 bits for 4 unique commands.
-  switch ((Bits >> 29) & 3) {
+  switch ((Bits >> 28) & 3) {
   default: llvm_unreachable("Invalid command number.");
   case 0:
     // i_ori_emulation_alias__regs__regs__simm12_lo__, i_ori_emulation_alias_...
@@ -3349,7 +3342,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
 
 
   // Fragment 5 encoded into 1 bits for 2 unique commands.
-  if ((Bits >> 31) & 1) {
+  if ((Bits >> 30) & 1) {
     // i_addi_alias__regs__regs__simm12_simple__, i_andi_alias__regs__regs__s...
     return;
   } else {

@@ -778,8 +778,6 @@ enum InstructionConversionKind {
   Convert__Reg1_1__Imm1_2__Reg1_3,
   Convert__Imm1_3__Imm1_2,
   Convert__Reg1_1__Imm1_3__Imm1_2,
-  Convert__Reg1_1__Tie0_0_0,
-  Convert__Reg1_1__Tie0_0_0__Reg1_3__Reg1_2,
   Convert__Reg1_1__Reg1_3__Reg1_2__Tie0_0_0,
   Convert__Reg1_4__Imm1_2,
   Convert__Reg1_1__Reg1_4__Imm1_2,
@@ -847,10 +845,6 @@ static const uint8_t ConversionTable[CVT_NUM_SIGNATURES][9] = {
   { CVT_95_addImmOperands, 3, CVT_95_addImmOperands, 2, CVT_Done },
   // Convert__Reg1_1__Imm1_3__Imm1_2
   { CVT_95_Reg, 1, CVT_95_addImmOperands, 3, CVT_95_addImmOperands, 2, CVT_Done },
-  // Convert__Reg1_1__Tie0_0_0
-  { CVT_95_Reg, 1, CVT_Tied, Tie0_0_0, CVT_Done },
-  // Convert__Reg1_1__Tie0_0_0__Reg1_3__Reg1_2
-  { CVT_95_Reg, 1, CVT_Tied, Tie0_0_0, CVT_95_Reg, 3, CVT_95_Reg, 2, CVT_Done },
   // Convert__Reg1_1__Reg1_3__Reg1_2__Tie0_0_0
   { CVT_95_Reg, 1, CVT_95_Reg, 3, CVT_95_Reg, 2, CVT_Tied, Tie0_0_0, CVT_Done },
   // Convert__Reg1_4__Imm1_2
@@ -2844,7 +2838,7 @@ static const MatchEntry MatchTable0[] = {
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__reg0_alias__regs__reg0__, Convert__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_zero, MCK_regs, MCK_x0 }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__reg0_alias__regs__reg0_alias__, Convert__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_zero, MCK_regs, MCK_zero }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__reg0_alias__regs__regs__, Convert__Reg1_2__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_zero, MCK_regs, MCK_regs }, },
-  { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__, Convert__Reg1_1__Tie0_0_0, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_x0, MCK_x0 }, },
+  { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__, Convert__Reg1_1, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_x0, MCK_x0 }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0_alias__, Convert__Reg1_1, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_x0, MCK_zero }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__regs__, Convert__Reg1_1__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_x0, MCK_regs }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__reg0__, Convert__Reg1_1, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_zero, MCK_x0 }, },
@@ -2852,7 +2846,7 @@ static const MatchEntry MatchTable0[] = {
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0_alias__regs__, Convert__Reg1_1__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_zero, MCK_regs }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_regs, MCK_x0 }, },
   { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__reg0_alias__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_regs, MCK_zero }, },
-  { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__, Convert__Reg1_1__Tie0_0_0__Reg1_3__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_regs, MCK_regs }, },
+  { 223 /* hackaton_custom_instr_a */, Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__regs__regs__, Convert__Reg1_1__Reg1_3__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_a, MCK_regs, MCK_regs, MCK_regs }, },
   { 247 /* hackaton_custom_instr_b */, Codasip::i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_b, MCK_x0, MCK_x0, MCK_x0 }, },
   { 247 /* hackaton_custom_instr_b */, Codasip::i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__reg0_alias__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_b, MCK_x0, MCK_x0, MCK_zero }, },
   { 247 /* hackaton_custom_instr_b */, Codasip::i_ext_hackaton__opc_hackaton_custom_b__reg0__reg0__regs__, Convert__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_b, MCK_x0, MCK_x0, MCK_regs }, },
@@ -2906,7 +2900,7 @@ static const MatchEntry MatchTable0[] = {
   { 271 /* hackaton_custom_instr_c */, Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0_alias__regs__, Convert__Reg1_1__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_c, MCK_regs, MCK_zero, MCK_regs }, },
   { 271 /* hackaton_custom_instr_c */, Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_c, MCK_regs, MCK_regs, MCK_x0 }, },
   { 271 /* hackaton_custom_instr_c */, Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0_alias__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_c, MCK_regs, MCK_regs, MCK_zero }, },
-  { 271 /* hackaton_custom_instr_c */, Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__, Convert__Reg1_1__Reg1_2__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_c, MCK_regs, MCK_regs, MCK_regs }, },
+  { 271 /* hackaton_custom_instr_c */, Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__, Convert__Reg1_1__Reg1_3__Reg1_2__Tie0_0_0, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_c, MCK_regs, MCK_regs, MCK_regs }, },
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_x0, MCK_x0, MCK_x0 }, },
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__reg0_alias__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_x0, MCK_x0, MCK_zero }, },
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__reg0__reg0__regs__, Convert__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_x0, MCK_x0, MCK_regs }, },
@@ -2933,7 +2927,7 @@ static const MatchEntry MatchTable0[] = {
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0_alias__regs__, Convert__Reg1_1__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_regs, MCK_zero, MCK_regs }, },
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_regs, MCK_regs, MCK_x0 }, },
   { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0_alias__, Convert__Reg1_1__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_regs, MCK_regs, MCK_zero }, },
-  { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__, Convert__Reg1_1__Reg1_2__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_regs, MCK_regs, MCK_regs }, },
+  { 295 /* hackaton_custom_instr_d */, Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__, Convert__Reg1_1__Reg1_3__Reg1_2, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_d, MCK_regs, MCK_regs, MCK_regs }, },
   { 319 /* hackaton_custom_instr_e */, Codasip::i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_e, MCK_x0, MCK_x0, MCK_x0 }, },
   { 319 /* hackaton_custom_instr_e */, Codasip::i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__reg0_alias__, Convert_NoOperands, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_e, MCK_x0, MCK_x0, MCK_zero }, },
   { 319 /* hackaton_custom_instr_e */, Codasip::i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__, Convert__Reg1_3, AMFBS_None, { MCK_hackaton_95_custom_95_instr_95_e, MCK_x0, MCK_x0, MCK_regs }, },
