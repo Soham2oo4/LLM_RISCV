@@ -1,7 +1,7 @@
 List of tracked instructions in decoders
 
 
-Decoder: isa (tracked instructions: 55)
+Decoder: isa (tracked instructions: 57)
 
 "csrrw reg_any , op_csr , reg_any"
 "csrrs reg_any , op_csr , reg_any"
@@ -58,6 +58,8 @@ Decoder: isa (tracked instructions: 55)
 "hackaton_custom_instr_c reg_any , reg_any , reg_any"
 "hackaton_custom_instr_d reg_any , reg_any , reg_any"
 "hackaton_custom_instr_e reg_any , reg_any , reg_any"
+"hackaton_custom_instr_f reg_any , reg_any , reg_any"
+"hackaton_custom_instr_g reg_any , reg_any , reg_any"
 
 Operand: op_csr (tracked operands: 107)
 

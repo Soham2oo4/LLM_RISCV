@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-14
  * \author  Codasip (c) simulator generator
  * \version 9.4.2
  * \brief   Source files for simulator
@@ -355,13 +355,30 @@ protected:
     resources::Signal<resources::VariableStorage<int32_t > > MI2s1IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI2s2IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI2s3IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI7result0IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI7result1IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI3sumIH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI3valIH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int16_t > > MI4val1IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int16_t > > MI4val2IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int32_t > > MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int32_t > > MI3macIH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<int64_t > > MI5summaIH5_3isa3isa1_14i_ext_hackatonB0;
+    resources::Signal<resources::VariableStorage<int8_t > > MI1iIH5_3isa3isa1_14i_ext_hackatonB0;
     resources::Signal<resources::VariableStorage<codasip::Integer<3, false> > > MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton;
 private:
     std::string m_Executable;
     std::unordered_map<std::string, codasip_address_t> m_Symbols;
@@ -709,6 +726,8 @@ private:
     void MI21opc_hackaton_custom_cIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
     void MI21opc_hackaton_custom_dIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
     void MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
+    void MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
+    void MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
     void MI4reg1IH5_3isa3isa9_7reg_any3dst();
     void MI10reg1_aliasIH5_3isa3isa9_7reg_any3dst();
     void MI4reg2IH5_3isa3isa9_7reg_any3dst();
@@ -1983,7 +2002,8 @@ inline int Sim::Parser_MI3isaIH5_3isa3isa_bs_32(const uint32_t input)
             goto END_OF_MI3isaIH5_3isa3isa;
         }
         if (((input & 0xfe00407f) == 0x2b /*0000000XXXXXXXXXX0XXXXXXX0101011*/ ) || 
-                ((input & 0xfe00707f) == 0x402b /*0000000XXXXXXXXXX100XXXXX0101011*/ )) {
+                ((input & 0xfe00607f) == 0x402b /*0000000XXXXXXXXXX10XXXXXX0101011*/ ) || 
+                ((input & 0xfe00707f) == 0x602b /*0000000XXXXXXXXXX110XXXXX0101011*/ )) {
             
             if (Parser_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_2_bc__24_23_22_21_20_bs_32(input) != INSTPARSER_OK) return INSTPARSER_INVALIDCODE;
             if (Parser_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_1_bc__19_18_17_16_15_bs_32(input) != INSTPARSER_OK) return INSTPARSER_INVALIDCODE;
@@ -2016,6 +2036,18 @@ inline int Sim::Parser_MI3isaIH5_3isa3isa_bs_32(const uint32_t input)
             {
                 
                 MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
+                break;
+            }
+            case ( 0x5000 /*XXXXXXXXXXXXXXXXX101*/ ):
+            {
+                
+                MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
+                break;
+            }
+            case ( 0x6000 /*XXXXXXXXXXXXXXXXX110*/ ):
+            {
+                
+                MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc();
                 break;
             }
             default: 
@@ -3497,6 +3529,24 @@ inline void Sim::MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i
 {
     {
         MI82codasip_return_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc.write(codasip::Integer<3, false>(4u));
+    }
+}
+/**
+ *  \brief  MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc
+ */
+inline void Sim::MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc()
+{
+    {
+        MI82codasip_return_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc.write(codasip::Integer<3, false>(5u));
+    }
+}
+/**
+ *  \brief  MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc
+ */
+inline void Sim::MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc()
+{
+    {
+        MI82codasip_return_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc.write(codasip::Integer<3, false>(6u));
     }
 }
 /**
@@ -8373,13 +8423,30 @@ inline void Sim::SignalsClockCycle()
     MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI7result0IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI7result1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI3valIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI3macIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
+    MI1iIH5_3isa3isa1_14i_ext_hackatonB0.clock_cycle();
     MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
 }
 /**
  *  \brief  codasip_symbol_address

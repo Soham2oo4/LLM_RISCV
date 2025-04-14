@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-14
  * \author  Codasip (c) source generator
  * \version 9.4.2
  */
@@ -2247,6 +2247,12 @@ int MI3isaIH5_3isa3isa::Generator_MI3isaIH5_3isa3isa(InstructionWithOperands& ou
         case CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i3opc:
         m_Streams.top() += "hackaton_custom_instr_e";
         break;
+        case CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc:
+        m_Streams.top() += "hackaton_custom_instr_f";
+        break;
+        case CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc:
+        m_Streams.top() += "hackaton_custom_instr_g";
+        break;
         default:
             return INSTGENERATOR_FAIL;
         }
@@ -3566,6 +3572,8 @@ MI3isaIH5_3isa3isa::MI3isaIH5_3isa3isa()
     m_Instructions.insert("hackaton_custom_instr_c reg_any , reg_any , reg_any");
     m_Instructions.insert("hackaton_custom_instr_d reg_any , reg_any , reg_any");
     m_Instructions.insert("hackaton_custom_instr_e reg_any , reg_any , reg_any");
+    m_Instructions.insert("hackaton_custom_instr_f reg_any , reg_any , reg_any");
+    m_Instructions.insert("hackaton_custom_instr_g reg_any , reg_any , reg_any");
     m_Operands["op_csr"].insert("mstatus");
     m_Operands["op_csr"].insert("mie");
     m_Operands["op_csr"].insert("mtvec");

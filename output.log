@@ -1,0 +1,10 @@
+== Final Transformer Output (S7_8) ==
+Token 0: [168, 210, 225, 270 ]
+Token 1: [195, 189, 284, 250 ]
+Token 2: [293, 414, 193, 201 ]
+
+== Verification ==
+PASSED!
+
+== Performance ==
+Cycles = 12867

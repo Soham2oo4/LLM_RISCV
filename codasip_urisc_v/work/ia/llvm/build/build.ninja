@@ -593,8 +593,8 @@ build include/llvm/Support/CMakeFiles/llvm_vcsrevision_h | ${cmake_ninja_workdir
 #############################################
 # Custom command for include/llvm/Support/VCSRevision.h
 
-build include/llvm/Support/VCSRevision.h | ${cmake_ninja_workdir}include/llvm/Support/VCSRevision.h: CUSTOM_COMMAND /home/project/codasip_urisc_v/work/ia/llvm/llvm/cmake/modules/GenerateVersionFromVCS.cmake
-  COMMAND = cd /home/project/codasip_urisc_v/work/ia/llvm/build/include/llvm/Support && /contrib/bin/cmake -DNAMES=LLVM -DLLVM_SOURCE_DIR= -DHEADER_FILE=/home/project/codasip_urisc_v/work/ia/llvm/build/include/llvm/Support/VCSRevision.h -P /home/project/codasip_urisc_v/work/ia/llvm/llvm/cmake/modules/GenerateVersionFromVCS.cmake
+build include/llvm/Support/VCSRevision.h | ${cmake_ninja_workdir}include/llvm/Support/VCSRevision.h: CUSTOM_COMMAND /home/project/.git/logs/HEAD /home/project/codasip_urisc_v/work/ia/llvm/llvm/cmake/modules/GenerateVersionFromVCS.cmake
+  COMMAND = cd /home/project/codasip_urisc_v/work/ia/llvm/build/include/llvm/Support && /contrib/bin/cmake -DNAMES=LLVM -DLLVM_SOURCE_DIR=/home/project/codasip_urisc_v/work/ia/llvm/llvm -DHEADER_FILE=/home/project/codasip_urisc_v/work/ia/llvm/build/include/llvm/Support/VCSRevision.h -P /home/project/codasip_urisc_v/work/ia/llvm/llvm/cmake/modules/GenerateVersionFromVCS.cmake
   DESC = Generating VCSRevision.h
   restat = 1
 

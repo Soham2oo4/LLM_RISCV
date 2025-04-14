@@ -54,26 +54,26 @@ Legal data types:
 Other data types from datalayout:
   i32: bit width = 32, abi alignment = 32
   i8: bit width = 8, abi alignment = 8
+  v1i512: bit width = 512, abi alignment = 32
+  i512: bit width = 512, abi alignment = 32
+  i1024: bit width = 1024, abi alignment = 32
   v1i1024: bit width = 1024, abi alignment = 32
   v1i2048: bit width = 2048, abi alignment = 32
-  i1024: bit width = 1024, abi alignment = 32
   i2048: bit width = 2048, abi alignment = 32
-  i512: bit width = 512, abi alignment = 32
-  i128: bit width = 128, abi alignment = 32
+  i64: bit width = 64, abi alignment = 32
+  i256: bit width = 256, abi alignment = 32
+  v1i64: bit width = 64, abi alignment = 32
   f64: bit width = 64, abi alignment = 32
   v1i128: bit width = 128, abi alignment = 32
+  i128: bit width = 128, abi alignment = 32
   f128: bit width = 128, abi alignment = 32
-  i16: bit width = 16, abi alignment = 16
   v1i256: bit width = 256, abi alignment = 32
-  i256: bit width = 256, abi alignment = 32
-  v1i512: bit width = 512, abi alignment = 32
-  i64: bit width = 64, abi alignment = 32
-  v1i8: bit width = 8, abi alignment = 8
-  v1i16: bit width = 16, abi alignment = 16
-  f16: bit width = 16, abi alignment = 16
   f32: bit width = 32, abi alignment = 32
+  v1i16: bit width = 16, abi alignment = 16
+  v1i8: bit width = 8, abi alignment = 8
+  f16: bit width = 16, abi alignment = 16
   v1i32: bit width = 32, abi alignment = 32
-  v1i64: bit width = 64, abi alignment = 32
+  i16: bit width = 16, abi alignment = 16
 
 little endian
 
@@ -305,9 +305,49 @@ Instructions that internally load value:
   loads types: i32     -  (i_load__opc_loadhu__regs__simm12_simple__regs__immspec_1_)
   loads types: i32     -  (i_load__opc_loadhu__regs__simm12_simple__regs__immspec_1_AEXT_CLONE_)
   loads types: i32     -  (i_load__opc_loadw__regs__simm12_simple__regs__immspec_1_)
+  loads types:     - hackaton_custom_instr_c x0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__)
+  loads types:     - hackaton_custom_instr_c x0, x0, $reg_0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__)
+  loads types:     - hackaton_custom_instr_c x0, $reg_0, x0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__)
+  loads types:     - hackaton_custom_instr_c x0, $reg_0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__)
+  loads types:     - hackaton_custom_instr_f x0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__)
+  loads types:     - hackaton_custom_instr_f x0, x0, $reg_0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__)
+  loads types:     - hackaton_custom_instr_f x0, $reg_0, x0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__)
+  loads types:     - hackaton_custom_instr_f x0, $reg_0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__AEXT_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__AEXT_CLONE_)
+  loads types: i32     - hackaton_custom_instr_c $reg_0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__)
+  loads types: i32     - hackaton_custom_instr_c $reg_0, x0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__)
+  loads types: i32     - hackaton_custom_instr_c $reg_0, $reg_1, x0 (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__)
+  loads types: i32     - hackaton_custom_instr_c $reg_0, $reg_1, $reg_2 (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__)
+  loads types: i32     - hackaton_custom_instr_d $reg_0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__)
+  loads types: i32     - hackaton_custom_instr_d $reg_0, x0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__)
+  loads types: i32     - hackaton_custom_instr_d $reg_0, $reg_1, x0 (i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__)
+  loads types: i32     - hackaton_custom_instr_d $reg_0, $reg_1, $reg_2 (i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__)
+  loads types: i32     - hackaton_custom_instr_f $reg_0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__reg0__)
+  loads types: i32     - hackaton_custom_instr_f $reg_0, x0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__regs__)
+  loads types: i32     - hackaton_custom_instr_f $reg_0, $reg_1, x0 (i_ext_hackaton__opc_hackaton_custom_f__regs__regs__reg0__)
+  loads types: i32     - hackaton_custom_instr_f $reg_0, $reg_1, $reg_2 (i_ext_hackaton__opc_hackaton_custom_f__regs__regs__regs__)
   loads types: i32     -  (i_load__opc_loadw__regs__simm12_simple__regs__2_REG_EMUL_)
   loads types: i32     -  (i_load__opc_loadw__regs__simm12_simple__regs__3_BIGIMM_EMUL_)
   loads types: i32     -  (i_load__opc_loadw__regs__simm12_simple__regs__5_BIGIMM_EMUL_)
+  loads types:     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_)
+  loads types:     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_)
+  loads types:     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_)
+  loads types:     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_)
+  loads types: i32     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_)
 
 Store instructions:
   stores types: i8     - sb x0, $imm_0 ( x0 ) (i_store__opc_storeb__reg0__simm12_simple__reg0__)
@@ -328,6 +368,26 @@ Store instructions:
   stores types: i32     -  (i_store__opc_storeh__regs__simm12_simple__regs__immspec_1_)
   stores types: i32     -  (i_store__opc_storew__reg0__simm12_simple__regs__immspec_1_)
   stores types: i32     -  (i_store__opc_storew__regs__simm12_simple__regs__immspec_1_)
+  stores types: i16     - hackaton_custom_instr_c x0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__reg0__)
+  stores types: i16     - hackaton_custom_instr_c x0, x0, $reg_0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__)
+  stores types: i16     - hackaton_custom_instr_c x0, $reg_0, x0 (i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__)
+  stores types: i16     - hackaton_custom_instr_c x0, $reg_0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f x0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f x0, x0, $reg_0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f x0, $reg_0, x0 (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f x0, $reg_0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_)
+  stores types: i16     - hackaton_custom_instr_c $reg_0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__)
+  stores types: i16     - hackaton_custom_instr_c $reg_0, x0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__)
+  stores types: i16     - hackaton_custom_instr_c $reg_0, $reg_1, x0 (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__)
+  stores types: i16     - hackaton_custom_instr_c $reg_0, $reg_1, $reg_2 (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f $reg_0, x0, x0 (i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__reg0__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f $reg_0, x0, $reg_1 (i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__regs__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f $reg_0, $reg_1, x0 (i_ext_hackaton__opc_hackaton_custom_f__regs__regs__reg0__)
+  stores types: i16 i16 i16 i16     - hackaton_custom_instr_f $reg_0, $reg_1, $reg_2 (i_ext_hackaton__opc_hackaton_custom_f__regs__regs__regs__)
   stores types: i32     -  (i_store__opc_storeb__reg0__simm12_simple__reg0__i32_TRUNC_CLONE_)
   stores types: i32     -  (i_store__opc_storeb__reg0__simm12_simple__regs__i32_TRUNC_CLONE_)
   stores types: i32     -  (i_store__opc_storeh__reg0__simm12_simple__reg0__i32_TRUNC_CLONE_)
@@ -337,5 +397,17 @@ Store instructions:
   stores types: i32     -  (i_store__opc_storew__regs__simm12_simple__regs__0_REG_EMUL_)
   stores types: i32     -  (i_store__opc_storew__regs__simm12_simple__regs__1_BIGIMM_EMUL_)
   stores types: i32     -  (i_store__opc_storew__regs__simm12_simple__regs__4_BIGIMM_EMUL_)
+  stores types: i16 i16 i16 i16     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_)
+  stores types: i16 i16 i16 i16     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_)
+  stores types: i16 i16 i16 i16     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_)
+  stores types: i16 i16 i16 i16     -  (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_)
+  stores types: i16     -  (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_)
 
 

@@ -2,6 +2,8 @@
 #include "opcodes.hcodal"
 #include "opcodes_hackaton.hcodal"
 #include "isa.hcodal"
+#define ARR_SIZE    (4) // matrices are either of dimension 3x4 or 4x4
+#define DATA_SIZE   (2) // number of bytes
 
 // part of the main ISA
 
@@ -10,45 +12,131 @@ DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_b, "hackaton_custom_instr_b
 DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_c, "hackaton_custom_instr_c", OPC_HACKATON_CUSTOM_C)
 DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_d, "hackaton_custom_instr_d", OPC_HACKATON_CUSTOM_D)
 DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_e, "hackaton_custom_instr_e", OPC_HACKATON_CUSTOM_E)
+DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_f, "hackaton_custom_instr_f", OPC_HACKATON_CUSTOM_F)
+DEF_OPC_GROUP(opc_hackaton_custom_i, hackaton_custom_g, "hackaton_custom_instr_g", OPC_HACKATON_CUSTOM_G)
+
+
+
 
 set isa += i_ext_hackaton;
 
 element i_ext_hackaton
 {
     use opc_hackaton_custom_i as opc;
-    use reg_any as rs_1, rs_2, dst;
+    use reg_any as rs_1, rs_2, dst; //GREY AREA AGAIN
 
     assembly { opc dst "," rs_1 "," rs_2 };
     binary { 0:bit[7] rs_2 rs_1 opc dst OPC_HACKATON };
 
     semantics
     {
-        int32 result,s1,s2,s3;
-
-        int32 simd_a0,simd_a1,simd_b0,simd_b1,accumulator;
+        int32 result,s1,s2,s3,result0, result1,sum,val,size;
+        int16 val1, val2;
+        int32 simd_a0,simd_a1, simd_b0,simd_b1, accumulator, sum0, sum1,mac ;
         int64 summa;
+        int8 i;
 
         s1 = rf_gpr_read(rs_1);
         s2 = rf_gpr_read(rs_2);
-        s3 = rf_gpr_read(dst);
+        s3 = rf_gpr_read(dst);  
+
 
         switch (opc)
         {
             case OPC_HACKATON_CUSTOM_A:
-                //result = ADD_OPERATION;                
+
+                //division
+                //codasip_print("A done");
+                if (s2 != 0) {
+                    result = s1 / s2;
+                } else {
+                    result = 0; 
+                }
                 break;
             case OPC_HACKATON_CUSTOM_B:
-                //result = ADD_OPERATION;
+            //Accumulate multiply shift and accumulate
+                //codasip_print("B done");
+                result = s3 + ((s1 * s2) >> 8);      
+
                 break;
-            case OPC_HACKATON_CUSTOM_C:
                 //result = ADD_OPERATION;
+                case OPC_HACKATON_CUSTOM_C: 
+                // vector matrix mac  
+                // s1 = arr1 addr
+                // s2 = arr2 addr
+                // s3 = arr0 addr
+                mac = 0;
+                for(i = 0; i<3; i++, s1+=DATA_SIZE, s2+=DATA_SIZE, s3+=DATA_SIZE){ //each address space contains a byte so +2 would be going to the next data address 
+                    val1 = load_val(131, s1);
+                    val2 = load_val(131, s2);
+                    // if(val2 > 2 ** 16)
+                    codasip_print(13, "s1 addr[%d]: 0x%x value: %d  accumalate\n", i, s1, val1);
+                    codasip_print(13, "s2 addr[%d]: 0x%x value: %d accumalate\n", i, s2, val2);
+                    mac = mac + ((val1 * val2) >> 8);
+
+                    codasip_print(13, "mac value:  %d\n", val1 * val2);
+                
+                    // codasip_print(1, "arr[%d] = %d \n", i, val);
+                }
+                write_val(163, s3, mac);
+
+                result = mac;
                 break;
             case OPC_HACKATON_CUSTOM_D:
-                //result = ADD_OPERATION;
+                mac = s3;
+                for(i = 0; i<ARR_SIZE; i++, s1+=DATA_SIZE, s2+=DATA_SIZE){ //each address space contains a byte so +2 would be going to the next data address 
+                    val1 = load_val(131, s1);
+                    val2 = load_val(131, s2);
+                    // if(val2 > 2 ** 16)
+                    codasip_print(13, "s1 addr[%d]: 0x%x value: %d \n", i, s1, val1);
+                    codasip_print(13, "s2 addr[%d]: 0x%x value: %d \n", i, s2, val2);
+                    mac = mac + ((val1 * val2) >> 8);
+                    codasip_print(13, "mac value:  %d\n", mac);
+                    // codasip_print(1, "arr[%d] = %d \n", i, val);
+                }
+
+                result = mac;
                 break;
+            
             case OPC_HACKATON_CUSTOM_E:
-                //result = ADD_OPERATION;
+                
+                if (s1 > 32767) {
+                        result = 32767;
+                    } 
+                else if (s1 < -32768) {
+                        result = -32768;
+                    } 
+                else {
+                        result = s1;
+                    }       
+                //codasip_print("E done");         //result = ADD_OPERATION;
                 break;
+            case OPC_HACKATON_CUSTOM_F:
+                            // vector  accumalte 
+                // s1 = arr1 addr
+                // s2 = arr2 addr
+                // s3 = arr0 addr
+
+                result = s3;
+
+                for(i = 0; i<ARR_SIZE; i++, s1+=DATA_SIZE, s2+=DATA_SIZE, s3+=DATA_SIZE){ //each address space contains a byte so +2 would be going to the next data address 
+                    val1 = load_val(131, s1);
+                    val2 = load_val(131, s2);
+                    // if(val2 > 2 ** 16)
+                    codasip_print(15, "s1 addr[%d]: 0x%x value: %d  accumalate\n", i, s1, val1);
+                    codasip_print(15, "s2 addr[%d]: 0x%x value: %d accumalate\n", i, s2, val2);
+                    // mac = mac + ((val1 + val2));
+                    write_val(163, s3, val1 + val2);
+                    mac = load_val(131, s3);
+                    codasip_print(15, "s3 addr[%d]: 0x%x value: %d accumalate\n", i, s3, mac);
+                    codasip_print(15, "accumulate value:  %d\n", val1 + val2);
+                
+                    // codasip_print(1, "arr[%d] = %d \n", i, val);
+                }
+
+                break;
+            case OPC_HACKATON_CUSTOM_G:
+                break;            
             default:
                 result = 0;
                 break;

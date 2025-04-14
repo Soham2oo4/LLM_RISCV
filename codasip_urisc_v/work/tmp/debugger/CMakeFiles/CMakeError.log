@@ -1,11 +1,11 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/tmp/debugger/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_4bc52 && [1/2] Building C object CMakeFiles/cmTC_4bc52.dir/src.c.o
-[2/2] Linking C executable cmTC_4bc52
-FAILED: cmTC_4bc52 
-: && /contrib/bin/gcc   CMakeFiles/cmTC_4bc52.dir/src.c.o -o cmTC_4bc52   && :
-/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_4bc52.dir/src.c.o: in function `main':
+Run Build Command(s):/contrib/bin/ninja cmTC_4a172 && [1/2] Building C object CMakeFiles/cmTC_4a172.dir/src.c.o
+[2/2] Linking C executable cmTC_4a172
+FAILED: cmTC_4a172 
+: && /contrib/bin/gcc   CMakeFiles/cmTC_4a172.dir/src.c.o -o cmTC_4a172   && :
+/contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: CMakeFiles/cmTC_4a172.dir/src.c.o: in function `main':
 src.c:(.text+0x2d): undefined reference to `pthread_create'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.c:(.text+0x39): undefined reference to `pthread_detach'
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: src.c:(.text+0x45): undefined reference to `pthread_cancel'
@@ -38,10 +38,10 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/project/codasip_urisc_v/work/tmp/debugger/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/contrib/bin/ninja cmTC_cd6fc && [1/2] Building C object CMakeFiles/cmTC_cd6fc.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_cd6fc
-FAILED: cmTC_cd6fc 
-: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_cd6fc.dir/CheckFunctionExists.c.o -o cmTC_cd6fc  -lpthreads && :
+Run Build Command(s):/contrib/bin/ninja cmTC_97343 && [1/2] Building C object CMakeFiles/cmTC_97343.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_97343
+FAILED: cmTC_97343 
+: && /contrib/bin/gcc -DCHECK_FUNCTION_EXISTS=pthread_create  CMakeFiles/cmTC_97343.dir/CheckFunctionExists.c.o -o cmTC_97343  -lpthreads && :
 /contrib/bin/../lib/gcc/x86_64-linux-gnu/7.4.0/../../../../x86_64-linux-gnu/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
 ninja: build stopped: subcommand failed.

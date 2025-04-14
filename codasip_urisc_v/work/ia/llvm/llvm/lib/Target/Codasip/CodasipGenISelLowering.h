@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-06
+ * \date    2025-04-14
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-06 06:40:46
+ *                Date: 2025-04-14 12:52:03
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -83,7 +83,19 @@ enum NodeType {
   // memory nodes for lowering of builtins
   
   // memory nodes for lowering of MOIs
-  
+  MOI_GROUP_0,
+MOI_GROUP_1,
+MOI_GROUP_2,
+MOI_GROUP_3,
+MOI_GROUP_4,
+MOI_GROUP_5,
+MOI_GROUP_6,
+MOI_GROUP_7,
+MOI_GROUP_8,
+MOI_GROUP_9,
+MOI_GROUP_10,
+MOI_GROUP_11,
+
   /// mark
   LAST_MEMORY_NUMBER
 };
