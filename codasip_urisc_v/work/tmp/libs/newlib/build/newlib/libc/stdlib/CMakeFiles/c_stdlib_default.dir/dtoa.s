@@ -1733,40 +1733,42 @@ quorem:                                 //  @quorem
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -48
-	.cfi_adjust_cfa_offset 48
-	sw x18, 36 ( sp )               //  4-byte Folded Spill
+	add sp, sp, -64
+	.cfi_adjust_cfa_offset 64
+	sw x18, 52 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 18, -12
-	sw fp, 0 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -48
+	sw fp, 12 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 8, -52
 	mv x18, x11
 	mv fp, x10
 	lw x10, 16 ( x18 )
 	lw x11, 16 ( fp )
-	sw ra, 44 ( sp )                //  4-byte Folded Spill
+	sw ra, 60 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 1, -4
-	sw x9, 40 ( sp )                //  4-byte Folded Spill
+	sw x9, 56 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 9, -8
-	sw x19, 32 ( sp )               //  4-byte Folded Spill
+	sw x19, 48 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 19, -16
-	sw x20, 28 ( sp )               //  4-byte Folded Spill
+	sw x20, 44 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 20, -20
-	sw x21, 24 ( sp )               //  4-byte Folded Spill
+	sw x21, 40 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 21, -24
-	sw x22, 20 ( sp )               //  4-byte Folded Spill
+	sw x22, 36 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 22, -28
-	sw x23, 16 ( sp )               //  4-byte Folded Spill
+	sw x23, 32 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 23, -32
-	sw x24, 12 ( sp )               //  4-byte Folded Spill
+	sw x24, 28 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 24, -36
-	sw x25, 8 ( sp )                //  4-byte Folded Spill
+	sw x25, 24 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 25, -40
-	sw x26, 4 ( sp )                //  4-byte Folded Spill
+	sw x26, 20 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 26, -44
+	sw x27, 16 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 27, -48
 	bge x11, x10, .LBB1_2
 .LBB1_1:
 	mv x9, x0
-	jal x0, .LBB1_19
+	jal x0, .LBB1_22
 .LBB1_2:                                //  %if.end
 	add x21, x10, -1
 	add x23, x18, 20
@@ -1782,70 +1784,64 @@ quorem:                                 //  @quorem
 	jal __udivsi3
 	mv x9, x10
 	lui x25, %hi( 65535 )
-	bltu x20, x19, .LBB1_10
+	bltu x20, x19, .LBB1_13
 .LBB1_3:                                //  %do.body.preheader
-	mv x13, x0
-	add x10, x25, %lo( 65535 )
-	mv x14, x13
-	mv x11, x22
-	mv x12, x23
+	sw x26, 8 ( sp )                //  4-byte Folded Spill
+	mv x26, x0
+	add x19, x25, %lo( 65535 )
+	mv x25, x26
+	mv x20, x22
+	mv x27, x23
+	sw fp, 4 ( sp )                 //  4-byte Folded Spill
 .LBB1_4:                                //  %do.body
                                         //  =>This Inner Loop Header: Depth=1
-	lw x15, 0 ( x12 )
-	lw x17, 0 ( x11 )
-	add x12, x12, 4
-	srl x16, x15, 16&31
-	and x15, x10, x15
-	hackaton_custom_instr_c x15, x9, x15
-	add x14, x14, x15
-	srl x15, x14, 16&31
-	srl x5, x17, 16&31
-	hackaton_custom_instr_c x16, x9, x16
-	and x14, x10, x14
-	and x17, x10, x17
-	add x15, x16, x15
-	sub x14, x17, x14
-	and x16, x10, x15
-	add x13, x13, x14
-	sra x14, x13, 16&31
-	sub x16, x5, x16
-	add x14, x14, x16
-	and x13, x10, x13
-	sll x16, x14, 16&31
-	or x13, x13, x16
-	sw x13, 0 ( x11 )
-	sra x13, x14, 16&31
-	add x11, x11, 4
-	srl x14, x15, 16&31
-	bgeu x24, x12, .LBB1_4
+	lw fp, 0 ( x27 )
+	mv x11, x9
+	and x10, x19, fp
+	jal __mulsi3
+	add x25, x25, x10
+	srl x10, fp, 16&31
+	mv x11, x9
+	jal __mulsi3
+	lw x12, 0 ( x20 )
+	srl x11, x25, 16&31
+	add x10, x10, x11
+	and x11, x19, x10
+	srl x13, x12, 16&31
+	sub x11, x13, x11
+	and x13, x19, x25
+	and x12, x19, x12
+	sub x12, x12, x13
+	add x12, x26, x12
+	sra x13, x12, 16&31
+	add x11, x13, x11
+	and x12, x19, x12
+	sll x13, x11, 16&31
+	or x12, x12, x13
+	sw x12, 0 ( x20 )
+	add x20, x20, 4
+	sra x26, x11, 16&31
+	srl x25, x10, 16&31
+	add x27, x27, 4
+	bgeu x24, x27, .LBB1_4
 .LBB1_5:                                //  %do.end
-	lw x10, 0 ( x26 )
-	bltu x0, x10, .LBB1_10
-.LBB1_6:                                //  %while.cond.preheader
-	add x10, x26, -4
-	bgeu x22, x10, .LBB1_9
-.LBB1_7:                                //  %land.rhs
-                                        //  =>This Inner Loop Header: Depth=1
-	lw x11, 0 ( x10 )
-	bltu x0, x11, .LBB1_9
-.LBB1_8:                                //  %while.body
-                                        //    in Loop: Header=BB1_7 Depth=1
-	add x21, x21, -1
-	add x10, x10, -4
-	bltu x22, x10, .LBB1_7
-.LBB1_9:                                //  %while.end
-	sw x21, 16 ( fp )
-.LBB1_10:                               //  %if.end33
+	lw x11, 8 ( sp )                //  4-byte Folded Reload
+	lw x10, 0 ( x11 )
+	beq x0, x10, .LBB1_7
+.LBB1_6:
+	lw fp, 4 ( sp )                 //  4-byte Folded Reload
+	lui x25, %hi( 65535 )
+.LBB1_13:                               //  %if.end33
 	mv x10, fp
 	mv x11, x18
 	jal __mcmp
-	blt x10, x0, .LBB1_19
-.LBB1_11:                               //  %do.body40.preheader
+	blt x10, x0, .LBB1_22
+.LBB1_14:                               //  %do.body40.preheader
 	mv x12, x0
 	add x10, x25, %lo( 65535 )
 	mv x13, x12
 	mv x11, x22
-.LBB1_12:                               //  %do.body40
+.LBB1_15:                               //  %do.body40
                                         //  =>This Inner Loop Header: Depth=1
 	lw x14, 0 ( x23 )
 	lw x16, 0 ( x11 )
@@ -1871,43 +1867,70 @@ quorem:                                 //  @quorem
 	add x11, x11, 4
 	sra x12, x12, 16&31
 	srl x13, x13, 16&31
-	bgeu x24, x23, .LBB1_12
-.LBB1_13:                               //  %do.end64
+	bgeu x24, x23, .LBB1_15
+.LBB1_16:                               //  %do.end64
 	sll x10, x21, 2&31
 	add x10, x10, fp
 	lw x11, 20 ( x10 )
 	add x9, x9, 1
-	bltu x0, x11, .LBB1_19
-.LBB1_14:                               //  %while.cond70.preheader
+	bltu x0, x11, .LBB1_22
+.LBB1_17:                               //  %while.cond70.preheader
 	add x10, x10, 20
 	add x10, x10, -4
-	bgeu x22, x10, .LBB1_18
-.LBB1_16:                               //  %land.rhs73
+	bgeu x22, x10, .LBB1_21
+.LBB1_19:                               //  %land.rhs73
                                         //  =>This Inner Loop Header: Depth=1
 	lw x11, 0 ( x10 )
-	bltu x0, x11, .LBB1_18
-.LBB1_17:                               //  %while.body77
-                                        //    in Loop: Header=BB1_16 Depth=1
+	bltu x0, x11, .LBB1_21
+.LBB1_20:                               //  %while.body77
+                                        //    in Loop: Header=BB1_19 Depth=1
 	add x21, x21, -1
 	add x10, x10, -4
-	bltu x22, x10, .LBB1_16
-.LBB1_18:                               //  %while.end79
+	bltu x22, x10, .LBB1_19
+.LBB1_21:                               //  %while.end79
 	sw x21, 16 ( fp )
-.LBB1_19:                               //  %cleanup
+	jal x0, .LBB1_22
+.LBB1_7:                                //  %while.cond.preheader
+	add x10, x11, -4
+	bgeu x22, x10, .LBB1_8
+.LBB1_9:                                //  %land.rhs.preheader
+	lw fp, 4 ( sp )                 //  4-byte Folded Reload
+	lui x25, %hi( 65535 )
+.LBB1_10:                               //  %land.rhs
+                                        //  =>This Inner Loop Header: Depth=1
+	lw x11, 0 ( x10 )
+	bltu x0, x11, .LBB1_12
+.LBB1_11:                               //  %while.body
+                                        //    in Loop: Header=BB1_10 Depth=1
+	add x21, x21, -1
+	add x10, x10, -4
+	bltu x22, x10, .LBB1_10
+	jal x0, .LBB1_12
+.LBB1_8:
+	lw fp, 4 ( sp )                 //  4-byte Folded Reload
+	lui x25, %hi( 65535 )
+.LBB1_12:                               //  %while.end
+	sw x21, 16 ( fp )
+	mv x10, fp
+	mv x11, x18
+	jal __mcmp
+	bge x10, x0, .LBB1_14
+.LBB1_22:                               //  %cleanup
 	mv x10, x9
-	lw fp, 0 ( sp )                 //  4-byte Folded Reload
-	lw x26, 4 ( sp )                //  4-byte Folded Reload
-	lw x25, 8 ( sp )                //  4-byte Folded Reload
-	lw x24, 12 ( sp )               //  4-byte Folded Reload
-	lw x23, 16 ( sp )               //  4-byte Folded Reload
-	lw x22, 20 ( sp )               //  4-byte Folded Reload
-	lw x21, 24 ( sp )               //  4-byte Folded Reload
-	lw x20, 28 ( sp )               //  4-byte Folded Reload
-	lw x19, 32 ( sp )               //  4-byte Folded Reload
-	lw x18, 36 ( sp )               //  4-byte Folded Reload
-	lw x9, 40 ( sp )                //  4-byte Folded Reload
-	lw ra, 44 ( sp )                //  4-byte Folded Reload
-	add sp, sp, 48
+	lw fp, 12 ( sp )                //  4-byte Folded Reload
+	lw x27, 16 ( sp )               //  4-byte Folded Reload
+	lw x26, 20 ( sp )               //  4-byte Folded Reload
+	lw x25, 24 ( sp )               //  4-byte Folded Reload
+	lw x24, 28 ( sp )               //  4-byte Folded Reload
+	lw x23, 32 ( sp )               //  4-byte Folded Reload
+	lw x22, 36 ( sp )               //  4-byte Folded Reload
+	lw x21, 40 ( sp )               //  4-byte Folded Reload
+	lw x20, 44 ( sp )               //  4-byte Folded Reload
+	lw x19, 48 ( sp )               //  4-byte Folded Reload
+	lw x18, 52 ( sp )               //  4-byte Folded Reload
+	lw x9, 56 ( sp )                //  4-byte Folded Reload
+	lw ra, 60 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 64
 	.cfi_def_cfa 2, 0
 	jr ra
 .Lfunc_end1:

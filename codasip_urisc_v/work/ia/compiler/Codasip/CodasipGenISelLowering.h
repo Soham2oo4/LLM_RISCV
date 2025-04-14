@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-14 08:33:34
+ *                Date: 2025-04-14 12:52:03
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -87,6 +87,14 @@ enum NodeType {
 MOI_GROUP_1,
 MOI_GROUP_2,
 MOI_GROUP_3,
+MOI_GROUP_4,
+MOI_GROUP_5,
+MOI_GROUP_6,
+MOI_GROUP_7,
+MOI_GROUP_8,
+MOI_GROUP_9,
+MOI_GROUP_10,
+MOI_GROUP_11,
 
   /// mark
   LAST_MEMORY_NUMBER

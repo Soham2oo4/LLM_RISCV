@@ -1203,6 +1203,18 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     0U,	// i_control_conditional__opc_bgeu__regs__regs__rel_addr12__swappedCmpClone0__
     0U,	// i_control_conditional__opc_blt__regs__regs__rel_addr12__swappedCmpClone0__
     0U,	// i_control_conditional__opc_bltu__regs__regs__rel_addr12__swappedCmpClone0__
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_
+    0U,	// i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_
     0U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__AEXT_CLONE_
     0U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__AEXT_CLONE_
     0U,	// i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__AEXT_CLONE_
@@ -2121,7 +2133,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     86860U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0_alias__regs__
     1069104U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__
     1134640U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0_alias__
-    20528U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__
+    10522672U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__
     9044U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0_alias__reg0__reg0__
     11845U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0_alias__reg0__reg0_alias__
     85383U,	// i_ext_hackaton__opc_hackaton_custom_c__reg0_alias__reg0__regs__
@@ -2214,13 +2226,13 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     22955U,	// i_ext_hackaton__opc_hackaton_custom_f__reg0_alias__regs__regs__
     1203491U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__reg0__
     1269027U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__reg0_alias__
-    613667U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__regs__
+    9002275U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0__regs__
     1334563U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0_alias__reg0__
     1400099U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0_alias__reg0_alias__
     875811U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__reg0_alias__regs__
-    134241571U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__regs__reg0__
+    142630179U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__regs__reg0__
     151018787U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__regs__reg0_alias__
-    914382115U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__regs__regs__
+    12606755U,	// i_ext_hackaton__opc_hackaton_custom_f__regs__regs__regs__
     8825U,	// i_ext_hackaton__opc_hackaton_custom_g__reg0__reg0__reg0__
     11606U,	// i_ext_hackaton__opc_hackaton_custom_g__reg0__reg0__reg0_alias__
     84962U,	// i_ext_hackaton__opc_hackaton_custom_g__reg0__reg0__regs__
@@ -3306,7 +3318,7 @@ void CodasipInstPrinter::printInstruction(const MCInst *MI, raw_ostream &O) {
     return;
     break;
   case 6:
-    // i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__
+    // i_ext_hackaton__opc_hackaton_custom_d__regs__regs__regs__, i_ext_hacka...
     printOperand(MI, 3, O);
     O << ", ";
     printOperand(MI, 2, O);

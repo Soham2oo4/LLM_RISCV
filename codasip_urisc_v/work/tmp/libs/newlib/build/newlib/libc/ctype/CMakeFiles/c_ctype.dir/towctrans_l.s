@@ -8,115 +8,132 @@ towctrans_l:                            //  @towctrans_l
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -16
-	.cfi_adjust_cfa_offset 16
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
+	add sp, sp, -48
+	.cfi_adjust_cfa_offset 48
+	sw x9, 40 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 9, -8
 	mv x9, x12
-	sw x18, 4 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 18, -12
-	mv x18, x11
+	sw x19, 32 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 19, -16
+	mv x19, x11
 	mv x11, x9
-	sw fp, 0 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -16
-	sw ra, 12 ( sp )                //  4-byte Folded Spill
+	sw fp, 8 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -40
+	sw ra, 44 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 1, -4
+	sw x18, 36 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 18, -12
+	sw x20, 28 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 20, -20
+	sw x21, 24 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 21, -24
+	sw x22, 20 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 22, -28
+	sw x23, 16 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 23, -32
+	sw x24, 12 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 24, -36
 	mv fp, x10
 	jal _jp2uc_l
-	xor x11, x18, 2
-	beq x0, x11, .LBB0_17
+	mv x18, x10
+	xor x10, x19, 2
+	beq x0, x10, .LBB0_17
 .LBB0_1:                                //  %entry
-	xor x11, x18, 1
-	bltu x0, x11, .LBB0_33
+	xor x10, x19, 1
+	bltu x0, x10, .LBB0_33
 .LBB0_2:                                //  %if.then
-	lui x12, %hi( 125186 )
-	add x11, x10, -65
-	add x12, x12, %lo( 125186 )
-	bltu x12, x11, .LBB0_33
+	lui x11, %hi( 125186 )
+	add x10, x18, -65
+	add x11, x11, %lo( 125186 )
+	bltu x11, x10, .LBB0_33
 .LBB0_3:                                //  %while.body.i.i.preheader
-	lui x13, %hi( caseconv_table )
-	lui x15, %hi( 2097151 )
-	add x14, x0, 309
-	mv x12, x0
-	add x11, x0, 6
-	add x13, x13, %lo( caseconv_table )
-	add x15, x15, %lo( 2097151 )
+	lui x10, %hi( caseconv_table )
+	add x22, x10, %lo( caseconv_table )
+	lui x10, %hi( 2097151 )
+	add x23, x0, 309
+	mv x21, x0
+	add x19, x0, 6
+	add x24, x10, %lo( 2097151 )
 	jal x0, .LBB0_4
 .LBB0_5:                                //  %if.then23.i.i
                                         //    in Loop: Header=BB0_4 Depth=1
-	add x12, x17, 1
-	blt x14, x12, .LBB0_33
+	add x21, x20, 1
+	blt x23, x21, .LBB0_33
 .LBB0_4:                                //  %while.body.i.i
                                         //  =>This Inner Loop Header: Depth=1
-	add x16, x12, x14
-	slt x17, x16, x0
-	add x16, x17, x16
-	sra x17, x16, 1&31
-	hackaton_custom_instr_c x16, x11, x17
-	add x5, x16, x13
-	lhu x16, 2 ( x5 )
-	lhu x6, 0 ( x5 )
-	sll x16, x16, 16&31
-	or x16, x6, x16
-	srl x7, x16, 21&31
-	and x6, x15, x16
-	and x7, x7, 255
-	add x7, x6, x7
-	bltu x7, x10, .LBB0_5
+	add x10, x21, x23
+	slt x11, x10, x0
+	add x10, x11, x10
+	sra x20, x10, 1&31
+	mv x10, x20
+	mv x11, x19
+	jal __mulsi3
+	add x11, x10, x22
+	lhu x10, 2 ( x11 )
+	lhu x12, 0 ( x11 )
+	sll x10, x10, 16&31
+	or x10, x12, x10
+	srl x13, x10, 21&31
+	and x12, x24, x10
+	and x13, x13, 255
+	add x13, x12, x13
+	bltu x13, x18, .LBB0_5
 .LBB0_6:                                //  %if.else.i.i
                                         //    in Loop: Header=BB0_4 Depth=1
-	bgeu x10, x6, .LBB0_8
+	bgeu x18, x12, .LBB0_8
 .LBB0_7:                                //  %if.then30.i.i
                                         //    in Loop: Header=BB0_4 Depth=1
-	add x14, x17, -1
-	bge x14, x12, .LBB0_4
+	add x23, x20, -1
+	bge x23, x21, .LBB0_4
 	jal x0, .LBB0_33
 .LBB0_17:                               //  %if.then3
-	lui x12, %hi( 125186 )
-	add x11, x10, -65
-	add x12, x12, %lo( 125186 )
-	bltu x12, x11, .LBB0_33
+	lui x11, %hi( 125186 )
+	add x10, x18, -65
+	add x11, x11, %lo( 125186 )
+	bltu x11, x10, .LBB0_33
 .LBB0_18:                               //  %while.body.i.i43.preheader
-	lui x13, %hi( caseconv_table )
-	lui x15, %hi( 2097151 )
-	add x14, x0, 309
-	mv x12, x0
-	add x11, x0, 6
-	add x13, x13, %lo( caseconv_table )
-	add x15, x15, %lo( 2097151 )
+	lui x10, %hi( caseconv_table )
+	add x22, x10, %lo( caseconv_table )
+	lui x10, %hi( 2097151 )
+	add x23, x0, 309
+	mv x21, x0
+	add x19, x0, 6
+	add x24, x10, %lo( 2097151 )
 	jal x0, .LBB0_19
 .LBB0_20:                               //  %if.then23.i.i45
                                         //    in Loop: Header=BB0_19 Depth=1
-	add x12, x17, 1
-	blt x14, x12, .LBB0_33
+	add x21, x20, 1
+	blt x23, x21, .LBB0_33
 .LBB0_19:                               //  %while.body.i.i43
                                         //  =>This Inner Loop Header: Depth=1
-	add x16, x12, x14
-	slt x17, x16, x0
-	add x16, x17, x16
-	sra x17, x16, 1&31
-	hackaton_custom_instr_c x16, x11, x17
-	add x5, x16, x13
-	lhu x16, 2 ( x5 )
-	lhu x6, 0 ( x5 )
-	sll x16, x16, 16&31
-	or x16, x6, x16
-	srl x7, x16, 21&31
-	and x6, x15, x16
-	and x7, x7, 255
-	add x7, x6, x7
-	bltu x7, x10, .LBB0_20
+	add x10, x21, x23
+	slt x11, x10, x0
+	add x10, x11, x10
+	sra x20, x10, 1&31
+	mv x10, x20
+	mv x11, x19
+	jal __mulsi3
+	add x11, x10, x22
+	lhu x10, 2 ( x11 )
+	lhu x12, 0 ( x11 )
+	sll x10, x10, 16&31
+	or x10, x12, x10
+	srl x13, x10, 21&31
+	and x12, x24, x10
+	and x13, x13, 255
+	add x13, x12, x13
+	bltu x13, x18, .LBB0_20
 .LBB0_21:                               //  %if.else.i.i47
                                         //    in Loop: Header=BB0_19 Depth=1
-	bgeu x10, x6, .LBB0_23
+	bgeu x18, x12, .LBB0_23
 .LBB0_22:                               //  %if.then30.i.i49
                                         //    in Loop: Header=BB0_19 Depth=1
-	add x14, x17, -1
-	bge x14, x12, .LBB0_19
+	add x23, x20, -1
+	bge x23, x21, .LBB0_19
 	jal x0, .LBB0_33
 .LBB0_8:                                //  %if.then.i
-	lh x11, 4 ( x5 )
-	srl x12, x16, 29&31
+	lh x11, 4 ( x11 )
+	srl x12, x10, 29&31
 	and x12, x12, 3
 	beq x0, x12, .LBB0_13
 .LBB0_9:                                //  %if.then.i
@@ -127,8 +144,8 @@ towctrans_l:                            //  @towctrans_l
 	beq x0, x12, .LBB0_11
 	jal x0, .LBB0_33
 .LBB0_23:                               //  %if.then.i56
-	lh x11, 4 ( x5 )
-	srl x12, x16, 29&31
+	lh x11, 4 ( x11 )
+	srl x12, x10, 29&31
 	and x12, x12, 3
 	beq x0, x12, .LBB0_27
 .LBB0_24:                               //  %if.then.i56
@@ -140,71 +157,76 @@ towctrans_l:                            //  @towctrans_l
 .LBB0_11:                               //  %sw.bb.i
 	sll x11, x11, 16&31
 	sra x11, x11, 16&31
-	slt x12, x16, x0
+	slt x10, x10, x0
 	sll x11, x11, 1&31
-	or x11, x11, x12
-	add x11, x11, x10
-	bne x11, x10, .LBB0_32
+	or x10, x11, x10
+	add x10, x10, x18
+	bne x10, x18, .LBB0_32
 	jal x0, .LBB0_33
 .LBB0_12:                               //  %sw.bb3.i
-	add x11, x10, 1
+	add x10, x18, 1
 	jal x0, .LBB0_32
 .LBB0_13:                               //  %sw.bb5.i
 	sll x11, x11, 16&31
 	sra x11, x11, 16&31
-	slt x12, x16, x0
+	slt x10, x10, x0
 	sll x11, x11, 1&31
-	or x11, x11, x12
-	xor x12, x11, 1
-	beq x0, x12, .LBB0_16
+	or x10, x11, x10
+	xor x11, x10, 1
+	beq x0, x11, .LBB0_16
 .LBB0_14:                               //  %sw.bb5.i
-	bltu x0, x11, .LBB0_33
+	bltu x0, x10, .LBB0_33
 .LBB0_15:                               //  %sw.bb9.i
-	xor x11, x10, -1
-	and x11, x11, 1
-	add x11, x10, x11
-	bne x11, x10, .LBB0_32
+	xor x10, x18, -1
+	and x10, x10, 1
+	add x10, x18, x10
+	bne x10, x18, .LBB0_32
 	jal x0, .LBB0_33
 .LBB0_27:                               //  %sw.bb4.i
 	sll x11, x11, 16&31
 	sra x11, x11, 16&31
-	slt x12, x16, x0
+	slt x10, x10, x0
 	sll x11, x11, 1&31
-	or x11, x11, x12
-	xor x12, x11, 1
-	beq x0, x12, .LBB0_30
+	or x10, x11, x10
+	xor x11, x10, 1
+	beq x0, x11, .LBB0_30
 .LBB0_28:                               //  %sw.bb4.i
-	bltu x0, x11, .LBB0_33
+	bltu x0, x10, .LBB0_33
 .LBB0_29:                               //  %sw.bb8.i
-	and x11, x10, -2
-	bne x11, x10, .LBB0_32
+	and x10, x18, -2
+	bne x10, x18, .LBB0_32
 	jal x0, .LBB0_33
 .LBB0_26:                               //  %sw.bb3.i61
-	add x11, x10, -1
+	add x10, x18, -1
 .LBB0_32:                               //  %if.then8
-	mv x10, x11
 	mv x11, x9
 	jal _uc2jp_l
 	mv fp, x10
 .LBB0_33:                               //  %cleanup
 	mv x10, fp
-	lw fp, 0 ( sp )                 //  4-byte Folded Reload
-	lw x18, 4 ( sp )                //  4-byte Folded Reload
-	lw x9, 8 ( sp )                 //  4-byte Folded Reload
-	lw ra, 12 ( sp )                //  4-byte Folded Reload
-	add sp, sp, 16
+	lw fp, 8 ( sp )                 //  4-byte Folded Reload
+	lw x24, 12 ( sp )               //  4-byte Folded Reload
+	lw x23, 16 ( sp )               //  4-byte Folded Reload
+	lw x22, 20 ( sp )               //  4-byte Folded Reload
+	lw x21, 24 ( sp )               //  4-byte Folded Reload
+	lw x20, 28 ( sp )               //  4-byte Folded Reload
+	lw x19, 32 ( sp )               //  4-byte Folded Reload
+	lw x18, 36 ( sp )               //  4-byte Folded Reload
+	lw x9, 40 ( sp )                //  4-byte Folded Reload
+	lw ra, 44 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 48
 	.cfi_def_cfa 2, 0
 	jr ra
 .LBB0_16:                               //  %sw.bb13.i
-	and x11, x10, 1
-	add x11, x10, x11
-	bne x11, x10, .LBB0_32
+	and x10, x18, 1
+	add x10, x18, x10
+	bne x10, x18, .LBB0_32
 	jal x0, .LBB0_33
 .LBB0_30:                               //  %sw.bb12.i
-	and x11, x10, 1
-	add x11, x11, x10
-	add x11, x11, -1
-	bne x11, x10, .LBB0_32
+	and x10, x18, 1
+	add x10, x10, x18
+	add x10, x10, -1
+	bne x10, x18, .LBB0_32
 	jal x0, .LBB0_33
 .Lfunc_end0:
 	.size	towctrans_l, .Lfunc_end0-towctrans_l

@@ -5,28 +5,7 @@ Id flags:
 
 The output was:
 1
-codasip_urisc_v-ia-lld: error: undefined symbol: write
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(printf) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(putchar) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced by codasip.c
->>>               codasip.c.o:(putchar) in archive /home/project/codasip_urisc_v/work/ia/sdk/bin/../newlib-micro/lib/libc.a
->>> referenced 30 more times
+codasip_urisc_v-ia-lld: error: unable to find library -lc
 codasip_urisc_v-ia-clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 
@@ -41,7 +20,7 @@ LLVM (http://llvm.org/):
     codasip   - Target generated for codasip_urisc_v.ia.
       Codasip Studio version: 9.4.2
       Project: codasip_urisc_v.ia
-      Date: 2025-04-14 08:33:34
+      Date: 2025-04-14 12:52:03
       Copyright (C) 2025 Codasip s.r.o.
     extractor - Target created for semantics extraction.
 clang version 9.0.1 (ssh://git@gitlab.codasip.com/codasip-studio/llvm-project.git de721e516e0cf84aa99255d0f6f37c402af48983)

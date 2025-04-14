@@ -97,19 +97,19 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	add x9, x9, 1
 .LBB0_10:                               //  %if.end12
 	lui x10, %hi( __tzname_std )
-	add x22, x10, %lo( __tzname_std )
+	add x26, x10, %lo( __tzname_std )
 	lui x10, %hi( .str.2 )
-	add x18, sp, 44
-	add x24, x10, %lo( .str.2 )
-	sw x22, 8 ( sp )
-	sw x18, 12 ( sp )
-	sw x24, 4 ( sp )
+	add x19, sp, 44
+	add x23, x10, %lo( .str.2 )
+	sw x26, 8 ( sp )
+	sw x19, 12 ( sp )
+	sw x23, 4 ( sp )
 	sw x9, 0 ( sp )
 	jal siscanf
 	bge x0, x10, .LBB0_64
 .LBB0_11:                               //  %if.end21
 	lw x10, 44 ( sp )
-	seqz x26, x0
+	seqz x18, x0
 	add x25, x10, x9
 	lbu x10, 0 ( x25 )
 	xor x11, x10, 43
@@ -118,92 +118,97 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	xor x10, x10, 45
 	bltu x0, x10, .LBB0_15
 .LBB0_13:                               //  %if.then25
-	add x26, x0, -1
+	add x18, x0, -1
 .LBB0_14:                               //  %if.then30
 	add x25, x25, 1
 .LBB0_15:                               //  %if.end33
 	lui x10, %hi( .str.3 )
-	add x19, sp, 54
-	add x20, sp, 56
-	add x21, sp, 58
-	add x9, x10, %lo( .str.3 )
+	add x20, sp, 54
+	add x21, sp, 56
+	add x22, sp, 58
+	add x24, x10, %lo( .str.3 )
 	sh x0, 54 ( sp )
 	sh x0, 56 ( sp )
-	sw x19, 24 ( sp )
-	sw x20, 16 ( sp )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
-	sw x21, 8 ( sp )
-	sw x9, 4 ( sp )
+	sw x20, 24 ( sp )
+	sw x21, 16 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
+	sw x22, 8 ( sp )
+	sw x24, 4 ( sp )
 	sw x25, 0 ( sp )
 	jal siscanf
 	bge x0, x10, .LBB0_64
 .LBB0_16:                               //  %if.end38
 	lui x10, %hi( _tzname )
 	add x27, x10, %lo( _tzname )
-	lui x11, %hi( 3600 )
-	sw x22, 0 ( x27 )
-	add x22, x11, %lo( 3600 )
-	lhu x11, 56 ( sp )
+	lhu x10, 56 ( sp )
+	add x11, x0, 60
+	sw x26, 0 ( x27 )
+	jal __mulsi3
+	lhu x11, 54 ( sp )
+	add x26, x11, x10
 	lhu x10, 58 ( sp )
-	lhu x12, 54 ( sp )
-	add x23, x0, 60
-	hackaton_custom_instr_c x11, x23, x11
-	hackaton_custom_instr_c x10, x22, x10
-	add x11, x12, x11
-	add x10, x10, x11
-	hackaton_custom_instr_c x10, x26, x10
+	lui x11, %hi( 3600 )
+	add x9, x11, %lo( 3600 )
+	mv x11, x9
+	jal __mulsi3
+	add x10, x10, x26
+	mv x11, x18
+	jal __mulsi3
 	sw x10, 36 ( fp )
 	lw x10, 44 ( sp )
 	lui x11, %hi( __tzname_dst )
-	add x26, x11, %lo( __tzname_dst )
-	sw x24, 4 ( sp )
-	add x24, x10, x25
-	sw x26, 8 ( sp )
-	sw x18, 12 ( sp )
-	sw x24, 0 ( sp )
+	add x18, x11, %lo( __tzname_dst )
+	sw x23, 4 ( sp )
+	add x23, x10, x25
+	sw x18, 8 ( sp )
+	sw x19, 12 ( sp )
+	sw x23, 0 ( sp )
 	jal siscanf
 	bge x0, x10, .LBB0_23
 .LBB0_17:                               //  %if.else54
 	lw x10, 44 ( sp )
-	sw x26, 4 ( x27 )
-	seqz x25, x0
-	add x24, x10, x24
-	lbu x10, 0 ( x24 )
+	sw x18, 4 ( x27 )
+	seqz x18, x0
+	add x23, x10, x23
+	lbu x10, 0 ( x23 )
 	xor x11, x10, 43
 	beq x0, x11, .LBB0_20
 .LBB0_18:                               //  %if.else54
 	xor x10, x10, 45
 	bltu x0, x10, .LBB0_21
 .LBB0_19:                               //  %if.then60
-	add x25, x0, -1
+	add x18, x0, -1
 .LBB0_20:                               //  %if.then66
-	add x24, x24, 1
+	add x23, x23, 1
 .LBB0_21:                               //  %if.end69
 	sh x0, 56 ( sp )
 	sh x0, 58 ( sp )
 	sh x0, 54 ( sp )
 	sw x0, 44 ( sp )
-	sw x19, 24 ( sp )
-	sw x20, 16 ( sp )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
-	sw x21, 8 ( sp )
-	sw x9, 4 ( sp )
-	sw x24, 0 ( sp )
+	sw x20, 24 ( sp )
+	sw x21, 16 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
+	sw x22, 8 ( sp )
+	sw x24, 4 ( sp )
+	sw x23, 0 ( sp )
 	jal siscanf
 	bge x0, x10, .LBB0_24
 .LBB0_22:                               //  %if.else80
-	lhu x11, 56 ( sp )
+	lhu x10, 56 ( sp )
+	add x11, x0, 60
+	jal __mulsi3
+	lhu x11, 54 ( sp )
+	add x24, x11, x10
 	lhu x10, 58 ( sp )
-	lhu x12, 54 ( sp )
-	hackaton_custom_instr_c x11, x23, x11
-	hackaton_custom_instr_c x10, x22, x10
-	add x11, x12, x11
-	add x10, x10, x11
-	hackaton_custom_instr_c x10, x25, x10
+	mv x11, x9
+	jal __mulsi3
+	add x10, x10, x24
+	mv x11, x18
+	jal __mulsi3
 	jal x0, .LBB0_25
 .LBB0_23:                               //  %if.then50
 	lw x10, 0 ( x27 )
@@ -224,15 +229,15 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 .LBB0_25:                               //  %if.end92
 	sw x10, 68 ( fp )
 	lw x10, 44 ( sp )
-	add x25, x0, 44
-	add x9, x10, x24
-	lbu x10, 0 ( x9 )
-	bne x10, x25, .LBB0_27
+	add x24, x0, 44
+	add x18, x10, x23
+	lbu x10, 0 ( x18 )
+	bne x10, x24, .LBB0_27
 .LBB0_26:
-	add x9, x9, 1
+	add x18, x18, 1
 .LBB0_27:                               //  %if.end92
-	lbu x24, 0 ( x9 )
-	xor x10, x24, 77
+	lbu x23, 0 ( x18 )
+	xor x10, x23, 77
 	bltu x0, x10, .LBB0_33
 .LBB0_28:                               //  %if.then105
 	add x10, sp, 48
@@ -243,11 +248,11 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	sw x10, 8 ( sp )
 	lui x10, %hi( .str.4 )
 	add x10, x10, %lo( .str.4 )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
 	sw x10, 4 ( sp )
-	sw x9, 0 ( sp )
+	sw x18, 0 ( sp )
 	jal siscanf
 	xor x10, x10, 3
 	bltu x0, x10, .LBB0_64
@@ -276,30 +281,30 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	lw x10, 44 ( sp )
 	sw x12, 20 ( fp )
 	sw x11, 16 ( fp )
-	add x27, x10, x9
+	add x26, x10, x18
 	jal x0, .LBB0_41
 .LBB0_33:                               //  %if.else146
-	add x26, x0, 74
-	bne x24, x26, .LBB0_35
+	add x25, x0, 74
+	bne x23, x25, .LBB0_35
 .LBB0_34:
-	add x9, x9, 1
+	add x18, x18, 1
 .LBB0_35:                               //  %if.else146
 	add x11, sp, 40
 	add x12, x0, 10
-	mv x10, x9
+	mv x10, x18
 	jal strtoul
-	lw x27, 40 ( sp )
+	lw x26, 40 ( sp )
 	sh x10, 48 ( sp )
-	beq x27, x9, .LBB0_39
+	beq x26, x18, .LBB0_39
 .LBB0_36:                               //  %if.else188
-	beq x24, x26, .LBB0_38
+	beq x23, x25, .LBB0_38
 .LBB0_37:                               //  %if.else188
-	add x26, x0, 68
+	add x25, x0, 68
 .LBB0_38:                               //  %if.else188
 	lui x11, %hi( 65535 )
 	add x11, x11, %lo( 65535 )
 	and x10, x11, x10
-	sb x26, 8 ( fp )
+	sb x25, 8 ( fp )
 	jal x0, .LBB0_40
 .LBB0_39:                               //  %if.then161
 	add x10, x0, 2
@@ -312,51 +317,54 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 .LBB0_40:                               //  %if.end197
 	sw x10, 20 ( fp )
 .LBB0_41:                               //  %if.end198
-	add x26, x0, 2
-	sh x26, 58 ( sp )
+	add x25, x0, 2
+	sh x25, 58 ( sp )
 	sh x0, 56 ( sp )
 	sh x0, 54 ( sp )
 	sw x0, 44 ( sp )
-	lbu x10, 0 ( x27 )
-	lui x24, %hi( 7200 )
+	lbu x10, 0 ( x26 )
+	lui x23, %hi( 7200 )
 	xor x10, x10, 47
 	bltu x0, x10, .LBB0_43
 .LBB0_42:                               //  %if.then202
 	lui x10, %hi( .str.5 )
 	add x10, x10, %lo( .str.5 )
-	sw x19, 24 ( sp )
-	sw x20, 16 ( sp )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
-	sw x21, 8 ( sp )
+	sw x20, 24 ( sp )
+	sw x21, 16 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
+	sw x22, 8 ( sp )
 	sw x10, 4 ( sp )
-	sw x27, 0 ( sp )
+	sw x26, 0 ( sp )
 	jal siscanf
-	lhu x11, 56 ( sp )
+	lhu x10, 56 ( sp )
+	add x11, x0, 60
+	jal __mulsi3
+	mv x18, x10
 	lhu x10, 58 ( sp )
-	lhu x13, 54 ( sp )
-	hackaton_custom_instr_c x12, x23, x11
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 54 ( sp )
 	lw x11, 44 ( sp )
-	hackaton_custom_instr_c x10, x22, x10
 	jal x0, .LBB0_44
 .LBB0_43:
-	mv x12, x0
-	add x10, x24, %lo( 7200 )
-	mv x11, x12
-	mv x13, x12
+	mv x18, x0
+	add x10, x23, %lo( 7200 )
+	mv x11, x18
+	mv x12, x18
 .LBB0_44:                               //  %if.end204
-	add x12, x13, x12
+	add x12, x12, x18
 	add x10, x10, x12
 	sw x10, 24 ( fp )
-	add x9, x11, x27
-	lbu x10, 0 ( x9 )
-	bne x10, x25, .LBB0_46
+	add x18, x11, x26
+	lbu x10, 0 ( x18 )
+	bne x10, x24, .LBB0_46
 .LBB0_45:
-	add x9, x9, 1
+	add x18, x18, 1
 .LBB0_46:                               //  %if.end204
-	lbu x25, 0 ( x9 )
-	xor x10, x25, 77
+	lbu x24, 0 ( x18 )
+	xor x10, x24, 77
 	bltu x0, x10, .LBB0_52
 .LBB0_47:                               //  %if.then105.1
 	add x10, sp, 48
@@ -367,11 +375,11 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	sw x10, 8 ( sp )
 	lui x10, %hi( .str.4 )
 	add x10, x10, %lo( .str.4 )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
 	sw x10, 4 ( sp )
-	sw x9, 0 ( sp )
+	sw x18, 0 ( sp )
 	jal siscanf
 	xor x10, x10, 3
 	bltu x0, x10, .LBB0_64
@@ -400,30 +408,30 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 	lw x10, 44 ( sp )
 	sw x11, 48 ( fp )
 	sw x12, 52 ( fp )
-	add x11, x10, x9
+	add x11, x10, x18
 	jal x0, .LBB0_60
 .LBB0_52:                               //  %if.else146.1
-	add x27, x0, 74
-	bne x25, x27, .LBB0_54
+	add x26, x0, 74
+	bne x24, x26, .LBB0_54
 .LBB0_53:
-	add x9, x9, 1
+	add x18, x18, 1
 .LBB0_54:                               //  %if.else146.1
 	add x11, sp, 40
 	add x12, x0, 10
-	mv x10, x9
+	mv x10, x18
 	jal strtoul
 	lw x11, 40 ( sp )
 	sh x10, 48 ( sp )
-	beq x11, x9, .LBB0_58
+	beq x11, x18, .LBB0_58
 .LBB0_55:                               //  %if.else188.1
-	beq x25, x27, .LBB0_57
+	beq x24, x26, .LBB0_57
 .LBB0_56:                               //  %if.else188.1
-	add x27, x0, 68
+	add x26, x0, 68
 .LBB0_57:                               //  %if.else188.1
 	lui x12, %hi( 65535 )
 	add x12, x12, %lo( 65535 )
 	and x10, x12, x10
-	sb x27, 40 ( fp )
+	sb x26, 40 ( fp )
 	jal x0, .LBB0_59
 .LBB0_58:                               //  %if.else174.1
 	seqz x10, x0
@@ -436,7 +444,7 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 .LBB0_59:                               //  %if.end198.1
 	sw x10, 52 ( fp )
 .LBB0_60:                               //  %if.end198.1
-	sh x26, 58 ( sp )
+	sh x25, 58 ( sp )
 	sh x0, 56 ( sp )
 	sh x0, 54 ( sp )
 	sw x0, 44 ( sp )
@@ -446,27 +454,30 @@ _tzset_unlocked_r:                      //  @_tzset_unlocked_r
 .LBB0_61:                               //  %if.then202.1
 	lui x10, %hi( .str.5 )
 	add x10, x10, %lo( .str.5 )
-	sw x19, 24 ( sp )
-	sw x20, 16 ( sp )
-	sw x18, 28 ( sp )
-	sw x18, 20 ( sp )
-	sw x18, 12 ( sp )
-	sw x21, 8 ( sp )
+	sw x20, 24 ( sp )
+	sw x21, 16 ( sp )
+	sw x19, 28 ( sp )
+	sw x19, 20 ( sp )
+	sw x19, 12 ( sp )
+	sw x22, 8 ( sp )
 	sw x10, 4 ( sp )
 	sw x11, 0 ( sp )
 	jal siscanf
+	lhu x10, 56 ( sp )
+	add x11, x0, 60
+	jal __mulsi3
+	mv x18, x10
 	lhu x10, 58 ( sp )
-	lhu x11, 56 ( sp )
-	lhu x12, 54 ( sp )
-	hackaton_custom_instr_c x10, x22, x10
-	hackaton_custom_instr_c x11, x23, x11
+	mv x11, x9
+	jal __mulsi3
+	lhu x11, 54 ( sp )
 	jal x0, .LBB0_63
 .LBB0_62:
-	mv x11, x0
-	add x10, x24, %lo( 7200 )
-	mv x12, x11
+	mv x18, x0
+	add x10, x23, %lo( 7200 )
+	mv x11, x18
 .LBB0_63:                               //  %if.end204.1
-	add x11, x12, x11
+	add x11, x11, x18
 	add x10, x10, x11
 	sw x10, 56 ( fp )
 	lw x10, 4 ( fp )

@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-14 08:33:34
+ *                Date: 2025-04-14 12:52:03
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -227,6 +227,126 @@ let mayStore = 1;
 let isPseudo = 1;
 let isCodeGenOnly = 1;
 // i_ext_hackaton(opc_hackaton_custom_f,reg0,regs,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_SDT: SDTypeProfile<1,1,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_4",i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_SDT: SDTypeProfile<1,2,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_5",i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_SDT: SDTypeProfile<1,2,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_6",i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,regs,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_SDT: SDTypeProfile<1,3,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_7",i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2, regs:$op3)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2), (i32 CheckFI_i32_regs:$op3)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,regs,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_SDT: SDTypeProfile<1,1,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_8",i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_SDT: SDTypeProfile<1,2,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_9",i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,reg0,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_SDT: SDTypeProfile<1,2,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_10",i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,regs,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_SDT: SDTypeProfile<1,3,[SDTCisVT<0,i32>]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_11",i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_: CodasipMicroClass_<(outs regs:$op0), (ins regs:$op1, regs:$op2, regs:$op3)>
+{
+let Pattern = [(set regs:$op0, (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op1), (i32 CheckFI_i32_regs:$op2), (i32 CheckFI_i32_regs:$op3)))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let usesCustomInserter = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_c,regs,regs,regs)
 }
 
 

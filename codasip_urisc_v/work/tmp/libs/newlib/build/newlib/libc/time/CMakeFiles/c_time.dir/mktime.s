@@ -41,20 +41,27 @@ mktime:                                 //  @mktime
 	mv x26, x10
 	mv x10, fp
 	jal validate_structure
-	lw x10, 16 ( fp )
-	lui x12, %hi( _DAYS_BEFORE_MONTH )
-	add x12, x12, %lo( _DAYS_BEFORE_MONTH )
-	lw x20, 8 ( fp )
-	sll x11, x10, 2&31
-	add x11, x11, x12
-	lw x11, 0 ( x11 )
-	lw x12, 12 ( fp )
-	lw x22, 4 ( fp )
-	lw x21, 0 ( fp )
+	lw x10, 4 ( fp )
+	add x11, x0, 60
+	jal __mulsi3
+	lw x23, 16 ( fp )
+	lui x11, %hi( _DAYS_BEFORE_MONTH )
+	mv x20, x10
+	add x11, x11, %lo( _DAYS_BEFORE_MONTH )
+	sll x10, x23, 2&31
+	add x9, x10, x11
+	lw x10, 8 ( fp )
+	lui x11, %hi( 3600 )
+	lw x22, 0 ( fp )
+	add x11, x11, %lo( 3600 )
+	jal __mulsi3
+	mv x21, x10
+	lw x10, 0 ( x9 )
+	lw x11, 12 ( fp )
 	lw x19, 20 ( fp )
-	add x18, x12, x11
-	add x9, x18, -1
-	slti x10, x10, 2
+	add x9, x11, x10
+	add x18, x9, -1
+	slti x10, x23, 2
 	bltu x0, x10, .LBB0_5
 .LBB0_1:                                //  %entry
 	and x10, x19, 3
@@ -65,7 +72,7 @@ mktime:                                 //  @mktime
 	jal __modsi3
 	beq x0, x10, .LBB0_4
 .LBB0_3:                                //  %land.end.thread
-	mv x9, x18
+	mv x18, x9
 	jal x0, .LBB0_5
 .LBB0_4:                                //  %land.end
 	add x10, x19, 1900
@@ -80,16 +87,11 @@ mktime:                                 //  @mktime
 	add x10, x0, -1
 	add x13, x11, %lo( 20000 )
 	mv x11, x10
-	sw x9, 28 ( fp )
+	sw x18, 28 ( fp )
 	bltu x13, x12, .LBB0_69
 .LBB0_6:                                //  %if.end28
-	lui x10, %hi( 3600 )
-	add x11, x0, 60
-	add x10, x10, %lo( 3600 )
-	hackaton_custom_instr_c x11, x11, x22
-	hackaton_custom_instr_c x10, x10, x20
-	add x11, x21, x11
-	add x24, x10, x11
+	add x10, x22, x20
+	add x24, x21, x10
 	slti x10, x19, 71
 	bltu x0, x10, .LBB0_13
 .LBB0_7:                                //  %for.body.preheader
@@ -100,7 +102,7 @@ mktime:                                 //  @mktime
 	add x27, x19, -70
 	add x22, x0, 400
 	add x23, x0, 100
-	add x18, x0, 365
+	add x9, x0, 365
 	add x25, x0, 366
 	sw x24, 4 ( sp )                //  4-byte Folded Spill
 	jal x0, .LBB0_10
@@ -109,7 +111,7 @@ mktime:                                 //  @mktime
 	mv x11, x25
 .LBB0_9:                                //  %land.end49.thread405
                                         //    in Loop: Header=BB0_10 Depth=1
-	add x9, x9, x11
+	add x18, x18, x11
 	add x21, x21, 1
 	add x20, x20, 1
 	add x26, x26, 1
@@ -119,24 +121,26 @@ mktime:                                 //  @mktime
 	mv x10, x21
 	mv x11, x22
 	jal __udivsi3
+	mv x11, x22
+	jal __mulsi3
 	mv x24, x10
 	mv x10, x20
 	mv x11, x23
 	jal __udivsi3
+	mv x11, x23
+	jal __mulsi3
 	add x11, x26, 70
 	and x12, x11, 3
-	mv x11, x18
+	mv x11, x9
 	bltu x0, x12, .LBB0_9
 .LBB0_11:                               //  %land.rhs39
                                         //    in Loop: Header=BB0_10 Depth=1
-	hackaton_custom_instr_c x10, x23, x10
 	add x10, x10, -70
 	bne x10, x26, .LBB0_8
 .LBB0_12:                               //  %land.end49
                                         //    in Loop: Header=BB0_10 Depth=1
-	hackaton_custom_instr_c x10, x22, x24
-	add x10, x10, -1970
-	mv x11, x18
+	add x10, x24, -1970
+	mv x11, x9
 	beq x10, x26, .LBB0_8
 	jal x0, .LBB0_9
 .LBB0_13:                               //  %if.else
@@ -155,13 +159,13 @@ mktime:                                 //  @mktime
 .LBB0_17:                               //  %for.body60.preheader
 	mv x11, x0
 	add x10, x0, 1969
-	add x18, x0, 365
+	add x9, x0, 365
 	add x20, x0, 100
 	add x21, x0, 400
 	add x23, x0, 366
 	mv x22, x10
 	and x10, x11, 1
-	mv x11, x18
+	mv x11, x9
 	beq x0, x10, .LBB0_19
 	jal x0, .LBB0_21
 .LBB0_18:                               //  %land.end74.thread
@@ -170,7 +174,7 @@ mktime:                                 //  @mktime
                                         //  =>This Inner Loop Header: Depth=1
 	add x13, x22, -1901
 	and x12, x13, 3
-	sub x9, x9, x11
+	sub x18, x18, x11
 	add x10, x22, -1
 	seqz x11, x12
 	bge x19, x13, .LBB0_24
@@ -178,7 +182,7 @@ mktime:                                 //  @mktime
                                         //    in Loop: Header=BB0_19 Depth=1
 	mv x22, x10
 	and x10, x11, 1
-	mv x11, x18
+	mv x11, x9
 	beq x0, x10, .LBB0_19
 .LBB0_21:                               //  %land.rhs64
 	add x10, x22, -1900
@@ -189,14 +193,14 @@ mktime:                                 //  @mktime
 	mv x10, x22
 	mv x11, x21
 	jal __modsi3
-	mv x11, x18
+	mv x11, x9
 	bltu x0, x10, .LBB0_19
 	jal x0, .LBB0_18
 .LBB0_23:
-	add x18, x0, 365
+	add x9, x0, 365
 	jal x0, .LBB0_28
 .LBB0_24:                               //  %for.end78
-	add x18, x0, 365
+	add x9, x0, 365
 	bltu x0, x12, .LBB0_28
 .LBB0_25:                               //  %land.rhs82
 	add x11, x0, 100
@@ -204,7 +208,7 @@ mktime:                                 //  @mktime
 	jal __modsi3
 	beq x0, x10, .LBB0_27
 .LBB0_26:                               //  %land.end92.thread
-	add x18, x0, 366
+	add x9, x0, 366
 	jal x0, .LBB0_28
 .LBB0_27:                               //  %land.end92
 	add x10, x19, 1900
@@ -212,13 +216,13 @@ mktime:                                 //  @mktime
 	jal __modsi3
 	beq x0, x10, .LBB0_26
 .LBB0_28:                               //  %land.end92.thread407
-	sub x9, x9, x18
+	sub x18, x18, x9
 .LBB0_29:                               //  %if.end96
 	lui x10, %hi( 86400 )
 	mv x20, x0
 	add x12, x10, %lo( 86400 )
-	sra x11, x9, 31&31
-	mv x10, x9
+	sra x11, x18, 31&31
+	mv x10, x18
 	mv x13, x20
 	jal __muldi3
 	sra x12, x24, 31&31
@@ -260,7 +264,7 @@ mktime:                                 //  @mktime
 	seqz x15, x11
 	jal x0, .LBB0_38
 .LBB0_36:                               //  %if.end251.thread
-	add x18, x26, 36
+	add x19, x26, 36
 	mv x23, x24
 	mv x22, x20
 	jal x0, .LBB0_66
@@ -305,19 +309,19 @@ mktime:                                 //  @mktime
 	xor x12, x12, 1
 	bltu x0, x12, .LBB0_45
 .LBB0_54:                               //  %if.then164
-	sub x18, x11, x10
+	sub x9, x11, x10
 	bltu x0, x22, .LBB0_56
 .LBB0_55:                               //  %if.then164
-	sub x18, x0, x18
+	sub x9, x0, x9
 .LBB0_56:                               //  %if.then164
 	lw x10, 0 ( fp )
 	lw x25, 12 ( fp )
-	add x10, x18, x10
+	add x10, x9, x10
 	sw x10, 0 ( fp )
 	mv x10, fp
 	jal validate_structure
-	sra x10, x18, 31&31
-	add x23, x18, x24
+	sra x10, x9, 31&31
+	add x23, x9, x24
 	add x10, x10, x21
 	sltu x11, x23, x24
 	add x21, x11, x10
@@ -337,16 +341,16 @@ mktime:                                 //  @mktime
 	mv x10, x13
 .LBB0_61:                               //  %if.then184
 	lw x11, 28 ( fp )
-	add x9, x9, x10
-	add x18, x10, x11
-	sw x18, 28 ( fp )
-	blt x18, x0, .LBB0_70
+	add x18, x18, x10
+	add x9, x10, x11
+	sw x9, 28 ( fp )
+	blt x9, x0, .LBB0_70
 .LBB0_62:                               //  %if.else220
 	and x10, x19, 3
 	beq x0, x10, .LBB0_72
 .LBB0_63:                               //  %lor.rhs228
 	add x10, x0, 365
-	blt x18, x10, .LBB0_48
+	blt x9, x10, .LBB0_48
 	jal x0, .LBB0_78
 .LBB0_46:
 	sltu x15, x24, x14
@@ -359,7 +363,7 @@ mktime:                                 //  @mktime
 	seqz x10, x0
 	beq x22, x10, .LBB0_65
 .LBB0_49:                               //  %if.end251
-	add x18, x26, 36
+	add x19, x26, 36
 	jal x0, .LBB0_66
 .LBB0_50:
 	sub x12, x12, x10
@@ -378,9 +382,9 @@ mktime:                                 //  @mktime
 	seqz x10, x0
 	bne x22, x10, .LBB0_49
 .LBB0_65:
-	add x18, x26, 68
+	add x19, x26, 68
 .LBB0_66:
-	add x10, x9, 4
+	add x10, x18, 4
 	add x11, x0, 7
 	jal __modsi3
 	mv x9, x10
@@ -388,7 +392,7 @@ mktime:                                 //  @mktime
 .LBB0_67:
 	add x9, x9, 7
 .LBB0_68:
-	lw x18, 0 ( x18 )
+	lw x18, 0 ( x19 )
 	jal __tz_unlock
 	sra x10, x18, 31&31
 	add x11, x10, x21
@@ -436,9 +440,9 @@ mktime:                                 //  @mktime
 	bne x10, x20, .LBB0_63
 .LBB0_73:
 	add x10, x0, 366
-	blt x18, x10, .LBB0_48
+	blt x9, x10, .LBB0_48
 .LBB0_78:                               //  %if.then242
-	sub x10, x18, x10
+	sub x10, x9, x10
 	sw x10, 28 ( fp )
 	seqz x10, x0
 	beq x22, x10, .LBB0_65

@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-14 08:33:34
+ *                Date: 2025-04-14 12:52:03
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -118,6 +118,10 @@ Codasip::i_store__opc_storeh__reg0__simm12_simple__regs__immspec_1_,
 Codasip::i_store__opc_storeh__regs__simm12_simple__regs__immspec_1_,
 Codasip::i_store__opc_storew__reg0__simm12_simple__regs__immspec_1_,
 Codasip::i_store__opc_storew__regs__simm12_simple__regs__immspec_1_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__AEXT_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__regs__AEXT_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__regs__reg0__AEXT_CLONE_,
@@ -178,6 +182,14 @@ Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_,
 Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_,
+Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_,
 
   };
   LibCSSpillInstr = Codasip::i_jal_abs__opc_jal__regs__rel_addr20__;
@@ -553,16 +565,6 @@ void CodasipGenInstrInfo2::getCodasipInstr(std::vector<int> &Opcs,
         case MVT::i32:
           Opcs.reserve(1);
           Opcs.push_back(Codasip::i_comp_3reg__opc_sub__regs__regs__regs__);
-          break;
-        default: ;
-      }
-      break;
-    case ISD::MUL:
-      switch (Type.SimpleTy)
-      {
-        case MVT::i32:
-          Opcs.reserve(1);
-          Opcs.push_back(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__);
           break;
         default: ;
       }
@@ -2200,12 +2202,17 @@ void CodasipGenInstrInfo2::getAllPosInBundleImpl(int opc, SlotData &vec) {
     vec[0].reserve(1);
     vec[0].push_back(0);
     break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__:
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__:
     vec.resize(1);
     vec[0].reserve(1);
     vec[0].push_back(0);
     break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__:
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__:
     vec.resize(1);
     vec[0].reserve(1);
     vec[0].push_back(0);
@@ -3575,6 +3582,26 @@ void CodasipGenInstrInfo2::getAllPosInBundleImpl(int opc, SlotData &vec) {
     vec[0].reserve(1);
     vec[0].push_back(0);
     break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__AEXT_CLONE_:
     vec.resize(1);
     vec[0].reserve(1);
@@ -3605,6 +3632,26 @@ void CodasipGenInstrInfo2::getAllPosInBundleImpl(int opc, SlotData &vec) {
     vec.resize(0);
     break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_b__regs__regs__regs__:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__:
     vec.resize(1);
     vec[0].reserve(1);
     vec[0].push_back(0);
@@ -3802,6 +3849,46 @@ void CodasipGenInstrInfo2::getAllPosInBundleImpl(int opc, SlotData &vec) {
     vec[0].push_back(0);
     break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_:
+    vec.resize(1);
+    vec[0].reserve(1);
+    vec[0].push_back(0);
+    break;
+  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_:
     vec.resize(1);
     vec[0].reserve(1);
     vec[0].push_back(0);
@@ -10431,31 +10518,6 @@ void CodasipGenInstrInfo2::getAllPosInBundleImpl(int opc, SlotData &vec) {
     vec[0].reserve(1);
     vec[0].push_back(0);
     break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__reg0__regs__:
-    vec.resize(1);
-    vec[0].reserve(1);
-    vec[0].push_back(0);
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__reg0__:
-    vec.resize(1);
-    vec[0].reserve(1);
-    vec[0].push_back(0);
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__reg0__regs__regs__:
-    vec.resize(1);
-    vec[0].reserve(1);
-    vec[0].push_back(0);
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__:
-    vec.resize(1);
-    vec[0].reserve(1);
-    vec[0].push_back(0);
-    break;
-  case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__:
-    vec.resize(1);
-    vec[0].reserve(1);
-    vec[0].push_back(0);
-    break;
   case Codasip::i_ext_hackaton__opc_hackaton_custom_e__reg0__reg0__regs__:
     vec.resize(1);
     vec[0].reserve(1);
@@ -11441,6 +11503,54 @@ BuildMI(MB,MBI,dl, get(Codasip::i_store__opc_storew__regs__simm12_simple__regs__
       else failed=true;
       break;
     }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_1 = MI.getOperand(1);
+has2AdrConfl |= op_1_0.getReg() != op_1_1.getReg();
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__)).add(op_1_0).add(op_1_1).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_3 = MI.getOperand(3);
+has2AdrConfl |= op_1_0.getReg() != op_1_3.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+MachineOperand op_1_2 = MI.getOperand(2);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).add(op_1_3).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
     case Codasip::i_ext_hackaton__opc_hackaton_custom_d__regs__reg0__reg0__AEXT_CLONE_:
     {
       if (true) {
@@ -11874,6 +11984,102 @@ BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg
 MachineOperand op_1_0 = MI.getOperand(0);
 MachineOperand op_1_1 = MI.getOperand(1);
 BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__)).add(op_1_0).add(op_1_1).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_1 = MI.getOperand(1);
+has2AdrConfl |= op_1_0.getReg() != op_1_1.getReg();
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__)).add(op_1_0).add(op_1_1).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_3 = MI.getOperand(3);
+has2AdrConfl |= op_1_0.getReg() != op_1_3.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+MachineOperand op_1_2 = MI.getOperand(2);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).add(op_1_3).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_1 = MI.getOperand(1);
+has2AdrConfl |= op_1_0.getReg() != op_1_1.getReg();
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__)).add(op_1_0).add(op_1_1).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_2 = MI.getOperand(2);
+has2AdrConfl |= op_1_0.getReg() != op_1_2.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__)).add(op_1_0).add(op_1_1).add(op_1_2).setMemRefs(MI.memoperands());
+      }
+      else failed=true;
+      break;
+    }
+    case Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_:
+    {
+      if (true) {
+MachineOperand op_1_0 = MI.getOperand(0);
+MachineOperand op_1_3 = MI.getOperand(3);
+has2AdrConfl |= op_1_0.getReg() != op_1_3.getReg();
+MachineOperand op_1_1 = MI.getOperand(1);
+MachineOperand op_1_2 = MI.getOperand(2);
+BuildMI(MB,MBI,dl, get(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__)).add(op_1_0).add(op_1_1).add(op_1_2).add(op_1_3).setMemRefs(MI.memoperands());
       }
       else failed=true;
       break;

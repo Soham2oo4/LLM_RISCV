@@ -8,58 +8,91 @@ ffsll:                                  //  @ffsll
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
+	add sp, sp, -32
+	.cfi_adjust_cfa_offset 32
+	sw fp, 0 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -32
+	mv fp, x11
+	sw x9, 24 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	mv x9, x10
+	add x10, fp, -1
+	xor x11, fp, -1
+	and x10, x10, x11
 	lui x12, %hi( 1431655765 )
-	add x16, x12, %lo( 1431655765 )
+	sw x20, 12 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 20, -20
+	add x20, x12, %lo( 1431655765 )
+	srl x11, x10, 1&31
+	and x11, x20, x11
+	sub x10, x10, x11
 	lui x12, %hi( 858993459 )
-	add x15, x12, %lo( 858993459 )
-	lui x12, %hi( 252645135 )
-	add x13, x12, %lo( 252645135 )
-	lui x12, %hi( 16843009 )
-	add x14, x12, %lo( 16843009 )
-	mv x12, x0
-	bne x10, x12, .LBB0_1
+	sw x21, 8 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 21, -24
+	srl x11, x10, 2&31
+	add x21, x12, %lo( 858993459 )
+	and x11, x21, x11
+	and x10, x21, x10
+	add x10, x11, x10
+	srl x11, x10, 4&31
+	add x10, x11, x10
+	lui x11, %hi( 252645135 )
+	sw x22, 4 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 22, -28
+	add x22, x11, %lo( 252645135 )
+	lui x11, %hi( 16843009 )
+	sw x19, 16 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 19, -16
+	add x19, x11, %lo( 16843009 )
+	and x10, x22, x10
+	mv x11, x19
+	sw ra, 28 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	sw x18, 20 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 18, -12
+	jal __mulsi3
+	mv x18, x10
+	add x10, x9, -1
+	xor x11, x9, -1
+	and x10, x10, x11
+	srl x11, x10, 1&31
+	and x11, x20, x11
+	sub x10, x10, x11
+	srl x11, x10, 2&31
+	and x11, x21, x11
+	and x10, x21, x10
+	add x10, x11, x10
+	srl x11, x10, 4&31
+	add x10, x11, x10
+	and x10, x22, x10
+	mv x11, x19
+	jal __mulsi3
+	mv x11, x10
+	mv x10, x0
+	bne x9, x10, .LBB0_1
 .LBB0_2:                                //  %entry
-	add x17, x11, -1
-	xor x5, x11, -1
-	and x17, x17, x5
-	srl x5, x17, 1&31
-	and x16, x16, x5
-	sub x16, x17, x16
-	srl x17, x16, 2&31
-	and x17, x15, x17
-	and x15, x15, x16
-	add x15, x17, x15
-	srl x16, x15, 4&31
-	add x15, x16, x15
-	and x13, x13, x15
-	hackaton_custom_instr_c x13, x14, x13
-	srl x13, x13, 24&31
-	add x13, x13, 32
-	or x10, x11, x10
-	bne x10, x12, .LBB0_4
+	srl x11, x18, 24&31
+	add x11, x11, 32
+	or x12, fp, x9
+	bne x12, x10, .LBB0_4
 	jal x0, .LBB0_5
 .LBB0_1:
-	add x17, x10, -1
-	xor x5, x10, -1
-	and x17, x17, x5
-	srl x5, x17, 1&31
-	and x16, x16, x5
-	sub x16, x17, x16
-	srl x17, x16, 2&31
-	and x17, x15, x17
-	and x15, x15, x16
-	add x15, x17, x15
-	srl x16, x15, 4&31
-	add x15, x16, x15
-	and x13, x13, x15
-	hackaton_custom_instr_c x13, x14, x13
-	srl x13, x13, 24&31
-	or x10, x11, x10
-	beq x10, x12, .LBB0_5
+	srl x11, x11, 24&31
+	or x12, fp, x9
+	beq x12, x10, .LBB0_5
 .LBB0_4:                                //  %entry
-	add x12, x13, 1
+	add x10, x11, 1
 .LBB0_5:                                //  %entry
-	mv x10, x12
+	lw fp, 0 ( sp )                 //  4-byte Folded Reload
+	lw x22, 4 ( sp )                //  4-byte Folded Reload
+	lw x21, 8 ( sp )                //  4-byte Folded Reload
+	lw x20, 12 ( sp )               //  4-byte Folded Reload
+	lw x19, 16 ( sp )               //  4-byte Folded Reload
+	lw x18, 20 ( sp )               //  4-byte Folded Reload
+	lw x9, 24 ( sp )                //  4-byte Folded Reload
+	lw ra, 28 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 32
+	.cfi_def_cfa 2, 0
 	jr ra
 .Lfunc_end0:
 	.size	ffsll, .Lfunc_end0-ffsll

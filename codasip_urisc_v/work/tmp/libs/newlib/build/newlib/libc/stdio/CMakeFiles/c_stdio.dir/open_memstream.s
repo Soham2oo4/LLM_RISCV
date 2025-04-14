@@ -224,43 +224,47 @@ memwriter:                              //  @memwriter
 	.cfi_offset 9, -8
 	mv x9, x11
 	lw x11, 12 ( x9 )
-	sw fp, 8 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -24
+	sw fp, 4 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -28
 	mv fp, x13
 	sw x18, 20 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 18, -12
+	sw x20, 12 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 20, -20
+	sw x21, 8 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 21, -24
 	mv x18, x12
-	add x12, fp, x11
+	mv x20, x10
+	add x21, fp, x11
 	sw ra, 28 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 1, -4
 	sw x19, 16 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 19, -16
-	sw x20, 12 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 20, -20
-	blt x12, x0, .LBB5_1
+	blt x21, x0, .LBB5_1
 .LBB5_2:                                //  %if.end
-	lw x13, 4 ( x9 )
-	lw x19, 0 ( x13 )
-	lw x13, 20 ( x9 )
-	bltu x12, x13, .LBB5_8
+	lw x10, 4 ( x9 )
+	lw x19, 0 ( x10 )
+	lw x10, 20 ( x9 )
+	bltu x21, x10, .LBB5_8
 .LBB5_3:                                //  %if.then4
 	add x11, x0, 3
-	hackaton_custom_instr_c x11, x11, x13
-	srl x11, x11, 1&31
-	add x20, x12, 1
-	bltu x11, x20, .LBB5_5
+	jal __mulsi3
+	srl x10, x10, 1&31
+	add x21, x21, 1
+	bltu x10, x21, .LBB5_5
 .LBB5_4:                                //  %if.then4
-	mv x20, x11
+	mv x21, x10
 .LBB5_5:                                //  %if.then4
+	mv x10, x20
 	mv x11, x19
-	mv x12, x20
+	mv x12, x21
 	jal _realloc_r
 	mv x19, x10
 	beq x0, x19, .LBB5_6
 .LBB5_7:                                //  %if.end16
 	lw x10, 4 ( x9 )
 	lw x11, 12 ( x9 )
-	sw x20, 20 ( x9 )
+	sw x21, 20 ( x9 )
 	sw x19, 0 ( x10 )
 .LBB5_8:                                //  %if.end19
 	lw x12, 16 ( x9 )
@@ -286,8 +290,8 @@ memwriter:                              //  @memwriter
 	sw x11, 16 ( x9 )
 	jal x0, .LBB5_15
 .LBB5_1:                                //  %if.then
-	add x11, x0, 27
-	sw x11, 0 ( x10 )
+	add x10, x0, 27
+	sw x10, 0 ( x20 )
 	add fp, x0, -1
 	jal x0, .LBB5_18
 .LBB5_12:                               //  %if.else
@@ -316,7 +320,8 @@ memwriter:                              //  @memwriter
 	sw x10, 0 ( x11 )
 .LBB5_18:                               //  %cleanup59
 	mv x10, fp
-	lw fp, 8 ( sp )                 //  4-byte Folded Reload
+	lw fp, 4 ( sp )                 //  4-byte Folded Reload
+	lw x21, 8 ( sp )                //  4-byte Folded Reload
 	lw x20, 12 ( sp )               //  4-byte Folded Reload
 	lw x19, 16 ( sp )               //  4-byte Folded Reload
 	lw x18, 20 ( sp )               //  4-byte Folded Reload

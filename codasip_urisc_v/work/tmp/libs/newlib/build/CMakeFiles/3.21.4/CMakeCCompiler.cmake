@@ -74,7 +74,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/home/project/codasip_urisc_v/work/ia/sdk/lib/clang/9.0.1/include;/home/project/codasip_urisc_v/work/ia/sdk/newlib-micro/include;/home/project/codasip_urisc_v/work/ia/sdk/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "/home/project/codasip_urisc_v/work/ia/sdk/lib/clang/9.0.1/include;/home/project/codasip_urisc_v/work/ia/sdk/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "")
 set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -54,7 +54,7 @@ void DAGISEL_CLASS_COLONCOLON SelectCode(SDNode *N)
   // this.
   #define TARGET_VAL(X) X & 255, unsigned(X) >> 8
   static const unsigned char MatcherTable[] = {
-/*     0*/  OPC_SwitchOpcode /*33 cases */, 60|128,3/*444*/, TARGET_VAL(ISD::SELECT),// ->449
+/*     0*/  OPC_SwitchOpcode /*40 cases */, 60|128,3/*444*/, TARGET_VAL(ISD::SELECT),// ->449
 /*     5*/    OPC_Scope, 29|128,3/*413*/, /*->421*/ // 2 children in Scope
 /*     8*/      OPC_MoveChild0,
 /*     9*/      OPC_CheckOpcode, TARGET_VAL(ISD::SETCC),
@@ -2144,7 +2144,7 @@ void DAGISEL_CLASS_COLONCOLON SelectCode(SDNode *N)
                   1/*#Ops*/, 1, 
               // Src: (intrinsic_void 229:{ *:[iPTR] }, regs:{ *:[i32] }:$op0) - Complexity = 8
               // Dst: (hwloop_set_loop_iterations regs:{ *:[i32] }:$op0)
-/*  3523*/  /*SwitchOpcode*/ 109|128,1/*237*/, TARGET_VAL(ISD::Constant),// ->3764
+/*  3523*/  /*SwitchOpcode*/ 102|128,1/*230*/, TARGET_VAL(ISD::Constant),// ->3757
 /*  3527*/    OPC_Scope, 109, /*->3638*/ // 5 children in Scope
 /*  3529*/      OPC_CheckInteger, 0, 
 /*  3531*/      OPC_Scope, 6, /*->3539*/ // 15 children in Scope
@@ -2270,266 +2270,390 @@ void DAGISEL_CLASS_COLONCOLON SelectCode(SDNode *N)
                   // Src: (imm:{ *:[i32] })<<P:Predicate_Trunc12_i32imm>>:$op1 - Complexity = 5
                   // Dst: (i_lui__opc_lui__regs__imm20_s12__:{ *:[i32] } (imm:{ *:[i32] }):$op1)
 /*  3710*/      0, /*End of Scope*/
-/*  3711*/    /*Scope*/ 25, /*->3737*/
+/*  3711*/    /*Scope*/ 18, /*->3730*/
 /*  3712*/      OPC_CheckInteger, 0, 
-/*  3714*/      OPC_Scope, 6, /*->3722*/ // 3 children in Scope
+/*  3714*/      OPC_Scope, 6, /*->3722*/ // 2 children in Scope
 /*  3716*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__), 0,
                       MVT::i32, 0/*#Ops*/, 
                   // Src: 0:{ *:[i32] } - Complexity = 5
                   // Dst: (i_ext_hackaton__opc_hackaton_custom_a__regs__reg0__reg0__:{ *:[i32] })
 /*  3722*/      /*Scope*/ 6, /*->3729*/
-/*  3723*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__), 0,
-                      MVT::i32, 0/*#Ops*/, 
-                  // Src: 0:{ *:[i32] } - Complexity = 5
-                  // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__:{ *:[i32] })
-/*  3729*/      /*Scope*/ 6, /*->3736*/
-/*  3730*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__), 0,
+/*  3723*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__), 0,
                       MVT::i32, 0/*#Ops*/, 
                   // Src: 0:{ *:[i32] } - Complexity = 5
                   // Dst: (i_ext_hackaton__opc_hackaton_custom_e__regs__reg0__reg0__:{ *:[i32] })
-/*  3736*/      0, /*End of Scope*/
-/*  3737*/    /*Scope*/ 25, /*->3763*/
-/*  3738*/      OPC_RecordNode, // #0 = $op1
-/*  3739*/      OPC_Scope, 11, /*->3752*/ // 2 children in Scope
-/*  3741*/        OPC_CheckPredicate, 1, // Predicate_sext12To32imm
-/*  3743*/        OPC_EmitConvertToTarget, 0,
-/*  3745*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ori_emulation_alias__regs__reg0__simm12_simple__), 0,
+/*  3729*/      0, /*End of Scope*/
+/*  3730*/    /*Scope*/ 25, /*->3756*/
+/*  3731*/      OPC_RecordNode, // #0 = $op1
+/*  3732*/      OPC_Scope, 11, /*->3745*/ // 2 children in Scope
+/*  3734*/        OPC_CheckPredicate, 1, // Predicate_sext12To32imm
+/*  3736*/        OPC_EmitConvertToTarget, 0,
+/*  3738*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ori_emulation_alias__regs__reg0__simm12_simple__), 0,
                       MVT::i32, 1/*#Ops*/, 1, 
                   // Src: (imm:{ *:[i32] })<<P:Predicate_sext12To32imm>>:$op1 - Complexity = 4
                   // Dst: (i_ori_emulation_alias__regs__reg0__simm12_simple__:{ *:[i32] } (imm:{ *:[i32] }):$op1)
-/*  3752*/      /*Scope*/ 9, /*->3762*/
-/*  3753*/        OPC_EmitConvertToTarget, 0,
-/*  3755*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__), 0,
+/*  3745*/      /*Scope*/ 9, /*->3755*/
+/*  3746*/        OPC_EmitConvertToTarget, 0,
+/*  3748*/        OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__), 0,
                       MVT::i32, 1/*#Ops*/, 1, 
                   // Src: (imm:{ *:[i32] }):$op1 - Complexity = 3
                   // Dst: (e_movi32__:{ *:[i32] } (imm:{ *:[i32] }):$op1)
-/*  3762*/      0, /*End of Scope*/
-/*  3763*/    0, /*End of Scope*/
-/*  3764*/  /*SwitchOpcode*/ 15, TARGET_VAL(ISD::BRIND),// ->3782
-/*  3767*/    OPC_RecordNode, // #0 = 'brind' chained node
-/*  3768*/    OPC_RecordChild1, // #1 = $op0
-/*  3769*/    OPC_MoveChild1,
-/*  3770*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3772*/    OPC_CheckType, MVT::i32,
-/*  3774*/    OPC_MoveParent,
-/*  3775*/    OPC_EmitMergeInputChains1_0,
-/*  3776*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jump_reg_alias__regs__), 0|OPFL_Chain,
+/*  3755*/      0, /*End of Scope*/
+/*  3756*/    0, /*End of Scope*/
+/*  3757*/  /*SwitchOpcode*/ 15, TARGET_VAL(ISD::BRIND),// ->3775
+/*  3760*/    OPC_RecordNode, // #0 = 'brind' chained node
+/*  3761*/    OPC_RecordChild1, // #1 = $op0
+/*  3762*/    OPC_MoveChild1,
+/*  3763*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3765*/    OPC_CheckType, MVT::i32,
+/*  3767*/    OPC_MoveParent,
+/*  3768*/    OPC_EmitMergeInputChains1_0,
+/*  3769*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jump_reg_alias__regs__), 0|OPFL_Chain,
                   1/*#Ops*/, 1, 
               // Src: (brind regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0) - Complexity = 6
               // Dst: (i_jump_reg_alias__regs__ regs:{ *:[i32] }:$op0)
-/*  3782*/  /*SwitchOpcode*/ 82, TARGET_VAL(CodasipISD::GAWrap),// ->3867
-/*  3785*/    OPC_RecordChild0, // #0 = $op1
-/*  3786*/    OPC_MoveChild0,
-/*  3787*/    OPC_SwitchOpcode /*6 cases */, 10, TARGET_VAL(ISD::TargetGlobalAddress),// ->3801
-/*  3791*/      OPC_MoveParent,
-/*  3792*/      OPC_CheckType, MVT::i32,
-/*  3794*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__GA), 0,
+/*  3775*/  /*SwitchOpcode*/ 82, TARGET_VAL(CodasipISD::GAWrap),// ->3860
+/*  3778*/    OPC_RecordChild0, // #0 = $op1
+/*  3779*/    OPC_MoveChild0,
+/*  3780*/    OPC_SwitchOpcode /*6 cases */, 10, TARGET_VAL(ISD::TargetGlobalAddress),// ->3794
+/*  3784*/      OPC_MoveParent,
+/*  3785*/      OPC_CheckType, MVT::i32,
+/*  3787*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__GA), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (tglobaladdr:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__GA:{ *:[i32] } (tglobaladdr:{ *:[i32] }):$op1)
-/*  3801*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetExternalSymbol),// ->3814
-/*  3804*/      OPC_MoveParent,
-/*  3805*/      OPC_CheckType, MVT::i32,
-/*  3807*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__ES), 0,
+/*  3794*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetExternalSymbol),// ->3807
+/*  3797*/      OPC_MoveParent,
+/*  3798*/      OPC_CheckType, MVT::i32,
+/*  3800*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__ES), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (texternalsym:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__ES:{ *:[i32] } (texternalsym:{ *:[i32] }):$op1)
-/*  3814*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::MCSymbol),// ->3827
-/*  3817*/      OPC_MoveParent,
-/*  3818*/      OPC_CheckType, MVT::i32,
-/*  3820*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__MC), 0,
+/*  3807*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::MCSymbol),// ->3820
+/*  3810*/      OPC_MoveParent,
+/*  3811*/      OPC_CheckType, MVT::i32,
+/*  3813*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__MC), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (mcsym:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__MC:{ *:[i32] } (mcsym:{ *:[i32] }):$op1)
-/*  3827*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetBlockAddress),// ->3840
-/*  3830*/      OPC_MoveParent,
-/*  3831*/      OPC_CheckType, MVT::i32,
-/*  3833*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__BA), 0,
+/*  3820*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetBlockAddress),// ->3833
+/*  3823*/      OPC_MoveParent,
+/*  3824*/      OPC_CheckType, MVT::i32,
+/*  3826*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__BA), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (tblockaddress:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__BA:{ *:[i32] } (tblockaddress:{ *:[i32] }):$op1)
-/*  3840*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetJumpTable),// ->3853
-/*  3843*/      OPC_MoveParent,
-/*  3844*/      OPC_CheckType, MVT::i32,
-/*  3846*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__JT), 0,
+/*  3833*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetJumpTable),// ->3846
+/*  3836*/      OPC_MoveParent,
+/*  3837*/      OPC_CheckType, MVT::i32,
+/*  3839*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__JT), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (tjumptable:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__JT:{ *:[i32] } (tjumptable:{ *:[i32] }):$op1)
-/*  3853*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetConstantPool),// ->3866
-/*  3856*/      OPC_MoveParent,
-/*  3857*/      OPC_CheckType, MVT::i32,
-/*  3859*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__CP), 0,
+/*  3846*/    /*SwitchOpcode*/ 10, TARGET_VAL(ISD::TargetConstantPool),// ->3859
+/*  3849*/      OPC_MoveParent,
+/*  3850*/      OPC_CheckType, MVT::i32,
+/*  3852*/      OPC_MorphNodeTo1, TARGET_VAL(Codasip::e_movi32__CP), 0,
                     MVT::i32, 1/*#Ops*/, 0, 
                 // Src: (GAWrap:{ *:[i32] } (tconstpool:{ *:[i32] }):$op1) - Complexity = 6
                 // Dst: (e_movi32__CP:{ *:[i32] } (tconstpool:{ *:[i32] }):$op1)
-/*  3866*/    0, // EndSwitchOpcode
-/*  3867*/  /*SwitchOpcode*/ 59, TARGET_VAL(ISD::BR),// ->3929
-/*  3870*/    OPC_RecordNode, // #0 = 'br' chained node
-/*  3871*/    OPC_RecordChild1, // #1 = $op0
-/*  3872*/    OPC_MoveChild1,
-/*  3873*/    OPC_CheckOpcode, TARGET_VAL(ISD::BasicBlock),
-/*  3876*/    OPC_MoveParent,
-/*  3877*/    OPC_EmitMergeInputChains1_0,
-/*  3878*/    OPC_Scope, 6, /*->3886*/ // 7 children in Scope
-/*  3880*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jmp_rel_alias__rel_addr20__), 0|OPFL_Chain,
+/*  3859*/    0, // EndSwitchOpcode
+/*  3860*/  /*SwitchOpcode*/ 33, TARGET_VAL(CodasipISD::MOI_GROUP_7),// ->3896
+/*  3863*/    OPC_RecordMemRef,
+/*  3864*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_node' chained node
+/*  3865*/    OPC_RecordChild1, // #1 = $op1
+/*  3866*/    OPC_MoveChild1,
+/*  3867*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3869*/    OPC_CheckType, MVT::i32,
+/*  3871*/    OPC_MoveParent,
+/*  3872*/    OPC_RecordChild2, // #2 = $op2
+/*  3873*/    OPC_MoveChild2,
+/*  3874*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3876*/    OPC_CheckType, MVT::i32,
+/*  3878*/    OPC_MoveParent,
+/*  3879*/    OPC_RecordChild3, // #3 = $op3
+/*  3880*/    OPC_MoveChild3,
+/*  3881*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3883*/    OPC_CheckType, MVT::i32,
+/*  3885*/    OPC_MoveParent,
+/*  3886*/    OPC_EmitMergeInputChains1_0,
+/*  3887*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 3/*#Ops*/, 1, 2, 3, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op3) - Complexity = 6
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__AEXT_CLONE_MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2, regs:{ *:[i32] }:$op3)
+/*  3896*/  /*SwitchOpcode*/ 33, TARGET_VAL(CodasipISD::MOI_GROUP_11),// ->3932
+/*  3899*/    OPC_RecordMemRef,
+/*  3900*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_node' chained node
+/*  3901*/    OPC_RecordChild1, // #1 = $op1
+/*  3902*/    OPC_MoveChild1,
+/*  3903*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3905*/    OPC_CheckType, MVT::i32,
+/*  3907*/    OPC_MoveParent,
+/*  3908*/    OPC_RecordChild2, // #2 = $op2
+/*  3909*/    OPC_MoveChild2,
+/*  3910*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3912*/    OPC_CheckType, MVT::i32,
+/*  3914*/    OPC_MoveParent,
+/*  3915*/    OPC_RecordChild3, // #3 = $op3
+/*  3916*/    OPC_MoveChild3,
+/*  3917*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  3919*/    OPC_CheckType, MVT::i32,
+/*  3921*/    OPC_MoveParent,
+/*  3922*/    OPC_EmitMergeInputChains1_0,
+/*  3923*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 3/*#Ops*/, 1, 2, 3, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op3) - Complexity = 6
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2, regs:{ *:[i32] }:$op3)
+/*  3932*/  /*SwitchOpcode*/ 59, TARGET_VAL(ISD::BR),// ->3994
+/*  3935*/    OPC_RecordNode, // #0 = 'br' chained node
+/*  3936*/    OPC_RecordChild1, // #1 = $op0
+/*  3937*/    OPC_MoveChild1,
+/*  3938*/    OPC_CheckOpcode, TARGET_VAL(ISD::BasicBlock),
+/*  3941*/    OPC_MoveParent,
+/*  3942*/    OPC_EmitMergeInputChains1_0,
+/*  3943*/    OPC_Scope, 6, /*->3951*/ // 7 children in Scope
+/*  3945*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jmp_rel_alias__rel_addr20__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 5
                 // Dst: (i_jmp_rel_alias__rel_addr20__ (bb:{ *:[Other] }):$op0)
-/*  3886*/    /*Scope*/ 6, /*->3893*/
-/*  3887*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jal_abs__opc_jal__reg0__rel_addr20__), 0|OPFL_Chain,
+/*  3951*/    /*Scope*/ 6, /*->3958*/
+/*  3952*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jal_abs__opc_jal__reg0__rel_addr20__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 4
                 // Dst: (i_jal_abs__opc_jal__reg0__rel_addr20__ (bb:{ *:[Other] }):$op0)
-/*  3893*/    /*Scope*/ 6, /*->3900*/
-/*  3894*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_beq__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
+/*  3958*/    /*Scope*/ 6, /*->3965*/
+/*  3959*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_beq__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 4
                 // Dst: (i_control_conditional__opc_beq__reg0__reg0__rel_addr12__ (bb:{ *:[Other] }):$op0)
-/*  3900*/    /*Scope*/ 6, /*->3907*/
-/*  3901*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_bge__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
+/*  3965*/    /*Scope*/ 6, /*->3972*/
+/*  3966*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_bge__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 4
                 // Dst: (i_control_conditional__opc_bge__reg0__reg0__rel_addr12__ (bb:{ *:[Other] }):$op0)
-/*  3907*/    /*Scope*/ 6, /*->3914*/
-/*  3908*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
+/*  3972*/    /*Scope*/ 6, /*->3979*/
+/*  3973*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 4
                 // Dst: (i_control_conditional__opc_bgeu__reg0__reg0__rel_addr12__ (bb:{ *:[Other] }):$op0)
-/*  3914*/    /*Scope*/ 6, /*->3921*/
-/*  3915*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jalr__opc_jalr__reg0__reg0__simm12_simple__), 0|OPFL_Chain,
+/*  3979*/    /*Scope*/ 6, /*->3986*/
+/*  3980*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jalr__opc_jalr__reg0__reg0__simm12_simple__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 4
                 // Dst: (i_jalr__opc_jalr__reg0__reg0__simm12_simple__ (bb:{ *:[Other] }):$op0)
-/*  3921*/    /*Scope*/ 6, /*->3928*/
-/*  3922*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jal__opc_jal__reg0__rel_addr20__), 0|OPFL_Chain,
+/*  3986*/    /*Scope*/ 6, /*->3993*/
+/*  3987*/      OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jal__opc_jal__reg0__rel_addr20__), 0|OPFL_Chain,
                     1/*#Ops*/, 1, 
                 // Src: (br (bb:{ *:[Other] }):$op0) - Complexity = 3
                 // Dst: (i_jal__opc_jal__reg0__rel_addr20__ (bb:{ *:[Other] }):$op0)
-/*  3928*/    0, /*End of Scope*/
-/*  3929*/  /*SwitchOpcode*/ 18, TARGET_VAL(ISD::MUL),// ->3950
-/*  3932*/    OPC_RecordChild0, // #0 = $op1
-/*  3933*/    OPC_MoveChild0,
-/*  3934*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3936*/    OPC_MoveParent,
-/*  3937*/    OPC_RecordChild1, // #1 = $op2
-/*  3938*/    OPC_MoveChild1,
-/*  3939*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3941*/    OPC_MoveParent,
-/*  3942*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__), 0,
-                  MVT::i32, 2/*#Ops*/, 0, 1, 
-              // Src: (mul:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2) - Complexity = 5
-              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__regs__:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2)
-/*  3950*/  /*SwitchOpcode*/ 8, TARGET_VAL(CodasipISD::Ret),// ->3961
-/*  3953*/    OPC_RecordNode, // #0 = 'Return' chained node
-/*  3954*/    OPC_CaptureGlueInput,
-/*  3955*/    OPC_EmitMergeInputChains1_0,
-/*  3956*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jump_reg_alias__regs___RET_EMUL_), 0|OPFL_Chain|OPFL_GlueInput|OPFL_Variadic0,
+/*  3993*/    0, /*End of Scope*/
+/*  3994*/  /*SwitchOpcode*/ 8, TARGET_VAL(CodasipISD::Ret),// ->4005
+/*  3997*/    OPC_RecordNode, // #0 = 'Return' chained node
+/*  3998*/    OPC_CaptureGlueInput,
+/*  3999*/    OPC_EmitMergeInputChains1_0,
+/*  4000*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_jump_reg_alias__regs___RET_EMUL_), 0|OPFL_Chain|OPFL_GlueInput|OPFL_Variadic0,
                   0/*#Ops*/, 
               // Src: (Return) - Complexity = 5
               // Dst: (i_jump_reg_alias__regs___RET_EMUL_)
-/*  3961*/  /*SwitchOpcode*/ 24, TARGET_VAL(CodasipISD::MOI_GROUP_3),// ->3988
-/*  3964*/    OPC_RecordMemRef,
-/*  3965*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node' chained node
-/*  3966*/    OPC_RecordChild1, // #1 = $op0
-/*  3967*/    OPC_MoveChild1,
-/*  3968*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3970*/    OPC_CheckType, MVT::i32,
-/*  3972*/    OPC_MoveParent,
-/*  3973*/    OPC_RecordChild2, // #2 = $op1
-/*  3974*/    OPC_MoveChild2,
-/*  3975*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3977*/    OPC_CheckType, MVT::i32,
-/*  3979*/    OPC_MoveParent,
-/*  3980*/    OPC_EmitMergeInputChains1_0,
-/*  3981*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
-                  2/*#Ops*/, 1, 2, 
-              // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1) - Complexity = 5
-              // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_ regs:{ *:[i32] }:$op0, regs:{ *:[i32] }:$op1)
-/*  3988*/  /*SwitchOpcode*/ 15, TARGET_VAL(CodasipISD::MOI_GROUP_1),// ->4006
-/*  3991*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node' chained node
-/*  3992*/    OPC_RecordChild1, // #1 = $op0
-/*  3993*/    OPC_MoveChild1,
-/*  3994*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
-/*  3996*/    OPC_CheckType, MVT::i32,
-/*  3998*/    OPC_MoveParent,
-/*  3999*/    OPC_EmitMergeInputChains1_0,
-/*  4000*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_), 0|OPFL_Chain,
-                  1/*#Ops*/, 1, 
-              // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0) - Complexity = 4
-              // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_ regs:{ *:[i32] }:$op0)
-/*  4006*/  /*SwitchOpcode*/ 15, TARGET_VAL(CodasipISD::MOI_GROUP_2),// ->4024
-/*  4009*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_node' chained node
+/*  4005*/  /*SwitchOpcode*/ 24, TARGET_VAL(CodasipISD::MOI_GROUP_3),// ->4032
+/*  4008*/    OPC_RecordMemRef,
+/*  4009*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node' chained node
 /*  4010*/    OPC_RecordChild1, // #1 = $op0
 /*  4011*/    OPC_MoveChild1,
 /*  4012*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
 /*  4014*/    OPC_CheckType, MVT::i32,
 /*  4016*/    OPC_MoveParent,
-/*  4017*/    OPC_EmitMergeInputChains1_0,
-/*  4018*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_), 0|OPFL_Chain,
+/*  4017*/    OPC_RecordChild2, // #2 = $op1
+/*  4018*/    OPC_MoveChild2,
+/*  4019*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4021*/    OPC_CheckType, MVT::i32,
+/*  4023*/    OPC_MoveParent,
+/*  4024*/    OPC_EmitMergeInputChains1_0,
+/*  4025*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  2/*#Ops*/, 1, 2, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1) - Complexity = 5
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_ regs:{ *:[i32] }:$op0, regs:{ *:[i32] }:$op1)
+/*  4032*/  /*SwitchOpcode*/ 25, TARGET_VAL(CodasipISD::MOI_GROUP_5),// ->4060
+/*  4035*/    OPC_RecordMemRef,
+/*  4036*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_node' chained node
+/*  4037*/    OPC_RecordChild1, // #1 = $op1
+/*  4038*/    OPC_MoveChild1,
+/*  4039*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4041*/    OPC_CheckType, MVT::i32,
+/*  4043*/    OPC_MoveParent,
+/*  4044*/    OPC_RecordChild2, // #2 = $op2
+/*  4045*/    OPC_MoveChild2,
+/*  4046*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4048*/    OPC_CheckType, MVT::i32,
+/*  4050*/    OPC_MoveParent,
+/*  4051*/    OPC_EmitMergeInputChains1_0,
+/*  4052*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 2/*#Ops*/, 1, 2, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2) - Complexity = 5
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__AEXT_CLONE_MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2)
+/*  4060*/  /*SwitchOpcode*/ 25, TARGET_VAL(CodasipISD::MOI_GROUP_6),// ->4088
+/*  4063*/    OPC_RecordMemRef,
+/*  4064*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_node' chained node
+/*  4065*/    OPC_RecordChild1, // #1 = $op1
+/*  4066*/    OPC_MoveChild1,
+/*  4067*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4069*/    OPC_CheckType, MVT::i32,
+/*  4071*/    OPC_MoveParent,
+/*  4072*/    OPC_RecordChild2, // #2 = $op2
+/*  4073*/    OPC_MoveChild2,
+/*  4074*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4076*/    OPC_CheckType, MVT::i32,
+/*  4078*/    OPC_MoveParent,
+/*  4079*/    OPC_EmitMergeInputChains1_0,
+/*  4080*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 2/*#Ops*/, 1, 2, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2) - Complexity = 5
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__AEXT_CLONE_MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2)
+/*  4088*/  /*SwitchOpcode*/ 25, TARGET_VAL(CodasipISD::MOI_GROUP_9),// ->4116
+/*  4091*/    OPC_RecordMemRef,
+/*  4092*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_node' chained node
+/*  4093*/    OPC_RecordChild1, // #1 = $op1
+/*  4094*/    OPC_MoveChild1,
+/*  4095*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4097*/    OPC_CheckType, MVT::i32,
+/*  4099*/    OPC_MoveParent,
+/*  4100*/    OPC_RecordChild2, // #2 = $op2
+/*  4101*/    OPC_MoveChild2,
+/*  4102*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4104*/    OPC_CheckType, MVT::i32,
+/*  4106*/    OPC_MoveParent,
+/*  4107*/    OPC_EmitMergeInputChains1_0,
+/*  4108*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 2/*#Ops*/, 1, 2, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2) - Complexity = 5
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__regs__MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2)
+/*  4116*/  /*SwitchOpcode*/ 25, TARGET_VAL(CodasipISD::MOI_GROUP_10),// ->4144
+/*  4119*/    OPC_RecordMemRef,
+/*  4120*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_node' chained node
+/*  4121*/    OPC_RecordChild1, // #1 = $op1
+/*  4122*/    OPC_MoveChild1,
+/*  4123*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4125*/    OPC_CheckType, MVT::i32,
+/*  4127*/    OPC_MoveParent,
+/*  4128*/    OPC_RecordChild2, // #2 = $op2
+/*  4129*/    OPC_MoveChild2,
+/*  4130*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4132*/    OPC_CheckType, MVT::i32,
+/*  4134*/    OPC_MoveParent,
+/*  4135*/    OPC_EmitMergeInputChains1_0,
+/*  4136*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_), 0|OPFL_Chain|OPFL_MemRefs,
+                  MVT::i32, 2/*#Ops*/, 1, 2, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1, regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op2) - Complexity = 5
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__regs__reg0__MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1, regs:{ *:[i32] }:$op2)
+/*  4144*/  /*SwitchOpcode*/ 15, TARGET_VAL(CodasipISD::MOI_GROUP_1),// ->4162
+/*  4147*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node' chained node
+/*  4148*/    OPC_RecordChild1, // #1 = $op0
+/*  4149*/    OPC_MoveChild1,
+/*  4150*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4152*/    OPC_CheckType, MVT::i32,
+/*  4154*/    OPC_MoveParent,
+/*  4155*/    OPC_EmitMergeInputChains1_0,
+/*  4156*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_), 0|OPFL_Chain,
+                  1/*#Ops*/, 1, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0) - Complexity = 4
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_ regs:{ *:[i32] }:$op0)
+/*  4162*/  /*SwitchOpcode*/ 15, TARGET_VAL(CodasipISD::MOI_GROUP_2),// ->4180
+/*  4165*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_node' chained node
+/*  4166*/    OPC_RecordChild1, // #1 = $op0
+/*  4167*/    OPC_MoveChild1,
+/*  4168*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4170*/    OPC_CheckType, MVT::i32,
+/*  4172*/    OPC_MoveParent,
+/*  4173*/    OPC_EmitMergeInputChains1_0,
+/*  4174*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_), 0|OPFL_Chain,
                   1/*#Ops*/, 1, 
               // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_node regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op0) - Complexity = 4
               // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_ regs:{ *:[i32] }:$op0)
-/*  4024*/  /*SwitchOpcode*/ 8, TARGET_VAL(CodasipISD::MRET),// ->4035
-/*  4027*/    OPC_RecordNode, // #0 = 'MRet' chained node
-/*  4028*/    OPC_CaptureGlueInput,
-/*  4029*/    OPC_EmitMergeInputChains1_0,
-/*  4030*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_xret__opc_mret__), 0|OPFL_Chain|OPFL_GlueInput|OPFL_Variadic0,
+/*  4180*/  /*SwitchOpcode*/ 16, TARGET_VAL(CodasipISD::MOI_GROUP_4),// ->4199
+/*  4183*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_node' chained node
+/*  4184*/    OPC_RecordChild1, // #1 = $op1
+/*  4185*/    OPC_MoveChild1,
+/*  4186*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4188*/    OPC_CheckType, MVT::i32,
+/*  4190*/    OPC_MoveParent,
+/*  4191*/    OPC_EmitMergeInputChains1_0,
+/*  4192*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_), 0|OPFL_Chain,
+                  MVT::i32, 1/*#Ops*/, 1, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1) - Complexity = 4
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__AEXT_CLONE_MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1)
+/*  4199*/  /*SwitchOpcode*/ 16, TARGET_VAL(CodasipISD::MOI_GROUP_8),// ->4218
+/*  4202*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_node' chained node
+/*  4203*/    OPC_RecordChild1, // #1 = $op1
+/*  4204*/    OPC_MoveChild1,
+/*  4205*/    OPC_CheckPredicate, 0, // Predicate_CheckFI_i32_regs
+/*  4207*/    OPC_CheckType, MVT::i32,
+/*  4209*/    OPC_MoveParent,
+/*  4210*/    OPC_EmitMergeInputChains1_0,
+/*  4211*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_), 0|OPFL_Chain,
+                  MVT::i32, 1/*#Ops*/, 1, 
+              // Src: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_MOI_node:{ *:[i32] } regs:{ *:[i32] }<<P:Predicate_CheckFI_i32_regs>>:$op1) - Complexity = 4
+              // Dst: (i_ext_hackaton__opc_hackaton_custom_c__regs__reg0__reg0__MOI_CLONE_:{ *:[i32] } regs:{ *:[i32] }:$op1)
+/*  4218*/  /*SwitchOpcode*/ 8, TARGET_VAL(CodasipISD::MRET),// ->4229
+/*  4221*/    OPC_RecordNode, // #0 = 'MRet' chained node
+/*  4222*/    OPC_CaptureGlueInput,
+/*  4223*/    OPC_EmitMergeInputChains1_0,
+/*  4224*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_xret__opc_mret__), 0|OPFL_Chain|OPFL_GlueInput|OPFL_Variadic0,
                   0/*#Ops*/, 
               // Src: (MRet) - Complexity = 3
               // Dst: (i_xret__opc_mret__)
-/*  4035*/  /*SwitchOpcode*/ 7, TARGET_VAL(CodasipISD::MOI_GROUP_0),// ->4045
-/*  4038*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_node' chained node
-/*  4039*/    OPC_EmitMergeInputChains1_0,
-/*  4040*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_), 0|OPFL_Chain,
+/*  4229*/  /*SwitchOpcode*/ 7, TARGET_VAL(CodasipISD::MOI_GROUP_0),// ->4239
+/*  4232*/    OPC_RecordNode, // #0 = 'i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_node' chained node
+/*  4233*/    OPC_EmitMergeInputChains1_0,
+/*  4234*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_), 0|OPFL_Chain,
                   0/*#Ops*/, 
               // Src: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_node) - Complexity = 3
               // Dst: (i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_)
-/*  4045*/  /*SwitchOpcode*/ 11, TARGET_VAL(CodasipISD::EH_SJLJ_LONGJMP),// ->4059
-/*  4048*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_longjmp' chained node
-/*  4049*/    OPC_RecordChild1, // #1 = $op0
-/*  4050*/    OPC_CheckChild1Type, MVT::i32,
-/*  4052*/    OPC_EmitMergeInputChains1_0,
-/*  4053*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::EH_SjLj_LongJmp), 0|OPFL_Chain,
+/*  4239*/  /*SwitchOpcode*/ 11, TARGET_VAL(CodasipISD::EH_SJLJ_LONGJMP),// ->4253
+/*  4242*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_longjmp' chained node
+/*  4243*/    OPC_RecordChild1, // #1 = $op0
+/*  4244*/    OPC_CheckChild1Type, MVT::i32,
+/*  4246*/    OPC_EmitMergeInputChains1_0,
+/*  4247*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::EH_SjLj_LongJmp), 0|OPFL_Chain,
                   1/*#Ops*/, 1, 
               // Src: (CDSPeh_sjlj_longjmp regs:{ *:[i32] }:$op0) - Complexity = 3
               // Dst: (EH_SjLj_LongJmp regs:{ *:[i32] }:$op0)
-/*  4059*/  /*SwitchOpcode*/ 12, TARGET_VAL(CodasipISD::EH_SJLJ_SETJMP),// ->4074
-/*  4062*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_setjmp' chained node
-/*  4063*/    OPC_RecordChild1, // #1 = $op1
-/*  4064*/    OPC_CheckChild1Type, MVT::i32,
-/*  4066*/    OPC_EmitMergeInputChains1_0,
-/*  4067*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::EH_SjLj_SetJmp), 0|OPFL_Chain,
+/*  4253*/  /*SwitchOpcode*/ 12, TARGET_VAL(CodasipISD::EH_SJLJ_SETJMP),// ->4268
+/*  4256*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_setjmp' chained node
+/*  4257*/    OPC_RecordChild1, // #1 = $op1
+/*  4258*/    OPC_CheckChild1Type, MVT::i32,
+/*  4260*/    OPC_EmitMergeInputChains1_0,
+/*  4261*/    OPC_MorphNodeTo1, TARGET_VAL(Codasip::EH_SjLj_SetJmp), 0|OPFL_Chain,
                   MVT::i32, 1/*#Ops*/, 1, 
               // Src: (CDSPeh_sjlj_setjmp:{ *:[i32] } regs:{ *:[i32] }:$op1) - Complexity = 3
               // Dst: (EH_SjLj_SetJmp:{ *:[i32] } regs:{ *:[i32] }:$op1)
-/*  4074*/  /*SwitchOpcode*/ 11, TARGET_VAL(CodasipISD::EH_SJLJ_SETUP_DISPATCH),// ->4088
-/*  4077*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_setup_dispatch' chained node
-/*  4078*/    OPC_RecordChild1, // #1 = $op0
-/*  4079*/    OPC_CheckChild1Type, MVT::i32,
-/*  4081*/    OPC_EmitMergeInputChains1_0,
-/*  4082*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::EH_SJLJ_SETUP_DISPATCH), 0|OPFL_Chain,
+/*  4268*/  /*SwitchOpcode*/ 11, TARGET_VAL(CodasipISD::EH_SJLJ_SETUP_DISPATCH),// ->4282
+/*  4271*/    OPC_RecordNode, // #0 = 'CDSPeh_sjlj_setup_dispatch' chained node
+/*  4272*/    OPC_RecordChild1, // #1 = $op0
+/*  4273*/    OPC_CheckChild1Type, MVT::i32,
+/*  4275*/    OPC_EmitMergeInputChains1_0,
+/*  4276*/    OPC_MorphNodeTo0, TARGET_VAL(Codasip::EH_SJLJ_SETUP_DISPATCH), 0|OPFL_Chain,
                   1/*#Ops*/, 1, 
               // Src: (CDSPeh_sjlj_setup_dispatch regs:{ *:[i32] }:$op0) - Complexity = 3
               // Dst: (EH_SJLJ_SETUP_DISPATCH regs:{ *:[i32] }:$op0)
-/*  4088*/  0, // EndSwitchOpcode
+/*  4282*/  0, // EndSwitchOpcode
     0
-  }; // Total Array size is 4090 bytes
+  }; // Total Array size is 4284 bytes
 
   // Opcode Histogram:
   // #OPC_Scope                                = 72
-  // #OPC_RecordNode                           = 22
-  // #OPC_RecordChild                          = 132
-  // #OPC_RecordMemRef                         = 3
+  // #OPC_RecordNode                           = 30
+  // #OPC_RecordChild                          = 146
+  // #OPC_RecordMemRef                         = 9
   // #OPC_CaptureGlueInput                     = 5
-  // #OPC_MoveChild                            = 150
-  // #OPC_MoveParent                           = 213
+  // #OPC_MoveChild                            = 164
+  // #OPC_MoveParent                           = 227
   // #OPC_CheckSame                            = 0
   // #OPC_CheckChildSame                       = 4
   // #OPC_CheckPatternPredicate                = 0
-  // #OPC_CheckPredicate                       = 246
+  // #OPC_CheckPredicate                       = 260
   // #OPC_CheckOpcode                          = 72
   // #OPC_SwitchOpcode                         = 4
-  // #OPC_CheckType                            = 47
+  // #OPC_CheckType                            = 63
   // #OPC_SwitchType                           = 0
   // #OPC_CheckChildType                       = 9
   // #OPC_CheckInteger                         = 3
@@ -2547,12 +2671,12 @@ void DAGISEL_CLASS_COLONCOLON SelectCode(SDNode *N)
   // #OPC_EmitStringInteger                    = 0
   // #OPC_EmitRegister                         = 0
   // #OPC_EmitConvertToTarget                  = 56
-  // #OPC_EmitMergeInputChains                 = 95
+  // #OPC_EmitMergeInputChains                 = 103
   // #OPC_EmitCopyToReg                        = 0
   // #OPC_EmitNode                             = 16
   // #OPC_EmitNodeXForm                        = 0
   // #OPC_CompleteMatch                        = 0
-  // #OPC_MorphNodeTo                          = 226
+  // #OPC_MorphNodeTo                          = 232
 
   #undef TARGET_VAL
   SelectCodeCommon(N, MatcherTable,sizeof(MatcherTable));

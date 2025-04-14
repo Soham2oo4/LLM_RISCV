@@ -18,7 +18,7 @@
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-14 08:33:34
+ *                Date: 2025-04-14 12:52:03
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -225,10 +225,6 @@ unsigned CodasipTTIImpl::getArithmeticInstrCost(
       {ISD::SUB, MVT::i16, 1},
       {ISD::SUB, MVT::i8, 1},
       {ISD::SUB, MVT::i1, 1},
-      {ISD::MUL, MVT::i32, 1},
-      {ISD::MUL, MVT::i16, 1},
-      {ISD::MUL, MVT::i8, 1},
-      {ISD::MUL, MVT::i1, 1},
       {ISD::AND, MVT::i32, 1},
       {ISD::AND, MVT::i16, 1},
       {ISD::AND, MVT::i8, 1},
@@ -319,10 +315,6 @@ unsigned CodasipTTIImpl::getOperationCost(unsigned Opcode, Type *Ty,
       {ISD::SUB, MVT::i16, 1},
       {ISD::SUB, MVT::i8, 1},
       {ISD::SUB, MVT::i1, 1},
-      {ISD::MUL, MVT::i32, 1},
-      {ISD::MUL, MVT::i16, 1},
-      {ISD::MUL, MVT::i8, 1},
-      {ISD::MUL, MVT::i1, 1},
       {ISD::AND, MVT::i32, 1},
       {ISD::AND, MVT::i16, 1},
       {ISD::AND, MVT::i8, 1},

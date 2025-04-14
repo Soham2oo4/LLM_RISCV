@@ -8,12 +8,13 @@ ffs:                                    //  @ffs
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	mv x11, x10
-	mv x10, x0
-	beq x11, x10, .LBB0_2
-.LBB0_1:                                //  %entry
-	add x10, x11, -1
-	xor x11, x11, -1
+	add sp, sp, -16
+	.cfi_adjust_cfa_offset 16
+	sw fp, 8 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -8
+	mv fp, x10
+	add x10, fp, -1
+	xor x11, fp, -1
 	and x10, x10, x11
 	lui x12, %hi( 1431655765 )
 	srl x11, x10, 1&31
@@ -33,10 +34,20 @@ ffs:                                    //  @ffs
 	and x10, x11, x10
 	lui x11, %hi( 16843009 )
 	add x11, x11, %lo( 16843009 )
-	hackaton_custom_instr_c x10, x11, x10
-	srl x10, x10, 24&31
+	sw ra, 12 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	jal __mulsi3
+	mv x11, x10
+	mv x10, x0
+	beq fp, x10, .LBB0_2
+.LBB0_1:                                //  %entry
+	srl x10, x11, 24&31
 	add x10, x10, 1
 .LBB0_2:                                //  %entry
+	lw fp, 8 ( sp )                 //  4-byte Folded Reload
+	lw ra, 12 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 16
+	.cfi_def_cfa 2, 0
 	jr ra
 .Lfunc_end0:
 	.size	ffs, .Lfunc_end0-ffs

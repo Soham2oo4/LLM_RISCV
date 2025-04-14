@@ -378,6 +378,7 @@ protected:
     resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton;
     resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton;
     resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton;
+    resources::Signal<resources::VariableStorage<codasip::Integer<1, false> > > MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton;
 private:
     std::string m_Executable;
     std::unordered_map<std::string, codasip_address_t> m_Symbols;
@@ -8445,6 +8446,7 @@ inline void Sim::SignalsClockCycle()
     MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
     MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
     MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
+    MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.clock_cycle();
 }
 /**
  *  \brief  codasip_symbol_address

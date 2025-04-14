@@ -163,8 +163,9 @@ __dprintf:                              //  @__dprintf
 	mv x10, x23
 	mv x11, x20
 	jal __udivsi3
+	mv x11, x20
 	mv x21, x10
-	hackaton_custom_instr_c x10, x20, x21
+	jal __mulsi3
 	sub x10, x23, x10
 	add x10, x10, x24
 	lb x10, 0 ( x10 )
@@ -327,8 +328,9 @@ __dprintf:                              //  @__dprintf
 	mv x10, x23
 	mv x11, x20
 	jal __udivsi3
+	mv x11, x20
 	mv x21, x10
-	hackaton_custom_instr_c x10, x20, x21
+	jal __mulsi3
 	sub x10, x23, x10
 	add x10, x10, x24
 	lb x10, 0 ( x10 )

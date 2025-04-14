@@ -7,9 +7,11 @@ flsl:                                   //  @flsl
 	.cfi_startproc
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
-	.cfi_def_cfa 2, 0
 	beq x0, x10, .LBB0_1
 .LBB0_2:                                //  %if.end
+	.cfi_def_cfa 2, 0
+	add sp, sp, -16
+	.cfi_adjust_cfa_offset 16
 	srl x11, x10, 1&31
 	or x10, x11, x10
 	srl x11, x10, 2&31
@@ -39,10 +41,15 @@ flsl:                                   //  @flsl
 	and x10, x11, x10
 	lui x11, %hi( 16843009 )
 	add x11, x11, %lo( 16843009 )
-	hackaton_custom_instr_c x10, x11, x10
+	sw ra, 12 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	jal __mulsi3
+	lw ra, 12 ( sp )                //  4-byte Folded Reload
 	srl x10, x10, 24&31
 	add x11, x0, 32
 	sub x10, x11, x10
+	add sp, sp, 16
+	.cfi_def_cfa 2, 0
 	jr ra
 .LBB0_1:
 	mv x10, x0

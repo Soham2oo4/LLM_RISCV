@@ -4106,31 +4106,32 @@ ediv:                                   //  @ediv
 	sw x21, 152 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 21, -24
 	lui x21, %hi( 32767 )
-	sw fp, 124 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 8, -52
-	mv fp, x13
-	add x13, x21, %lo( 32767 )
-	sw x20, 156 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 20, -20
-	mv x20, x11
-	and x14, x13, x23
-	sw ra, 172 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 1, -4
 	sw x9, 168 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 9, -8
+	add x9, x21, %lo( 32767 )
+	sw x20, 156 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 20, -20
+	sw x26, 132 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 26, -44
+	sw fp, 124 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 8, -52
+	sw x24, 140 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 24, -36
+	mv x26, x13
+	mv fp, x12
+	mv x20, x11
+	and x24, x9, x23
+	sw ra, 172 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 1, -4
 	sw x19, 160 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 19, -16
 	sw x22, 148 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 22, -28
-	sw x24, 140 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 24, -36
 	sw x25, 136 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 25, -40
-	sw x26, 132 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 26, -44
 	sw x27, 128 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 27, -48
-	bne x14, x13, .LBB5_11
+	bne x24, x9, .LBB5_11
 .LBB5_1:                                //  %for.body.preheader.i
 	lhu x10, 0 ( x18 )
 	bltu x0, x10, .LBB5_10
@@ -4159,30 +4160,30 @@ ediv:                                   //  @ediv
 	lhu x11, 16 ( x18 )
 	beq x0, x11, .LBB5_11
 .LBB5_10:                               //  %if.then
-	sh x10, 0 ( x12 )
+	sh x10, 0 ( fp )
 	lh x10, 2 ( x18 )
-	sh x10, 2 ( x12 )
+	sh x10, 2 ( fp )
 	lh x10, 4 ( x18 )
-	sh x10, 4 ( x12 )
+	sh x10, 4 ( fp )
 	lh x10, 6 ( x18 )
-	sh x10, 6 ( x12 )
+	sh x10, 6 ( fp )
 	lh x10, 8 ( x18 )
-	sh x10, 8 ( x12 )
+	sh x10, 8 ( fp )
 	lh x10, 10 ( x18 )
-	sh x10, 10 ( x12 )
+	sh x10, 10 ( fp )
 	lh x10, 12 ( x18 )
-	sh x10, 12 ( x12 )
+	sh x10, 12 ( fp )
 	lh x10, 14 ( x18 )
-	sh x10, 14 ( x12 )
+	sh x10, 14 ( fp )
 	lh x10, 16 ( x18 )
-	sh x10, 16 ( x12 )
+	sh x10, 16 ( fp )
 	lh x10, 18 ( x18 )
-	sh x10, 18 ( x12 )
+	sh x10, 18 ( fp )
 	jal x0, .LBB5_160
 .LBB5_11:                               //  %if.end
 	lhu x22, 18 ( x20 )
-	and x9, x13, x22
-	bne x9, x13, .LBB5_22
+	and x25, x9, x22
+	bne x25, x9, .LBB5_22
 .LBB5_12:                               //  %for.body.preheader.i169
 	lhu x10, 0 ( x20 )
 	bltu x0, x10, .LBB5_21
@@ -4211,49 +4212,40 @@ ediv:                                   //  @ediv
 	lhu x11, 16 ( x20 )
 	beq x0, x11, .LBB5_22
 .LBB5_21:                               //  %if.then3
-	sh x10, 0 ( x12 )
+	sh x10, 0 ( fp )
 	lh x10, 2 ( x20 )
-	sh x10, 2 ( x12 )
+	sh x10, 2 ( fp )
 	lh x10, 4 ( x20 )
-	sh x10, 4 ( x12 )
+	sh x10, 4 ( fp )
 	lh x10, 6 ( x20 )
-	sh x10, 6 ( x12 )
+	sh x10, 6 ( fp )
 	lh x10, 8 ( x20 )
-	sh x10, 8 ( x12 )
+	sh x10, 8 ( fp )
 	lh x10, 10 ( x20 )
-	sh x10, 10 ( x12 )
+	sh x10, 10 ( fp )
 	lh x10, 12 ( x20 )
-	sh x10, 12 ( x12 )
+	sh x10, 12 ( fp )
 	lh x10, 14 ( x20 )
-	sh x10, 14 ( x12 )
+	sh x10, 14 ( fp )
 	lh x10, 16 ( x20 )
-	sh x10, 16 ( x12 )
+	sh x10, 16 ( fp )
 	lh x10, 18 ( x20 )
-	sh x10, 18 ( x12 )
+	sh x10, 18 ( fp )
 	jal x0, .LBB5_160
 .LBB5_22:                               //  %if.end4
 	lui x10, %hi( ezero )
 	add x19, x10, %lo( ezero )
 	mv x10, x18
 	mv x11, x19
-	sw x12, 16 ( sp )               //  4-byte Folded Spill
-	sw x13, 12 ( sp )               //  4-byte Folded Spill
-	sw x14, 20 ( sp )               //  4-byte Folded Spill
 	jal ecmp
-	lw x6, 20 ( sp )                //  4-byte Folded Reload
-	lw x13, 12 ( sp )               //  4-byte Folded Reload
-	lw x11, 16 ( sp )               //  4-byte Folded Reload
 	bltu x0, x10, .LBB5_24
 .LBB5_23:                               //  %land.lhs.true
 	mv x10, x20
 	mv x11, x19
 	jal ecmp
-	lw x6, 20 ( sp )                //  4-byte Folded Reload
-	lw x13, 12 ( sp )               //  4-byte Folded Reload
-	lw x11, 16 ( sp )               //  4-byte Folded Reload
 	beq x0, x10, .LBB5_44
 .LBB5_24:                               //  %lor.lhs.false
-	bne x6, x13, .LBB5_45
+	bne x24, x9, .LBB5_45
 .LBB5_25:                               //  %for.body.preheader.i.i237
 	lhu x10, 0 ( x18 )
 	bltu x0, x10, .LBB5_45
@@ -4282,72 +4274,72 @@ ediv:                                   //  @ediv
 	lhu x10, 16 ( x18 )
 	beq x0, x10, .LBB5_34
 .LBB5_45:                               //  %if.end14
-	bne x9, x13, .LBB5_69
+	bne x25, x9, .LBB5_71
 .LBB5_46:                               //  %for.body.preheader.i.i494
 	lhu x10, 0 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_47:                               //  %for.inc.i.i497
 	lhu x10, 2 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_48:                               //  %for.inc.1.i.i500
 	lhu x10, 4 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_49:                               //  %for.inc.2.i.i503
 	lhu x10, 6 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_50:                               //  %for.inc.3.i.i506
 	lhu x10, 8 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_51:                               //  %for.inc.4.i.i509
 	lhu x10, 10 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_52:                               //  %for.inc.5.i.i512
 	lhu x10, 12 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_53:                               //  %for.inc.6.i.i515
 	lhu x10, 14 ( x20 )
-	bltu x0, x10, .LBB5_69
+	bltu x0, x10, .LBB5_71
 .LBB5_54:                               //  %eisinf.exit521
 	lhu x10, 16 ( x20 )
 	beq x0, x10, .LBB5_55
-.LBB5_69:                               //  %if.end24
+.LBB5_71:                               //  %if.end24
 	add x10, x21, %lo( 32767 )
-	bne x6, x10, .LBB5_83
-.LBB5_70:                               //  %for.body.preheader.i.i389
+	bne x24, x10, .LBB5_83
+.LBB5_72:                               //  %for.body.preheader.i.i389
 	lhu x10, 0 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_71:                               //  %for.inc.i.i392
+.LBB5_73:                               //  %for.inc.i.i392
 	lhu x10, 2 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_72:                               //  %for.inc.1.i.i395
+.LBB5_74:                               //  %for.inc.1.i.i395
 	lhu x10, 4 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_73:                               //  %for.inc.2.i.i398
+.LBB5_75:                               //  %for.inc.2.i.i398
 	lhu x10, 6 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_74:                               //  %for.inc.3.i.i401
+.LBB5_76:                               //  %for.inc.3.i.i401
 	lhu x10, 8 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_75:                               //  %for.inc.4.i.i404
+.LBB5_77:                               //  %for.inc.4.i.i404
 	lhu x10, 10 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_76:                               //  %for.inc.5.i.i407
+.LBB5_78:                               //  %for.inc.5.i.i407
 	lhu x10, 12 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_77:                               //  %for.inc.6.i.i410
+.LBB5_79:                               //  %for.inc.6.i.i410
 	lhu x10, 14 ( x18 )
 	bltu x0, x10, .LBB5_83
-.LBB5_78:                               //  %eisinf.exit416
+.LBB5_80:                               //  %eisinf.exit416
 	lhu x10, 16 ( x18 )
-	beq x0, x10, .LBB5_79
+	beq x0, x10, .LBB5_81
 .LBB5_83:                               //  %if.end28
 	sll x10, x23, 16&31
 	sra x10, x10, 16&31
 	srl x10, x10, 15&31
 	add x19, sp, 70
 	sh x10, 70 ( sp )
-	sh x6, 72 ( sp )
-	bne x6, x13, .LBB5_93
+	sh x24, 72 ( sp )
+	bne x24, x9, .LBB5_93
 .LBB5_84:                               //  %for.body.preheader.i.i314
 	lhu x10, 2 ( x18 )
 	lhu x11, 0 ( x18 )
@@ -4423,10 +4415,10 @@ ediv:                                   //  @ediv
 	sra x10, x10, 16&31
 	srl x10, x10, 15&31
 	add x18, sp, 44
-	lui x26, %hi( 65535 )
+	lui x22, %hi( 65535 )
 	sh x10, 44 ( sp )
-	sh x9, 46 ( sp )
-	bne x9, x13, .LBB5_173
+	sh x25, 46 ( sp )
+	bne x25, x9, .LBB5_173
 .LBB5_96:                               //  %for.body.preheader.i.i260
 	lhu x10, 2 ( x20 )
 	lhu x11, 0 ( x20 )
@@ -4453,13 +4445,12 @@ ediv:                                   //  @ediv
 	bltu x0, x12, .LBB5_104
 .LBB5_103:                              //  %for.inc.7.i.i283
 	lhu x12, 16 ( x20 )
-	beq x0, x12, .LBB5_177
+	beq x0, x12, .LBB5_175
 .LBB5_104:                              //  %if.then13.i
 	sh x10, 20 ( x18 )
 	lh x10, 16 ( x20 )
 	sh x11, 22 ( x18 )
 	sh x0, 4 ( x18 )
-	add x9, x21, %lo( 32767 )
 	sh x10, 6 ( x18 )
 	lh x10, 14 ( x20 )
 	sh x10, 8 ( x18 )
@@ -4475,7 +4466,12 @@ ediv:                                   //  @ediv
 	sh x10, 18 ( x18 )
 	lh x10, -2 ( x20 )
 	sh x10, 68 ( sp )
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
+.LBB5_105:                              //  %emovi.exit.thread
+	add x25, x21, %lo( 32767 )
+	mv x6, x24
+	sw fp, 20 ( sp )                //  4-byte Folded Spill
+	sw x9, 16 ( sp )                //  4-byte Folded Spill
+	sw x25, 12 ( sp )               //  4-byte Folded Spill
 	bltu x0, x6, .LBB5_110
 	jal x0, .LBB5_108
 .LBB5_173:                              //  %emovi.exit
@@ -4488,10 +4484,11 @@ ediv:                                   //  @ediv
 	lhu x16, 12 ( x20 )
 	lhu x17, 14 ( x20 )
 	lhu x5, 16 ( x20 )
-	sh x15, 12 ( x18 )
+	mv x6, x24
 	sh x16, 10 ( x18 )
 	sh x17, 8 ( x18 )
 	sh x5, 6 ( x18 )
+	sh x15, 12 ( x18 )
 	sh x14, 14 ( x18 )
 	sh x13, 16 ( x18 )
 	sh x12, 18 ( x18 )
@@ -4499,9 +4496,11 @@ ediv:                                   //  @ediv
 	sh x10, 22 ( x18 )
 	sh x0, 4 ( x18 )
 	sh x0, 68 ( sp )
-	beq x0, x9, .LBB5_174
+	beq x0, x25, .LBB5_174
 .LBB5_107:                              //  %dnzro1
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
+	sw fp, 20 ( sp )                //  4-byte Folded Spill
+	sw x9, 16 ( sp )                //  4-byte Folded Spill
+	sw x25, 12 ( sp )               //  4-byte Folded Spill
 	bltu x0, x6, .LBB5_110
 .LBB5_108:                              //  %for.cond53
 	lhu x10, 74 ( sp )
@@ -4536,105 +4535,106 @@ ediv:                                   //  @ediv
 .LBB5_109:                              //  %if.then61
 	add x10, sp, 70
 	jal enormlz
-	lw x11, 20 ( sp )               //  4-byte Folded Reload
-	sub x11, x11, x10
-	sw x11, 20 ( sp )               //  4-byte Folded Spill
+	sub x24, x24, x10
 .LBB5_110:                              //  %dnzro2
-	lhu x13, 14 ( x18 )
-	lhu x15, 16 ( x18 )
 	lh x10, 44 ( sp )
-	lhu x11, 4 ( x18 )
-	sll x14, x13, 15&31
-	srl x16, x15, 1&31
-	or x14, x14, x16
-	lhu x16, 12 ( x18 )
-	srl x13, x13, 1&31
-	sh x10, 52 ( fp )
+	lhu x12, 10 ( x18 )
+	lhu x14, 12 ( x18 )
+	lhu x11, 6 ( x18 )
+	sh x10, 52 ( x26 )
 	lh x10, 2 ( x18 )
-	sll x17, x16, 15&31
-	or x13, x17, x13
-	lhu x17, 10 ( x18 )
-	srl x16, x16, 1&31
-	lhu x12, 6 ( x18 )
-	sh x10, 54 ( fp )
-	sll x5, x17, 15&31
-	or x16, x5, x16
-	lhu x5, 8 ( x18 )
-	srl x17, x17, 1&31
-	srl x10, x11, 1&31
+	sll x13, x12, 15&31
+	srl x15, x14, 1&31
+	or x13, x13, x15
+	lhu x15, 8 ( x18 )
+	sh x10, 54 ( x26 )
+	lhu x10, 4 ( x18 )
+	srl x12, x12, 1&31
+	sll x16, x15, 15&31
+	or x12, x16, x12
+	srl fp, x10, 1&31
+	srl x16, x11, 1&31
+	sll x10, x10, 15&31
+	or x9, x10, x16
+	lhu x10, 20 ( x18 )
+	lhu x17, 22 ( x18 )
 	sll x11, x11, 15&31
+	srl x15, x15, 1&31
+	sll x16, x10, 15&31
+	srl x5, x17, 1&31
+	or x16, x16, x5
+	lhu x5, 18 ( x18 )
+	srl x10, x10, 1&31
+	or x11, x11, x15
+	sh x11, 8 ( x18 )
 	sll x6, x5, 15&31
-	or x17, x6, x17
-	srl x6, x12, 1&31
-	or x11, x11, x6
-	lhu x6, 20 ( x18 )
-	lhu x28, 22 ( x18 )
-	sh x13, 14 ( x18 )
-	lhu x13, 68 ( sp )
-	sll x12, x12, 15&31
+	or x10, x6, x10
+	lhu x6, 16 ( x18 )
+	lhu x11, 68 ( sp )
 	srl x5, x5, 1&31
-	or x12, x12, x5
+	sh x10, 20 ( x18 )
 	sll x7, x6, 15&31
-	sh x12, 8 ( x18 )
-	srl x29, x28, 1&31
-	sll x12, x28, 15&31
-	srl x13, x13, 1&31
-	or x7, x7, x29
-	lhu x29, 18 ( x18 )
-	or x12, x12, x13
-	sh x12, 68 ( sp )
-	lhu x12, 76 ( sp )
-	sll x30, x29, 15&31
-	add x9, x26, %lo( 65535 )
+	or x5, x7, x5
+	lhu x7, 14 ( x18 )
+	sll x10, x17, 15&31
+	srl x11, x11, 1&31
+	or x10, x10, x11
+	sh x10, 68 ( sp )
+	lhu x10, 76 ( sp )
+	sll x28, x7, 15&31
 	srl x6, x6, 1&31
-	sll x15, x15, 15&31
-	srl x29, x29, 1&31
-	or x6, x30, x6
-	or x15, x15, x29
-	hackaton_custom_instr_c x21, x9, x12
+	sll x14, x14, 15&31
+	srl x7, x7, 1&31
+	add x21, x22, %lo( 65535 )
+	or x6, x28, x6
+	or x14, x14, x7
+	mv x11, x21
+	sw x24, 8 ( sp )                //  4-byte Folded Spill
+	sh x0, 76 ( x26 )
+	sh x0, 74 ( x26 )
+	sh x0, 72 ( x26 )
+	sh x0, 70 ( x26 )
+	sh x0, 68 ( x26 )
+	sh x0, 66 ( x26 )
+	sh x0, 64 ( x26 )
+	sh x0, 62 ( x26 )
+	sh x0, 60 ( x26 )
+	sh x0, 58 ( x26 )
+	sh x0, 56 ( x26 )
+	sh fp, 4 ( x18 )
+	sh x12, 10 ( x18 )
+	sh x13, 12 ( x18 )
+	sh x14, 14 ( x18 )
+	sh x6, 16 ( x18 )
+	sh x5, 18 ( x18 )
+	sh x16, 22 ( x18 )
+	sh x9, 6 ( x18 )
+	sw x10, 36 ( sp )               //  4-byte Folded Spill
+	jal __mulsi3
+	mv x23, x10
 	add x20, x0, 56
-	add x22, sp, 96
-	sh x0, 76 ( fp )
-	sh x0, 74 ( fp )
-	sh x0, 72 ( fp )
-	sh x0, 70 ( fp )
-	sh x0, 68 ( fp )
-	sh x0, 66 ( fp )
-	sh x0, 64 ( fp )
-	sh x0, 62 ( fp )
-	sh x0, 60 ( fp )
-	sh x0, 58 ( fp )
-	sh x0, 56 ( fp )
-	sh x10, 4 ( x18 )
-	sh x17, 10 ( x18 )
-	sh x16, 12 ( x18 )
-	sh x14, 16 ( x18 )
-	sh x15, 18 ( x18 )
-	sh x6, 20 ( x18 )
-	sh x7, 22 ( x18 )
-	sh x11, 6 ( x18 )
-	sw x12, 36 ( sp )               //  4-byte Folded Spill
-	sw fp, 32 ( sp )                //  4-byte Folded Spill
-	sw x9, 28 ( sp )                //  4-byte Folded Spill
-	sw x21, 24 ( sp )               //  4-byte Folded Spill
+	add x24, sp, 96
+	sw x26, 32 ( sp )               //  4-byte Folded Spill
+	sw x21, 28 ( sp )               //  4-byte Folded Spill
+	sw x23, 24 ( sp )               //  4-byte Folded Spill
 	jal x0, .LBB5_111
 .LBB5_117:                              //  %difrnt.i355.if.end36_crit_edge.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x10, 102 ( sp )
-	lhu x11, 8 ( x22 )
-	lhu x12, 10 ( x22 )
-	lhu x14, 12 ( x22 )
-	lhu x13, 14 ( x22 )
-	lhu x15, 16 ( x22 )
-	lhu x16, 18 ( x22 )
-	lhu x17, 20 ( x22 )
-	lhu x5, 22 ( x22 )
+	lhu x11, 8 ( x24 )
+	lhu x12, 10 ( x24 )
+	lhu x14, 12 ( x24 )
+	lhu x13, 14 ( x24 )
+	lhu x15, 16 ( x24 )
+	lhu x16, 18 ( x24 )
+	lhu x17, 20 ( x24 )
+	lhu x5, 22 ( x24 )
 .LBB5_150:                              //  %if.end36.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x7, 22 ( x18 )
-	add x6, x20, fp
-	sh x23, 0 ( x6 )
-	add x6, x26, %lo( 65535 )
+	add x6, x20, x26
+	sh x25, 0 ( x6 )
+	add x6, x22, %lo( 65535 )
 	and x5, x6, x5
 	sub x7, x7, x5
 	lhu x5, 24 ( x18 )
@@ -4695,33 +4695,33 @@ ediv:                                   //  @ediv
 	sub x11, x28, x11
 	srl x28, x12, 16&31
 	and x28, x28, 1
-	sub x11, x11, x28
-	lhu x28, 6 ( x18 )
-	sh x11, 6 ( x18 )
-	sub x10, x28, x10
-	srl x28, x11, 16&31
-	and x28, x28, 1
-	sub x10, x10, x28
-	xor x28, x20, 78
-	sh x10, 48 ( sp )
-	beq x0, x28, .LBB5_151
+	sub x9, x11, x28
+	lhu x11, 6 ( x18 )
+	sh x9, 6 ( x18 )
+	sub x10, x11, x10
+	srl x11, x9, 16&31
+	and x11, x11, 1
+	sub fp, x10, x11
+	xor x10, x20, 78
+	sh fp, 48 ( sp )
+	beq x0, x10, .LBB5_151
 .LBB5_111:                              //  %for.body9.i
                                         //  =>This Inner Loop Header: Depth=1
-	and x11, x9, x11
-	sll x10, x10, 16&31
-	mv x23, x9
-	or x10, x11, x10
-	bltu x21, x10, .LBB5_113
+	and x10, x21, x9
+	sll x11, fp, 16&31
+	mv x25, x21
+	or x10, x10, x11
+	bltu x23, x10, .LBB5_113
 .LBB5_112:                              //  %if.else.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lw x11, 36 ( sp )               //  4-byte Folded Reload
 	jal __udivsi3
-	mv x23, x10
+	mv x25, x10
 .LBB5_113:                              //  %if.end.i
                                         //    in Loop: Header=BB5_111 Depth=1
-	and x10, x9, x23
+	and x10, x21, x25
 	mv x11, x19
-	mv x12, x22
+	mv x12, x24
 	jal m16m
 	lhu x6, 48 ( sp )
 	lhu ra, 100 ( sp )
@@ -4787,55 +4787,55 @@ ediv:                                   //  @ediv
 .LBB5_135:                              //  %if.then22.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x28, 24 ( x19 )
-	lhu x11, 24 ( x22 )
+	lhu x11, 24 ( x24 )
 	lhu x7, 22 ( x19 )
-	lhu x10, 22 ( x22 )
+	lhu x10, 22 ( x24 )
 	lhu x30, 20 ( x19 )
 	sub x29, x11, x28
 	srl x11, x29, 16&31
 	sub x10, x10, x7
 	and x11, x11, 1
 	sub x5, x10, x11
-	lhu x11, 20 ( x22 )
+	lhu x11, 20 ( x24 )
 	srl x10, x5, 16&31
 	and x10, x10, 1
 	lhu x31, 18 ( x19 )
 	sub x11, x11, x30
 	sub x17, x11, x10
-	lhu x11, 18 ( x22 )
+	lhu x11, 18 ( x24 )
 	srl x10, x17, 16&31
 	and x10, x10, 1
 	lhu x3, 16 ( x19 )
 	sub x11, x11, x31
 	sub x16, x11, x10
-	lhu x11, 16 ( x22 )
+	lhu x11, 16 ( x24 )
 	srl x10, x16, 16&31
 	and x10, x10, 1
 	lhu x4, 14 ( x19 )
 	sub x11, x11, x3
 	sub x15, x11, x10
-	lhu x11, 14 ( x22 )
+	lhu x11, 14 ( x24 )
 	srl x10, x15, 16&31
 	and x10, x10, 1
-	lhu x24, 12 ( x19 )
+	lhu x26, 12 ( x19 )
 	sub x11, x11, x4
 	sub x13, x11, x10
-	lhu x11, 12 ( x22 )
+	lhu x11, 12 ( x24 )
 	srl x10, x13, 16&31
 	and x10, x10, 1
 	lhu x27, 10 ( x19 )
-	sub x11, x11, x24
+	sub x11, x11, x26
 	sub x14, x11, x10
-	lhu x11, 10 ( x22 )
+	lhu x11, 10 ( x24 )
 	srl x10, x14, 16&31
 	and x10, x10, 1
 	lhu x21, 8 ( x19 )
 	sub x11, x11, x27
 	sub x12, x11, x10
-	lhu x11, 8 ( x22 )
+	lhu x11, 8 ( x24 )
 	srl x10, x12, 16&31
 	lhu fp, 6 ( x19 )
-	lhu x9, 6 ( x22 )
+	lhu x9, 6 ( x24 )
 	and x10, x10, 1
 	sub x11, x11, x21
 	sub x11, x11, x10
@@ -4846,134 +4846,134 @@ ediv:                                   //  @ediv
 	srl x9, x10, 16&31
 	and x19, x9, 1
 	lhu x9, 74 ( sp )
-	sh x29, 24 ( x22 )
-	sh x5, 22 ( x22 )
-	sh x17, 20 ( x22 )
-	sub x25, ra, x9
-	sub x19, x25, x19
-	add x25, x23, -1
-	sw x25, 40 ( sp )               //  4-byte Folded Spill
-	add x25, x26, %lo( 65535 )
+	sh x29, 24 ( x24 )
+	sh x5, 22 ( x24 )
+	sh x17, 20 ( x24 )
+	sub x23, ra, x9
+	sub x19, x23, x19
+	add x23, x25, -1
+	sw x23, 40 ( sp )               //  4-byte Folded Spill
+	add x23, x22, %lo( 65535 )
 	mv ra, x19
-	and x26, x25, x19
-	sh x16, 18 ( x22 )
-	sh x15, 16 ( x22 )
-	sh x13, 14 ( x22 )
-	sh x14, 12 ( x22 )
-	sh x12, 10 ( x22 )
-	sh x11, 8 ( x22 )
-	sh x10, 6 ( x22 )
+	and x22, x23, x19
+	sh x16, 18 ( x24 )
+	sh x15, 16 ( x24 )
+	sh x13, 14 ( x24 )
+	sh x14, 12 ( x24 )
+	sh x12, 10 ( x24 )
+	sh x11, 8 ( x24 )
+	sh x10, 6 ( x24 )
 	sh x19, 100 ( sp )
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_136:                              //  %for.inc.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 50 ( sp )
-	and x26, x25, x10
+	and x22, x23, x10
 	mv ra, x10
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_139:                              //  %for.inc.1.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 52 ( sp )
-	and x26, x25, x11
+	and x22, x23, x11
 	mv ra, x11
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_140:                              //  %for.inc.2.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 54 ( sp )
-	and x26, x25, x12
+	and x22, x23, x12
 	mv ra, x12
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_141:                              //  %for.inc.3.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 56 ( sp )
-	and x26, x25, x14
+	and x22, x23, x14
 	mv ra, x14
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_142:                              //  %for.inc.4.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 58 ( sp )
-	and x26, x25, x13
+	and x22, x23, x13
 	mv ra, x13
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_143:                              //  %for.inc.5.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 60 ( sp )
-	and x26, x25, x15
+	and x22, x23, x15
 	mv ra, x15
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_144:                              //  %for.inc.6.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 62 ( sp )
-	and x26, x25, x16
+	and x22, x23, x16
 	mv ra, x16
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_145:                              //  %for.inc.7.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 64 ( sp )
-	and x26, x25, x17
+	and x22, x23, x17
 	mv ra, x17
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_146:                              //  %for.inc.8.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 66 ( sp )
-	and x26, x25, x5
+	and x22, x23, x5
 	mv ra, x5
-	bne x6, x26, .LBB5_137
+	bne x6, x22, .LBB5_137
 .LBB5_147:                              //  %for.inc.9.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
 	lhu x6, 68 ( sp )
-	and x26, x25, x29
+	and x22, x23, x29
 	mv ra, x29
-	beq x6, x26, .LBB5_138
+	beq x6, x22, .LBB5_138
 .LBB5_137:                              //  %difrnt.i.i
                                         //    in Loop: Header=BB5_111 Depth=1
-	and x26, x25, ra
-	bgeu x6, x26, .LBB5_138
+	and x22, x23, ra
+	bgeu x6, x22, .LBB5_138
 .LBB5_148:                              //  %if.then30.i
                                         //    in Loop: Header=BB5_111 Depth=1
-	and x6, x25, x29
-	and x5, x25, x5
+	and x6, x23, x29
+	and x5, x23, x5
 	sub x6, x6, x28
 	sub x5, x5, x7
 	srl x7, x6, 16&31
 	and x7, x7, 1
 	sub x5, x5, x7
-	and x17, x25, x17
+	and x17, x23, x17
 	srl x7, x5, 16&31
 	sub x17, x17, x30
 	and x7, x7, 1
 	sub x17, x17, x7
-	and x16, x25, x16
+	and x16, x23, x16
 	srl x7, x17, 16&31
 	sub x16, x16, x31
 	and x7, x7, 1
 	sub x16, x16, x7
-	and x15, x25, x15
+	and x15, x23, x15
 	srl x7, x16, 16&31
 	sub x15, x15, x3
 	and x7, x7, 1
 	sub x15, x15, x7
-	and x13, x25, x13
+	and x13, x23, x13
 	srl x7, x15, 16&31
 	sub x13, x13, x4
 	and x7, x7, 1
 	sub x13, x13, x7
-	and x14, x25, x14
+	and x14, x23, x14
 	srl x7, x13, 16&31
-	sub x14, x14, x24
+	sub x14, x14, x26
 	and x7, x7, 1
 	sub x14, x14, x7
-	and x12, x25, x12
+	and x12, x23, x12
 	srl x7, x14, 16&31
 	sub x12, x12, x27
 	and x7, x7, 1
 	sub x12, x12, x7
-	and x11, x25, x11
+	and x11, x23, x11
 	srl x7, x12, 16&31
 	sub x11, x11, x21
 	and x7, x7, 1
 	sub x11, x11, x7
-	and x10, x25, x10
+	and x10, x23, x10
 	srl x7, x11, 16&31
 	sub x10, x10, fp
 	and x7, x7, 1
@@ -4982,28 +4982,28 @@ ediv:                                   //  @ediv
 	sub x7, x19, x9
 	and x28, x28, 1
 	sub x7, x7, x28
-	add x23, x23, -2
-	sh x6, 24 ( x22 )
-	sh x5, 22 ( x22 )
-	sh x17, 20 ( x22 )
-	sh x16, 18 ( x22 )
-	sh x15, 16 ( x22 )
-	sh x13, 14 ( x22 )
-	sh x14, 12 ( x22 )
-	sh x12, 10 ( x22 )
-	sh x11, 8 ( x22 )
-	sh x10, 6 ( x22 )
+	add x25, x25, -2
+	sh x6, 24 ( x24 )
+	sh x5, 22 ( x24 )
+	sh x17, 20 ( x24 )
+	sh x16, 18 ( x24 )
+	sh x15, 16 ( x24 )
+	sh x13, 14 ( x24 )
+	sh x14, 12 ( x24 )
+	sh x12, 10 ( x24 )
+	sh x11, 8 ( x24 )
+	sh x10, 6 ( x24 )
 	sh x7, 100 ( sp )
 	jal x0, .LBB5_149
 .LBB5_138:                              //    in Loop: Header=BB5_111 Depth=1
-	lw x23, 40 ( sp )               //  4-byte Folded Reload
+	lw x25, 40 ( sp )               //  4-byte Folded Reload
 .LBB5_149:                              //  %if.end36.i
                                         //    in Loop: Header=BB5_111 Depth=1
-	lw fp, 32 ( sp )                //  4-byte Folded Reload
-	lw x9, 28 ( sp )                //  4-byte Folded Reload
-	lw x21, 24 ( sp )               //  4-byte Folded Reload
+	lw x26, 32 ( sp )               //  4-byte Folded Reload
+	lw x21, 28 ( sp )               //  4-byte Folded Reload
+	lw x23, 24 ( sp )               //  4-byte Folded Reload
 	add x19, sp, 70
-	lui x26, %hi( 65535 )
+	lui x22, %hi( 65535 )
 	jal x0, .LBB5_150
 .LBB5_119:                              //    in Loop: Header=BB5_111 Depth=1
 	mv x28, x11
@@ -5038,64 +5038,64 @@ ediv:                                   //  @ediv
 	bgeu x7, x28, .LBB5_117
 	jal x0, .LBB5_135
 .LBB5_151:                              //  %edivm.exit
-	or x5, x5, x7
-	or x17, x17, x5
-	or x16, x16, x17
-	or x15, x15, x16
-	lh x16, 54 ( fp )
-	or x13, x13, x15
-	or x13, x14, x13
-	or x12, x12, x13
-	sh x16, 2 ( x18 )
-	lh x16, 56 ( fp )
-	or x11, x11, x12
-	lh x12, 70 ( fp )
-	or x10, x10, x11
-	sh x16, 4 ( x18 )
-	lh x16, 58 ( fp )
-	sh x12, 18 ( x18 )
-	lh x12, 72 ( fp )
-	lw x11, 20 ( sp )               //  4-byte Folded Reload
-	sh x16, 6 ( x18 )
-	lh x16, 60 ( fp )
-	sh x12, 20 ( x18 )
-	lh x12, 74 ( fp )
+	lh x11, 54 ( x26 )
+	or x10, x5, x7
+	or x10, x17, x10
+	or x10, x16, x10
+	sh x11, 2 ( x18 )
+	lh x11, 56 ( x26 )
+	or x10, x15, x10
+	or x10, x13, x10
+	or x10, x14, x10
+	sh x11, 4 ( x18 )
+	lh x11, 58 ( x26 )
+	or x10, x12, x10
+	lw x12, 12 ( sp )               //  4-byte Folded Reload
+	or x10, x9, x10
+	sh x11, 6 ( x18 )
+	lh x11, 60 ( x26 )
+	or x10, fp, x10
 	and x10, x6, x10
-	sh x16, 8 ( x18 )
-	lh x16, 62 ( fp )
-	sh x12, 22 ( x18 )
-	lh x12, 76 ( fp )
-	mv x9, x0
-	sh x16, 10 ( x18 )
-	lh x16, 64 ( fp )
-	sh x12, 68 ( sp )
-	lw x12, 8 ( sp )                //  4-byte Folded Reload
+	mv fp, x0
+	sh x11, 8 ( x18 )
+	lh x11, 62 ( x26 )
 	add x14, x0, 64
-	sh x16, 12 ( x18 )
-	lh x16, 66 ( fp )
+	mv x15, x26
+	sh x11, 10 ( x18 )
+	lh x11, 64 ( x26 )
+	sh x11, 12 ( x18 )
+	lh x11, 66 ( x26 )
+	sh x11, 14 ( x18 )
+	lh x11, 68 ( x26 )
+	sh x11, 16 ( x18 )
+	lh x11, 52 ( x26 )
+	sh x11, 44 ( sp )
+	lh x11, 70 ( x26 )
+	sh x11, 18 ( x18 )
+	lh x11, 72 ( x26 )
+	sh x11, 20 ( x18 )
+	lh x11, 74 ( x26 )
+	sh x11, 22 ( x18 )
+	lh x11, 76 ( x26 )
+	sh x11, 68 ( sp )
+	lw x11, 8 ( sp )                //  4-byte Folded Reload
 	sub x11, x12, x11
 	lui x12, %hi( 16383 )
 	add x12, x12, %lo( 16383 )
-	sh x16, 14 ( x18 )
-	lh x16, 68 ( fp )
 	add x13, x12, x11
 	snez x11, x10
 	mv x10, x18
-	sh x16, 16 ( x18 )
-	lh x16, 52 ( fp )
-	mv x12, x9
-	mv x15, fp
-	sh x16, 44 ( sp )
+	mv x12, fp
 	jal emdnorm
 	lhu x11, 44 ( sp )
 	lhu x12, 70 ( sp )
 	beq x12, x11, .LBB5_153
 .LBB5_152:
-	add x9, x0, -1
+	add fp, x0, -1
 .LBB5_153:                              //  %edivm.exit
 	lhu x13, 2 ( x18 )
-	lw x14, 16 ( sp )               //  4-byte Folded Reload
-	lw x15, 12 ( sp )               //  4-byte Folded Reload
+	lw x14, 20 ( sp )               //  4-byte Folded Reload
+	lw x15, 16 ( sp )               //  4-byte Folded Reload
 	mv x10, x13
 	beq x12, x11, .LBB5_155
 .LBB5_154:                              //  %edivm.exit
@@ -5104,7 +5104,7 @@ ediv:                                   //  @ediv
 	or x10, x10, x13
 .LBB5_155:                              //  %edivm.exit
 	sh x10, 18 ( x14 )
-	sh x9, 44 ( sp )
+	sh fp, 44 ( sp )
 	bne x13, x15, .LBB5_159
 .LBB5_156:                              //  %for.body.preheader.i.i
 	lhu x11, 6 ( x18 )
@@ -5169,15 +5169,17 @@ ediv:                                   //  @ediv
 	or x12, x12, x13
 	or x11, x11, x12
 	or x10, x10, x11
-	add x11, x26, %lo( 65535 )
+	add x11, x22, %lo( 65535 )
 	and x10, x11, x10
-	beq x0, x10, .LBB5_175
+	beq x0, x10, .LBB5_81
 .LBB5_106:                              //  %if.then43
 	add x10, sp, 44
 	jal enormlz
 	lhu x6, 72 ( sp )
-	sub x9, x0, x10
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
+	sub x25, x0, x10
+	sw fp, 20 ( sp )                //  4-byte Folded Spill
+	sw x9, 16 ( sp )                //  4-byte Folded Spill
+	sw x25, 12 ( sp )               //  4-byte Folded Spill
 	bltu x0, x6, .LBB5_110
 	jal x0, .LBB5_108
 .LBB5_158:                              //  %if.end12.i
@@ -5185,20 +5187,11 @@ ediv:                                   //  @ediv
 	sh x10, 18 ( x14 )
 	sh x0, 16 ( x14 )
 	jal x0, .LBB5_160
-.LBB5_175:                              //  %for.cond.10
-	lw x10, 16 ( sp )               //  4-byte Folded Reload
-	sh x0, 18 ( x10 )
-.LBB5_176:                              //  %cleanup
-	sh x0, 16 ( x10 )
-	sh x0, 14 ( x10 )
-	sh x0, 12 ( x10 )
-	sh x0, 10 ( x10 )
-	sh x0, 8 ( x10 )
-	sh x0, 6 ( x10 )
-	sh x0, 4 ( x10 )
-	sh x0, 2 ( x10 )
-	sh x0, 0 ( x10 )
-	jal x0, .LBB5_160
+.LBB5_81:                               //  %if.then27
+	sh x0, 18 ( fp )
+.LBB5_69:                               //  %cleanup
+	sh x0, 16 ( fp )
+	jal x0, .LBB5_70
 .LBB5_82:                               //  %for.cond20.preheader.i312
 	sh x0, 22 ( x19 )
 	sh x0, 20 ( x19 )
@@ -5210,7 +5203,7 @@ ediv:                                   //  @ediv
 	sh x0, 8 ( x19 )
 	sh x0, 6 ( x19 )
 	jal x0, .LBB5_94
-.LBB5_177:                              //  %for.cond20.preheader.i
+.LBB5_175:                              //  %for.cond20.preheader.i
 	sh x0, 22 ( x18 )
 	sh x0, 20 ( x18 )
 	sh x0, 18 ( x18 )
@@ -5222,19 +5215,13 @@ ediv:                                   //  @ediv
 	sh x0, 6 ( x18 )
 	sh x0, 4 ( x18 )
 	sh x0, 68 ( sp )
-	add x9, x21, %lo( 32767 )
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
-	bltu x0, x6, .LBB5_110
-	jal x0, .LBB5_108
-.LBB5_79:                               //  %if.then27
-	sh x0, 18 ( x11 )
-	jal x0, .LBB5_80
+	jal x0, .LBB5_105
 .LBB5_34:                               //  %land.lhs.true10
 	add x10, x21, %lo( 32767 )
-	bne x9, x10, .LBB5_71
+	bne x25, x10, .LBB5_73
 .LBB5_35:                               //  %for.body.preheader.i.i535
 	lhu x10, 0 ( x20 )
-	bltu x0, x10, .LBB5_71
+	bltu x0, x10, .LBB5_73
 .LBB5_36:                               //  %for.inc.i.i538
 	lhu x10, 2 ( x20 )
 	bltu x0, x10, .LBB5_47
@@ -5261,18 +5248,18 @@ ediv:                                   //  @ediv
 	bltu x0, x10, .LBB5_47
 .LBB5_44:                               //  %if.then13
 	add x10, x21, %lo( 32767 )
-	sh x10, 18 ( x11 )
+	sh x10, 18 ( fp )
 	lui x10, (49152>>12)&1048575
-	sh x10, 16 ( x11 )
-.LBB5_81:                               //  %cleanup
-	sh x0, 14 ( x11 )
-	sh x0, 12 ( x11 )
-	sh x0, 10 ( x11 )
-	sh x0, 8 ( x11 )
-	sh x0, 6 ( x11 )
-	sh x0, 4 ( x11 )
-	sh x0, 2 ( x11 )
-	sh x0, 0 ( x11 )
+	sh x10, 16 ( fp )
+.LBB5_70:                               //  %cleanup
+	sh x0, 14 ( fp )
+	sh x0, 12 ( fp )
+	sh x0, 10 ( fp )
+	sh x0, 8 ( fp )
+	sh x0, 6 ( fp )
+	sh x0, 4 ( fp )
+	sh x0, 2 ( fp )
+	sh x0, 0 ( fp )
 .LBB5_160:                              //  %cleanup
 	lw fp, 124 ( sp )               //  4-byte Folded Reload
 	lw x27, 128 ( sp )              //  4-byte Folded Reload
@@ -5292,7 +5279,7 @@ ediv:                                   //  @ediv
 	jr ra
 .LBB5_55:                               //  %if.then17
 	add x10, x21, %lo( 32767 )
-	bne x6, x10, .LBB5_65
+	bne x24, x10, .LBB5_65
 .LBB5_56:                               //  %for.body.preheader.i.i461
 	lhu x12, 0 ( x18 )
 	mv x11, x0
@@ -5329,23 +5316,17 @@ ediv:                                   //  @ediv
 .LBB5_67:                               //  %eisneg.exit
 	add x10, x0, -1
 .LBB5_68:                               //  %eisneg.exit
-	lw x11, 16 ( sp )               //  4-byte Folded Reload
-	sh x10, 18 ( x11 )
-.LBB5_80:                               //  %cleanup
-	sh x0, 16 ( x11 )
-	jal x0, .LBB5_81
+	sh x10, 18 ( fp )
+	jal x0, .LBB5_69
 .LBB5_170:                              //  %for.cond53.10
 	lhu x10, 44 ( sp )
 	lhu x11, 70 ( sp )
 	beq x11, x10, .LBB5_172
 .LBB5_171:                              //  %for.cond53.10
-	add x10, x0, -1
-	sw x10, 12 ( sp )               //  4-byte Folded Spill
+	add x9, x0, -1
 .LBB5_172:                              //  %for.cond53.10
-	lw x10, 16 ( sp )               //  4-byte Folded Reload
-	lw x11, 12 ( sp )               //  4-byte Folded Reload
-	sh x11, 18 ( x10 )
-	jal x0, .LBB5_176
+	sh x9, 18 ( fp )
+	jal x0, .LBB5_69
 .Lfunc_end5:
 	.size	ediv, .Lfunc_end5-ediv
 	.cfi_endproc
@@ -7526,245 +7507,279 @@ m16m:                                   //  @m16m
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -32
-	.cfi_adjust_cfa_offset 32
-	lhu x14, 24 ( x11 )
-	add x13, sp, 6
-	sh x0, 22 ( x13 )
-	sh x0, 30 ( sp )
-	beq x0, x14, .LBB10_1
+	add sp, sp, -64
+	.cfi_adjust_cfa_offset 64
+	sw x18, 52 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 18, -12
+	mv x18, x11
+	sw x9, 56 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	mv x9, x10
+	lhu x10, 24 ( x18 )
+	sw x19, 48 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 19, -16
+	sw fp, 36 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 8, -28
+	add x19, sp, 10
+	mv fp, x12
+	sw ra, 60 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	sw x20, 44 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 20, -20
+	sw x21, 40 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 21, -24
+	sh x0, 22 ( x19 )
+	sh x0, 34 ( sp )
+	beq x0, x10, .LBB10_1
 .LBB10_2:                               //  %if.else
-	hackaton_custom_instr_c x14, x10, x14
-	srl x15, x14, 16&31
-	sh x15, 22 ( x13 )
-	sh x14, 30 ( sp )
-	lhu x16, 22 ( x11 )
-	lui x14, %hi( 65535 )
-	sh x0, 26 ( sp )
-	beq x0, x16, .LBB10_5
+	mv x11, x9
+	jal __mulsi3
+	srl x21, x10, 16&31
+	sh x21, 22 ( x19 )
+	sh x10, 34 ( sp )
+	lhu x10, 22 ( x18 )
+	lui x20, %hi( 65535 )
+	sh x0, 30 ( sp )
+	beq x0, x10, .LBB10_5
 .LBB10_4:                               //  %if.else.1
-	hackaton_custom_instr_c x16, x10, x16
-	add x17, x14, %lo( 65535 )
-	and x17, x17, x16
-	add x15, x15, x17
-	srl x16, x16, 16&31
-	srl x17, x15, 16&31
-	add x16, x16, x17
-	lhu x17, 20 ( x13 )
-	sh x15, 28 ( sp )
-	add x16, x17, x16
-	sh x16, 20 ( x13 )
-	srl x15, x16, 16&31
-	sh x15, 24 ( sp )
-	lhu x15, 20 ( x11 )
-	beq x0, x15, .LBB10_8
+	mv x11, x9
+	jal __mulsi3
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	add x11, x21, x11
+	srl x10, x10, 16&31
+	srl x12, x11, 16&31
+	add x10, x10, x12
+	lhu x12, 20 ( x19 )
+	sh x11, 32 ( sp )
+	add x10, x12, x10
+	sh x10, 20 ( x19 )
+	srl x10, x10, 16&31
+	sh x10, 28 ( sp )
+	lhu x10, 20 ( x18 )
+	beq x0, x10, .LBB10_8
 .LBB10_7:                               //  %if.else.2
-	lhu x17, 20 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 20 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 24 ( sp )
-	add x15, x16, x15
-	sh x15, 24 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 22 ( sp )
-	lhu x15, 18 ( x11 )
-	beq x0, x15, .LBB10_11
-.LBB10_10:                              //  %if.else.3
-	lhu x17, 18 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 18 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 22 ( sp )
-	add x15, x16, x15
-	sh x15, 22 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 20 ( sp )
-	lhu x15, 16 ( x11 )
-	beq x0, x15, .LBB10_14
-.LBB10_13:                              //  %if.else.4
-	lhu x17, 16 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 16 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 20 ( sp )
-	add x15, x16, x15
-	sh x15, 20 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 18 ( sp )
-	lhu x15, 14 ( x11 )
-	beq x0, x15, .LBB10_17
-.LBB10_16:                              //  %if.else.5
-	lhu x17, 14 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 14 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 18 ( sp )
-	add x15, x16, x15
-	sh x15, 18 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 16 ( sp )
-	lhu x15, 12 ( x11 )
-	beq x0, x15, .LBB10_20
-.LBB10_19:                              //  %if.else.6
-	lhu x17, 12 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 12 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 16 ( sp )
-	add x15, x16, x15
-	sh x15, 16 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 14 ( sp )
-	lhu x15, 10 ( x11 )
-	beq x0, x15, .LBB10_23
-.LBB10_22:                              //  %if.else.7
-	lhu x17, 10 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 10 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 14 ( sp )
-	add x15, x16, x15
-	sh x15, 14 ( sp )
-	srl x15, x15, 16&31
-	sh x15, 12 ( sp )
-	lhu x15, 8 ( x11 )
-	beq x0, x15, .LBB10_26
-.LBB10_25:                              //  %if.else.8
-	lhu x17, 8 ( x13 )
-	hackaton_custom_instr_c x15, x10, x15
-	add x16, x14, %lo( 65535 )
-	and x16, x16, x15
-	add x16, x17, x16
-	sh x16, 8 ( x13 )
-	srl x15, x15, 16&31
-	srl x16, x16, 16&31
-	add x15, x15, x16
-	lhu x16, 12 ( sp )
-	add x15, x16, x15
-	sh x15, 12 ( sp )
-	srl x15, x15, 16&31
-	lhu x11, 6 ( x11 )
-	sh x15, 10 ( sp )
-	beq x0, x11, .LBB10_28
-.LBB10_29:                              //  %if.else.9
-	hackaton_custom_instr_c x10, x10, x11
-	add x11, x14, %lo( 65535 )
-	lhu x14, 6 ( x13 )
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 20 ( x19 )
+	add x11, x20, %lo( 65535 )
 	and x11, x11, x10
 	srl x10, x10, 16&31
-	add x11, x14, x11
-	sh x11, 6 ( x13 )
+	add x11, x12, x11
+	sh x11, 20 ( x19 )
 	srl x11, x11, 16&31
 	add x10, x10, x11
-	lhu x11, 10 ( sp )
+	lhu x11, 28 ( sp )
 	add x10, x11, x10
-	sh x10, 10 ( sp )
+	sh x10, 28 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 26 ( sp )
+	lhu x10, 18 ( x18 )
+	beq x0, x10, .LBB10_11
+.LBB10_10:                              //  %if.else.3
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 18 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 18 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 26 ( sp )
+	add x10, x11, x10
+	sh x10, 26 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 24 ( sp )
+	lhu x10, 16 ( x18 )
+	beq x0, x10, .LBB10_14
+.LBB10_13:                              //  %if.else.4
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 16 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 16 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 24 ( sp )
+	add x10, x11, x10
+	sh x10, 24 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 22 ( sp )
+	lhu x10, 14 ( x18 )
+	beq x0, x10, .LBB10_17
+.LBB10_16:                              //  %if.else.5
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 14 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 14 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 22 ( sp )
+	add x10, x11, x10
+	sh x10, 22 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 20 ( sp )
+	lhu x10, 12 ( x18 )
+	beq x0, x10, .LBB10_20
+.LBB10_19:                              //  %if.else.6
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 12 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 12 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 20 ( sp )
+	add x10, x11, x10
+	sh x10, 20 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 18 ( sp )
+	lhu x10, 10 ( x18 )
+	beq x0, x10, .LBB10_23
+.LBB10_22:                              //  %if.else.7
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 10 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 10 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 18 ( sp )
+	add x10, x11, x10
+	sh x10, 18 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 16 ( sp )
+	lhu x10, 8 ( x18 )
+	beq x0, x10, .LBB10_26
+.LBB10_25:                              //  %if.else.8
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 8 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 8 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 16 ( sp )
+	add x10, x11, x10
+	sh x10, 16 ( sp )
+	srl x10, x10, 16&31
+	sh x10, 14 ( sp )
+	lhu x10, 6 ( x18 )
+	beq x0, x10, .LBB10_28
+.LBB10_29:                              //  %if.else.9
+	mv x11, x9
+	jal __mulsi3
+	lhu x12, 6 ( x19 )
+	add x11, x20, %lo( 65535 )
+	and x11, x11, x10
+	srl x10, x10, 16&31
+	add x11, x12, x11
+	sh x11, 6 ( x19 )
+	srl x11, x11, 16&31
+	add x10, x10, x11
+	lhu x11, 14 ( sp )
+	add x10, x11, x10
+	sh x10, 14 ( sp )
 	srl x10, x10, 16&31
 	jal x0, .LBB10_30
 .LBB10_1:                               //  %if.then
-	mv x15, x0
-	lhu x16, 22 ( x11 )
-	lui x14, %hi( 65535 )
-	sh x0, 26 ( sp )
-	bltu x0, x16, .LBB10_4
+	mv x21, x0
+	lhu x10, 22 ( x18 )
+	lui x20, %hi( 65535 )
+	sh x0, 30 ( sp )
+	bltu x0, x10, .LBB10_4
 .LBB10_5:                               //  %if.then.1
-	mv x15, x0
-	sh x15, 24 ( sp )
-	lhu x15, 20 ( x11 )
-	bltu x0, x15, .LBB10_7
+	mv x10, x0
+	sh x10, 28 ( sp )
+	lhu x10, 20 ( x18 )
+	bltu x0, x10, .LBB10_7
 .LBB10_8:                               //  %if.then.2
-	mv x15, x0
-	sh x15, 22 ( sp )
-	lhu x15, 18 ( x11 )
-	bltu x0, x15, .LBB10_10
+	mv x10, x0
+	sh x10, 26 ( sp )
+	lhu x10, 18 ( x18 )
+	bltu x0, x10, .LBB10_10
 .LBB10_11:                              //  %if.then.3
-	mv x15, x0
-	sh x15, 20 ( sp )
-	lhu x15, 16 ( x11 )
-	bltu x0, x15, .LBB10_13
+	mv x10, x0
+	sh x10, 24 ( sp )
+	lhu x10, 16 ( x18 )
+	bltu x0, x10, .LBB10_13
 .LBB10_14:                              //  %if.then.4
-	mv x15, x0
-	sh x15, 18 ( sp )
-	lhu x15, 14 ( x11 )
-	bltu x0, x15, .LBB10_16
+	mv x10, x0
+	sh x10, 22 ( sp )
+	lhu x10, 14 ( x18 )
+	bltu x0, x10, .LBB10_16
 .LBB10_17:                              //  %if.then.5
-	mv x15, x0
-	sh x15, 16 ( sp )
-	lhu x15, 12 ( x11 )
-	bltu x0, x15, .LBB10_19
+	mv x10, x0
+	sh x10, 20 ( sp )
+	lhu x10, 12 ( x18 )
+	bltu x0, x10, .LBB10_19
 .LBB10_20:                              //  %if.then.6
-	mv x15, x0
-	sh x15, 14 ( sp )
-	lhu x15, 10 ( x11 )
-	bltu x0, x15, .LBB10_22
+	mv x10, x0
+	sh x10, 18 ( sp )
+	lhu x10, 10 ( x18 )
+	bltu x0, x10, .LBB10_22
 .LBB10_23:                              //  %if.then.7
-	mv x15, x0
-	sh x15, 12 ( sp )
-	lhu x15, 8 ( x11 )
-	bltu x0, x15, .LBB10_25
+	mv x10, x0
+	sh x10, 16 ( sp )
+	lhu x10, 8 ( x18 )
+	bltu x0, x10, .LBB10_25
 .LBB10_26:                              //  %if.then.8
-	mv x15, x0
-	lhu x11, 6 ( x11 )
-	sh x15, 10 ( sp )
-	bltu x0, x11, .LBB10_29
+	mv x10, x0
+	sh x10, 14 ( sp )
+	lhu x10, 6 ( x18 )
+	bltu x0, x10, .LBB10_29
 .LBB10_28:
 	mv x10, x0
 .LBB10_30:                              //  %for.inc.9
-	sh x10, 2 ( x13 )
-	lh x10, 4 ( x13 )
-	sh x10, 4 ( x12 )
-	lh x10, 6 ( x13 )
-	sh x10, 6 ( x12 )
-	lh x10, 8 ( x13 )
-	sh x10, 8 ( x12 )
-	lh x10, 10 ( x13 )
-	sh x10, 10 ( x12 )
-	lh x10, 12 ( x13 )
-	sh x10, 12 ( x12 )
-	lh x10, 14 ( x13 )
-	sh x10, 14 ( x12 )
-	lh x10, 16 ( x13 )
-	sh x10, 16 ( x12 )
-	lh x10, 18 ( x13 )
-	sh x10, 18 ( x12 )
-	lh x10, 20 ( x13 )
-	sh x10, 20 ( x12 )
-	lh x10, 22 ( x13 )
-	sh x10, 22 ( x12 )
-	lh x10, 30 ( sp )
-	sh x10, 24 ( x12 )
-	add sp, sp, 32
+	sh x10, 2 ( x19 )
+	lh x10, 4 ( x19 )
+	lw x21, 40 ( sp )               //  4-byte Folded Reload
+	lw x20, 44 ( sp )               //  4-byte Folded Reload
+	lw x18, 52 ( sp )               //  4-byte Folded Reload
+	sh x10, 4 ( fp )
+	lh x10, 6 ( x19 )
+	lw x9, 56 ( sp )                //  4-byte Folded Reload
+	lw ra, 60 ( sp )                //  4-byte Folded Reload
+	sh x10, 6 ( fp )
+	lh x10, 8 ( x19 )
+	sh x10, 8 ( fp )
+	lh x10, 10 ( x19 )
+	sh x10, 10 ( fp )
+	lh x10, 12 ( x19 )
+	sh x10, 12 ( fp )
+	lh x10, 14 ( x19 )
+	sh x10, 14 ( fp )
+	lh x10, 16 ( x19 )
+	sh x10, 16 ( fp )
+	lh x10, 18 ( x19 )
+	sh x10, 18 ( fp )
+	lh x10, 20 ( x19 )
+	sh x10, 20 ( fp )
+	lh x10, 22 ( x19 )
+	lw x19, 48 ( sp )               //  4-byte Folded Reload
+	sh x10, 22 ( fp )
+	lh x10, 34 ( sp )
+	sh x10, 24 ( fp )
+	lw fp, 36 ( sp )                //  4-byte Folded Reload
+	add sp, sp, 64
 	.cfi_def_cfa 2, 0
 	jr ra
 .Lfunc_end10:

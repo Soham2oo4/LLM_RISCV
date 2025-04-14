@@ -1440,104 +1440,128 @@ void MI14i_ext_hackatonIH1_10start_base(int32 MI21opc_hackaton_custom_iIH1_10sta
         #line 63 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         case (uint3)(0x2):
         {
-            #line 67 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
-            MI6resultIH1_10start_base1_14i_ext_hackatonB0 = ((MI2s1IH1_10start_base1_14i_ext_hackatonB0 * MI2s2IH1_10start_base1_14i_ext_hackatonB0));
             #line 68 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            MI3macIH1_10start_base1_14i_ext_hackatonB0 = (int32)0L;
+            #line 69 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            for (MI1iIH1_10start_base1_14i_ext_hackatonB0 = (int32)0L; (MI1iIH1_10start_base1_14i_ext_hackatonB0 < (int32)3L); MI1iIH1_10start_base1_14i_ext_hackatonB0++, MI2s1IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L, MI2s2IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L, MI2s3IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L)
+            {
+                #line 70 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                MI4val1IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s1IH1_10start_base1_14i_ext_hackatonB0);
+                #line 71 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                MI4val2IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s2IH1_10start_base1_14i_ext_hackatonB0);
+                #line 73 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                ;
+                #line 74 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                ;
+                #line 75 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                MI3macIH1_10start_base1_14i_ext_hackatonB0 = (MI3macIH1_10start_base1_14i_ext_hackatonB0 + ((((MI4val1IH1_10start_base1_14i_ext_hackatonB0 * MI4val2IH1_10start_base1_14i_ext_hackatonB0)) >> (int32)8L)));
+                #line 77 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                ;
+            }
+            #line 81 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            MI9write_val((int32)163L, MI2s3IH1_10start_base1_14i_ext_hackatonB0, MI3macIH1_10start_base1_14i_ext_hackatonB0);
+            #line 83 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            MI6resultIH1_10start_base1_14i_ext_hackatonB0 = MI3macIH1_10start_base1_14i_ext_hackatonB0;
+            #line 84 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
-        #line 72 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+        #line 85 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         case (uint3)(0x3):
         {
-            #line 73 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 86 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             MI3macIH1_10start_base1_14i_ext_hackatonB0 = MI2s3IH1_10start_base1_14i_ext_hackatonB0;
-            #line 74 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 87 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             for (MI1iIH1_10start_base1_14i_ext_hackatonB0 = (int32)0L; (MI1iIH1_10start_base1_14i_ext_hackatonB0 < (int32)4L); MI1iIH1_10start_base1_14i_ext_hackatonB0++, MI2s1IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L, MI2s2IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L)
             {
-                #line 75 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 88 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI4val1IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s1IH1_10start_base1_14i_ext_hackatonB0);
-                #line 76 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 89 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI4val2IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s2IH1_10start_base1_14i_ext_hackatonB0);
-                #line 78 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 91 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
-                #line 79 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 92 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
-                #line 80 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 93 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI3macIH1_10start_base1_14i_ext_hackatonB0 = (MI3macIH1_10start_base1_14i_ext_hackatonB0 + ((((MI4val1IH1_10start_base1_14i_ext_hackatonB0 * MI4val2IH1_10start_base1_14i_ext_hackatonB0)) >> (int32)8L)));
-                #line 81 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 94 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
             }
-            #line 86 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 98 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             MI6resultIH1_10start_base1_14i_ext_hackatonB0 = MI3macIH1_10start_base1_14i_ext_hackatonB0;
-            #line 87 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 99 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
-        #line 89 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+        #line 101 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         case (uint3)(0x4):
         {
-            #line 91 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 103 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             if ((MI2s1IH1_10start_base1_14i_ext_hackatonB0 > (int32)32767L))
             {
-                #line 92 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 104 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI6resultIH1_10start_base1_14i_ext_hackatonB0 = (int32)32767L;
             }
-            #line 94 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 106 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             else 
             {
                 if ((MI2s1IH1_10start_base1_14i_ext_hackatonB0 < -(int32)32768L))
                 {
-                    #line 95 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                    #line 107 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                     MI6resultIH1_10start_base1_14i_ext_hackatonB0 = -(int32)32768L;
                 }
-                #line 97 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 109 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 else 
                 {
-                    #line 98 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                    #line 110 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                     MI6resultIH1_10start_base1_14i_ext_hackatonB0 = MI2s1IH1_10start_base1_14i_ext_hackatonB0;
                 }
             }
-            #line 101 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 113 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
-        #line 102 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+        #line 114 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         case (uint3)(0x5):
         {
-            #line 108 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 120 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            MI6resultIH1_10start_base1_14i_ext_hackatonB0 = MI2s3IH1_10start_base1_14i_ext_hackatonB0;
+            #line 122 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             for (MI1iIH1_10start_base1_14i_ext_hackatonB0 = (int32)0L; (MI1iIH1_10start_base1_14i_ext_hackatonB0 < (int32)4L); MI1iIH1_10start_base1_14i_ext_hackatonB0++, MI2s1IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L, MI2s2IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L, MI2s3IH1_10start_base1_14i_ext_hackatonB0 += (int32)2L)
             {
-                #line 109 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 123 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI4val1IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s1IH1_10start_base1_14i_ext_hackatonB0);
-                #line 110 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 124 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI4val2IH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s2IH1_10start_base1_14i_ext_hackatonB0);
-                #line 112 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 126 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
-                #line 113 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 127 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
-                #line 115 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 129 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 MI9write_val((int32)163L, MI2s3IH1_10start_base1_14i_ext_hackatonB0, (MI4val1IH1_10start_base1_14i_ext_hackatonB0 + MI4val2IH1_10start_base1_14i_ext_hackatonB0));
-                #line 117 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                #line 130 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                MI3macIH1_10start_base1_14i_ext_hackatonB0 = MI8load_val((int32)131L, MI2s3IH1_10start_base1_14i_ext_hackatonB0);
+                #line 131 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+                ;
+                #line 132 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
                 ;
             }
-            #line 122 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
-            MI6resultIH1_10start_base1_14i_ext_hackatonB0 = MI3macIH1_10start_base1_14i_ext_hackatonB0;
-            #line 123 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 137 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
-        #line 124 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+        #line 138 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         case (uint3)(0x6):
         {
-            #line 125 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 139 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
-        #line 126 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+        #line 140 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
         default:
         {
-            #line 127 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 141 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             MI6resultIH1_10start_base1_14i_ext_hackatonB0 = (int32)0L;
-            #line 128 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+            #line 142 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
             break;
         }
     }
-    #line 131 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
+    #line 145 "/home/project/codasip_urisc_v/model/share/isa/isa_hackaton.codal"
     MI12rf_gpr_write(MI7reg_anyIH1_10start_base9_7reg_any3dst, MI6resultIH1_10start_base1_14i_ext_hackatonB0);
 }
 }
