@@ -45,33 +45,33 @@ _gettemp:                               //  @_gettemp
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -144
-	.cfi_adjust_cfa_offset 144
-	sw x9, 136 ( sp )               //  4-byte Folded Spill
+	add sp, sp, -128
+	.cfi_adjust_cfa_offset 128
+	sw x9, 120 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 9, -8
-	sw x18, 132 ( sp )              //  4-byte Folded Spill
+	sw x18, 116 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 18, -12
-	sw x20, 124 ( sp )              //  4-byte Folded Spill
+	sw x20, 108 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 20, -20
-	sw x21, 120 ( sp )              //  4-byte Folded Spill
+	sw x21, 104 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 21, -24
-	sw x22, 116 ( sp )              //  4-byte Folded Spill
+	sw x22, 100 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 22, -28
-	sw fp, 92 ( sp )                //  4-byte Folded Spill
+	sw fp, 76 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 8, -52
-	sw ra, 140 ( sp )               //  4-byte Folded Spill
+	sw ra, 124 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 1, -4
-	sw x19, 128 ( sp )              //  4-byte Folded Spill
+	sw x19, 112 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 19, -16
-	sw x23, 112 ( sp )              //  4-byte Folded Spill
+	sw x23, 96 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 23, -32
-	sw x24, 108 ( sp )              //  4-byte Folded Spill
+	sw x24, 92 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 24, -36
-	sw x25, 104 ( sp )              //  4-byte Folded Spill
+	sw x25, 88 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 25, -40
-	sw x26, 100 ( sp )              //  4-byte Folded Spill
+	sw x26, 84 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 26, -44
-	sw x27, 96 ( sp )               //  4-byte Folded Spill
+	sw x27, 80 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 27, -48
 	mv x20, x15
 	mv x21, x14
@@ -82,29 +82,28 @@ _gettemp:                               //  @_gettemp
 	jal _getpid_r
 	mv x19, x10
 	xor x10, x21, -1
-	mv x26, x9
+	mv x25, x9
 .LBB1_1:                                //  %for.cond
                                         //  =>This Inner Loop Header: Depth=1
-	lbu x11, 0 ( x26 )
-	add x26, x26, 1
+	lbu x11, 0 ( x25 )
+	add x25, x25, 1
 	bltu x0, x11, .LBB1_1
 .LBB1_2:                                //  %for.end
-	add x25, x26, -1
-	sub x11, x25, x9
+	add x24, x25, -1
+	sub x11, x24, x9
 	bltu x11, x21, .LBB1_8
 .LBB1_3:                                //  %if.end
-	sw x18, 16 ( sp )               //  4-byte Folded Spill
-	add x18, x10, x26
-	mv x27, x18
-	bgeu x9, x18, .LBB1_7
+	add x27, x10, x25
+	mv x26, x27
+	bgeu x9, x27, .LBB1_7
 .LBB1_4:                                //  %land.rhs.preheader
-	sub x10, x26, x21
-	add x10, x10, -2
+	sub x10, x25, x21
+	add x11, x10, -2
 	add x23, x0, 10
 .LBB1_5:                                //  %land.rhs
                                         //  =>This Inner Loop Header: Depth=1
-	mv x27, x10
-	lbu x10, 0 ( x27 )
+	mv x26, x11
+	lbu x10, 0 ( x26 )
 	xor x10, x10, 88
 	bltu x0, x10, .LBB1_7
 .LBB1_6:                                //  %while.body
@@ -112,17 +111,15 @@ _gettemp:                               //  @_gettemp
 	mv x10, x19
 	mv x11, x23
 	jal __udivsi3
-	mv x11, x23
-	mv x24, x10
-	jal __mulsi3
-	sub x10, x19, x10
-	or x10, x10, 48
-	sb x10, 0 ( x27 )
-	add x10, x27, -1
-	mv x19, x24
-	bltu x9, x27, .LBB1_5
+	hackaton_custom_instr_c x11, x23, x10
+	sub x11, x19, x11
+	or x11, x11, 48
+	sb x11, 0 ( x26 )
+	add x11, x26, -1
+	mv x19, x10
+	bltu x9, x26, .LBB1_5
 .LBB1_7:                                //  %while.end
-	sub x10, x18, x27
+	sub x10, x27, x26
 	slti x10, x10, 6
 	beq x0, x10, .LBB1_11
 .LBB1_8:                                //  %if.then
@@ -132,50 +129,50 @@ _gettemp:                               //  @_gettemp
 	mv x19, x0
 .LBB1_10:                               //  %cleanup
 	mv x10, x19
-	lw fp, 92 ( sp )                //  4-byte Folded Reload
-	lw x27, 96 ( sp )               //  4-byte Folded Reload
-	lw x26, 100 ( sp )              //  4-byte Folded Reload
-	lw x25, 104 ( sp )              //  4-byte Folded Reload
-	lw x24, 108 ( sp )              //  4-byte Folded Reload
-	lw x23, 112 ( sp )              //  4-byte Folded Reload
-	lw x22, 116 ( sp )              //  4-byte Folded Reload
-	lw x21, 120 ( sp )              //  4-byte Folded Reload
-	lw x20, 124 ( sp )              //  4-byte Folded Reload
-	lw x19, 128 ( sp )              //  4-byte Folded Reload
-	lw x18, 132 ( sp )              //  4-byte Folded Reload
-	lw x9, 136 ( sp )               //  4-byte Folded Reload
-	lw ra, 140 ( sp )               //  4-byte Folded Reload
-	add sp, sp, 144
+	lw fp, 76 ( sp )                //  4-byte Folded Reload
+	lw x27, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 84 ( sp )               //  4-byte Folded Reload
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
+	lw x24, 92 ( sp )               //  4-byte Folded Reload
+	lw x23, 96 ( sp )               //  4-byte Folded Reload
+	lw x22, 100 ( sp )              //  4-byte Folded Reload
+	lw x21, 104 ( sp )              //  4-byte Folded Reload
+	lw x20, 108 ( sp )              //  4-byte Folded Reload
+	lw x19, 112 ( sp )              //  4-byte Folded Reload
+	lw x18, 116 ( sp )              //  4-byte Folded Reload
+	lw x9, 120 ( sp )               //  4-byte Folded Reload
+	lw ra, 124 ( sp )               //  4-byte Folded Reload
+	add sp, sp, 128
 	.cfi_def_cfa 2, 0
 	jr ra
 .LBB1_11:                               //  %for.cond15.preheader
-	bgeu x9, x27, .LBB1_15
+	bgeu x9, x26, .LBB1_15
 .LBB1_12:
-	mv x18, x27
+	mv x23, x26
 .LBB1_13:                               //  %if.end19
                                         //  =>This Inner Loop Header: Depth=1
-	lbu x10, 0 ( x18 )
+	lbu x10, 0 ( x23 )
 	xor x10, x10, 47
 	beq x0, x10, .LBB1_17
 .LBB1_14:                               //  %for.inc33
                                         //    in Loop: Header=BB1_13 Depth=1
-	add x18, x18, -1
-	bltu x9, x18, .LBB1_13
+	add x23, x23, -1
+	bltu x9, x23, .LBB1_13
 .LBB1_15:                               //  %for.end35
 	beq x0, x22, .LBB1_21
 .LBB1_16:                               //  %if.then38
 	add x10, x0, 88
 	jal x0, .LBB1_9
 .LBB1_17:                               //  %if.then23
-	add x12, sp, 20
+	add x12, sp, 4
 	mv x10, fp
 	mv x11, x9
-	sb x0, 0 ( x18 )
+	sb x0, 0 ( x23 )
 	jal _stat_r
 	mv x19, x0
 	bltu x0, x10, .LBB1_10
 .LBB1_18:                               //  %if.end27
-	lbu x10, 25 ( sp )
+	lbu x10, 9 ( sp )
 	and x10, x10, 64
 	bltu x0, x10, .LBB1_20
 .LBB1_19:                               //  %if.then29
@@ -184,14 +181,13 @@ _gettemp:                               //  @_gettemp
 	jal x0, .LBB1_10
 .LBB1_20:                               //  %if.end31
 	add x10, x0, 47
-	sb x10, 0 ( x18 )
+	sb x10, 0 ( x23 )
 	bltu x0, x22, .LBB1_16
 .LBB1_21:                               //  %if.else.lr.ph
-	lw x19, 16 ( sp )               //  4-byte Folded Reload
-	add x18, x27, x21
-	add x21, x18, 2
-	add x22, x27, 1
-	beq x0, x19, .LBB1_32
+	add x23, x26, x21
+	add x21, x23, 2
+	add x22, x26, 1
+	beq x0, x18, .LBB1_32
 .LBB1_22:                               //  %if.else.lr.ph.split
 	lui x10, %hi( 2562 )
 	add x10, x10, %lo( 2562 )
@@ -201,14 +197,14 @@ _gettemp:                               //  @_gettemp
 	mv x11, x9
 	mv x12, x20
 	jal _open_r
-	sw x10, 0 ( x19 )
-	beq x21, x26, .LBB1_34
+	sw x10, 0 ( x18 )
+	beq x21, x25, .LBB1_34
 .LBB1_23:                               //  %if.else.preheader
 	seqz x19, x0
 	bge x10, x0, .LBB1_10
 .LBB1_24:                               //  %if.end46.preheader
 	lui x10, %hi( _ctype_ )
-	add x24, x18, 1
+	add x25, x23, 1
 	mv x23, x0
 	add x26, x0, 97
 	add x27, x10, %lo( _ctype_ )
@@ -217,7 +213,7 @@ _gettemp:                               //  @_gettemp
                                         //  =>This Loop Header: Depth=1
                                         //      Child Loop BB1_26 Depth 2
 	lw x10, 0 ( fp )
-	mv x11, x24
+	mv x11, x25
 	xor x12, x10, 17
 	mv x10, x22
 	bltu x0, x12, .LBB1_45
@@ -232,7 +228,7 @@ _gettemp:                               //  @_gettemp
 	sb x26, 0 ( x10 )
 	add x10, x10, 1
 	add x11, x11, 1
-	bne x25, x11, .LBB1_26
+	bne x24, x11, .LBB1_26
 	jal x0, .LBB1_45
 .LBB1_28:                               //  %if.else72
                                         //    in Loop: Header=BB1_25 Depth=1
@@ -254,12 +250,11 @@ _gettemp:                               //  @_gettemp
 	mv x12, x20
 	mv x13, x21
 	jal _open_r
-	lw x11, 16 ( sp )               //  4-byte Folded Reload
-	sw x10, 0 ( x11 )
+	sw x10, 0 ( x18 )
 	blt x10, x0, .LBB1_25
 	jal x0, .LBB1_10
 .LBB1_32:                               //  %if.else.us.preheader
-	add x12, sp, 20
+	add x12, sp, 4
 	mv x10, fp
 	mv x11, x9
 	jal _stat_r
@@ -278,15 +273,15 @@ _gettemp:                               //  @_gettemp
 	jal x0, .LBB1_10
 .LBB1_35:                               //  %if.end61.us.preheader
 	lui x10, %hi( _ctype_ )
-	add x20, x18, 1
+	add x20, x23, 1
 	mv x19, x0
 	add x23, x0, 97
-	add x24, x10, %lo( _ctype_ )
-	add x18, sp, 20
+	add x26, x10, %lo( _ctype_ )
+	add x18, sp, 4
 .LBB1_36:                               //  %if.end61.us
                                         //  =>This Loop Header: Depth=1
                                         //      Child Loop BB1_38 Depth 2
-	beq x21, x26, .LBB1_10
+	beq x21, x25, .LBB1_10
 .LBB1_37:                               //  %if.end66.us.preheader
                                         //    in Loop: Header=BB1_36 Depth=1
 	mv x11, x20
@@ -302,11 +297,11 @@ _gettemp:                               //  @_gettemp
 	sb x23, 0 ( x10 )
 	add x10, x10, 1
 	add x11, x11, 1
-	bne x25, x11, .LBB1_38
+	bne x24, x11, .LBB1_38
 	jal x0, .LBB1_10
 .LBB1_40:                               //  %if.else72.us
                                         //    in Loop: Header=BB1_36 Depth=1
-	add x11, x12, x24
+	add x11, x12, x26
 	lbu x11, 1 ( x11 )
 	and x11, x11, 4
 	beq x11, x19, .LBB1_42
@@ -340,8 +335,8 @@ _mkdtemp_r:                             //  @_mkdtemp_r
 	.cfi_adjust_cfa_offset 112
 	sw x9, 104 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 9, -8
-	sw fp, 80 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 8, -32
+	sw fp, 84 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 8, -28
 	sw ra, 108 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 1, -4
 	sw x18, 100 ( sp )              //  4-byte Folded Spill
@@ -352,65 +347,61 @@ _mkdtemp_r:                             //  @_mkdtemp_r
 	.cfi_offset 20, -20
 	sw x21, 88 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 21, -24
-	sw x22, 84 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 22, -28
 	mv x9, x11
 	mv fp, x10
 	jal _getpid_r
 	mv x18, x10
-	add x22, x9, -1
+	add x21, x9, -1
 .LBB2_1:                                //  %for.cond.i
                                         //  =>This Inner Loop Header: Depth=1
-	lbu x10, 1 ( x22 )
-	add x22, x22, 1
+	lbu x10, 1 ( x21 )
+	add x21, x21, 1
 	bltu x0, x10, .LBB2_1
 .LBB2_2:                                //  %for.end.i
-	bgeu x9, x22, .LBB2_3
+	bgeu x9, x21, .LBB2_3
 .LBB2_4:                                //  %land.rhs.i.preheader
-	add x11, x22, -1
+	add x12, x21, -1
 	add x19, x0, 10
 .LBB2_5:                                //  %land.rhs.i
                                         //  =>This Inner Loop Header: Depth=1
-	mv x21, x11
-	lbu x10, 0 ( x21 )
-	xor x11, x10, 88
-	bltu x0, x11, .LBB2_7
+	mv x20, x12
+	lbu x11, 0 ( x20 )
+	xor x10, x11, 88
+	bltu x0, x10, .LBB2_7
 .LBB2_6:                                //  %while.body.i
                                         //    in Loop: Header=BB2_5 Depth=1
 	mv x10, x18
 	mv x11, x19
 	jal __udivsi3
-	mv x11, x19
-	mv x20, x10
-	jal __mulsi3
-	sub x10, x18, x10
-	or x10, x10, 48
-	add x11, x21, -1
-	mv x18, x20
-	sb x10, 0 ( x21 )
-	bltu x9, x21, .LBB2_5
+	hackaton_custom_instr_c x11, x19, x10
+	sub x11, x18, x11
+	or x11, x11, 48
+	add x12, x20, -1
+	mv x18, x10
+	sb x11, 0 ( x20 )
+	bltu x9, x20, .LBB2_5
 .LBB2_7:                                //  %while.end.i
-	sub x11, x22, x21
-	slti x11, x11, 6
-	beq x0, x11, .LBB2_9
+	sub x10, x21, x20
+	slti x10, x10, 6
+	beq x0, x10, .LBB2_9
 .LBB2_8:
 	add x18, x0, 22
 	jal x0, .LBB2_19
 .LBB2_3:
-	mv x10, x0
-	mv x21, x22
-	sub x11, x22, x21
-	slti x11, x11, 6
-	bltu x0, x11, .LBB2_8
+	mv x11, x0
+	mv x20, x21
+	sub x10, x21, x20
+	slti x10, x10, 6
+	bltu x0, x10, .LBB2_8
 .LBB2_9:                                //  %for.cond15.preheader.i
 	add x18, x0, 88
-	bgeu x9, x21, .LBB2_19
+	bgeu x9, x20, .LBB2_19
 .LBB2_10:                               //  %if.end19.i.preheader
-	and x10, x10, 255
+	and x10, x11, 255
 	xor x10, x10, 47
 	beq x0, x10, .LBB2_15
 .LBB2_11:                               //  %for.inc33.i.preheader
-	add x10, x21, -1
+	add x10, x20, -1
 .LBB2_12:                               //  %for.inc33.i
                                         //  =>This Inner Loop Header: Depth=1
 	bgeu x9, x10, .LBB2_19
@@ -421,16 +412,16 @@ _mkdtemp_r:                             //  @_mkdtemp_r
 	xor x11, x11, 47
 	bltu x0, x11, .LBB2_12
 .LBB2_14:                               //  %if.then23.i.loopexit
-	add x21, x10, 1
+	add x20, x10, 1
 .LBB2_15:                               //  %if.then23.i
-	add x12, sp, 8
+	add x12, sp, 12
 	mv x10, fp
 	mv x11, x9
-	sb x0, 0 ( x21 )
+	sb x0, 0 ( x20 )
 	jal _stat_r
 	bltu x0, x10, .LBB2_20
 .LBB2_16:                               //  %if.end27.i
-	lbu x10, 13 ( sp )
+	lbu x10, 17 ( sp )
 	and x10, x10, 64
 	bltu x0, x10, .LBB2_18
 .LBB2_17:
@@ -438,12 +429,11 @@ _mkdtemp_r:                             //  @_mkdtemp_r
 	jal x0, .LBB2_19
 .LBB2_18:                               //  %if.end31.i
 	add x10, x0, 47
-	sb x10, 0 ( x21 )
+	sb x10, 0 ( x20 )
 .LBB2_19:                               //  %_gettemp.exit.sink.split
 	sw x18, 0 ( fp )
 .LBB2_20:                               //  %_gettemp.exit
-	lw fp, 80 ( sp )                //  4-byte Folded Reload
-	lw x22, 84 ( sp )               //  4-byte Folded Reload
+	lw fp, 84 ( sp )                //  4-byte Folded Reload
 	lw x21, 88 ( sp )               //  4-byte Folded Reload
 	lw x20, 92 ( sp )               //  4-byte Folded Reload
 	lw x19, 96 ( sp )               //  4-byte Folded Reload
@@ -665,8 +655,8 @@ mkdtemp:                                //  @mkdtemp
 	mv x9, x10
 	lui x10, %hi( _impure_ptr )
 	add x10, x10, %lo( _impure_ptr )
-	sw fp, 80 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 8, -32
+	sw fp, 84 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 8, -28
 	lw fp, 0 ( x10 )
 	sw ra, 108 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 1, -4
@@ -679,63 +669,59 @@ mkdtemp:                                //  @mkdtemp
 	.cfi_offset 20, -20
 	sw x21, 88 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 21, -24
-	sw x22, 84 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 22, -28
 	jal _getpid_r
 	mv x18, x10
-	add x22, x9, -1
+	add x21, x9, -1
 .LBB8_1:                                //  %for.cond.i
                                         //  =>This Inner Loop Header: Depth=1
-	lbu x10, 1 ( x22 )
-	add x22, x22, 1
+	lbu x10, 1 ( x21 )
+	add x21, x21, 1
 	bltu x0, x10, .LBB8_1
 .LBB8_2:                                //  %for.end.i
-	bgeu x9, x22, .LBB8_3
+	bgeu x9, x21, .LBB8_3
 .LBB8_4:                                //  %land.rhs.i.preheader
-	add x11, x22, -1
+	add x12, x21, -1
 	add x19, x0, 10
 .LBB8_5:                                //  %land.rhs.i
                                         //  =>This Inner Loop Header: Depth=1
-	mv x21, x11
-	lbu x10, 0 ( x21 )
-	xor x11, x10, 88
-	bltu x0, x11, .LBB8_7
+	mv x20, x12
+	lbu x11, 0 ( x20 )
+	xor x10, x11, 88
+	bltu x0, x10, .LBB8_7
 .LBB8_6:                                //  %while.body.i
                                         //    in Loop: Header=BB8_5 Depth=1
 	mv x10, x18
 	mv x11, x19
 	jal __udivsi3
-	mv x11, x19
-	mv x20, x10
-	jal __mulsi3
-	sub x10, x18, x10
-	or x10, x10, 48
-	add x11, x21, -1
-	mv x18, x20
-	sb x10, 0 ( x21 )
-	bltu x9, x21, .LBB8_5
+	hackaton_custom_instr_c x11, x19, x10
+	sub x11, x18, x11
+	or x11, x11, 48
+	add x12, x20, -1
+	mv x18, x10
+	sb x11, 0 ( x20 )
+	bltu x9, x20, .LBB8_5
 .LBB8_7:                                //  %while.end.i
-	sub x11, x22, x21
-	slti x11, x11, 6
-	beq x0, x11, .LBB8_9
+	sub x10, x21, x20
+	slti x10, x10, 6
+	beq x0, x10, .LBB8_9
 .LBB8_8:
 	add x18, x0, 22
 	jal x0, .LBB8_19
 .LBB8_3:
-	mv x10, x0
-	mv x21, x22
-	sub x11, x22, x21
-	slti x11, x11, 6
-	bltu x0, x11, .LBB8_8
+	mv x11, x0
+	mv x20, x21
+	sub x10, x21, x20
+	slti x10, x10, 6
+	bltu x0, x10, .LBB8_8
 .LBB8_9:                                //  %for.cond15.preheader.i
 	add x18, x0, 88
-	bgeu x9, x21, .LBB8_19
+	bgeu x9, x20, .LBB8_19
 .LBB8_10:                               //  %if.end19.i.preheader
-	and x10, x10, 255
+	and x10, x11, 255
 	xor x10, x10, 47
 	beq x0, x10, .LBB8_15
 .LBB8_11:                               //  %for.inc33.i.preheader
-	add x10, x21, -1
+	add x10, x20, -1
 .LBB8_12:                               //  %for.inc33.i
                                         //  =>This Inner Loop Header: Depth=1
 	bgeu x9, x10, .LBB8_19
@@ -746,16 +732,16 @@ mkdtemp:                                //  @mkdtemp
 	xor x11, x11, 47
 	bltu x0, x11, .LBB8_12
 .LBB8_14:                               //  %if.then23.i.loopexit
-	add x21, x10, 1
+	add x20, x10, 1
 .LBB8_15:                               //  %if.then23.i
-	add x12, sp, 8
+	add x12, sp, 12
 	mv x10, fp
 	mv x11, x9
-	sb x0, 0 ( x21 )
+	sb x0, 0 ( x20 )
 	jal _stat_r
 	bltu x0, x10, .LBB8_20
 .LBB8_16:                               //  %if.end27.i
-	lbu x10, 13 ( sp )
+	lbu x10, 17 ( sp )
 	and x10, x10, 64
 	bltu x0, x10, .LBB8_18
 .LBB8_17:
@@ -763,12 +749,11 @@ mkdtemp:                                //  @mkdtemp
 	jal x0, .LBB8_19
 .LBB8_18:                               //  %if.end31.i
 	add x10, x0, 47
-	sb x10, 0 ( x21 )
+	sb x10, 0 ( x20 )
 .LBB8_19:                               //  %_gettemp.exit.sink.split
 	sw x18, 0 ( fp )
 .LBB8_20:                               //  %_gettemp.exit
-	lw fp, 80 ( sp )                //  4-byte Folded Reload
-	lw x22, 84 ( sp )               //  4-byte Folded Reload
+	lw fp, 84 ( sp )                //  4-byte Folded Reload
 	lw x21, 88 ( sp )               //  4-byte Folded Reload
 	lw x20, 92 ( sp )               //  4-byte Folded Reload
 	lw x19, 96 ( sp )               //  4-byte Folded Reload

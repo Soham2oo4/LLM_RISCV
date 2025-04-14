@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) Assembler generator
  * \version 9.4.2
  * \brief   Source for assembler
@@ -3660,6 +3660,20 @@ MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc
         $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
         ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_eIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_e", 0, 0);
         x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_e"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' F %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_fIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_f", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_f"));
+        $$->AddChild(*x1);
+    }
+    | H A C K A T O N '_' C U S T O M '_' I N S T R '_' G %merge <MergeNode>
+    {
+        $$ = &ast::assembler::Builder::CreateSet(GetLocation(@$), "MI21opc_hackaton_custom_iIH1_10start_base24_21opc_hackaton_custom_i3opc", "", 0);
+        ast::assembler::Node* x1 = &ast::assembler::Builder::CreateElement(GetLocation(@$), "MI21opc_hackaton_custom_gIH1_10start_base24_21opc_hackaton_custom_i3opc", "opc_hackaton_custom_g", 0, 0);
+        x1->AddChild(ast::assembler::Builder::CreateConstant(GetLocation(@1), "hackaton_custom_instr_g"));
         $$->AddChild(*x1);
     }
     ;

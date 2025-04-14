@@ -8,160 +8,113 @@ _mcount_internal:                       //  @_mcount_internal
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -48
-	.cfi_adjust_cfa_offset 48
-	sw fp, 12 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 8, -36
-	mv fp, x11
-	lui x11, %hi( _gmonparam.0 )
-	sw x19, 32 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 19, -16
-	add x19, x11, %lo( _gmonparam.0 )
-	lw x11, 0 ( x19 )
-	sw ra, 44 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 1, -4
-	sw x9, 40 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 9, -8
-	sw x18, 36 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 18, -12
-	xor x11, x11, 1
-	sw x20, 28 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 20, -20
-	sw x21, 24 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 21, -24
-	sw x22, 20 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 22, -28
-	sw x23, 16 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 23, -32
-	bltu x0, x11, .LBB0_17
+	lui x12, %hi( _gmonparam.0 )
+	add x12, x12, %lo( _gmonparam.0 )
+	lw x13, 0 ( x12 )
+	xor x13, x13, 1
+	bltu x0, x13, .LBB0_16
 .LBB0_1:                                //  %if.end
-	add x11, x0, 2
-	sw x11, 0 ( x19 )
-	lui x11, %hi( _gmonparam.8 )
-	add x11, x11, %lo( _gmonparam.8 )
-	lw x11, 0 ( x11 )
-	seqz x20, x0
-	sub x10, x10, x11
-	lui x11, %hi( _gmonparam.10 )
-	add x11, x11, %lo( _gmonparam.10 )
-	lw x11, 0 ( x11 )
-	bltu x11, x10, .LBB0_16
+	add x13, x0, 2
+	sw x13, 0 ( x12 )
+	lui x13, %hi( _gmonparam.8 )
+	add x13, x13, %lo( _gmonparam.8 )
+	lui x14, %hi( _gmonparam.10 )
+	lw x13, 0 ( x13 )
+	add x14, x14, %lo( _gmonparam.10 )
+	lw x14, 0 ( x14 )
+	sub x13, x10, x13
+	seqz x10, x0
+	bltu x14, x13, .LBB0_15
 .LBB0_2:                                //  %if.end4
-	lui x11, %hi( _gmonparam.12 )
-	add x11, x11, %lo( _gmonparam.12 )
-	lw x11, 0 ( x11 )
-	srl x10, x10, x11
-	lui x11, %hi( _gmonparam.3 )
-	add x11, x11, %lo( _gmonparam.3 )
-	lw x11, 0 ( x11 )
-	sll x10, x10, 2&31
-	add x21, x10, x11
-	lui x10, %hi( _gmonparam.5 )
-	add x10, x10, %lo( _gmonparam.5 )
-	lw x22, 0 ( x10 )
-	lw x9, 0 ( x21 )
-	beq x0, x9, .LBB0_5
+	lui x14, %hi( _gmonparam.12 )
+	add x14, x14, %lo( _gmonparam.12 )
+	lw x14, 0 ( x14 )
+	srl x13, x13, x14
+	lui x14, %hi( _gmonparam.3 )
+	add x14, x14, %lo( _gmonparam.3 )
+	lw x14, 0 ( x14 )
+	sll x13, x13, 2&31
+	add x13, x13, x14
+	lui x14, %hi( _gmonparam.5 )
+	add x14, x14, %lo( _gmonparam.5 )
+	lw x14, 0 ( x14 )
+	lw x15, 0 ( x13 )
+	beq x0, x15, .LBB0_8
 .LBB0_3:                                //  %if.end14
-	add x11, x0, 12
-	mv x10, x9
-	jal __mulsi3
-	add x10, x10, x22
-	lw x10, 0 ( x10 )
-	bne x10, fp, .LBB0_7
+	add x16, x0, 12
+	hackaton_custom_instr_c x17, x16, x15
+	add x17, x17, x14
+	lw x5, 0 ( x17 )
+	bne x5, x11, .LBB0_5
 .LBB0_4:                                //  %if.then19
-	add x11, x0, 12
-	mv x10, x9
-	jal __mulsi3
-	add x10, x10, x22
-	lw x11, 4 ( x10 )
+	lw x11, 4 ( x17 )
 	add x11, x11, 1
-	sw x11, 4 ( x10 )
-	jal x0, .LBB0_16
-.LBB0_5:                                //  %if.then6
-	lui x11, %hi( _gmonparam.7 )
-	lw x10, 8 ( x22 )
-	add x11, x11, %lo( _gmonparam.7 )
-	lw x11, 0 ( x11 )
-	add x10, x10, 1
-	sw x10, 8 ( x22 )
-	bgeu x10, x11, .LBB0_15
-.LBB0_6:                                //  %if.end9
-	add x11, x0, 12
-	sw x10, 0 ( x21 )
-	jal __mulsi3
-	add x10, x10, x22
-	seqz x20, x0
-	sw fp, 0 ( x10 )
-	sw x20, 4 ( x10 )
-	sw x0, 8 ( x10 )
-	jal x0, .LBB0_16
-.LBB0_7:
-	add x18, x0, 12
-.LBB0_8:                                //  %for.cond
+	sw x11, 4 ( x17 )
+	jal x0, .LBB0_15
+.LBB0_5:                                //  %for.cond
                                         //  =>This Inner Loop Header: Depth=1
-	mv x10, x9
-	mv x11, x18
-	jal __mulsi3
-	add x23, x10, x22
-	lw x9, 8 ( x23 )
-	beq x0, x9, .LBB0_12
-.LBB0_9:                                //  %if.end39
-                                        //    in Loop: Header=BB0_8 Depth=1
-	mv x10, x9
-	mv x11, x18
-	jal __mulsi3
-	add x10, x10, x22
-	lw x10, 0 ( x10 )
-	bne x10, fp, .LBB0_8
-.LBB0_10:                               //  %if.then45
-	add x11, x0, 12
-	mv x10, x9
-	add fp, x23, 8
-	jal __mulsi3
-	add x10, x10, x22
-	lw x11, 8 ( x10 )
-	sw x11, 0 ( fp )
-	lw x11, 4 ( x10 )
+	hackaton_custom_instr_c x15, x16, x15
+	add x5, x15, x14
+	lw x15, 8 ( x5 )
+	beq x0, x15, .LBB0_11
+.LBB0_6:                                //  %if.end39
+                                        //    in Loop: Header=BB0_5 Depth=1
+	hackaton_custom_instr_c x17, x16, x15
+	add x17, x17, x14
+	lw x6, 0 ( x17 )
+	bne x6, x11, .LBB0_5
+.LBB0_7:                                //  %if.then45
+	lw x14, 8 ( x17 )
+	add x11, x5, 8
+	sw x14, 0 ( x11 )
+	lw x11, 4 ( x17 )
 	add x11, x11, 1
-	sw x11, 4 ( x10 )
-	jal x0, .LBB0_14
-.LBB0_12:                               //  %if.then25
-	lw x10, 8 ( x22 )
-	add x9, x10, 1
+	sw x11, 4 ( x17 )
+	lw x11, 0 ( x13 )
+	sw x11, 8 ( x17 )
+	jal x0, .LBB0_13
+.LBB0_8:                                //  %if.then6
+	lui x15, %hi( _gmonparam.7 )
+	lw x10, 8 ( x14 )
+	add x15, x15, %lo( _gmonparam.7 )
+	lw x15, 0 ( x15 )
+	add x10, x10, 1
+	sw x10, 8 ( x14 )
+	bgeu x10, x15, .LBB0_14
+.LBB0_9:                                //  %if.end9
+	sw x10, 0 ( x13 )
+	add x13, x0, 12
+	hackaton_custom_instr_c x10, x13, x10
+	add x13, x10, x14
+	seqz x10, x0
+	sw x11, 0 ( x13 )
+	sw x10, 4 ( x13 )
+	sw x0, 8 ( x13 )
+	jal x0, .LBB0_15
+.LBB0_11:                               //  %if.then25
+	lw x10, 8 ( x14 )
+	add x15, x10, 1
 	lui x10, %hi( _gmonparam.7 )
 	add x10, x10, %lo( _gmonparam.7 )
 	lw x10, 0 ( x10 )
-	sw x9, 8 ( x22 )
-	bgeu x9, x10, .LBB0_15
-.LBB0_13:                               //  %if.end33
-	add x11, x0, 12
-	mv x10, x9
-	jal __mulsi3
-	add x10, x10, x22
-	seqz x20, x0
-	sw fp, 0 ( x10 )
-	sw x20, 4 ( x10 )
-.LBB0_14:                               //  %cleanup.sink.split
-	lw x11, 0 ( x21 )
-	sw x11, 8 ( x10 )
-	sw x9, 0 ( x21 )
-	jal x0, .LBB0_16
-.LBB0_15:
-	add x20, x0, 3
-.LBB0_16:                               //  %cleanup.sink.split
-	sw x20, 0 ( x19 )
-.LBB0_17:                               //  %cleanup
-	lw fp, 12 ( sp )                //  4-byte Folded Reload
-	lw x23, 16 ( sp )               //  4-byte Folded Reload
-	lw x22, 20 ( sp )               //  4-byte Folded Reload
-	lw x21, 24 ( sp )               //  4-byte Folded Reload
-	lw x20, 28 ( sp )               //  4-byte Folded Reload
-	lw x19, 32 ( sp )               //  4-byte Folded Reload
-	lw x18, 36 ( sp )               //  4-byte Folded Reload
-	lw x9, 40 ( sp )                //  4-byte Folded Reload
-	lw ra, 44 ( sp )                //  4-byte Folded Reload
-	add sp, sp, 48
-	.cfi_def_cfa 2, 0
+	sw x15, 8 ( x14 )
+	bgeu x15, x10, .LBB0_14
+.LBB0_12:                               //  %if.end33
+	hackaton_custom_instr_c x10, x16, x15
+	add x14, x10, x14
+	seqz x10, x0
+	sw x11, 0 ( x14 )
+	sw x10, 4 ( x14 )
+	lw x11, 0 ( x13 )
+	sw x11, 8 ( x14 )
+.LBB0_13:                               //  %cleanup.sink.split
+	sw x15, 0 ( x13 )
+	jal x0, .LBB0_15
+.LBB0_14:
+	add x10, x0, 3
+.LBB0_15:                               //  %cleanup.sink.split
+	sw x10, 0 ( x12 )
+.LBB0_16:                               //  %cleanup
 	jr ra
 .Lfunc_end0:
 	.size	_mcount_internal, .Lfunc_end0-_mcount_internal
@@ -177,11 +130,11 @@ _monstartup:                            //  @_monstartup
 	add sp, sp, -32
 	.cfi_adjust_cfa_offset 32
 	lui x12, %hi( _gmonparam.0 )
-	sw x18, 20 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 18, -12
-	add x18, x12, %lo( _gmonparam.0 )
+	sw x9, 24 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	add x9, x12, %lo( _gmonparam.0 )
 	add x12, x0, 2
-	sw x12, 0 ( x18 )
+	sw x12, 0 ( x9 )
 	lui x12, %hi( _gmonparam.11 )
 	add x12, x12, %lo( _gmonparam.11 )
 	seqz x13, x0
@@ -191,49 +144,47 @@ _monstartup:                            //  @_monstartup
 	and x10, x10, -4
 	add x12, x12, %lo( _gmonparam.8 )
 	and x11, x11, -4
-	sw x9, 24 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 9, -8
+	sw fp, 0 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -32
 	sw x10, 0 ( x12 )
-	sub x9, x11, x10
+	sub fp, x11, x10
 	lui x10, %hi( _gmonparam.10 )
 	add x10, x10, %lo( _gmonparam.10 )
 	sw x20, 12 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 20, -20
-	srl x20, x9, 1&31
-	sw x9, 0 ( x10 )
+	srl x20, fp, 1&31
+	sw fp, 0 ( x10 )
 	add x10, x20, 3
 	sw x21, 8 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 21, -24
 	and x21, x10, -4
 	lui x10, %hi( _gmonparam.2 )
-	sw x19, 16 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 19, -16
-	add x19, x10, %lo( _gmonparam.2 )
+	sw x18, 20 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 18, -12
+	add x18, x10, %lo( _gmonparam.2 )
 	add x10, x0, 8
 	sw ra, 28 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 1, -4
+	sw x19, 16 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 19, -16
 	sw x22, 4 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 22, -28
-	sw fp, 0 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -32
-	sw x21, 0 ( x19 )
+	sw x21, 0 ( x18 )
 	jal ffs
 	lui x11, %hi( _gmonparam.12 )
 	add x10, x10, -1
 	add x11, x11, %lo( _gmonparam.12 )
 	sw x10, 0 ( x11 )
 	lui x10, %hi( _gmonparam.4 )
+	add x19, x0, 3
 	add x10, x10, %lo( _gmonparam.4 )
-	add fp, x0, 3
+	hackaton_custom_instr_c fp, x19, fp
 	sw x20, 0 ( x10 )
-	mv x10, x9
-	mv x11, fp
-	jal __mulsi3
 	add x11, x0, 100
-	mv x9, x10
+	mv x10, fp
 	jal __udivsi3
 	lui x11, %hi( _gmonparam.7 )
-	srl x12, x9, 3&31
+	srl x12, fp, 3&31
 	add x11, x11, %lo( _gmonparam.7 )
 	sltiu x12, x12, 625
 	sw x10, 0 ( x11 )
@@ -244,21 +195,21 @@ _monstartup:                            //  @_monstartup
 .LBB1_2:                                //  %if.else
 	lui x12, %hi( 104857700 )
 	add x12, x12, %lo( 104857700 )
-	bltu x9, x12, .LBB1_5
+	bltu fp, x12, .LBB1_5
 .LBB1_3:
 	lui x10, (1048576>>12)&1048575
 .LBB1_4:                                //  %if.end29.sink.split
 	sw x10, 0 ( x11 )
 .LBB1_5:                                //  %if.end29
 	add x11, x0, 12
-	jal __mulsi3
+	hackaton_custom_instr_c x10, x11, x10
 	lui x11, %hi( _gmonparam.6 )
 	add x22, x11, %lo( _gmonparam.6 )
 	add x11, x20, x21
-	seqz x9, x0
+	seqz fp, x0
 	sw x10, 0 ( x22 )
 	add x10, x10, x11
-	mv x11, x9
+	mv x11, fp
 	jal calloc
 	beq x0, x10, .LBB1_6
 .LBB1_7:                                //  %if.end42
@@ -268,8 +219,8 @@ _monstartup:                            //  @_monstartup
 	sw x0, 8 ( x10 )
 	add x11, x11, x10
 	sw x11, 0 ( x12 )
-	lw x12, 0 ( x19 )
-	sw x9, 0 ( x18 )
+	lw x12, 0 ( x18 )
+	sw fp, 0 ( x9 )
 	add x11, x12, x11
 	lui x12, %hi( _gmonparam.3 )
 	add x12, x12, %lo( _gmonparam.3 )
@@ -289,7 +240,7 @@ _monstartup:                            //  @_monstartup
 	jal write
 	lui x10, %hi( _gmonparam.5 )
 	add x10, x10, %lo( _gmonparam.5 )
-	sw fp, 0 ( x18 )
+	sw x19, 0 ( x9 )
 	sw x0, 0 ( x10 )
 .LBB1_8:                                //  %cleanup
 	lw fp, 0 ( sp )                 //  4-byte Folded Reload
@@ -319,14 +270,12 @@ _mcleanup:                              //  @_mcleanup
 	lui x10, %hi( _gmonparam.0 )
 	add x10, x10, %lo( _gmonparam.0 )
 	lw x11, 0 ( x10 )
-	sw fp, 476 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 8, -52
-	lui fp, %hi( _gmonparam.5 )
+	sw x9, 520 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	lui x9, %hi( _gmonparam.5 )
 	sw ra, 524 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 1, -4
 	xor x11, x11, 3
-	sw x9, 520 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 9, -8
 	sw x18, 516 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 18, -12
 	sw x19, 512 ( sp )              //  4-byte Folded Spill
@@ -347,6 +296,8 @@ _mcleanup:                              //  @_mcleanup
 	.cfi_offset 26, -44
 	sw x27, 480 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 27, -48
+	sw fp, 476 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 8, -52
 	beq x0, x11, .LBB2_17
 .LBB2_1:                                //  %if.then
 	lui x11, %hi( .str.2 )
@@ -355,169 +306,160 @@ _mcleanup:                              //  @_mcleanup
 	add x10, x10, %lo( .str.1 )
 	add x11, x11, %lo( .str.2 )
 	jal fopen
-	mv x20, x10
-	beq x0, x20, .LBB2_2
+	mv fp, x10
+	beq x0, fp, .LBB2_2
 .LBB2_3:                                //  %if.end.i
-	add x9, sp, 32
-	mv x27, x0
-	add x18, x0, 20
-	mv x10, x9
-	mv x11, x27
-	mv x12, x18
+	add x18, sp, 32
+	mv x21, x0
+	add x19, x0, 20
+	mv x10, x18
+	mv x11, x21
+	mv x12, x19
 	jal memset
 	lui x10, %hi( .str.4 )
 	add x11, x10, %lo( .str.4 )
 	add x12, x0, 4
-	mv x10, x9
+	mv x10, x18
 	jal memcpy
-	seqz x19, x0
-	mv x10, x9
-	mv x11, x18
-	mv x12, x19
-	mv x13, x20
-	sw x19, 36 ( sp )
+	seqz x20, x0
+	mv x10, x18
+	mv x11, x19
+	mv x12, x20
+	mv x13, fp
+	sw x20, 36 ( sp )
 	jal fwrite
 	lui x10, %hi( _gmonparam.4 )
 	add x10, x10, %lo( _gmonparam.4 )
 	lw x10, 0 ( x10 )
 	add x18, sp, 60
-	sb x19, 390 ( x18 )
-	sb x19, 377 ( x18 )
+	sb x20, 390 ( x18 )
+	sb x20, 377 ( x18 )
 	srl x10, x10, 2&31
-	sb x19, 364 ( x18 )
-	sb x19, 351 ( x18 )
-	sb x19, 338 ( x18 )
-	sb x19, 325 ( x18 )
-	sb x19, 312 ( x18 )
-	sb x19, 299 ( x18 )
-	sb x19, 286 ( x18 )
-	sb x19, 273 ( x18 )
-	sb x19, 260 ( x18 )
-	sb x19, 247 ( x18 )
-	sb x19, 234 ( x18 )
-	sb x19, 221 ( x18 )
-	sb x19, 208 ( x18 )
-	sb x19, 195 ( x18 )
-	sb x19, 182 ( x18 )
-	sb x19, 169 ( x18 )
-	sb x19, 156 ( x18 )
-	sb x19, 143 ( x18 )
-	sb x19, 130 ( x18 )
-	sb x19, 117 ( x18 )
-	sb x19, 104 ( x18 )
-	sb x19, 91 ( x18 )
-	sb x19, 78 ( x18 )
-	sb x19, 65 ( x18 )
-	sb x19, 52 ( x18 )
-	sb x19, 39 ( x18 )
-	sb x19, 26 ( x18 )
-	sb x19, 13 ( x18 )
-	sb x19, 463 ( sp )
-	sb x19, 60 ( sp )
-	sw x10, 24 ( sp )               //  4-byte Folded Spill
+	sb x20, 364 ( x18 )
+	sb x20, 351 ( x18 )
+	sb x20, 338 ( x18 )
+	sb x20, 325 ( x18 )
+	sb x20, 312 ( x18 )
+	sb x20, 299 ( x18 )
+	sb x20, 286 ( x18 )
+	sb x20, 273 ( x18 )
+	sb x20, 260 ( x18 )
+	sb x20, 247 ( x18 )
+	sb x20, 234 ( x18 )
+	sb x20, 221 ( x18 )
+	sb x20, 208 ( x18 )
+	sb x20, 195 ( x18 )
+	sb x20, 182 ( x18 )
+	sb x20, 169 ( x18 )
+	sb x20, 156 ( x18 )
+	sb x20, 143 ( x18 )
+	sb x20, 130 ( x18 )
+	sb x20, 117 ( x18 )
+	sb x20, 104 ( x18 )
+	sb x20, 91 ( x18 )
+	sb x20, 78 ( x18 )
+	sb x20, 65 ( x18 )
+	sb x20, 52 ( x18 )
+	sb x20, 39 ( x18 )
+	sb x20, 26 ( x18 )
+	sb x20, 13 ( x18 )
+	sb x20, 463 ( sp )
+	sb x20, 60 ( sp )
+	sw x10, 28 ( sp )               //  4-byte Folded Spill
 	beq x0, x10, .LBB2_16
 .LBB2_4:                                //  %for.body3.lr.ph.i.i
 	lui x10, %hi( _gmonparam.3 )
 	add x10, x10, %lo( _gmonparam.3 )
-	sw x10, 20 ( sp )               //  4-byte Folded Spill
+	sw x10, 24 ( sp )               //  4-byte Folded Spill
 	lui x10, %hi( _gmonparam.11 )
 	add x10, x10, %lo( _gmonparam.11 )
-	sw x10, 16 ( sp )               //  4-byte Folded Spill
+	sw x10, 20 ( sp )               //  4-byte Folded Spill
 	lui x10, %hi( _gmonparam.8 )
-	sw x20, 28 ( sp )               //  4-byte Folded Spill
 	add x10, x10, %lo( _gmonparam.8 )
-	mv x19, x27
-	add x26, fp, %lo( _gmonparam.5 )
-	add x20, x0, 12
-	add x21, x0, 13
-	add x22, sp, 56
-	add x23, x0, 4
-	add x24, sp, 52
-	sw x10, 12 ( sp )               //  4-byte Folded Spill
+	add x25, x9, %lo( _gmonparam.5 )
+	mv x19, x21
+	add x27, x0, 12
+	add x26, x0, 13
+	add x20, sp, 56
+	mv x9, x21
+	add x21, x0, 4
+	add x22, sp, 52
+	sw x10, 16 ( sp )               //  4-byte Folded Spill
 	jal x0, .LBB2_5
 .LBB2_13:                               //  %for.inc28.i.i
                                         //    in Loop: Header=BB2_5 Depth=1
-	lw x10, 24 ( sp )               //  4-byte Folded Reload
-	add x27, x27, 1
-	bgeu x27, x10, .LBB2_14
+	lw x10, 28 ( sp )               //  4-byte Folded Reload
+	add x9, x9, 1
+	bgeu x9, x10, .LBB2_14
 .LBB2_5:                                //  %for.body3.i.i
                                         //  =>This Loop Header: Depth=1
                                         //      Child Loop BB2_10 Depth 2
-	lw x10, 20 ( sp )               //  4-byte Folded Reload
-	sll x11, x27, 2&31
+	lw x10, 24 ( sp )               //  4-byte Folded Reload
+	sll x11, x9, 2&31
 	lw x10, 0 ( x10 )
-	add fp, x11, x10
-	lw x10, 0 ( fp )
-	beq x0, x10, .LBB2_13
+	add x10, x11, x10
+	lw x11, 0 ( x10 )
+	beq x0, x11, .LBB2_13
 .LBB2_6:                                //  %if.end.i.i
                                         //    in Loop: Header=BB2_5 Depth=1
-	lw x10, 16 ( sp )               //  4-byte Folded Reload
+	lw x11, 20 ( sp )               //  4-byte Folded Reload
+	lbu x12, 0 ( x11 )
 	add x11, x0, 2
-	lbu x10, 0 ( x10 )
-	bltu x0, x10, .LBB2_8
+	bltu x0, x12, .LBB2_8
 .LBB2_7:                                //  %if.end.i.i
                                         //    in Loop: Header=BB2_5 Depth=1
 	mv x11, x0
 .LBB2_8:                                //  %if.end.i.i
                                         //    in Loop: Header=BB2_5 Depth=1
-	mv x10, x27
-	jal __mulsi3
-	lw x11, 12 ( sp )               //  4-byte Folded Reload
-	sll x10, x10, 2&31
-	lw x11, 0 ( x11 )
-	add x10, x11, x10
-	sw x10, 56 ( sp )
-	lw x9, 0 ( fp )
-	beq x0, x9, .LBB2_13
+	lw x12, 16 ( sp )               //  4-byte Folded Reload
+	hackaton_custom_instr_c x11, x11, x9
+	sll x11, x11, 2&31
+	lw x12, 0 ( x12 )
+	add x11, x12, x11
+	sw x11, 56 ( sp )
+	lw x11, 0 ( x10 )
+	beq x0, x11, .LBB2_13
 .LBB2_9:                                //  %for.body10.preheader.i.i
                                         //    in Loop: Header=BB2_5 Depth=1
-	lw fp, 0 ( x26 )
+	lw x10, 0 ( x25 )
 	jal x0, .LBB2_10
 .LBB2_12:                               //  %if.end24.i.i
                                         //    in Loop: Header=BB2_10 Depth=2
-	mv x10, x9
-	mv x11, x20
-	jal __mulsi3
-	lw fp, 0 ( x26 )
-	add x10, x10, fp
-	lw x9, 8 ( x10 )
-	beq x0, x9, .LBB2_13
+	lw x10, 0 ( x25 )
+	add x11, x23, x10
+	lw x11, 8 ( x11 )
+	beq x0, x11, .LBB2_13
 .LBB2_10:                               //  %for.body10.i.i
                                         //    Parent Loop BB2_5 Depth=1
                                         //  =>  This Inner Loop Header: Depth=2
-	mv x10, x9
-	mv x11, x20
-	jal __mulsi3
-	mv x25, x10
-	add x10, x25, fp
+	hackaton_custom_instr_c x23, x27, x11
+	add x10, x23, x10
 	lw x10, 4 ( x10 )
-	mv x11, x21
+	mv x11, x20
+	mv x12, x21
 	sw x10, 52 ( sp )
-	mv x10, x19
-	jal __mulsi3
-	add fp, x10, x18
-	add x10, fp, 1
+	hackaton_custom_instr_c x10, x26, x19
+	add x24, x10, x18
+	add x10, x24, 1
+	jal memcpy
+	lw x10, 0 ( x25 )
+	mv x12, x21
+	add x11, x23, x10
+	add x10, x24, 5
+	jal memcpy
+	add x10, x24, 9
 	mv x11, x22
-	mv x12, x23
-	jal memcpy
-	lw x10, 0 ( x26 )
-	mv x12, x23
-	add x11, x25, x10
-	add x10, fp, 5
-	jal memcpy
-	add x10, fp, 9
-	mv x11, x24
-	mv x12, x23
+	mv x12, x21
 	jal memcpy
 	add x19, x19, 1
 	xor x10, x19, 32
 	bltu x0, x10, .LBB2_12
 .LBB2_11:                               //  %if.then21.i.i
                                         //    in Loop: Header=BB2_10 Depth=2
-	lw x13, 28 ( sp )               //  4-byte Folded Reload
 	mv x10, x18
 	add x11, x0, 416
 	seqz x12, x0
+	mv x13, fp
 	jal fwrite
 	mv x19, x0
 	jal x0, .LBB2_12
@@ -527,25 +469,24 @@ _mcleanup:                              //  @_mcleanup
 	add x11, x11, %lo( .str.3 )
 	add x12, x0, 37
 	jal write
-	add fp, fp, %lo( _gmonparam.5 )
+	add fp, x9, %lo( _gmonparam.5 )
 	lw x10, 0 ( fp )
 	bltu x0, x10, .LBB2_18
 	jal x0, .LBB2_19
 .LBB2_14:                               //  %for.end30.i.i
-	lw x20, 28 ( sp )               //  4-byte Folded Reload
-	lui fp, %hi( _gmonparam.5 )
+	lui x9, %hi( _gmonparam.5 )
 	bge x0, x19, .LBB2_16
 .LBB2_15:                               //  %if.then32.i.i
 	add x10, sp, 60
 	add x11, x0, 13
 	mv x12, x19
-	mv x13, x20
+	mv x13, fp
 	jal fwrite
 .LBB2_16:                               //  %write_call_graph.exit.i
-	mv x10, x20
+	mv x10, fp
 	jal fclose
 .LBB2_17:                               //  %if.end
-	add fp, fp, %lo( _gmonparam.5 )
+	add fp, x9, %lo( _gmonparam.5 )
 	lw x10, 0 ( fp )
 	beq x0, x10, .LBB2_19
 .LBB2_18:                               //  %if.then2

@@ -109,6 +109,40 @@ static inline int16_t saturate_i16_custom(int32_t value) {
     return result;
 }
 
+int16_t dot_S7_8_custom( int16_t *a, int16_t *b, int size) {
+    int32_t acc = 0;
+
+    asm volatile(
+        "hackaton_custom_instr_d %0, %1, %2"
+        : "+r"(acc)
+        : "r"(a), "r"(b)
+    );
+    return saturate_i16(acc);
+}
+
+void matvec_mul_S7_8_custom(int16_t *mat, // [rows * cols] in S7_8
+                   volatile int16_t *vec, // [cols] in S7_8
+                   int16_t       *out, // [rows] in S7_8
+                   int            rows,
+                   int            cols)
+{
+    for (int r = 0; r < rows; r++) {
+        // Accumulate in 32-bit
+        int32_t acc = 0;
+
+        asm volatile(
+            "hackaton_custom_instr_d %0, %1, %2"
+            : "+r"(acc)
+            : "r"(mat + r * cols), "r"(vec)
+        );
+
+        // saturate to int16
+        out[r] = saturate_i16(acc);
+    }
+}
+
+
+
 // ---------------------------------------------------------
 // 1) Dot product (S7_8) => also produce a S7_8 result
 // ---------------------------------------------------------
@@ -244,22 +278,35 @@ static inline int relu_custom_instr(int value) {
     );
     return result;
 }
+
+static inline int32_t array_sum_test(int16_t* values, uint32_t length, int32_t initial_sum) {
+    int32_t result = initial_sum;
+    uint32_t base_addr = (uint32_t)values;
+        
+    asm volatile (
+        "hackaton_custom_instr_c %0, %1, %2"
+        : "+r" (result)
+        : "r" (base_addr), "r" (length)
+    );    
+    return result;
+}
 // ---------------------------------------------------------
 // 3) "Fake" Softmax in integer domain
 //    - Actually: ReLU the scores, then normalize them so sum=Q_SCALE
 //    - This is NOT a real exponent-based softmax, just a quick hack
 // ---------------------------------------------------------
-void fake_softmax_S7_8(int16_t *values, int length) {
+void fake_softmax_S7_8(int16_t *values, int length) {    
     // 3a) ReLU
     for(int i = 0; i < length; i++){
         if(values[i] < 0) values[i] = 0;
 
     }
-    // 3b) Sum  //Havent checked this yet
+    // 3b) Sum  
     int32_t sum = 0;
     for(int i = 0; i < length; i++){
         sum += values[i];
     }
+    //sum = array_sum_test(values, length, 0);
     int16_t uniform;
     // Avoid division by zero
     if(sum == 0) {
@@ -277,7 +324,7 @@ void fake_softmax_S7_8(int16_t *values, int length) {
         // scale to Q_SCALE
         int32_t numerator = (int32_t)values[i] * Q_SCALE;
         int32_t scaled = hw_div(numerator, sum);
-        values[i] = saturate_i16_custom(scaled);
+        values[i] = saturate_i16(scaled);
 
 
     }
@@ -298,7 +345,7 @@ void single_head_attention_S7_8(int16_t Q[SEQ_LEN][MODEL_DIM],
         // compute attention scores vs each K[j]
         int16_t scores[SEQ_LEN];
         for(int j = 0; j < SEQ_LEN; j++){
-            scores[j] = dot_S7_8(Q[i], K[j], MODEL_DIM);
+            scores[j] = dot_S7_8_custom(Q[i], K[j], MODEL_DIM);
         }
 
         // "Scale" by sqrt(MODEL_DIM) => in float code is / sqrt(4)=/2 => multiply by 0.5
@@ -320,21 +367,23 @@ void single_head_attention_S7_8(int16_t Q[SEQ_LEN][MODEL_DIM],
                 //change here
                 acc = multiply(scores[j], V[j][d], acc);
             }
-            out_attn[i][d] = saturate_i16_custom(acc);
+            out_attn[i][d] = saturate_i16(acc);
         }
     }
 }
 
-static inline int32_t simd_add2(int32_t a, int32_t b) {
-    int32_t result;
-    asm volatile(
-        "hackaton_custom_instr_d %0, %1, %2"
-        : "=r"(result)
-        : "r"(a), "r"(b)
-    );
-    return result;  // Hardware already saturated the result
-}
 
+static inline void vector_add(int16_t* arr_out, int16_t* arr1, int16_t* arr2) {
+    uint32_t addr1 = (uint32_t)arr1;
+    uint32_t addr2 = (uint32_t)arr2;
+    uint32_t addr_out = (uint32_t)arr_out;
+    
+    asm volatile (
+        "hackaton_custom_instr_f %0, %1, %2"
+        : 
+        : "r" (addr1), "r" (addr2), "r" (addr_out)
+    );
+}
 // ---------------------------------------------------------
 // Feed-forward layer (2-layer MLP, ReLU in between)
 // in_data, out_ff: [SEQ_LEN][MODEL_DIM], S7_8
@@ -349,30 +398,39 @@ void feed_forward_S7_8(int16_t in_data[SEQ_LEN][MODEL_DIM],
                       int16_t *b1,
                       int16_t *W2,
                       int16_t *b2)
-{
-    for(int i = 0; i < SEQ_LEN; i++){
-        // hidden = ReLU( in_data[i]*W1 + b1 )
-        int16_t hidden[FF_DIM];
-        matvec_mul_S7_8(W1, in_data[i], hidden, FF_DIM, MODEL_DIM);
-        for(int h = 0; h < FF_DIM; h++){
-            // add bias b1[h]
-            int32_t sum = (int32_t)hidden[h] + (int32_t)b1[h];
-            int16_t tmp = saturate_i16_custom(sum);
-            // ReLU
-            if(tmp < 0) tmp = 0;
-            hidden[h] = tmp;
-        }
+    {
+        for(int i = 0; i < SEQ_LEN; i++){
+            // hidden = ReLU( in_data[i]*W1 + b1 )
+            int16_t hidden[FF_DIM];
+            matvec_mul_S7_8_custom(W1, in_data[i], hidden, FF_DIM, MODEL_DIM);
+            for(int h = 0; h < FF_DIM; h++){
+                // add bias b1[h]
+                int32_t sum = (int32_t)hidden[h] + (int32_t)b1[h];
+                int16_t tmp = saturate_i16_custom(sum);
+                // ReLU
+                if(tmp < 0) tmp = 0;
+                hidden[h] = tmp;
+            }
 
-        // out_ff[i] = hidden * W2 + b2
-        // hidden is [FF_DIM], W2 is [MODEL_DIM x FF_DIM]
-        matvec_mul_S7_8(W2, hidden, out_ff[i], MODEL_DIM, FF_DIM);
-        // add bias b2
-        for(int d = 0; d < MODEL_DIM; d++){
-            int32_t sum = (int32_t)out_ff[i][d] + (int32_t)b2[d];
-            out_ff[i][d] = saturate_i16_custom(sum);
+            // out_ff[i] = hidden * W2 + b2
+            // hidden is [FF_DIM], W2 is [MODEL_DIM x FF_DIM]
+            matvec_mul_S7_8(W2, hidden, out_ff[i], MODEL_DIM, FF_DIM);
+            // add bias b2
+            // for(int d = 0; d < MODEL_DIM; d++){
+            //     int32_t sum = (int32_t)out_ff[i][d] + (int32_t)b2[d];
+            
+            //     out_ff[i][d] = saturate_i16_custom(sum);
+            // }
+            // int32_t sum;
+            asm volatile (
+                "hackaton_custom_instr_f %0, %1, %2"
+                :
+                : "r"(out_ff[i]), "r"(out_ff[i]), "r"(b2)
+            );
+
+
         }
     }
-}
 
 void run_transformer_encoder(int16_t final_out[SEQ_LEN][MODEL_DIM] ,int16_t volatile input[SEQ_LEN][MODEL_DIM])
 {
@@ -384,9 +442,9 @@ void run_transformer_encoder(int16_t final_out[SEQ_LEN][MODEL_DIM] ,int16_t vola
     int16_t Vmat[SEQ_LEN][MODEL_DIM];
 
     for(int i = 0; i < SEQ_LEN; i++){
-        matvec_mul_S7_8(WQ, input[i], Qmat[i], MODEL_DIM, MODEL_DIM);
-        matvec_mul_S7_8(WK, input[i], Kmat[i], MODEL_DIM, MODEL_DIM);
-        matvec_mul_S7_8(WV, input[i], Vmat[i], MODEL_DIM, MODEL_DIM);
+        matvec_mul_S7_8_custom(WQ, input[i], Qmat[i], MODEL_DIM, MODEL_DIM);
+        matvec_mul_S7_8_custom(WK, input[i], Kmat[i], MODEL_DIM, MODEL_DIM);
+        matvec_mul_S7_8_custom(WV, input[i], Vmat[i], MODEL_DIM, MODEL_DIM);
     }
 
     // -----------------------------------------------------
@@ -400,7 +458,7 @@ void run_transformer_encoder(int16_t final_out[SEQ_LEN][MODEL_DIM] ,int16_t vola
     for(int i = 0; i < SEQ_LEN; i++){
         for(int d = 0; d < MODEL_DIM; d++){
             int32_t sum = (int32_t)input[i][d] + (int32_t)attn_out[i][d];
-            post_attn[i][d] = saturate_i16_custom(sum);
+            post_attn[i][d] = saturate_i16(sum);
         }
     }
 
@@ -414,7 +472,7 @@ void run_transformer_encoder(int16_t final_out[SEQ_LEN][MODEL_DIM] ,int16_t vola
     for(int i = 0; i < SEQ_LEN; i++){
         for(int d = 0; d < MODEL_DIM; d++){
             int32_t sum = (int32_t)post_attn[i][d] + (int32_t)ff_out[i][d];
-            final_out[i][d] = saturate_i16_custom(sum);
+            final_out[i][d] = saturate_i16(sum);
         }
     }
     return;
@@ -482,3 +540,57 @@ int main(void) {
 
     return 0;
 }
+
+/*int main() {
+    int16_t out_ff[1][4] = {
+        {10, 20, 30, 40}
+    };
+    int16_t b2[4] = {1, 2, 3, 4};
+
+    int32_t sum;
+    asm volatile (
+        "hackaton_custom_instr_g %0, %1, %2"
+        : "=r" (sum)
+        : "r" ((uint32_t)out_ff[0]), "r" ((uint32_t)b2)
+    );
+
+    printf("Sum = %d\n", sum); // Expect 110
+    return 0;
+}*/
+
+
+
+
+// int32_t software_sum(int16_t* arr, int len) {
+//     int32_t sum = 0;
+//     for(int i=0; i<len; i++) {
+//         sum += arr[i];
+//     }
+//     return sum;
+// }
+
+
+
+// void test_sum() {
+//     // Tiny test array
+//     int16_t test_arr[] = {10, 20, 30, 40}; // Sum = 100
+//     int len = sizeof(test_arr)/sizeof(test_arr[0]);
+    
+//     // Run both implementations
+//     int32_t soft_sum = software_sum(test_arr, len);
+//     int32_t hard_sum = array_sum_test(test_arr, len, 0);
+    
+//     // Print results
+//     printf("Software sum: %d\n", soft_sum);
+//     printf("Hardware sum: %d\n", hard_sum);
+    
+//     // Verification
+//     assert(soft_sum == hard_sum);
+//     printf("TEST PASSED!\n");
+// }
+
+// int main() {
+//     test_sum();
+//     return 0;
+// }
+

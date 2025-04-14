@@ -40,19 +40,17 @@ bsearch:                                //  @bsearch
 .LBB0_1:                                //  %entry
 	beq x0, x19, .LBB0_9
 .LBB0_2:                                //  %while.body.preheader
-	mv x23, x0
-	mv x24, x23
+	mv x22, x0
+	mv x23, x22
 	jal x0, .LBB0_3
 .LBB0_4:                                //    in Loop: Header=BB0_3 Depth=1
-	mv x19, x22
-	bgeu x24, x19, .LBB0_8
+	mv x19, x24
+	bgeu x23, x19, .LBB0_8
 .LBB0_3:                                //  %while.body
                                         //  =>This Inner Loop Header: Depth=1
-	add x10, x19, x24
-	srl x22, x10, 1&31
-	mv x10, x22
-	mv x11, x9
-	jal __mulsi3
+	add x10, x19, x23
+	srl x24, x10, 1&31
+	hackaton_custom_instr_c x10, x9, x24
 	add x21, x10, x18
 	mv x10, x20
 	mv x11, x21
@@ -63,10 +61,10 @@ bsearch:                                //  @bsearch
 	beq x0, x10, .LBB0_9
 .LBB0_6:                                //  %if.then6
                                         //    in Loop: Header=BB0_3 Depth=1
-	add x24, x22, 1
-	bltu x24, x19, .LBB0_3
+	add x23, x24, 1
+	bltu x23, x19, .LBB0_3
 .LBB0_8:
-	mv x21, x23
+	mv x21, x22
 .LBB0_9:                                //  %cleanup
 	mv x10, x21
 	lw fp, 8 ( sp )                 //  4-byte Folded Reload

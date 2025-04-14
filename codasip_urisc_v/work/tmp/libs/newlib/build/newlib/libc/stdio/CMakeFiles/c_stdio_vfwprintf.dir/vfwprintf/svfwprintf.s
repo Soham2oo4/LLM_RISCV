@@ -10,14 +10,18 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	.cfi_def_cfa 2, 0
 	add sp, sp, -736
 	.cfi_adjust_cfa_offset 736
+	sw x23, 704 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 23, -32
+	sw x24, 700 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 24, -36
+	sw x25, 696 ( sp )              //  4-byte Folded Spill
+	.cfi_offset 25, -40
+	sw ra, 732 ( sp )               //  4-byte Folded Spill
+	.cfi_offset 1, -4
 	sw x9, 728 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 9, -8
 	sw x18, 724 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 18, -12
-	sw x24, 700 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 24, -36
-	sw ra, 732 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 1, -4
 	sw x19, 720 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 19, -16
 	sw x20, 716 ( sp )              //  4-byte Folded Spill
@@ -26,10 +30,6 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	.cfi_offset 21, -24
 	sw x22, 708 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 22, -28
-	sw x23, 704 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 23, -32
-	sw x25, 696 ( sp )              //  4-byte Folded Spill
-	.cfi_offset 25, -40
 	sw x26, 692 ( sp )              //  4-byte Folded Spill
 	.cfi_offset 26, -44
 	sw x27, 688 ( sp )              //  4-byte Folded Spill
@@ -37,8 +37,8 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sw fp, 684 ( sp )               //  4-byte Folded Spill
 	.cfi_offset 8, -52
 	mv x24, x12
-	mv x9, x11
-	mv x18, x10
+	mv x23, x11
+	mv x25, x10
 	sw x13, 652 ( sp )
 	sw x0, 644 ( sp )
 	sw x0, 600 ( sp )
@@ -46,30 +46,30 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	lw x10, 0 ( x10 )
 	lb x10, 0 ( x10 )
 	sw x10, 640 ( sp )
-	lbu x10, 12 ( x9 )
+	lbu x10, 12 ( x23 )
 	and x10, x10, 128
 	beq x0, x10, .LBB0_4
 .LBB0_1:                                //  %land.lhs.true
-	lw x10, 16 ( x9 )
+	lw x10, 16 ( x23 )
 	bltu x0, x10, .LBB0_4
 .LBB0_2:                                //  %if.then
 	add fp, x0, 64
-	mv x10, x18
+	mv x10, x25
 	mv x11, fp
 	jal _malloc_r
-	sw x10, 16 ( x9 )
-	sw x10, 0 ( x9 )
+	sw x10, 16 ( x23 )
+	sw x10, 0 ( x23 )
 	bltu x0, x10, .LBB0_3
-.LBB0_503:                              //  %if.then
-	jal x0, .LBB0_495
+.LBB0_489:                              //  %if.then
+	jal x0, .LBB0_487
 .LBB0_3:                                //  %if.end
-	sw fp, 20 ( x9 )
+	sw fp, 20 ( x23 )
 .LBB0_4:                                //  %if.end11
 	add x10, sp, 524
 	sw x10, 588 ( sp )
 	add x10, sp, 656
 	add x10, x10, 24
-	sw x10, 32 ( sp )               //  4-byte Folded Spill
+	sw x10, 36 ( sp )               //  4-byte Folded Spill
 	add x10, sp, 124
 	add x10, x10, 400
 	sw x10, 52 ( sp )               //  4-byte Folded Spill
@@ -81,59 +81,57 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sw x10, 112 ( sp )              //  4-byte Folded Spill
 	lui x10, %hi( .str.8 )
 	add x10, x10, %lo( .str.8 )
-	sw x10, 40 ( sp )               //  4-byte Folded Spill
+	sw x10, 44 ( sp )               //  4-byte Folded Spill
 	lui x10, %hi( JTI0_0 )
 	add x10, x10, %lo( JTI0_0 )
 	add x11, sp, 604
-	mv x22, x0
-	sw x10, 88 ( sp )               //  4-byte Folded Spill
+	mv x18, x0
+	sw x10, 84 ( sp )               //  4-byte Folded Spill
 	add x10, x11, 8
 	add x15, sp, 588
-	sw x10, 36 ( sp )               //  4-byte Folded Spill
+	sw x10, 40 ( sp )               //  4-byte Folded Spill
 	add x10, x11, 12
-	add x26, x0, 64
+	add x27, x0, 64
 	add x21, x0, 10
-	add x19, x0, 90
-	mv x23, x22
+	mv x22, x18
 	sw x0, 8 ( x15 )
-	sw x22, 96 ( sp )               //  4-byte Folded Spill
-	sw x0, 592 ( sp )
-	sw x22, 48 ( sp )               //  4-byte Folded Spill
-	sw x22, 44 ( sp )               //  4-byte Folded Spill
-	sw x22, 56 ( sp )               //  4-byte Folded Spill
-	sw x22, 68 ( sp )               //  4-byte Folded Spill
-	sw x10, 28 ( sp )               //  4-byte Folded Spill
 	sw x18, 100 ( sp )              //  4-byte Folded Spill
-	sw x9, 76 ( sp )                //  4-byte Folded Spill
+	sw x0, 592 ( sp )
+	sw x18, 92 ( sp )               //  4-byte Folded Spill
+	sw x18, 48 ( sp )               //  4-byte Folded Spill
+	sw x18, 60 ( sp )               //  4-byte Folded Spill
+	sw x18, 72 ( sp )               //  4-byte Folded Spill
+	sw x10, 32 ( sp )               //  4-byte Folded Spill
+	sw x25, 88 ( sp )               //  4-byte Folded Spill
 .LBB0_5:                                //  %for.cond.outer
                                         //  =>This Loop Header: Depth=1
                                         //      Child Loop BB0_8 Depth 2
                                         //        Child Loop BB0_15 Depth 3
                                         //          Child Loop BB0_16 Depth 4
-                                        //            Child Loop BB0_19 Depth 5
-                                        //              Child Loop BB0_24 Depth 6
+                                        //            Child Loop BB0_20 Depth 5
+                                        //              Child Loop BB0_25 Depth 6
                                         //            Child Loop BB0_18 Depth 5
-                                        //        Child Loop BB0_223 Depth 3
-                                        //        Child Loop BB0_161 Depth 3
-                                        //        Child Loop BB0_143 Depth 3
-                                        //        Child Loop BB0_228 Depth 3
-                                        //        Child Loop BB0_239 Depth 3
-                                        //        Child Loop BB0_455 Depth 3
-                                        //        Child Loop BB0_197 Depth 3
-                                        //        Child Loop BB0_202 Depth 3
-                                        //        Child Loop BB0_262 Depth 3
-                                        //        Child Loop BB0_281 Depth 3
-                                        //        Child Loop BB0_289 Depth 3
-                                        //        Child Loop BB0_336 Depth 3
-                                        //        Child Loop BB0_357 Depth 3
+                                        //        Child Loop BB0_251 Depth 3
+                                        //        Child Loop BB0_156 Depth 3
+                                        //        Child Loop BB0_140 Depth 3
+                                        //        Child Loop BB0_254 Depth 3
+                                        //        Child Loop BB0_217 Depth 3
+                                        //        Child Loop BB0_234 Depth 3
+                                        //        Child Loop BB0_196 Depth 3
+                                        //        Child Loop BB0_201 Depth 3
+                                        //        Child Loop BB0_285 Depth 3
+                                        //        Child Loop BB0_309 Depth 3
+                                        //        Child Loop BB0_313 Depth 3
+                                        //        Child Loop BB0_366 Depth 3
                                         //        Child Loop BB0_382 Depth 3
-                                        //          Child Loop BB0_398 Depth 4
-                                        //        Child Loop BB0_442 Depth 3
-                                        //        Child Loop BB0_425 Depth 3
-                                        //        Child Loop BB0_342 Depth 3
-                                        //        Child Loop BB0_416 Depth 3
+                                        //        Child Loop BB0_404 Depth 3
+                                        //          Child Loop BB0_422 Depth 4
+                                        //        Child Loop BB0_450 Depth 3
+                                        //        Child Loop BB0_435 Depth 3
+                                        //        Child Loop BB0_354 Depth 3
+                                        //        Child Loop BB0_481 Depth 3
                                         //      Child Loop BB0_6 Depth 2
-	add x20, sp, 524
+	add x19, sp, 524
 	mv fp, x24
 	lw x10, 0 ( fp )
 	beq x0, x10, .LBB0_8
@@ -152,35 +150,35 @@ _svfwprintf_r:                          //  @_svfwprintf_r
                                         //  =>  This Loop Header: Depth=2
                                         //        Child Loop BB0_15 Depth 3
                                         //          Child Loop BB0_16 Depth 4
-                                        //            Child Loop BB0_19 Depth 5
-                                        //              Child Loop BB0_24 Depth 6
+                                        //            Child Loop BB0_20 Depth 5
+                                        //              Child Loop BB0_25 Depth 6
                                         //            Child Loop BB0_18 Depth 5
-                                        //        Child Loop BB0_223 Depth 3
-                                        //        Child Loop BB0_161 Depth 3
-                                        //        Child Loop BB0_143 Depth 3
-                                        //        Child Loop BB0_228 Depth 3
-                                        //        Child Loop BB0_239 Depth 3
-                                        //        Child Loop BB0_455 Depth 3
-                                        //        Child Loop BB0_197 Depth 3
-                                        //        Child Loop BB0_202 Depth 3
-                                        //        Child Loop BB0_262 Depth 3
-                                        //        Child Loop BB0_281 Depth 3
-                                        //        Child Loop BB0_289 Depth 3
-                                        //        Child Loop BB0_336 Depth 3
-                                        //        Child Loop BB0_357 Depth 3
+                                        //        Child Loop BB0_251 Depth 3
+                                        //        Child Loop BB0_156 Depth 3
+                                        //        Child Loop BB0_140 Depth 3
+                                        //        Child Loop BB0_254 Depth 3
+                                        //        Child Loop BB0_217 Depth 3
+                                        //        Child Loop BB0_234 Depth 3
+                                        //        Child Loop BB0_196 Depth 3
+                                        //        Child Loop BB0_201 Depth 3
+                                        //        Child Loop BB0_285 Depth 3
+                                        //        Child Loop BB0_309 Depth 3
+                                        //        Child Loop BB0_313 Depth 3
+                                        //        Child Loop BB0_366 Depth 3
                                         //        Child Loop BB0_382 Depth 3
-                                        //          Child Loop BB0_398 Depth 4
-                                        //        Child Loop BB0_442 Depth 3
-                                        //        Child Loop BB0_425 Depth 3
-                                        //        Child Loop BB0_342 Depth 3
-                                        //        Child Loop BB0_416 Depth 3
+                                        //        Child Loop BB0_404 Depth 3
+                                        //          Child Loop BB0_422 Depth 4
+                                        //        Child Loop BB0_450 Depth 3
+                                        //        Child Loop BB0_435 Depth 3
+                                        //        Child Loop BB0_354 Depth 3
+                                        //        Child Loop BB0_481 Depth 3
 	sub x9, fp, x24
 	beq x0, x9, .LBB0_13
 .LBB0_9:                                //  %if.then17
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 8 ( x15 )
-	sw x9, 4 ( x20 )
-	sw x24, 0 ( x20 )
+	sw x9, 4 ( x19 )
+	sw x24, 0 ( x19 )
 	add x10, x9, x10
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
@@ -190,209 +188,203 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	bltu x0, x10, .LBB0_11
 .LBB0_10:                               //  %if.then24
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 76 ( sp )               //  4-byte Folded Reload
-	mv x10, x18
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	add x20, sp, 524
+	add x15, sp, 588
+	add x19, sp, 524
 	beq x0, x10, .LBB0_12
-	jal x0, .LBB0_496
+	jal x0, .LBB0_280
 .LBB0_11:                               //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
+	add x19, x19, 8
 .LBB0_12:                               //  %if.end30
                                         //    in Loop: Header=BB0_8 Depth=2
 	sra x10, x9, 2&31
-	add x23, x23, x10
+	add x22, x22, x10
 	lw x10, 0 ( fp )
 .LBB0_13:                               //  %if.end32
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
 	bltu x0, x10, .LBB0_14
-.LBB0_504:                              //  %if.end32
-	jal x0, .LBB0_492
+.LBB0_490:                              //  %if.end32
+	jal x0, .LBB0_484
 .LBB0_14:                               //  %if.end36
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x11, fp, 4
-	add x10, x0, -1
-	mv fp, x22
-	mv x25, x22
+	add x10, fp, 4
+	mv x9, x18
+	add fp, x0, -1
+	mv x20, x18
 	sw x0, 648 ( sp )
-	sw x10, 92 ( sp )               //  4-byte Folded Spill
-	sw x23, 84 ( sp )               //  4-byte Folded Spill
+	sw x22, 80 ( sp )               //  4-byte Folded Spill
 .LBB0_15:                               //  %rflag
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Loop Header: Depth=3
                                         //          Child Loop BB0_16 Depth 4
-                                        //            Child Loop BB0_19 Depth 5
-                                        //              Child Loop BB0_24 Depth 6
+                                        //            Child Loop BB0_20 Depth 5
+                                        //              Child Loop BB0_25 Depth 6
                                         //            Child Loop BB0_18 Depth 5
-	lw x27, 0 ( x11 )
-	add x24, x11, 4
+	lw x26, 0 ( x10 )
+	add x24, x10, 4
 .LBB0_16:                               //  %reswitch
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //        Parent Loop BB0_15 Depth=3
                                         //  =>      This Loop Header: Depth=4
-                                        //            Child Loop BB0_19 Depth 5
-                                        //              Child Loop BB0_24 Depth 6
+                                        //            Child Loop BB0_20 Depth 5
+                                        //              Child Loop BB0_25 Depth 6
                                         //            Child Loop BB0_18 Depth 5
-	add x10, x27, -49
+	add x10, x26, -49
 	sltiu x10, x10, 9
-	beq x0, x10, .LBB0_19
+	beq x0, x10, .LBB0_20
 .LBB0_17:                               //  %do.body.preheader
                                         //    in Loop: Header=BB0_16 Depth=4
-	mv x25, x22
+	mv x20, x18
 .LBB0_18:                               //  %do.body
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //        Parent Loop BB0_15 Depth=3
                                         //          Parent Loop BB0_16 Depth=4
                                         //  =>        This Inner Loop Header: Depth=5
-	mv x10, x25
-	mv x11, x21
-	jal __mulsi3
-	add x10, x10, x27
-	lw x27, 0 ( x24 )
-	add x25, x10, -48
+	hackaton_custom_instr_c x10, x21, x20
+	add x10, x10, x26
+	lw x26, 0 ( x24 )
+	add x20, x10, -48
 	add x24, x24, 4
-	add x10, x27, -48
+	add x10, x26, -48
 	sltiu x10, x10, 10
 	bltu x0, x10, .LBB0_18
 	jal x0, .LBB0_16
-.LBB0_27:                               //    in Loop: Header=BB0_19 Depth=5
-	mv x10, x0
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	mv x24, x11
-	sw x10, 92 ( sp )               //  4-byte Folded Spill
-	add x10, x27, -49
+.LBB0_19:                               //    in Loop: Header=BB0_20 Depth=5
+	mv x11, x0
+	mv x24, x10
+	mv fp, x11
+	add x10, x26, -49
 	sltiu x10, x10, 9
 	bltu x0, x10, .LBB0_17
-.LBB0_19:                               //  %reswitch
+.LBB0_20:                               //  %reswitch
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //        Parent Loop BB0_15 Depth=3
                                         //          Parent Loop BB0_16 Depth=4
                                         //  =>        This Loop Header: Depth=5
-                                        //              Child Loop BB0_24 Depth 6
-	add x10, x27, -32
-	bltu x19, x10, .LBB0_120
-.LBB0_20:                               //  %reswitch
-                                        //    in Loop: Header=BB0_19 Depth=5
-	lw x11, 88 ( sp )               //  4-byte Folded Reload
+                                        //              Child Loop BB0_25 Depth 6
+	add x10, x26, -32
+	add x11, x0, 90
+	bltu x11, x10, .LBB0_117
+.LBB0_21:                               //  %reswitch
+                                        //    in Loop: Header=BB0_20 Depth=5
+	lw x11, 84 ( sp )               //  4-byte Folded Reload
 	sll x10, x10, 2&31
 	add x10, x11, x10
 	lw x10, 0 ( x10 )
 	jr x10
-.LBB0_21:                               //  %sw.bb66
-                                        //    in Loop: Header=BB0_19 Depth=5
-	lw x27, 0 ( x24 )
-	add x11, x24, 4
-	xor x10, x27, 42
-	beq x0, x10, .LBB0_51
-.LBB0_22:                               //  %while.cond77.preheader
-                                        //    in Loop: Header=BB0_19 Depth=5
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
-	add fp, x27, -48
-	add x10, x0, 9
-	bltu x10, fp, .LBB0_27
-.LBB0_23:                               //  %while.body81.preheader
-                                        //    in Loop: Header=BB0_19 Depth=5
-	mv x10, x0
-	mv x24, x11
-.LBB0_24:                               //  %while.body81
+.LBB0_22:                               //  %sw.bb66
+                                        //    in Loop: Header=BB0_20 Depth=5
+	lw x26, 0 ( x24 )
+	add x10, x24, 4
+	xor x11, x26, 42
+	beq x0, x11, .LBB0_51
+.LBB0_23:                               //  %while.cond77.preheader
+                                        //    in Loop: Header=BB0_20 Depth=5
+	add x12, x26, -48
+	add x11, x0, 9
+	bltu x11, x12, .LBB0_19
+.LBB0_24:                               //  %while.body81.preheader
+                                        //    in Loop: Header=BB0_20 Depth=5
+	mv x11, x0
+	mv x24, x10
+.LBB0_25:                               //  %while.body81
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //        Parent Loop BB0_15 Depth=3
                                         //          Parent Loop BB0_16 Depth=4
-                                        //            Parent Loop BB0_19 Depth=5
+                                        //            Parent Loop BB0_20 Depth=5
                                         //  =>          This Inner Loop Header: Depth=6
-	add x11, x0, 10
-	jal __mulsi3
-	lw x27, 0 ( x24 )
-	add x10, x10, fp
+	lw x26, 0 ( x24 )
+	hackaton_custom_instr_c x10, x21, x11
+	add x11, x10, x12
 	add x24, x24, 4
-	add fp, x27, -48
-	sltiu x11, fp, 10
-	bltu x0, x11, .LBB0_24
-.LBB0_25:                               //  %while.end86
-                                        //    in Loop: Header=BB0_19 Depth=5
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	add x11, x0, -1
-	sw x11, 92 ( sp )               //  4-byte Folded Spill
-	blt x10, x0, .LBB0_16
-.LBB0_26:                               //  %while.end86.thread
-                                        //    in Loop: Header=BB0_19 Depth=5
-	sw x10, 92 ( sp )               //  4-byte Folded Spill
-	add x10, x27, -49
+	add x12, x26, -48
+	sltiu x10, x12, 10
+	bltu x0, x10, .LBB0_25
+.LBB0_26:                               //  %while.end86
+                                        //    in Loop: Header=BB0_20 Depth=5
+	add fp, x0, -1
+	blt x11, x0, .LBB0_16
+.LBB0_27:                               //  %while.end86.thread
+                                        //    in Loop: Header=BB0_20 Depth=5
+	mv fp, x11
+	add x10, x26, -49
 	sltiu x10, x10, 9
 	bltu x0, x10, .LBB0_17
-	jal x0, .LBB0_19
+	jal x0, .LBB0_20
 .LBB0_28:                               //  %sw.bb120
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 32
-	mv x11, x24
+	or x9, x9, 32
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_29:                               //  %sw.bb52
                                         //    in Loop: Header=BB0_15 Depth=3
-	lw x10, 648 ( sp )
-	mv x11, x24
-	bltu x0, x10, .LBB0_15
+	lw x11, 648 ( sp )
+	mv x10, x24
+	bltu x0, x11, .LBB0_15
 .LBB0_30:                               //  %if.then54
                                         //    in Loop: Header=BB0_15 Depth=3
 	add x10, x0, 32
 	jal x0, .LBB0_41
 .LBB0_31:                               //  %sw.bb56
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 1
-	mv x11, x24
+	or x9, x9, 1
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_32:                               //  %sw.bb
                                         //    in Loop: Header=BB0_15 Depth=3
-	mv x10, x18
+	mv x10, x25
 	jal _localeconv_r
 	lw x10, 4 ( x10 )
 	lb x10, 0 ( x10 )
 	sw x10, 644 ( sp )
-	mv x10, x18
+	mv x10, x25
 	jal _localeconv_r
-	lw x10, 8 ( x10 )
-	mv x11, x24
-	sw x10, 96 ( sp )               //  4-byte Folded Spill
-	beq x0, x10, .LBB0_15
+	lw x11, 8 ( x10 )
+	add x15, sp, 588
+	mv x10, x24
+	sw x11, 100 ( sp )              //  4-byte Folded Spill
+	beq x0, x11, .LBB0_15
 .LBB0_33:                               //  %sw.bb
                                         //    in Loop: Header=BB0_15 Depth=3
-	lw x10, 644 ( sp )
-	mv x11, x24
-	beq x0, x10, .LBB0_15
+	lw x11, 644 ( sp )
+	mv x10, x24
+	beq x0, x11, .LBB0_15
 .LBB0_34:                               //  %land.lhs.true47
                                         //    in Loop: Header=BB0_15 Depth=3
-	lw x10, 96 ( sp )               //  4-byte Folded Reload
+	lw x10, 100 ( sp )              //  4-byte Folded Reload
 	mv x11, x0
 	lbu x10, 0 ( x10 )
 	beq x10, x11, .LBB0_36
 .LBB0_35:                               //  %land.lhs.true47
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 1024
+	or x9, x9, 1024
 .LBB0_36:                               //  %land.lhs.true47
                                         //    in Loop: Header=BB0_15 Depth=3
-	mv x11, x24
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_37:                               //  %sw.bb58
                                         //    in Loop: Header=BB0_15 Depth=3
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
-	lw x25, 0 ( x10 )
-	mv x11, x24
-	bge x25, x0, .LBB0_15
+	lw x20, 0 ( x10 )
+	mv x10, x24
+	bge x20, x0, .LBB0_15
 .LBB0_38:                               //  %if.end62
                                         //    in Loop: Header=BB0_15 Depth=3
-	sub x25, x0, x25
+	sub x20, x0, x20
 .LBB0_39:                               //  %sw.bb63.loopexit
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 4
-	mv x11, x24
+	or x9, x9, 4
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_40:                               //  %sw.bb65
                                         //    in Loop: Header=BB0_15 Depth=3
@@ -402,17 +394,17 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sw x10, 648 ( sp )
 .LBB0_42:                               //  %rflag.backedge.loopexit
                                         //    in Loop: Header=BB0_15 Depth=3
-	mv x11, x24
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_43:                               //  %sw.bb89
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 128
-	mv x11, x24
+	or x9, x9, 128
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_44:                               //  %sw.bb99
                                         //    in Loop: Header=BB0_15 Depth=3
-	or fp, fp, 8
-	mv x11, x24
+	or x9, x9, 8
+	mv x10, x24
 	jal x0, .LBB0_15
 .LBB0_45:                               //  %sw.bb101
                                         //    in Loop: Header=BB0_15 Depth=3
@@ -421,9 +413,9 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	beq x10, x11, .LBB0_49
 .LBB0_46:                               //  %sw.bb101
                                         //    in Loop: Header=BB0_15 Depth=3
-	mv x10, x26
-	mv x11, x24
-	or fp, fp, x10
+	mv x11, x27
+	mv x10, x24
+	or x9, x9, x11
 	jal x0, .LBB0_15
 .LBB0_47:                               //  %sw.bb109
                                         //    in Loop: Header=BB0_15 Depth=3
@@ -432,49 +424,47 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	beq x10, x11, .LBB0_50
 .LBB0_48:                               //  %sw.bb109
                                         //    in Loop: Header=BB0_15 Depth=3
-	add x10, x0, 16
-	mv x11, x24
-	or fp, fp, x10
+	add x11, x0, 16
+	mv x10, x24
+	or x9, x9, x11
 	jal x0, .LBB0_15
 .LBB0_49:                               //    in Loop: Header=BB0_15 Depth=3
-	add x10, x0, 512
-	add x11, x24, 4
-	or fp, fp, x10
+	add x11, x0, 512
+	add x10, x24, 4
+	or x9, x9, x11
 	jal x0, .LBB0_15
 .LBB0_50:                               //    in Loop: Header=BB0_15 Depth=3
-	add x10, x0, 32
-	add x11, x24, 4
-	or fp, fp, x10
+	add x11, x0, 32
+	add x10, x24, 4
+	or x9, x9, x11
 	jal x0, .LBB0_15
 .LBB0_51:                               //  %if.then70
                                         //    in Loop: Header=BB0_15 Depth=3
-	lw x10, 652 ( sp )
-	add x12, x10, 4
+	lw x11, 652 ( sp )
+	add x12, x11, 4
 	sw x12, 652 ( sp )
-	lw x12, 0 ( x10 )
-	add x10, x0, -1
-	sw x12, 92 ( sp )               //  4-byte Folded Spill
-	blt x10, x12, .LBB0_15
+	lw fp, 0 ( x11 )
+	add x11, x0, -1
+	blt x11, fp, .LBB0_15
 .LBB0_52:                               //  %if.then70
                                         //    in Loop: Header=BB0_15 Depth=3
-	sw x10, 92 ( sp )               //  4-byte Folded Spill
+	mv fp, x11
 	jal x0, .LBB0_15
 .LBB0_53:                               //  %sw.bb421
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 32
+	and x10, x9, 32
 	bltu x0, x10, .LBB0_58
 .LBB0_54:                               //  %if.else427
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	add x15, sp, 588
+	and x10, x9, 16
 	bltu x0, x10, .LBB0_57
 .LBB0_55:                               //  %if.else432
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 64
+	and x10, x9, 64
 	bltu x0, x10, .LBB0_59
 .LBB0_56:                               //  %if.else438
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 512
+	and x10, x9, 512
 	bltu x0, x10, .LBB0_60
 .LBB0_57:                               //  %if.then430
                                         //    in Loop: Header=BB0_8 Depth=2
@@ -482,7 +472,7 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x10, 0 ( x10 )
-	sw x23, 0 ( x10 )
+	sw x22, 0 ( x10 )
 	mv fp, x24
 	lw x10, 0 ( fp )
 	bltu x0, x10, .LBB0_6
@@ -490,13 +480,12 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 .LBB0_58:                               //  %if.then424
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
-	add x15, sp, 588
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x10, 0 ( x10 )
-	sra x11, x23, 31&31
+	sra x11, x22, 31&31
 	sw x11, 4 ( x10 )
-	sw x23, 0 ( x10 )
+	sw x22, 0 ( x10 )
 	mv fp, x24
 	lw x10, 0 ( fp )
 	bltu x0, x10, .LBB0_6
@@ -507,7 +496,7 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x10, 0 ( x10 )
-	sh x23, 0 ( x10 )
+	sh x22, 0 ( x10 )
 	mv fp, x24
 	lw x10, 0 ( fp )
 	bltu x0, x10, .LBB0_6
@@ -518,15 +507,15 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x10, 0 ( x10 )
-	sb x23, 0 ( x10 )
+	sb x22, 0 ( x10 )
 	mv fp, x24
 	lw x10, 0 ( fp )
 	bltu x0, x10, .LBB0_6
 	jal x0, .LBB0_8
 .LBB0_61:                               //  %sw.bb187
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 8
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
+	mv x27, fp
+	and x10, x9, 8
 	bltu x0, x10, .LBB0_63
 .LBB0_62:                               //  %if.else194
                                         //    in Loop: Header=BB0_8 Depth=2
@@ -534,9 +523,9 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	add x11, x10, 8
-	lw x19, 0 ( x10 )
+	lw fp, 0 ( x10 )
 	sw x11, 652 ( sp )
-	lw fp, 4 ( x10 )
+	lw x18, 4 ( x10 )
 	jal x0, .LBB0_64
 .LBB0_63:                               //  %if.then190
                                         //    in Loop: Header=BB0_8 Depth=2
@@ -554,29 +543,29 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sw x14, 652 ( sp )
 	lw x13, 12 ( x13 )
 	jal __trunctfdf2
-	mv x19, x10
-	mv fp, x11
+	mv fp, x10
+	mv x18, x11
 .LBB0_64:                               //  %if.end197
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( 2147483647 )
 	add x10, x10, %lo( 2147483647 )
-	mv x26, x0
-	and x11, x10, fp
+	and x11, x10, x18
+	mv x12, x0
 	lui x13, (2146435072>>12)&1048575
-	mv x10, x19
-	mv x12, x26
+	mv x10, fp
 	jal __nedf2
-	sw x19, 56 ( sp )               //  4-byte Folded Spill
-	sw fp, 68 ( sp )                //  4-byte Folded Spill
+	sw fp, 60 ( sp )                //  4-byte Folded Spill
+	sw x18, 72 ( sp )               //  4-byte Folded Spill
 	bltu x0, x10, .LBB0_69
 .LBB0_65:                               //  %if.then200
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x23, x0
-	mv x13, x23
-	mv x10, x19
-	mv x11, fp
-	mv x12, x23
+	mv x22, x0
+	mv x13, x22
+	mv x10, fp
+	mv x11, x18
+	mv x12, x22
 	jal __ltdf2
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	bge x10, x0, .LBB0_67
 .LBB0_66:                               //  %if.then204
                                         //    in Loop: Header=BB0_8 Depth=2
@@ -586,533 +575,517 @@ _svfwprintf_r:                          //  @_svfwprintf_r
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 72
 	add x15, sp, 588
-	bltu x27, x10, .LBB0_73
+	bltu x26, x10, .LBB0_73
 .LBB0_68:                               //  %if.end205
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.1 )
-	add x10, x10, %lo( .str.1 )
+	add fp, x10, %lo( .str.1 )
 	jal x0, .LBB0_74
 .LBB0_69:                               //  %if.end212
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x19
-	mv x13, fp
-	mv x11, fp
-	mv x12, x19
+	mv x10, fp
+	mv x13, x18
+	mv x11, x18
+	mv x12, fp
 	jal __unorddf2
-	bltu x0, x10, .LBB0_92
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	bltu x0, x10, .LBB0_90
 .LBB0_70:                               //  %if.end233
                                         //    in Loop: Header=BB0_8 Depth=2
-	or x18, x27, 32
-	xor x10, x18, 97
-	bltu x0, x10, .LBB0_122
+	or x12, x26, 32
+	xor x10, x12, 97
+	sw x9, 104 ( sp )               //  4-byte Folded Spill
+	sw x16, 92 ( sp )               //  4-byte Folded Spill
+	sw x12, 68 ( sp )               //  4-byte Folded Spill
+	bltu x0, x10, .LBB0_119
 .LBB0_71:                               //  %if.then239
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 97
-	beq x27, x10, .LBB0_150
+	beq x26, x10, .LBB0_146
 .LBB0_72:                               //  %if.then239
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 88
-	jal x0, .LBB0_151
+	jal x0, .LBB0_147
 .LBB0_73:                               //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str )
-	add x10, x10, %lo( .str )
+	add fp, x10, %lo( .str )
 .LBB0_74:                               //  %if.end205
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	mv x26, x23
-	add x22, x0, 3
-	and fp, fp, -129
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
+	mv x11, x22
+	add x5, x0, 3
+	and x9, x9, -129
+	sw x22, 76 ( sp )               //  4-byte Folded Spill
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	sw x22, 64 ( sp )               //  4-byte Folded Spill
+	mv x10, x11
+	mv x18, x11
+	bge x5, x11, .LBB0_266
+	jal x0, .LBB0_267
 .LBB0_75:                               //  %sw.bb124
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x10, 0 ( x10 )
-	and x11, fp, 16
+	and x11, x9, 16
 	bltu x0, x11, .LBB0_113
 .LBB0_76:                               //  %sw.bb124
                                         //    in Loop: Header=BB0_8 Depth=2
-	xor x11, x27, 99
+	xor x11, x26, 99
 	bltu x0, x11, .LBB0_113
 .LBB0_77:                               //  %if.then131
                                         //    in Loop: Header=BB0_8 Depth=2
 	jal btowc
-	xor x11, x10, -1
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
+	xor x11, x10, -1
 	bltu x0, x11, .LBB0_114
-	jal x0, .LBB0_498
-.LBB0_78:                               //  %sw.bb492
+	jal x0, .LBB0_78
+.LBB0_79:                               //  %sw.bb492
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
-	lw x26, 0 ( x10 )
+	lw x27, 0 ( x10 )
 	sw x0, 648 ( sp )
-	beq x0, x26, .LBB0_125
-.LBB0_79:                               //  %if.else503
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	bltu x0, x10, .LBB0_128
+	beq x0, x27, .LBB0_122
 .LBB0_80:                               //  %if.else503
                                         //    in Loop: Header=BB0_8 Depth=2
-	xor x10, x27, 83
-	beq x0, x10, .LBB0_128
-.LBB0_81:                               //  %if.then509
+	and x10, x9, 16
+	bltu x0, x10, .LBB0_125
+.LBB0_81:                               //  %if.else503
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 92 ( sp )               //  4-byte Folded Reload
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
-	blt x12, x0, .LBB0_236
-.LBB0_82:                               //  %if.then512
+	xor x10, x26, 83
+	beq x0, x10, .LBB0_125
+.LBB0_82:                               //  %if.then509
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv fp, x0
-	mv x10, x26
-	mv x11, fp
-	jal memchr
-	beq x10, fp, .LBB0_84
+	sw x9, 104 ( sp )               //  4-byte Folded Spill
+	bge fp, x0, .LBB0_83
+.LBB0_491:                              //  %if.then509
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_211
 .LBB0_83:                               //  %if.then512
                                         //    in Loop: Header=BB0_8 Depth=2
-	sub x10, x10, x26
-	sw x10, 92 ( sp )               //  4-byte Folded Spill
+	mv x12, fp
+	mv x11, x0
+	mv x10, x27
+	jal memchr
+	mv x11, x0
+	bne x10, x11, .LBB0_84
+.LBB0_492:                              //  %if.then512
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_212
 .LBB0_84:                               //  %if.then512
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 92 ( sp )               //  4-byte Folded Reload
-	mv x19, x9
-	sltiu x10, x11, 100
-	sll fp, x11, 2&31
-	bltu x0, x10, .LBB0_237
-.LBB0_85:                               //  %if.then527
+	sub fp, x10, x27
+	jal x0, .LBB0_212
+.LBB0_85:                               //  %sw.bb147
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x9, x11
-	add x11, fp, 4
-	mv x10, x18
-	jal _malloc_r
-	bltu x0, x10, .LBB0_86
-.LBB0_505:                              //  %if.then527
-	jal x0, .LBB0_499
-.LBB0_86:                               //    in Loop: Header=BB0_8 Depth=2
-	sw x10, 80 ( sp )               //  4-byte Folded Spill
-	add x15, sp, 588
-	jal x0, .LBB0_238
-.LBB0_87:                               //  %sw.bb147
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 32
+	and x10, x9, 32
 	bltu x0, x10, .LBB0_115
-.LBB0_88:                               //  %cond.false152
+.LBB0_86:                               //  %cond.false152
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	add x15, sp, 588
-	bltu x0, x10, .LBB0_133
-.LBB0_89:                               //  %cond.false157
+	and x10, x9, 16
+	bltu x0, x10, .LBB0_130
+.LBB0_87:                               //  %cond.false157
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
-	and x10, fp, 64
-	bltu x0, x10, .LBB0_208
-.LBB0_90:                               //  %cond.false164
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	and x10, x9, 64
+	bltu x0, x10, .LBB0_206
+.LBB0_88:                               //  %cond.false164
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-	and x10, fp, 512
-	beq x0, x10, .LBB0_134
-.LBB0_91:                               //  %cond.true167
+	and x10, x9, 512
+	beq x0, x10, .LBB0_131
+.LBB0_89:                               //  %cond.true167
                                         //    in Loop: Header=BB0_8 Depth=2
 	sll x10, x18, 24&31
 	sra x18, x10, 24&31
 	sra x22, x18, 31&31
 	bge x22, x0, .LBB0_116
-	jal x0, .LBB0_135
-.LBB0_92:                               //  %cond.true220
+	jal x0, .LBB0_132
+.LBB0_90:                               //  %cond.true220
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x15, sp, 588
-	blt fp, x0, .LBB0_155
-.LBB0_93:                               //  %if.end226
+	blt x18, x0, .LBB0_151
+.LBB0_91:                               //  %if.end226
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 72
-	bltu x27, x10, .LBB0_156
-.LBB0_94:                               //  %if.end226
+	bltu x26, x10, .LBB0_152
+.LBB0_92:                               //  %if.end226
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.3 )
-	add x10, x10, %lo( .str.3 )
-	jal x0, .LBB0_157
-.LBB0_95:                               //  %hex.loopexit
+	add fp, x10, %lo( .str.3 )
+	jal x0, .LBB0_153
+.LBB0_93:                               //  %hex.loopexit
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.6 )
-	add x10, x10, %lo( .str.6 )
-	jal x0, .LBB0_108
-.LBB0_96:                               //  %sw.bb450
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 32
-	bltu x0, x10, .LBB0_145
-.LBB0_97:                               //  %cond.false455
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	add x15, sp, 588
-	bltu x0, x10, .LBB0_209
-.LBB0_98:                               //  %cond.false460
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 64
-	beq x0, x10, .LBB0_99
-.LBB0_506:                              //  %cond.false460
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_461
-.LBB0_99:                               //  %cond.false467
+	add x16, x10, %lo( .str.6 )
+	and x10, x9, 32
+	beq x0, x10, .LBB0_109
+.LBB0_94:                               //  %cond.true617
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
+	add x11, x10, 8
 	lw x18, 0 ( x10 )
-	and x11, fp, 512
-	mv x10, x0
-	bne x11, x10, .LBB0_100
-.LBB0_507:                              //  %cond.false467
+	sw x11, 652 ( sp )
+	lw x22, 4 ( x10 )
+	and x10, x9, 1
+	beq x0, x10, .LBB0_210
+.LBB0_95:                               //  %cond.end647
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_462
+	or x10, x22, x18
+	beq x0, x10, .LBB0_210
+.LBB0_96:                               //  %if.then654
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x10, x0, 48
+	or x9, x9, 2
+	sw x26, 120 ( sp )
+	sw x10, 116 ( sp )
+	jal x0, .LBB0_210
+.LBB0_97:                               //  %sw.bb450
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x9, 32
+	bltu x0, x10, .LBB0_142
+.LBB0_98:                               //  %cond.false455
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	and x10, x9, 16
+	bltu x0, x10, .LBB0_207
+.LBB0_99:                               //  %cond.false460
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x9, 64
+	beq x0, x10, .LBB0_100
+.LBB0_493:                              //  %cond.false460
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_239
 .LBB0_100:                              //  %cond.false467
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x18, x18, 255
-	jal x0, .LBB0_462
-.LBB0_101:                              //  %sw.bb486
-                                        //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
-	add x27, x0, 120
-	mv x22, x0
-	or fp, fp, 2
 	add x11, x10, 4
 	sw x11, 652 ( sp )
-	lui x11, %hi( .str.4 )
+	lw x18, 0 ( x10 )
+	and x11, x9, 512
+	mv x10, x0
+	bne x11, x10, .LBB0_101
+.LBB0_494:                              //  %cond.false467
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_240
+.LBB0_101:                              //  %cond.false467
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x18, x18, 255
+	jal x0, .LBB0_240
+.LBB0_102:                              //  %sw.bb486
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 652 ( sp )
+	add x26, x0, 120
+	mv x22, x0
+	or x9, x9, 2
+	add x11, x10, 4
+	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
 	add x10, x0, 48
-	add x11, x11, %lo( .str.4 )
+	lui x11, %hi( .str.4 )
 	sw x10, 116 ( sp )
-	sw x27, 120 ( sp )
+	sw x26, 120 ( sp )
 	add x10, x0, 2
-	sw x11, 48 ( sp )               //  4-byte Folded Spill
-	jal x0, .LBB0_147
-.LBB0_102:                              //  %sw.bb578
+	add x16, x11, %lo( .str.4 )
+	sw x0, 648 ( sp )
+	add x11, x0, -1
+	blt x11, fp, .LBB0_242
+	jal x0, .LBB0_243
+.LBB0_103:                              //  %sw.bb578
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 32
-	bltu x0, x10, .LBB0_146
-.LBB0_103:                              //  %cond.false583
+	and x10, x9, 32
+	bltu x0, x10, .LBB0_143
+.LBB0_104:                              //  %cond.false583
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	add x15, sp, 588
-	bltu x0, x10, .LBB0_210
-.LBB0_104:                              //  %cond.false588
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	and x10, x9, 16
+	bltu x0, x10, .LBB0_208
+.LBB0_105:                              //  %cond.false588
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 64
-	beq x0, x10, .LBB0_105
-.LBB0_508:                              //  %cond.false588
+	and x10, x9, 64
+	beq x0, x10, .LBB0_106
+.LBB0_495:                              //  %cond.false588
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_464
-.LBB0_105:                              //  %cond.false595
+	jal x0, .LBB0_454
+.LBB0_106:                              //  %cond.false595
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-	and x11, fp, 512
+	and x11, x9, 512
 	mv x10, x0
-	bne x11, x10, .LBB0_106
-.LBB0_509:                              //  %cond.false595
+	bne x11, x10, .LBB0_107
+.LBB0_496:                              //  %cond.false595
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_465
-.LBB0_106:                              //  %cond.false595
+	jal x0, .LBB0_455
+.LBB0_107:                              //  %cond.false595
                                         //    in Loop: Header=BB0_8 Depth=2
 	and x18, x18, 255
-	jal x0, .LBB0_465
-.LBB0_107:                              //  %hex.loopexit1
+	jal x0, .LBB0_455
+.LBB0_108:                              //  %hex.loopexit1
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.4 )
-	add x10, x10, %lo( .str.4 )
-.LBB0_108:                              //  %hex
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
-	sw x10, 48 ( sp )               //  4-byte Folded Spill
-	and x10, fp, 32
-	add x15, sp, 588
-	bltu x0, x10, .LBB0_117
+	add x16, x10, %lo( .str.4 )
+	and x10, x9, 32
+	bltu x0, x10, .LBB0_94
 .LBB0_109:                              //  %cond.false619
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 16
-	bltu x0, x10, .LBB0_148
+	and x10, x9, 16
+	bltu x0, x10, .LBB0_144
 .LBB0_110:                              //  %cond.false624
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 64
-	bltu x0, x10, .LBB0_211
+	and x10, x9, 64
+	bltu x0, x10, .LBB0_209
 .LBB0_111:                              //  %cond.false631
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-	and x11, fp, 512
+	and x11, x9, 512
 	mv x10, x0
-	beq x11, x10, .LBB0_149
+	beq x11, x10, .LBB0_145
 .LBB0_112:                              //  %cond.false631
                                         //    in Loop: Header=BB0_8 Depth=2
 	and x18, x18, 255
 	mv x22, x0
-	and x10, fp, 1
-	bltu x0, x10, .LBB0_118
-	jal x0, .LBB0_212
+	and x10, x9, 1
+	bltu x0, x10, .LBB0_95
+	jal x0, .LBB0_210
 .LBB0_113:                              //    in Loop: Header=BB0_8 Depth=2
-	add x15, sp, 588
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 .LBB0_114:                              //  %if.end145
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x23, x0
+	mv x22, x0
 	sw x10, 124 ( sp )
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	mv x26, x23
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	mv x11, x22
 	sw x0, 128 ( sp )
 	sw x0, 648 ( sp )
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	seqz x22, x0
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	add x10, sp, 124
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
+	sw x22, 76 ( sp )               //  4-byte Folded Spill
+	seqz x5, x0
+	sw x22, 64 ( sp )               //  4-byte Folded Spill
+	add fp, sp, 124
+	mv x10, x11
+	mv x18, x11
+	bge x5, x11, .LBB0_266
+	jal x0, .LBB0_267
 .LBB0_115:                              //  %cond.true150
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
-	add x15, sp, 588
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	add x11, x10, 8
 	lw x18, 0 ( x10 )
 	sw x11, 652 ( sp )
 	lw x22, 4 ( x10 )
-	blt x22, x0, .LBB0_135
+	blt x22, x0, .LBB0_132
 .LBB0_116:                              //    in Loop: Header=BB0_8 Depth=2
 	seqz x10, x0
 	add x11, x0, -1
-	blt x11, x26, .LBB0_213
-	jal x0, .LBB0_214
-.LBB0_117:                              //  %cond.true617
+	blt x11, fp, .LBB0_242
+	jal x0, .LBB0_243
+.LBB0_117:                              //  %sw.default757
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 652 ( sp )
-	add x11, x10, 4
-	sw x11, 652 ( sp )
-	add x11, x10, 8
-	lw x18, 0 ( x10 )
-	sw x11, 652 ( sp )
-	lw x22, 4 ( x10 )
-	and x10, fp, 1
-	beq x0, x10, .LBB0_212
-.LBB0_118:                              //  %cond.end647
+	bltu x0, x26, .LBB0_118
+.LBB0_497:                              //  %sw.default757
+	jal x0, .LBB0_484
+.LBB0_118:                              //  %if.end761
                                         //    in Loop: Header=BB0_8 Depth=2
-	or x10, x22, x18
-	beq x0, x10, .LBB0_212
-.LBB0_119:                              //  %if.then654
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x10, x0, 48
-	or fp, fp, 2
-	sw x27, 120 ( sp )
-	sw x10, 116 ( sp )
-	jal x0, .LBB0_212
-.LBB0_120:                              //  %sw.default757
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x15, sp, 588
-	bltu x0, x27, .LBB0_121
-.LBB0_510:                              //  %sw.default757
-	jal x0, .LBB0_492
-.LBB0_121:                              //  %if.end761
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x19, x22
-	mv x23, x22
-	mv x26, x22
-	sw x22, 80 ( sp )               //  4-byte Folded Spill
-	seqz x22, x0
-	sw x27, 124 ( sp )
+	mv x10, x18
+	mv x22, x18
+	mv x11, x18
+	seqz x5, x0
+	add fp, sp, 124
+	sw x26, 124 ( sp )
 	sw x0, 648 ( sp )
-	sw x19, 64 ( sp )               //  4-byte Folded Spill
-	sw x19, 60 ( sp )               //  4-byte Folded Spill
-	add x10, sp, 124
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_122:                              //  %if.else261
+	sw x18, 76 ( sp )               //  4-byte Folded Spill
+	sw x10, 68 ( sp )               //  4-byte Folded Spill
+	sw x10, 64 ( sp )               //  4-byte Folded Spill
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	mv x10, x11
+	mv x18, x11
+	bge x5, x11, .LBB0_266
+	jal x0, .LBB0_267
+.LBB0_119:                              //  %if.else261
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 92 ( sp )               //  4-byte Folded Reload
 	add x10, sp, 124
-	xor x11, x11, -1
-	beq x0, x11, .LBB0_174
-.LBB0_123:                              //  %if.else265
+	xor x11, x27, -1
+	beq x0, x11, .LBB0_167
+.LBB0_120:                              //  %if.else265
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x11, x0, 103
-	beq x18, x11, .LBB0_175
-.LBB0_124:                              //  %if.else265
+	beq x12, x11, .LBB0_168
+.LBB0_121:                              //  %if.else265
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 92 ( sp )               //  4-byte Folded Reload
-	mv x22, x12
+	mv x18, x27
 	mv x11, x0
-	mv x26, x11
-	bne x12, x11, .LBB0_176
-	jal x0, .LBB0_177
-.LBB0_125:                              //  %if.then496
+	mv x9, x11
+	bne x27, x11, .LBB0_169
+	jal x0, .LBB0_170
+.LBB0_122:                              //  %if.then496
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x22, 92 ( sp )               //  4-byte Folded Reload
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	add x10, x0, 6
-	add x15, sp, 588
-	bltu x22, x10, .LBB0_127
-.LBB0_126:                              //  %if.then496
+	bltu fp, x10, .LBB0_124
+.LBB0_123:                              //  %if.then496
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x22, x10
-.LBB0_127:                              //  %if.then496
+	mv fp, x10
+.LBB0_124:                              //  %if.then496
                                         //    in Loop: Header=BB0_8 Depth=2
+	mv x22, x0
 	lui x10, %hi( .str.5 )
-	mv x23, x0
-	add x10, x10, %lo( .str.5 )
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	mv x26, x23
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_128:                              //  %if.else554
+	mv x5, fp
+	add fp, x10, %lo( .str.5 )
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	mv x11, x22
+	jal x0, .LBB0_265
+.LBB0_125:                              //  %if.else554
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x22, 92 ( sp )               //  4-byte Folded Reload
-	blt x22, x0, .LBB0_241
-.LBB0_129:                              //  %if.then557
+	bge fp, x0, .LBB0_126
+.LBB0_498:                              //  %if.else554
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x19, x0
-	mv x10, x26
-	mv x11, x19
-	mv x12, x22
+	jal x0, .LBB0_219
+.LBB0_126:                              //  %if.then557
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x18, x0
+	mv x10, x27
+	mv x11, x18
+	mv x12, fp
 	jal wmemchr
-	bltu x0, x10, .LBB0_130
-.LBB0_511:                              //  %if.then557
+	bltu x0, x10, .LBB0_127
+.LBB0_499:                              //  %if.then557
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_447
-.LBB0_130:                              //  %if.then562
+	jal x0, .LBB0_226
+.LBB0_127:                              //  %if.then562
                                         //    in Loop: Header=BB0_8 Depth=2
-	sub x10, x10, x26
+	sub x10, x10, x27
 	sra x10, x10, 2&31
 	add x15, sp, 588
-	blt x22, x10, .LBB0_132
-.LBB0_131:                              //  %if.then562
+	blt fp, x10, .LBB0_129
+.LBB0_128:                              //  %if.then562
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x22, x10
-.LBB0_132:                              //  %if.then562
+	mv fp, x10
+.LBB0_129:                              //  %if.then562
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x23, x0
-	mv x10, x23
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	sw x26, 72 ( sp )               //  4-byte Folded Spill
-	mv x26, x10
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_133:                              //  %cond.true155
+	mv x22, x0
+	mv x5, fp
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	mv x11, x22
+	sw x22, 76 ( sp )               //  4-byte Folded Spill
+	sw x22, 64 ( sp )               //  4-byte Folded Spill
+	mv fp, x27
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	mv x10, x11
+	mv x18, x11
+	bge x5, x11, .LBB0_266
+	jal x0, .LBB0_267
+.LBB0_130:                              //  %cond.true155
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-.LBB0_134:                              //  %cond.end177
+.LBB0_131:                              //  %cond.end177
                                         //    in Loop: Header=BB0_8 Depth=2
 	sra x22, x18, 31&31
 	bge x22, x0, .LBB0_116
-.LBB0_135:                              //  %if.then671.thread
+.LBB0_132:                              //  %if.then671.thread
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, -1
-	bge x10, x26, .LBB0_137
-.LBB0_136:                              //    in Loop: Header=BB0_8 Depth=2
-	and fp, fp, -129
-.LBB0_137:                              //  %if.then671.thread
+	bge x10, fp, .LBB0_134
+.LBB0_133:                              //    in Loop: Header=BB0_8 Depth=2
+	and x9, x9, -129
+.LBB0_134:                              //  %if.then671.thread
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 45
 	sw x10, 648 ( sp )
 	snez x10, x18
 	add x10, x10, x22
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
+	sw x9, 104 ( sp )               //  4-byte Folded Spill
 	sub x18, x0, x18
 	sub x22, x0, x10
 	add x10, x0, 9
-	mv fp, x0
-	bne x22, fp, .LBB0_233
-.LBB0_138:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x9, x0
+	bne x22, x9, .LBB0_259
+.LBB0_135:                              //    in Loop: Header=BB0_8 Depth=2
 	sltu x10, x10, x18
-	beq x0, x10, .LBB0_234
-.LBB0_139:                              //  %if.end697
+	sw fp, 96 ( sp )                //  4-byte Folded Spill
+	beq x0, x10, .LBB0_260
+.LBB0_136:                              //  %if.end697
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 104 ( sp )              //  4-byte Folded Reload
+	sw x16, 92 ( sp )               //  4-byte Folded Spill
+	sw x23, 28 ( sp )               //  4-byte Folded Spill
 	sw x0, 600 ( sp )
 	and x10, x10, 1024
-	bltu x0, x10, .LBB0_159
-.LBB0_140:                              //  %do.body698.us.preheader
+	bltu x0, x10, .LBB0_154
+.LBB0_137:                              //  %do.body698.us.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x19, 52 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_143
-.LBB0_141:                              //  %do.body698.us
-                                        //    in Loop: Header=BB0_143 Depth=3
+	lw fp, 52 ( sp )                //  4-byte Folded Reload
+	jal x0, .LBB0_140
+.LBB0_138:                              //  %do.body698.us
+                                        //    in Loop: Header=BB0_140 Depth=3
 	snez x11, x22
-.LBB0_142:                              //  %do.body698.us
-                                        //    in Loop: Header=BB0_143 Depth=3
+.LBB0_139:                              //  %do.body698.us
+                                        //    in Loop: Header=BB0_140 Depth=3
 	sub x10, x18, x10
-	mv x19, x9
 	or x10, x10, 48
-	sw x10, -4 ( x19 )
+	sw x10, -4 ( fp )
 	lw x10, 600 ( sp )
-	add x19, x19, -4
+	add fp, fp, -4
 	mv x18, x23
-	mv x22, x26
+	mv x22, x27
 	add x10, x10, 1
 	sw x10, 600 ( sp )
-	beq x0, x11, .LBB0_173
-.LBB0_143:                              //  %do.body698.us
+	beq x0, x11, .LBB0_166
+.LBB0_140:                              //  %do.body698.us
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
-	mv x9, x19
-	add x19, x0, 10
+	add x25, x0, 10
 	mv x10, x18
 	mv x11, x22
-	mv x12, x19
-	mv x13, fp
+	mv x12, x25
+	mv x13, x9
 	jal __udivdi3
-	mv x12, x19
-	mv x13, fp
+	mv x12, x25
+	mv x13, x9
 	mv x23, x10
-	mv x26, x11
+	mv x27, x11
 	jal __muldi3
-	bne x22, fp, .LBB0_141
-.LBB0_144:                              //    in Loop: Header=BB0_143 Depth=3
+	bne x22, x9, .LBB0_138
+.LBB0_141:                              //    in Loop: Header=BB0_140 Depth=3
 	add x11, x0, 9
 	sltu x11, x11, x18
-	jal x0, .LBB0_142
-.LBB0_145:                              //  %cond.true453
+	jal x0, .LBB0_139
+.LBB0_142:                              //  %cond.true453
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
-	add x15, sp, 588
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	add x11, x10, 8
 	lw x18, 0 ( x10 )
 	sw x11, 652 ( sp )
 	lw x22, 4 ( x10 )
-	jal x0, .LBB0_463
-.LBB0_146:                              //  %cond.true581
+	jal x0, .LBB0_241
+.LBB0_143:                              //  %cond.true581
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 652 ( sp )
-	add x27, x0, 117
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	add x26, x0, 117
 	add x10, x11, 4
 	sw x10, 652 ( sp )
 	add x10, x11, 8
@@ -1120,426 +1093,414 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sw x10, 652 ( sp )
 	lw x22, 4 ( x11 )
 	seqz x10, x0
-.LBB0_147:                              //  %nosign
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
-	add x15, sp, 588
 	sw x0, 648 ( sp )
 	add x11, x0, -1
-	blt x11, x26, .LBB0_213
-	jal x0, .LBB0_214
-.LBB0_148:                              //  %cond.true622
+	blt x11, fp, .LBB0_242
+	jal x0, .LBB0_243
+.LBB0_144:                              //  %cond.true622
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-.LBB0_149:                              //  %cond.end644
+.LBB0_145:                              //  %cond.end644
                                         //    in Loop: Header=BB0_8 Depth=2
 	mv x22, x0
-	and x10, fp, 1
-	bltu x0, x10, .LBB0_118
-	jal x0, .LBB0_212
-.LBB0_150:                              //    in Loop: Header=BB0_8 Depth=2
+	and x10, x9, 1
+	bltu x0, x10, .LBB0_95
+	jal x0, .LBB0_210
+.LBB0_146:                              //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 120
-.LBB0_151:                              //  %if.then239
+.LBB0_147:                              //  %if.then239
                                         //    in Loop: Header=BB0_8 Depth=2
 	sw x10, 120 ( sp )
 	add x10, x0, 48
 	sw x10, 116 ( sp )
 	lw x10, 104 ( sp )              //  4-byte Folded Reload
-	lw x22, 92 ( sp )               //  4-byte Folded Reload
 	or x10, x10, 2
 	sw x10, 104 ( sp )              //  4-byte Folded Spill
-	slti x10, x22, 100
-	bltu x0, x10, .LBB0_154
-.LBB0_152:                              //  %if.then248
+	slti x10, x27, 100
+	bltu x0, x10, .LBB0_150
+.LBB0_148:                              //  %if.then248
                                         //    in Loop: Header=BB0_8 Depth=2
-	sll x10, x22, 2&31
+	sll x10, x27, 2&31
 	add x11, x10, 4
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
+	mv x10, x25
 	jal _malloc_r
-	mv x26, x10
-	bltu x0, x26, .LBB0_153
-.LBB0_512:                              //  %if.then248
-	jal x0, .LBB0_500
-.LBB0_153:                              //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x26
-	jal x0, .LBB0_177
-.LBB0_154:                              //    in Loop: Header=BB0_8 Depth=2
-	mv x26, x0
+	mv x9, x10
+	bltu x0, x9, .LBB0_149
+.LBB0_500:                              //  %if.then248
+	jal x0, .LBB0_488
+.LBB0_149:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x18, x27
+	mv x10, x9
+	jal x0, .LBB0_170
+.LBB0_150:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x9, x0
 	add x10, sp, 124
-	jal x0, .LBB0_177
-.LBB0_155:                              //  %if.then225
+	jal x0, .LBB0_169
+.LBB0_151:                              //  %if.then225
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 45
 	sw x10, 648 ( sp )
 	add x10, x0, 72
-	bgeu x27, x10, .LBB0_94
-.LBB0_156:                              //    in Loop: Header=BB0_8 Depth=2
+	bgeu x26, x10, .LBB0_92
+.LBB0_152:                              //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.2 )
-	add x10, x10, %lo( .str.2 )
-.LBB0_157:                              //  %if.end226
+	add fp, x10, %lo( .str.2 )
+.LBB0_153:                              //  %if.end226
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	mv x23, x0
-	add x22, x0, 3
-	mv x26, x23
-	and fp, fp, -129
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	jal x0, .LBB0_158
-.LBB0_159:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x19, 52 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_161
-.LBB0_160:                              //  %if.end725
-                                        //    in Loop: Header=BB0_161 Depth=3
+	mv x22, x0
+	add x5, x0, 3
+	mv x11, x22
+	and x9, x9, -129
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	jal x0, .LBB0_265
+.LBB0_154:                              //    in Loop: Header=BB0_8 Depth=2
+	lw fp, 52 ( sp )                //  4-byte Folded Reload
+	jal x0, .LBB0_156
+.LBB0_155:                              //  %if.end725
+                                        //    in Loop: Header=BB0_156 Depth=3
 	snez x10, x22
 	mv x18, x23
-	mv x22, x26
-	sw x13, 96 ( sp )               //  4-byte Folded Spill
-	beq x0, x10, .LBB0_173
-.LBB0_161:                              //  %do.body698
+	mv x22, x27
+	sw x13, 100 ( sp )              //  4-byte Folded Spill
+	beq x0, x10, .LBB0_166
+.LBB0_156:                              //  %do.body698
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
-	mv x9, x19
-	add x19, x0, 10
-	mv fp, x0
+	add x25, x0, 10
+	mv x9, x0
 	mv x10, x18
 	mv x11, x22
-	mv x12, x19
-	mv x13, fp
+	mv x12, x25
+	mv x13, x9
 	jal __udivdi3
-	mv x12, x19
-	mv x13, fp
+	mv x12, x25
+	mv x13, x9
 	mv x23, x10
-	mv x26, x11
-	mv x19, x9
+	mv x27, x11
 	jal __muldi3
 	lw x11, 600 ( sp )
-	lw x13, 96 ( sp )               //  4-byte Folded Reload
+	lw x13, 100 ( sp )              //  4-byte Folded Reload
 	sub x10, x18, x10
 	or x10, x10, 48
 	add x12, x11, 1
-	sw x10, -4 ( x19 )
+	sw x10, -4 ( fp )
 	sw x12, 600 ( sp )
 	lb x11, 0 ( x13 )
-	add x10, x19, -4
-	bne x12, x11, .LBB0_165
-.LBB0_162:                              //  %land.lhs.true709
-                                        //    in Loop: Header=BB0_161 Depth=3
-	beq x22, fp, .LBB0_166
-.LBB0_163:                              //  %land.lhs.true709
-                                        //    in Loop: Header=BB0_161 Depth=3
-	mv x12, fp
-	bltu x0, x12, .LBB0_165
-.LBB0_167:                              //  %land.lhs.true709
-                                        //    in Loop: Header=BB0_161 Depth=3
+	add x10, fp, -4
+	bne x12, x11, .LBB0_159
+.LBB0_157:                              //  %land.lhs.true709
+                                        //    in Loop: Header=BB0_156 Depth=3
+	beq x22, x9, .LBB0_160
+.LBB0_158:                              //  %land.lhs.true709
+                                        //    in Loop: Header=BB0_156 Depth=3
+	mv x12, x9
+	bltu x0, x12, .LBB0_159
+.LBB0_161:                              //  %land.lhs.true709
+                                        //    in Loop: Header=BB0_156 Depth=3
 	and x11, x11, 255
 	xor x11, x11, 127
-	beq x0, x11, .LBB0_165
-.LBB0_168:                              //  %if.then716
-                                        //    in Loop: Header=BB0_161 Depth=3
+	beq x0, x11, .LBB0_159
+.LBB0_162:                              //  %if.then716
+                                        //    in Loop: Header=BB0_156 Depth=3
 	lw x10, 644 ( sp )
 	sw x0, 600 ( sp )
 	mv x11, x0
-	sw x10, -8 ( x19 )
+	sw x10, -8 ( fp )
 	lbu x10, 1 ( x13 )
-	beq x10, x11, .LBB0_170
-.LBB0_169:                              //  %if.then716
-                                        //    in Loop: Header=BB0_161 Depth=3
+	beq x10, x11, .LBB0_164
+.LBB0_163:                              //  %if.then716
+                                        //    in Loop: Header=BB0_156 Depth=3
 	add x13, x13, 1
-.LBB0_170:                              //  %if.then716
-                                        //    in Loop: Header=BB0_161 Depth=3
-	add x19, x19, -8
-	bne x22, fp, .LBB0_160
-	jal x0, .LBB0_172
-.LBB0_166:                              //    in Loop: Header=BB0_161 Depth=3
+.LBB0_164:                              //  %if.then716
+                                        //    in Loop: Header=BB0_156 Depth=3
+	add fp, fp, -8
+	bne x22, x9, .LBB0_155
+	jal x0, .LBB0_165
+.LBB0_160:                              //    in Loop: Header=BB0_156 Depth=3
 	sltiu x12, x18, 10
-	beq x0, x12, .LBB0_167
-.LBB0_165:                              //    in Loop: Header=BB0_161 Depth=3
-	mv x19, x10
-	bne x22, fp, .LBB0_160
-.LBB0_172:                              //    in Loop: Header=BB0_161 Depth=3
+	beq x0, x12, .LBB0_161
+.LBB0_159:                              //    in Loop: Header=BB0_156 Depth=3
+	mv fp, x10
+	bne x22, x9, .LBB0_155
+.LBB0_165:                              //    in Loop: Header=BB0_156 Depth=3
 	add x10, x0, 9
 	sltu x10, x10, x18
 	mv x18, x23
-	mv x22, x26
-	sw x13, 96 ( sp )               //  4-byte Folded Spill
-	bltu x0, x10, .LBB0_161
-.LBB0_173:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
+	mv x22, x27
+	sw x13, 100 ( sp )              //  4-byte Folded Spill
+	bltu x0, x10, .LBB0_156
+.LBB0_166:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x23, 28 ( sp )               //  4-byte Folded Reload
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
-	jal x0, .LBB0_254
-.LBB0_174:                              //    in Loop: Header=BB0_8 Depth=2
-	add x22, x0, 6
-	jal x0, .LBB0_177
-.LBB0_175:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 92 ( sp )               //  4-byte Folded Reload
-	seqz x22, x0
+	jal x0, .LBB0_263
+.LBB0_167:                              //    in Loop: Header=BB0_8 Depth=2
+	add x18, x0, 6
+	mv x9, x0
+	jal x0, .LBB0_170
+.LBB0_168:                              //    in Loop: Header=BB0_8 Depth=2
+	seqz x18, x0
 	mv x11, x0
-	mv x26, x11
-	beq x12, x11, .LBB0_177
-.LBB0_176:                              //  %if.else265
+	mv x9, x11
+	beq x27, x11, .LBB0_170
+.LBB0_169:                              //  %if.else265
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x22, x12
-.LBB0_177:                              //  %if.end277
+	mv x18, x27
+.LBB0_170:                              //  %if.end277
                                         //    in Loop: Header=BB0_8 Depth=2
 	sw x10, 4 ( sp )
 	add x10, x0, 100
 	sw x10, 8 ( sp )
 	lw x10, 104 ( sp )              //  4-byte Folded Reload
-	lw x12, 68 ( sp )               //  4-byte Folded Reload
-	add fp, sp, 600
+	lw x12, 72 ( sp )               //  4-byte Folded Reload
+	add x22, sp, 600
 	add x15, sp, 636
-	or x14, x10, 256
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
+	or x27, x10, 256
 	add x16, sp, 632
-	mv x11, x19
-	mv x13, x22
-	mv x17, x27
-	sw fp, 0 ( sp )
-	sw x14, 92 ( sp )               //  4-byte Folded Spill
+	mv x10, x25
+	mv x11, fp
+	mv x13, x18
+	mv x14, x27
+	mv x17, x26
+	sw x22, 0 ( sp )
 	jal wcvt
-	sw x26, 80 ( sp )               //  4-byte Folded Spill
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	bltu x0, x26, .LBB0_182
-.LBB0_178:                              //  %if.end277
+	mv fp, x10
+	sw x9, 76 ( sp )                //  4-byte Folded Spill
+	bltu x0, x9, .LBB0_182
+.LBB0_171:                              //  %if.end277
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x11, sp, 124
+	add x10, sp, 124
 	add x15, sp, 588
-	bne x10, x11, .LBB0_183
-.LBB0_179:                              //  %if.end277
+	beq fp, x10, .LBB0_172
+.LBB0_501:                              //  %if.end277
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_220
+.LBB0_172:                              //  %if.end277
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 600 ( sp )
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
 	slti x11, x10, 101
-	bltu x0, x11, .LBB0_183
-.LBB0_180:                              //  %if.then290
+	bltu x0, x11, .LBB0_175
+.LBB0_173:                              //  %if.then290
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x26, x19
-	lw x19, 100 ( sp )              //  4-byte Folded Reload
 	sll x11, x10, 2&31
-	mv x10, x19
+	mv x10, x25
 	jal _malloc_r
-	bltu x0, x10, .LBB0_181
-.LBB0_513:                              //  %if.then290
-	jal x0, .LBB0_500
-.LBB0_181:                              //  %if.end300
+	bltu x0, x10, .LBB0_174
+.LBB0_502:                              //  %if.then290
+	jal x0, .LBB0_78
+.LBB0_174:                              //  %if.end300
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 600 ( sp )
-	lw x12, 68 ( sp )               //  4-byte Folded Reload
-	lw x14, 92 ( sp )               //  4-byte Folded Reload
-	sw x10, 80 ( sp )               //  4-byte Folded Spill
+	lw x12, 72 ( sp )               //  4-byte Folded Reload
+	sw x10, 76 ( sp )               //  4-byte Folded Spill
 	sw x10, 4 ( sp )
-	mv x10, x19
-	mv x19, x26
 	sw x11, 8 ( sp )
+	lw x11, 60 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 636
 	add x16, sp, 632
-	mv x11, x19
-	mv x13, x22
-	mv x17, x27
-	sw fp, 0 ( sp )
+	mv x10, x25
+	mv x13, x18
+	mv x14, x27
+	mv x17, x26
+	sw x22, 0 ( sp )
 	jal wcvt
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-.LBB0_182:                              //  %if.end303
-                                        //    in Loop: Header=BB0_8 Depth=2
+	mv fp, x10
 	add x15, sp, 588
-.LBB0_183:                              //  %if.end303
+.LBB0_175:                              //  %if.end303
                                         //    in Loop: Header=BB0_8 Depth=2
-	xor x10, x18, 103
-	bltu x0, x10, .LBB0_189
-.LBB0_184:                              //  %if.then309
+	xor x10, x9, 103
+	bltu x0, x10, .LBB0_183
+.LBB0_176:                              //  %if.then309
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x16, 632 ( sp )
+	lw x17, 632 ( sp )
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	slti x10, x17, -3
+	bltu x0, x10, .LBB0_187
+.LBB0_177:                              //  %if.then309
+                                        //    in Loop: Header=BB0_8 Depth=2
+	blt x18, x17, .LBB0_187
+.LBB0_178:                              //    in Loop: Header=BB0_8 Depth=2
 	lw x12, 104 ( sp )              //  4-byte Folded Reload
-	slti x10, x16, -3
-	bltu x0, x10, .LBB0_186
-.LBB0_185:                              //  %if.then309
+	jal x0, .LBB0_179
+.LBB0_182:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	add x15, sp, 588
+	xor x10, x9, 103
+	beq x0, x10, .LBB0_176
+.LBB0_183:                              //  %if.else319
                                         //    in Loop: Header=BB0_8 Depth=2
-	bge x22, x16, .LBB0_246
-.LBB0_186:                              //  %if.then309.if.then327_crit_edge
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	xor x10, x26, 70
+	bltu x0, x10, .LBB0_190
+.LBB0_184:                              //  %if.else340.thread
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x27, x27, -2
-	or x18, x27, 32
-	add x10, x0, 97
-	beq x18, x10, .LBB0_193
-.LBB0_187:                              //  %if.then327
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x27
-	seqz x17, x0
-	add x11, x16, -1
-	bge x16, x17, .LBB0_194
-.LBB0_188:                              //    in Loop: Header=BB0_8 Depth=2
-	add x12, x0, 45
-	sub fp, x17, x16
-	jal x0, .LBB0_195
-.LBB0_189:                              //  %if.else319
-                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x17, 632 ( sp )
 	lw x12, 104 ( sp )              //  4-byte Folded Reload
-	xor x10, x27, 70
-	bltu x0, x10, .LBB0_191
-.LBB0_190:                              //  %if.else340.thread
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x16, 632 ( sp )
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
 	and x10, x12, 1
-	or x10, x22, x10
-	blt x0, x16, .LBB0_244
-.LBB0_250:                              //  %if.end385.thread
+	or x10, x18, x10
+	bge x0, x17, .LBB0_185
+.LBB0_503:                              //  %if.else340.thread
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x11, x0
-	bne x10, x11, .LBB0_251
-.LBB0_514:                              //  %if.end385.thread
+	jal x0, .LBB0_223
+.LBB0_185:                              //  %if.end385.thread
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_469
-.LBB0_251:                              //  %if.end385.thread
+	mv x14, x0
+	bne x10, x14, .LBB0_186
+.LBB0_504:                              //  %if.end385.thread
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x22, x22, 2
-	jal x0, .LBB0_470
-.LBB0_191:                              //  %if.end324
+	jal x0, .LBB0_458
+.LBB0_186:                              //  %if.end385.thread
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x5, x18, 2
+	jal x0, .LBB0_459
+.LBB0_187:                              //  %if.then309.if.then327_crit_edge
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x26, x26, -2
+	or x9, x26, 32
+	add x10, x0, 97
+	beq x9, x10, .LBB0_192
+.LBB0_188:                              //  %if.then327
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x11, x26
+	seqz x5, x0
+	add x12, x17, -1
+	bge x17, x5, .LBB0_193
+.LBB0_189:                              //    in Loop: Header=BB0_8 Depth=2
+	add x13, x0, 45
+	sub x10, x5, x17
+	jal x0, .LBB0_194
+.LBB0_190:                              //  %if.end324
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 101
-	bltu x10, x27, .LBB0_242
-.LBB0_192:                              //  %if.end324.if.then327_crit_edge
+	bltu x10, x26, .LBB0_221
+.LBB0_191:                              //  %if.end324.if.then327_crit_edge
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x16, 632 ( sp )
+	lw x17, 632 ( sp )
 	add x10, x0, 97
-	bne x18, x10, .LBB0_187
-.LBB0_193:                              //    in Loop: Header=BB0_8 Depth=2
-	add x10, x27, 15
-	seqz x17, x0
-	add x11, x16, -1
-	blt x16, x17, .LBB0_188
+	bne x9, x10, .LBB0_188
+.LBB0_192:                              //    in Loop: Header=BB0_8 Depth=2
+	add x11, x26, 15
+	seqz x5, x0
+	add x12, x17, -1
+	blt x17, x5, .LBB0_189
+.LBB0_193:                              //  %if.then327
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x13, x0, 43
+	mv x10, x12
 .LBB0_194:                              //  %if.then327
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x12, x0, 43
-	mv fp, x11
-.LBB0_195:                              //  %if.then327
+	sw x11, 604 ( sp )
+	slti x11, x10, 10
+	sw x12, 632 ( sp )
+	sw x13, 608 ( sp )
+	sw x23, 28 ( sp )               //  4-byte Folded Spill
+	bltu x0, x11, .LBB0_202
+.LBB0_195:                              //  %do.body.i.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	sw x10, 604 ( sp )
-	slti x10, fp, 10
-	sw x11, 632 ( sp )
-	sw x12, 608 ( sp )
-	bltu x0, x10, .LBB0_203
-.LBB0_196:                              //  %do.body.i.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x9, 32 ( sp )                //  4-byte Folded Reload
+	mv x18, x27
+	lw x27, 36 ( sp )               //  4-byte Folded Reload
 	mv x12, x0
 	add x13, sp, 684
-	mv x23, x17
-.LBB0_197:                              //  %do.body.i
+	mv x25, x5
+.LBB0_196:                              //  %do.body.i
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
-	mv x18, fp
-	add x22, x0, 10
-	mv x10, x18
-	mv x11, x22
-	mv x19, x12
-	mv x26, x13
+	mv x11, x21
+	mv x9, x10
+	mv x22, x12
+	mv x23, x13
 	jal __divsi3
-	mv x11, x22
-	mv fp, x10
-	jal __mulsi3
-	sub x10, x18, x10
-	add x11, x10, 48
-	sw x11, 0 ( x9 )
-	add x13, x26, -4
-	add x12, x19, 1
-	add x9, x9, -4
-	add x23, x23, -1
-	add x10, x0, 99
-	blt x10, x18, .LBB0_197
-.LBB0_198:                              //  %do.end.i
+	hackaton_custom_instr_c x11, x21, x10
+	sub x11, x9, x11
+	add x11, x11, 48
+	sw x11, 0 ( x27 )
+	add x13, x23, -4
+	add x12, x22, 1
+	add x27, x27, -4
+	add x25, x25, -1
+	add x14, x0, 99
+	blt x14, x9, .LBB0_196
+.LBB0_197:                              //  %do.end.i
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x12, fp, 48
-	sw x12, 0 ( x9 )
-	lw x10, 36 ( sp )               //  4-byte Folded Reload
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	lw x14, 92 ( sp )               //  4-byte Folded Reload
-	add x13, x23, -2
+	add x12, x10, 48
+	lw x10, 40 ( sp )               //  4-byte Folded Reload
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	lw x14, 104 ( sp )              //  4-byte Folded Reload
+	sw x12, 0 ( x27 )
+	add x13, x25, -2
 	add x15, sp, 588
-	seqz x17, x0
-	bge x13, x0, .LBB0_206
-.LBB0_199:                              //  %for.inc.i.preheader
+	mv x27, x18
+	seqz x5, x0
+	bge x13, x0, .LBB0_205
+.LBB0_198:                              //  %for.inc.i.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 28 ( sp )               //  4-byte Folded Reload
+	lw x10, 32 ( sp )               //  4-byte Folded Reload
 	sw x12, 612 ( sp )
-	xor x12, x23, 1
-	beq x0, x12, .LBB0_206
-.LBB0_200:                              //  %for.inc.for.inc_crit_edge.i.preheader
+	xor x12, x25, 1
+	beq x0, x12, .LBB0_205
+.LBB0_199:                              //  %for.inc.for.inc_crit_edge.i.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, sp, 620
 	sw x11, 616 ( sp )
-	beq x0, x23, .LBB0_206
-.LBB0_201:                              //  %for.inc.for.inc_crit_edge.i.for.inc.for.inc_crit_edge.i_crit_edge.preheader
+	beq x0, x25, .LBB0_205
+.LBB0_200:                              //  %for.inc.for.inc_crit_edge.i.for.inc.for.inc_crit_edge.i_crit_edge.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, sp, 620
-.LBB0_202:                              //  %for.inc.for.inc_crit_edge.i.for.inc.for.inc_crit_edge.i_crit_edge
+.LBB0_201:                              //  %for.inc.for.inc_crit_edge.i.for.inc.for.inc_crit_edge.i_crit_edge
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
-	lw x11, 0 ( x26 )
-	add x26, x26, 4
-	add x19, x19, -1
+	lw x11, 0 ( x23 )
+	add x23, x23, 4
+	add x22, x22, -1
 	sw x11, 0 ( x10 )
 	add x10, x10, 4
-	bltu x0, x19, .LBB0_202
-	jal x0, .LBB0_206
-.LBB0_203:                              //  %if.else17.i
+	bltu x0, x22, .LBB0_201
+	jal x0, .LBB0_205
+.LBB0_202:                              //  %if.else17.i
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 36 ( sp )               //  4-byte Folded Reload
-	lw x14, 92 ( sp )               //  4-byte Folded Reload
-	xor x11, x18, 97
-	beq x0, x11, .LBB0_205
-.LBB0_204:                              //  %if.then19.i
+	lw x11, 40 ( sp )               //  4-byte Folded Reload
+	xor x12, x9, 97
+	beq x0, x12, .LBB0_204
+.LBB0_203:                              //  %if.then19.i
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x10, x0, 48
-	sw x10, 612 ( sp )
-	lw x10, 28 ( sp )               //  4-byte Folded Reload
-.LBB0_205:                              //  %if.end21.i
+	add x11, x0, 48
+	sw x11, 612 ( sp )
+	lw x11, 32 ( sp )               //  4-byte Folded Reload
+.LBB0_204:                              //  %if.end21.i
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	add x11, fp, 48
-	sw x11, 0 ( x10 )
-	add x10, x10, 4
-.LBB0_206:                              //  %wexponent.exit
+	lw x14, 104 ( sp )              //  4-byte Folded Reload
+	add x10, x10, 48
+	sw x10, 0 ( x11 )
+	add x10, x11, 4
+.LBB0_205:                              //  %wexponent.exit
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x13, 104 ( sp )              //  4-byte Folded Reload
 	lw x11, 600 ( sp )
-	mv x23, x0
-	and x14, x14, -1025
-	and x13, x13, 1
-	slt x12, x17, x11
+	and x13, x14, 1
+	mv x22, x0
+	lw x23, 28 ( sp )               //  4-byte Folded Reload
+	slt x12, x5, x11
 	or x12, x12, x13
 	add x13, sp, 604
 	sub x10, x10, x13
 	sra x10, x10, 2&31
-	sw x10, 44 ( sp )               //  4-byte Folded Spill
+	sw x10, 48 ( sp )               //  4-byte Folded Spill
 	add x10, x11, x10
-	add x22, x12, x10
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	lw x10, 636 ( sp )
-	mv x26, x0
-	bltu x0, x10, .LBB0_472
-.LBB0_515:                              //  %wexponent.exit
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_207
-.LBB0_472:                              //  %if.then419
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x10, x0, 45
-	sw x10, 648 ( sp )
-	mv fp, x14
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_208:                              //  %cond.true160
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
+	add x5, x12, x10
+	and x27, x27, -1025
+	mv x14, x22
+	mv x17, x22
+	jal x0, .LBB0_461
+.LBB0_206:                              //  %cond.true160
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
@@ -1549,104 +1510,98 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	sra x18, x10, 16&31
 	sra x22, x18, 31&31
 	bge x22, x0, .LBB0_116
-	jal x0, .LBB0_135
-.LBB0_209:                              //  %cond.true458
+	jal x0, .LBB0_132
+.LBB0_207:                              //  %cond.true458
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-	jal x0, .LBB0_462
-.LBB0_210:                              //  %cond.true586
+	jal x0, .LBB0_240
+.LBB0_208:                              //  %cond.true586
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lw x18, 0 ( x10 )
-	jal x0, .LBB0_465
-.LBB0_211:                              //  %cond.true627
+	jal x0, .LBB0_455
+.LBB0_209:                              //  %cond.true627
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lhu x18, 0 ( x10 )
 	mv x22, x0
-	and x10, fp, 1
-	bltu x0, x10, .LBB0_118
-.LBB0_212:                              //  %if.end658
+	and x10, x9, 1
+	bltu x0, x10, .LBB0_95
+.LBB0_210:                              //  %if.end658
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 2
-	and fp, fp, -1025
+	and x9, x9, -1025
 	sw x0, 648 ( sp )
 	add x11, x0, -1
-	bge x11, x26, .LBB0_214
-.LBB0_213:                              //    in Loop: Header=BB0_8 Depth=2
-	and fp, fp, -129
-.LBB0_214:                              //  %number
+	bge x11, fp, .LBB0_243
+.LBB0_242:                              //    in Loop: Header=BB0_8 Depth=2
+	and x9, x9, -129
+.LBB0_243:                              //  %number
                                         //    in Loop: Header=BB0_8 Depth=2
-	bltu x0, x26, .LBB0_220
-.LBB0_215:                              //  %number
+	bltu x0, fp, .LBB0_248
+.LBB0_244:                              //  %number
                                         //    in Loop: Header=BB0_8 Depth=2
 	or x11, x22, x18
-	bltu x0, x11, .LBB0_220
-.LBB0_216:                              //  %if.else740
+	bltu x0, x11, .LBB0_248
+.LBB0_245:                              //  %if.else740
                                         //    in Loop: Header=BB0_8 Depth=2
-	bltu x0, x10, .LBB0_225
-.LBB0_217:                              //  %if.else740
+	sw fp, 96 ( sp )                //  4-byte Folded Spill
+	bltu x0, x10, .LBB0_252
+.LBB0_246:                              //  %if.else740
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	and x10, fp, 1
-	beq x0, x10, .LBB0_226
-.LBB0_218:                              //  %if.then747
+	and x10, x9, 1
+	beq x0, x10, .LBB0_252
+.LBB0_247:                              //  %if.then747
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 48
+	add fp, sp, 520
 	sw x10, 520 ( sp )
-	add x10, sp, 520
-	jal x0, .LBB0_253
-.LBB0_220:                              //  %if.then671
+	jal x0, .LBB0_263
+.LBB0_248:                              //  %if.then671
                                         //    in Loop: Header=BB0_8 Depth=2
-	beq x0, x10, .LBB0_227
-.LBB0_221:                              //  %if.then671
+	beq x0, x10, .LBB0_253
+.LBB0_249:                              //  %if.then671
                                         //    in Loop: Header=BB0_8 Depth=2
 	xor x11, x10, 1
-	beq x0, x11, .LBB0_232
-.LBB0_222:                              //  %if.then671
+	beq x0, x11, .LBB0_258
+.LBB0_250:                              //  %if.then671
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x19, 52 ( sp )               //  4-byte Folded Reload
-	lw x12, 48 ( sp )               //  4-byte Folded Reload
+	sw fp, 96 ( sp )                //  4-byte Folded Spill
+	lw fp, 52 ( sp )                //  4-byte Folded Reload
 	xor x10, x10, 2
-	bltu x0, x10, .LBB0_235
-.LBB0_223:                              //  %do.body731
+	bltu x0, x10, .LBB0_261
+.LBB0_251:                              //  %do.body731
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	and x10, x18, 15
 	sll x10, x10, 2&31
-	add x10, x10, x12
+	add x10, x10, x16
 	lw x10, 0 ( x10 )
 	sll x11, x22, 28&31
 	srl x22, x22, 4&31
-	sw x10, -4 ( x19 )
+	sw x10, -4 ( fp )
 	srl x10, x18, 4&31
 	or x18, x11, x10
-	add x19, x19, -4
+	add fp, fp, -4
 	or x10, x22, x18
-	bltu x0, x10, .LBB0_223
-.LBB0_224:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	jal x0, .LBB0_254
-.LBB0_225:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x19, 52 ( sp )               //  4-byte Folded Reload
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	jal x0, .LBB0_254
-.LBB0_226:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x19, 52 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_254
-.LBB0_227:                              //  %do.body674.preheader
+	bltu x0, x10, .LBB0_251
+	jal x0, .LBB0_263
+.LBB0_252:                              //    in Loop: Header=BB0_8 Depth=2
+	lw fp, 52 ( sp )                //  4-byte Folded Reload
+	jal x0, .LBB0_263
+.LBB0_253:                              //  %do.body674.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x10, sp, 520
-	mv x19, x10
-.LBB0_228:                              //  %do.body674
+	sw fp, 96 ( sp )                //  4-byte Folded Spill
+	add fp, sp, 520
+.LBB0_254:                              //  %do.body674
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
@@ -1656,268 +1611,148 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	and x11, x18, 7
 	or x11, x11, 48
 	srl x22, x22, 3&31
-	sw x11, 0 ( x19 )
-	add x19, x19, -4
+	sw x11, 0 ( fp )
+	add fp, fp, -4
 	or x12, x22, x10
 	mv x18, x10
-	bltu x0, x12, .LBB0_228
-.LBB0_229:                              //  %do.end681
+	bltu x0, x12, .LBB0_254
+.LBB0_255:                              //  %do.end681
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x10, x19, 4
-	and x12, fp, 1
-	beq x0, x12, .LBB0_252
-.LBB0_230:                              //  %do.end681
+	add x10, fp, 4
+	and x12, x9, 1
+	beq x0, x12, .LBB0_262
+.LBB0_256:                              //  %do.end681
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
 	xor x11, x11, 48
-	beq x0, x11, .LBB0_253
-.LBB0_231:                              //  %if.then687
+	beq x0, x11, .LBB0_262
+.LBB0_257:                              //  %if.then687
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 48
-	sw x10, 0 ( x19 )
-	jal x0, .LBB0_254
-.LBB0_232:                              //    in Loop: Header=BB0_8 Depth=2
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
+	sw x10, 0 ( fp )
+	jal x0, .LBB0_263
+.LBB0_258:                              //    in Loop: Header=BB0_8 Depth=2
+	sw x9, 104 ( sp )               //  4-byte Folded Spill
 	add x10, x0, 9
-	mv fp, x0
-	beq x22, fp, .LBB0_138
-.LBB0_233:                              //  %sw.bb690
+	mv x9, x0
+	beq x22, x9, .LBB0_135
+.LBB0_259:                              //  %sw.bb690
                                         //    in Loop: Header=BB0_8 Depth=2
 	snez x10, x22
-	bltu x0, x10, .LBB0_139
-.LBB0_234:                              //  %if.then693
+	sw fp, 96 ( sp )                //  4-byte Folded Spill
+	bltu x0, x10, .LBB0_136
+.LBB0_260:                              //  %if.then693
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x18, 48
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
 	sw x10, 520 ( sp )
-	add x10, sp, 520
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_253
-.LBB0_235:                              //  %sw.default
+	add fp, sp, 520
+	jal x0, .LBB0_263
+.LBB0_261:                              //  %sw.default
                                         //    in Loop: Header=BB0_8 Depth=2
 	lui x10, %hi( .str.7 )
-	add x10, x10, %lo( .str.7 )
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
+	add fp, x10, %lo( .str.7 )
+	mv x10, fp
+	mv x18, x16
 	jal wcslen
-	mv x23, x0
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
+	mv x22, x0
+	mv x16, x18
 	add x15, sp, 588
-	mv x22, x10
-.LBB0_158:                              //  %if.end226
-                                        //    in Loop: Header=BB0_8 Depth=2
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_236:                              //  %if.else522
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x26
-	jal strlen
-	mv x11, x10
-	mv x19, x9
-	sltiu x10, x11, 100
-	sll fp, x11, 2&31
-	beq x0, x10, .LBB0_85
-.LBB0_237:                              //  %if.end541
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x0
-	sw x10, 80 ( sp )               //  4-byte Folded Spill
-	add x10, sp, 124
-	add x15, sp, 588
-	mv x9, x11
-	beq x0, x11, .LBB0_240
-.LBB0_238:                              //  %for.body.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x13, x10
-	mv x11, x9
-.LBB0_239:                              //  %for.body
-                                        //    Parent Loop BB0_5 Depth=1
-                                        //      Parent Loop BB0_8 Depth=2
-                                        //  =>    This Inner Loop Header: Depth=3
-	lb x12, 0 ( x26 )
-	add x26, x26, 1
-	add x11, x11, -1
-	sw x12, 0 ( x13 )
-	add x13, x13, 4
-	bltu x0, x11, .LBB0_239
-.LBB0_240:                              //  %cleanup550.thread
-                                        //    in Loop: Header=BB0_8 Depth=2
-	sw x10, 72 ( sp )               //  4-byte Folded Spill
-	add x10, fp, x10
-	mv x23, x22
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	sw x22, 60 ( sp )               //  4-byte Folded Spill
-	sw x22, 64 ( sp )               //  4-byte Folded Spill
-	mv x22, x9
-	sw x0, 0 ( x10 )
-	mv x26, x23
-	mv x9, x19
-	mv x10, x26
-	bge x22, x26, .LBB0_255
-	jal x0, .LBB0_256
-.LBB0_241:                              //  %if.else573
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x26
-	jal wcslen
-	mv x23, x0
-	mv x22, x10
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	mv x10, x23
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	jal x0, .LBB0_448
-.LBB0_242:                              //  %if.else340
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x16, 632 ( sp )
-	xor x10, x27, 102
-	bltu x0, x10, .LBB0_246
-.LBB0_243:                              //  %if.then343
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	and x10, x12, 1
-	or x10, x22, x10
-	bge x0, x16, .LBB0_250
-.LBB0_244:                              //  %if.then346
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x27, x0, 102
-	bltu x0, x10, .LBB0_245
-.LBB0_516:                              //  %if.then346
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_459
-.LBB0_245:                              //  %if.then351
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x10, x16, x22
-	add x22, x10, 1
-	mv x11, x0
-	and x10, x12, 1024
-	beq x0, x10, .LBB0_517
-.LBB0_518:                              //  %if.then351
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_451
-.LBB0_517:                              //  %if.then351
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_460
-.LBB0_246:                              //  %if.else366
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 600 ( sp )
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	bge x16, x10, .LBB0_249
-.LBB0_247:                              //  %if.else375
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x11, x0
-	bge x11, x16, .LBB0_248
-.LBB0_519:                              //  %if.else375
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_449
-.LBB0_248:                              //  %if.else375
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x11, x0, 2
-	sub x11, x11, x16
-	jal x0, .LBB0_450
-.LBB0_249:                              //  %if.then369
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, x12, 1
-	add x22, x10, x16
-	add x27, x0, 103
-	mv x11, x0
-	and x10, x12, 1024
-	beq x0, x10, .LBB0_520
-.LBB0_521:                              //  %if.then369
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_451
-.LBB0_520:                              //  %if.then369
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_460
-.LBB0_252:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-.LBB0_253:                              //  %if.end750
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x19, x10
-.LBB0_254:                              //  %if.end750
+	mv x5, x10
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	jal x0, .LBB0_264
+.LBB0_262:                              //    in Loop: Header=BB0_8 Depth=2
+	mv fp, x10
+.LBB0_263:                              //  %if.end750
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 52 ( sp )               //  4-byte Folded Reload
-	mv x23, x0
-	sw x19, 72 ( sp )               //  4-byte Folded Spill
-	sw x23, 64 ( sp )               //  4-byte Folded Spill
-	sub x10, x10, x19
-	sra x22, x10, 2&31
-	sw x23, 80 ( sp )               //  4-byte Folded Spill
-	sw x23, 60 ( sp )               //  4-byte Folded Spill
-	mv x10, x26
-	blt x22, x26, .LBB0_256
-.LBB0_255:                              //  %sw.epilog763
+	mv x22, x0
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	sub x10, x10, fp
+	sra x5, x10, 2&31
+.LBB0_264:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x22
-.LBB0_256:                              //  %sw.epilog763
+	lw x11, 96 ( sp )               //  4-byte Folded Reload
+.LBB0_265:                              //  %sw.epilog763
+                                        //    in Loop: Header=BB0_8 Depth=2
+	sw x22, 76 ( sp )               //  4-byte Folded Spill
+	sw x22, 64 ( sp )               //  4-byte Folded Spill
+	mv x10, x11
+	mv x18, x11
+	blt x5, x11, .LBB0_267
+.LBB0_266:                              //  %sw.epilog763
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x5
+.LBB0_267:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 648 ( sp )
-	sw fp, 104 ( sp )               //  4-byte Folded Spill
-	and fp, fp, 2
+	sw x9, 104 ( sp )               //  4-byte Folded Spill
+	and x9, x9, 2
+	sw x22, 56 ( sp )               //  4-byte Folded Spill
 	snez x11, x11
 	add x11, x11, x10
-	srl x10, fp, 1&31
-	beq x0, x10, .LBB0_257
-.LBB0_264:                              //    in Loop: Header=BB0_8 Depth=2
+	srl x10, x9, 1&31
+	mv x22, x5
+	sw x16, 92 ( sp )               //  4-byte Folded Spill
+	beq x0, x10, .LBB0_269
+.LBB0_268:                              //    in Loop: Header=BB0_8 Depth=2
 	add x11, x11, 2
-.LBB0_257:                              //  %sw.epilog763
+.LBB0_269:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x19, x26
-	sw x11, 92 ( sp )               //  4-byte Folded Spill
 	lw x10, 104 ( sp )              //  4-byte Folded Reload
-	and x26, x10, 132
-	beq x0, x26, .LBB0_258
-.LBB0_267:                              //  %if.end828
+	sw x11, 96 ( sp )               //  4-byte Folded Spill
+	and x27, x10, 132
+	beq x0, x27, .LBB0_270
+.LBB0_274:                              //  %if.end828
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 648 ( sp )
-	beq x0, x10, .LBB0_273
-.LBB0_268:                              //  %if.then830
+	beq x0, x10, .LBB0_292
+.LBB0_275:                              //  %if.then830
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 8 ( x15 )
 	add x10, x10, 4
 	sw x10, 8 ( x15 )
 	add x10, x0, 4
-	sw x10, 4 ( x20 )
+	sw x10, 4 ( x19 )
 	add x10, sp, 648
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_270
-.LBB0_269:                              //  %if.then840
+	bltu x0, x10, .LBB0_289
+.LBB0_276:                              //  %if.then840
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_273
-	jal x0, .LBB0_486
-.LBB0_258:                              //  %if.then782
+	add x19, sp, 524
+	beq x0, x10, .LBB0_292
+	jal x0, .LBB0_277
+.LBB0_270:                              //  %if.then782
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 92 ( sp )               //  4-byte Folded Reload
-	sub x18, x25, x10
-	bge x0, x18, .LBB0_272
-.LBB0_259:                              //  %while.cond787.preheader
+	lw x10, 96 ( sp )               //  4-byte Folded Reload
+	mv x25, x23
+	sub x23, x20, x10
+	bge x0, x23, .LBB0_291
+.LBB0_271:                              //  %while.cond787.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 108 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, x18, 17
-	beq x0, x10, .LBB0_262
-	jal x0, .LBB0_265
-.LBB0_260:                              //    in Loop: Header=BB0_262 Depth=3
-	add x20, x20, 8
-.LBB0_261:                              //  %if.end806
-                                        //    in Loop: Header=BB0_262 Depth=3
+	sw x10, 0 ( x19 )
+	slti x10, x23, 17
+	beq x0, x10, .LBB0_285
+	jal x0, .LBB0_272
+.LBB0_283:                              //    in Loop: Header=BB0_285 Depth=3
+	add x19, x19, 8
+.LBB0_284:                              //  %if.end806
+                                        //    in Loop: Header=BB0_285 Depth=3
 	lw x10, 108 ( sp )              //  4-byte Folded Reload
-	add x18, x18, -16
-	sw x10, 0 ( x20 )
+	add x23, x23, -16
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, x18, .LBB0_265
-.LBB0_262:                              //  %while.body790
+	bge x10, x23, .LBB0_272
+.LBB0_285:                              //  %while.body790
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
@@ -1925,453 +1760,447 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	add x10, x0, 64
-	sw x10, 4 ( x20 )
+	sw x10, 4 ( x19 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_260
-.LBB0_263:                              //  %if.then800
-                                        //    in Loop: Header=BB0_262 Depth=3
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	bltu x0, x10, .LBB0_283
+.LBB0_286:                              //  %if.then800
+                                        //    in Loop: Header=BB0_285 Depth=3
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x11, x25
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_261
-	jal x0, .LBB0_485
-.LBB0_270:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-	bltu x0, fp, .LBB0_274
-	jal x0, .LBB0_276
-.LBB0_265:                              //  %while.end808
+	add x19, sp, 524
+	beq x0, x10, .LBB0_284
+	jal x0, .LBB0_287
+.LBB0_289:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+	bltu x0, x9, .LBB0_293
+	jal x0, .LBB0_295
+.LBB0_272:                              //  %while.end808
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
-	sll x10, x18, 2&31
-	sw x10, 4 ( x20 )
+	sll x10, x23, 2&31
+	sw x10, 4 ( x19 )
 	add x11, x10, x11
 	lw x10, 592 ( sp )
 	sw x11, 8 ( x15 )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_271
-.LBB0_266:                              //  %if.then820
+	bltu x0, x10, .LBB0_290
+.LBB0_273:                              //  %if.then820
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x23, x25
+	mv x11, x23
 	mv x12, x15
-	mv x10, x18
+	mv x25, x10
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_267
-	jal x0, .LBB0_486
-.LBB0_271:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-.LBB0_272:                              //  %if.end828
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
+	add x19, sp, 524
+	beq x0, x10, .LBB0_274
+	jal x0, .LBB0_277
+.LBB0_290:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+.LBB0_291:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x23, x25
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
 	lw x10, 648 ( sp )
-	bltu x0, x10, .LBB0_268
-.LBB0_273:                              //  %if.end847
+	bltu x0, x10, .LBB0_275
+.LBB0_292:                              //  %if.end847
                                         //    in Loop: Header=BB0_8 Depth=2
-	beq x0, fp, .LBB0_276
-.LBB0_274:                              //  %if.then850
+	beq x0, x9, .LBB0_295
+.LBB0_293:                              //  %if.then850
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 8 ( x15 )
 	add x10, x10, 8
 	sw x10, 8 ( x15 )
 	add x10, x0, 8
-	sw x10, 4 ( x20 )
+	sw x10, 4 ( x19 )
 	add x10, sp, 116
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_296
-.LBB0_275:                              //  %if.then861
+	bltu x0, x10, .LBB0_315
+.LBB0_294:                              //  %if.then861
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_276
-.LBB0_522:                              //  %if.then861
-	jal x0, .LBB0_486
-.LBB0_276:                              //  %if.end868
+	add x19, sp, 524
+	beq x0, x10, .LBB0_295
+.LBB0_505:                              //  %if.then861
+	jal x0, .LBB0_277
+.LBB0_295:                              //  %if.end868
                                         //    in Loop: Header=BB0_8 Depth=2
-	xor x10, x26, 128
-	bltu x0, x10, .LBB0_297
-.LBB0_277:                              //  %if.then872
+	xor x10, x27, 128
+	bltu x0, x10, .LBB0_316
+.LBB0_296:                              //  %if.then872
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 92 ( sp )               //  4-byte Folded Reload
-	add x26, x0, 64
-	sub fp, x25, x10
-	bge x0, fp, .LBB0_285
-.LBB0_278:                              //  %while.cond877.preheader
+	lw x10, 96 ( sp )               //  4-byte Folded Reload
+	add x27, x0, 64
+	sub x9, x20, x10
+	bge x0, x9, .LBB0_300
+.LBB0_297:                              //  %while.cond877.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, fp, 17
-	beq x0, x10, .LBB0_281
-	jal x0, .LBB0_283
-.LBB0_279:                              //    in Loop: Header=BB0_281 Depth=3
-	add x20, x20, 8
-.LBB0_280:                              //  %if.end896
-                                        //    in Loop: Header=BB0_281 Depth=3
+	sw x10, 0 ( x19 )
+	slti x10, x9, 17
+	beq x0, x10, .LBB0_309
+	jal x0, .LBB0_298
+.LBB0_307:                              //    in Loop: Header=BB0_309 Depth=3
+	add x19, x19, 8
+.LBB0_308:                              //  %if.end896
+                                        //    in Loop: Header=BB0_309 Depth=3
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x20 )
+	add x9, x9, -16
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_283
-.LBB0_281:                              //  %while.body880
+	bge x10, x9, .LBB0_298
+.LBB0_309:                              //  %while.body880
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
+	sw x27, 4 ( x19 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
-	lw x10, 592 ( sp )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_279
-.LBB0_282:                              //  %if.then890
-                                        //    in Loop: Header=BB0_281 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_280
-	jal x0, .LBB0_486
-.LBB0_283:                              //  %while.end898
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
-	add x11, x10, x11
-	lw x10, 592 ( sp )
-	sw x11, 8 ( x15 )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_311
-.LBB0_284:                              //  %if.then910
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_285
-.LBB0_523:                              //  %if.then910
-	jal x0, .LBB0_486
-.LBB0_285:                              //  %if.end918
-                                        //    in Loop: Header=BB0_8 Depth=2
-	sub fp, x19, x22
-	bge x0, fp, .LBB0_298
-.LBB0_286:                              //  %while.cond923.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, fp, 17
-	beq x0, x10, .LBB0_289
-	jal x0, .LBB0_291
-.LBB0_287:                              //    in Loop: Header=BB0_289 Depth=3
-	add x20, x20, 8
-.LBB0_288:                              //  %if.end942
-                                        //    in Loop: Header=BB0_289 Depth=3
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x20 )
-	add x10, x0, 16
-	bge x10, fp, .LBB0_291
-.LBB0_289:                              //  %while.body926
-                                        //    Parent Loop BB0_5 Depth=1
-                                        //      Parent Loop BB0_8 Depth=2
-                                        //  =>    This Inner Loop Header: Depth=3
-	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
-	add x10, x10, 64
-	sw x10, 8 ( x15 )
-	lw x10, 592 ( sp )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_287
-.LBB0_290:                              //  %if.then936
-                                        //    in Loop: Header=BB0_289 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_288
-	jal x0, .LBB0_486
-.LBB0_291:                              //  %while.end944
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
-	add x11, x10, x11
-	lw x10, 592 ( sp )
-	sw x11, 8 ( x15 )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_306
-.LBB0_292:                              //  %if.then956
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	add x15, sp, 588
-	add x20, sp, 524
-	bltu x0, x10, .LBB0_486
-.LBB0_293:                              //  %if.end963
-                                        //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 256
-	bltu x0, x10, .LBB0_299
-.LBB0_294:                              //  %if.then967
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 8 ( x15 )
-	sll x10, x22, 2&31
-	sw x10, 4 ( x20 )
-	add x11, x10, x11
-	lw x10, 72 ( sp )               //  4-byte Folded Reload
-	sw x11, 8 ( x15 )
-	sw x10, 0 ( x20 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
 	bltu x0, x10, .LBB0_307
-.LBB0_295:                              //  %if.then979
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+.LBB0_310:                              //  %if.then890
+                                        //    in Loop: Header=BB0_309 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
-	add x20, sp, 524
-	mv x22, x0
-	add x19, x0, 90
-	beq x0, x10, .LBB0_411
-	jal x0, .LBB0_487
-.LBB0_296:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-	xor x10, x26, 128
-	beq x0, x10, .LBB0_277
-.LBB0_297:                              //    in Loop: Header=BB0_8 Depth=2
-	add x26, x0, 64
-	sub fp, x19, x22
-	blt x0, fp, .LBB0_286
-.LBB0_298:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	and x10, fp, 256
-	beq x0, x10, .LBB0_294
-.LBB0_299:                              //  %if.else986
+	add x19, sp, 524
+	beq x0, x10, .LBB0_308
+	jal x0, .LBB0_277
+.LBB0_298:                              //  %while.end898
                                         //    in Loop: Header=BB0_8 Depth=2
-	sltiu x10, x27, 102
-	bltu x0, x10, .LBB0_308
-.LBB0_300:                              //  %if.then989
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 56 ( sp )               //  4-byte Folded Reload
-	lw x11, 68 ( sp )               //  4-byte Folded Reload
-	mv x22, x0
-	mv x13, x22
-	mv x12, x22
-	jal __nedf2
-	bltu x0, x10, .LBB0_317
-.LBB0_301:                              //  %if.then993
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x12, sp, 588
-	lw x10, 8 ( x12 )
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
-	add x10, x10, 4
-	sw x10, 8 ( x12 )
-	add x10, x0, 4
-	sw x10, 4 ( x20 )
-	lw x10, 40 ( sp )               //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
+	lw x11, 8 ( x15 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	add x11, x10, x11
 	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_323
-.LBB0_302:                              //  %if.then1003
+	bltu x0, x10, .LBB0_333
+.LBB0_299:                              //  %if.then910
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
 	jal __ssprint_r
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	add x20, sp, 524
-	add x19, x0, 90
-	bltu x0, x10, .LBB0_487
-.LBB0_303:                              //  %if.end1009
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 600 ( sp )
-	and x11, fp, 1
-	bltu x0, x11, .LBB0_324
-.LBB0_304:                              //  %if.end1009
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 632 ( sp )
-	blt x11, x10, .LBB0_324
-.LBB0_305:                              //    in Loop: Header=BB0_8 Depth=2
 	add x15, sp, 588
-	and x10, fp, 4
-	beq x0, x10, .LBB0_478
-.LBB0_412:                              //  %if.then1673
+	add x19, sp, 524
+	beq x0, x10, .LBB0_300
+.LBB0_506:                              //  %if.then910
+	jal x0, .LBB0_277
+.LBB0_300:                              //  %if.end918
                                         //    in Loop: Header=BB0_8 Depth=2
-	sub fp, x25, x27
-	bge x0, fp, .LBB0_478
-.LBB0_413:                              //  %while.cond1678.preheader
+	sub x9, x18, x22
+	bge x0, x9, .LBB0_317
+.LBB0_301:                              //  %while.cond923.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 108 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, fp, 17
-	beq x0, x10, .LBB0_416
-	jal x0, .LBB0_418
-.LBB0_414:                              //    in Loop: Header=BB0_416 Depth=3
-	add x20, x20, 8
-.LBB0_415:                              //  %if.end1697
-                                        //    in Loop: Header=BB0_416 Depth=3
-	lw x10, 108 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x20 )
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	sw x10, 0 ( x19 )
+	slti x10, x9, 17
+	beq x0, x10, .LBB0_313
+	jal x0, .LBB0_302
+.LBB0_311:                              //    in Loop: Header=BB0_313 Depth=3
+	add x19, x19, 8
+.LBB0_312:                              //  %if.end942
+                                        //    in Loop: Header=BB0_313 Depth=3
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	add x9, x9, -16
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_418
-.LBB0_416:                              //  %while.body1681
+	bge x10, x9, .LBB0_302
+.LBB0_313:                              //  %while.body926
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
+	sw x27, 4 ( x19 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_414
-.LBB0_417:                              //  %if.then1691
-                                        //    in Loop: Header=BB0_416 Depth=3
-	mv x10, x18
-	mv x11, x9
+	bltu x0, x10, .LBB0_311
+.LBB0_314:                              //  %if.then936
+                                        //    in Loop: Header=BB0_313 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_415
-	jal x0, .LBB0_487
-.LBB0_306:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	add x20, x20, 8
-	and x10, fp, 256
-	beq x0, x10, .LBB0_294
-	jal x0, .LBB0_299
-.LBB0_307:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
-	add x20, x20, 8
-	mv x22, x0
-	add x19, x0, 90
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-	jal x0, .LBB0_478
-.LBB0_308:                              //  %if.else1522
+	add x19, sp, 524
+	beq x0, x10, .LBB0_312
+	jal x0, .LBB0_277
+.LBB0_302:                              //  %while.end944
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 8 ( x15 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	add x11, x10, x11
+	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_325
+.LBB0_303:                              //  %if.then956
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_304
+.LBB0_507:                              //  %if.then956
+	jal x0, .LBB0_277
+.LBB0_304:                              //  %if.end963
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x9, 256
+	bltu x0, x10, .LBB0_318
+.LBB0_305:                              //  %if.then967
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 8 ( x15 )
+	sll x10, x22, 2&31
+	sw x10, 4 ( x19 )
+	sw fp, 0 ( x19 )
+	add x11, x10, x11
+	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_326
+.LBB0_306:                              //  %if.then979
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
+	add x15, sp, 588
+	add x19, sp, 524
+	mv x18, x0
+	beq x0, x10, .LBB0_467
+	jal x0, .LBB0_278
+.LBB0_315:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+	xor x10, x27, 128
+	beq x0, x10, .LBB0_296
+.LBB0_316:                              //    in Loop: Header=BB0_8 Depth=2
+	add x27, x0, 64
+	sub x9, x18, x22
+	blt x0, x9, .LBB0_301
+.LBB0_317:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	and x10, x9, 256
+	beq x0, x10, .LBB0_305
+.LBB0_318:                              //  %if.else986
+                                        //    in Loop: Header=BB0_8 Depth=2
+	sltiu x10, x26, 102
+	bltu x0, x10, .LBB0_327
+.LBB0_319:                              //  %if.then989
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 60 ( sp )               //  4-byte Folded Reload
+	lw x11, 72 ( sp )               //  4-byte Folded Reload
+	mv x18, x0
+	mv x13, x18
+	mv x12, x18
+	jal __nedf2
+	bltu x0, x10, .LBB0_339
+.LBB0_320:                              //  %if.then993
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x12, sp, 588
+	lw x10, 8 ( x12 )
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
+	add x10, x10, 4
+	sw x10, 8 ( x12 )
+	add x10, x0, 4
+	sw x10, 4 ( x19 )
+	lw x10, 44 ( sp )               //  4-byte Folded Reload
+	sw x10, 0 ( x19 )
+	lw x10, 592 ( sp )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_345
+.LBB0_321:                              //  %if.then1003
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	jal __ssprint_r
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	add x19, sp, 524
+	bltu x0, x10, .LBB0_278
+.LBB0_322:                              //  %if.end1009
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 600 ( sp )
+	and x11, x9, 1
+	bltu x0, x11, .LBB0_346
+.LBB0_323:                              //  %if.end1009
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 632 ( sp )
+	blt x11, x10, .LBB0_346
+.LBB0_324:                              //    in Loop: Header=BB0_8 Depth=2
+	add x15, sp, 588
+	and x10, x9, 4
+	beq x0, x10, .LBB0_472
+.LBB0_468:                              //  %if.then1673
+                                        //    in Loop: Header=BB0_8 Depth=2
+	sub fp, x20, x26
+	bge x0, fp, .LBB0_472
+.LBB0_469:                              //  %while.cond1678.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 108 ( sp )              //  4-byte Folded Reload
+	sw x10, 0 ( x19 )
+	slti x10, fp, 17
+	beq x0, x10, .LBB0_481
+	jal x0, .LBB0_470
+.LBB0_479:                              //    in Loop: Header=BB0_481 Depth=3
+	add x19, x19, 8
+.LBB0_480:                              //  %if.end1697
+                                        //    in Loop: Header=BB0_481 Depth=3
+	lw x10, 108 ( sp )              //  4-byte Folded Reload
+	add fp, fp, -16
+	sw x10, 0 ( x19 )
+	add x10, x0, 16
+	bge x10, fp, .LBB0_470
+.LBB0_481:                              //  %while.body1681
+                                        //    Parent Loop BB0_5 Depth=1
+                                        //      Parent Loop BB0_8 Depth=2
+                                        //  =>    This Inner Loop Header: Depth=3
+	lw x10, 8 ( x15 )
+	sw x27, 4 ( x19 )
+	add x10, x10, 64
+	sw x10, 8 ( x15 )
+	lw x10, 592 ( sp )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_479
+.LBB0_482:                              //  %if.then1691
+                                        //    in Loop: Header=BB0_481 Depth=3
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_480
+	jal x0, .LBB0_278
+.LBB0_325:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	add x19, x19, 8
+	and x10, x9, 256
+	beq x0, x10, .LBB0_305
+	jal x0, .LBB0_318
+.LBB0_326:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
+	add x19, x19, 8
+	mv x18, x0
+	and x10, x9, 4
+	bltu x0, x10, .LBB0_468
+	jal x0, .LBB0_472
+.LBB0_327:                              //  %if.else1522
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x10, x0, 4
-	sw x10, 4 ( x20 )
-	lw x10, 72 ( sp )               //  4-byte Folded Reload
+	sw x10, 4 ( x19 )
+	lw x10, 8 ( x15 )
 	lw x12, 592 ( sp )
 	lw x13, 600 ( sp )
-	add x18, x20, 8
-	sw x10, 0 ( x20 )
-	lw x10, 8 ( x15 )
-	and x14, fp, 1
-	mv x22, x0
+	add x18, x19, 8
 	add x11, x10, 4
 	add x10, x12, 1
+	and x14, x9, 1
+	sw fp, 0 ( x19 )
 	sw x11, 8 ( x15 )
 	sw x10, 592 ( sp )
-	bltu x0, x14, .LBB0_312
-.LBB0_309:                              //  %if.else1522
+	bltu x0, x14, .LBB0_334
+.LBB0_328:                              //  %if.else1522
                                         //    in Loop: Header=BB0_8 Depth=2
 	slti x13, x13, 2
-	beq x0, x13, .LBB0_312
-.LBB0_310:                              //  %if.else1632
+	beq x0, x13, .LBB0_334
+.LBB0_329:                              //  %if.else1632
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
 	slti x10, x12, 7
-	add x19, x0, 90
-	beq x0, x10, .LBB0_331
-	jal x0, .LBB0_408
-.LBB0_418:                              //  %while.end1699
+	bltu x0, x10, .LBB0_331
+	jal x0, .LBB0_330
+.LBB0_470:                              //  %while.end1699
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
 	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
+	sw x10, 4 ( x19 )
 	add x10, x10, x11
 	lw x11, 592 ( sp )
 	sw x10, 8 ( x15 )
 	add x12, x11, 1
 	slti x11, x11, 7
 	sw x12, 592 ( sp )
-	bltu x0, x11, .LBB0_479
-.LBB0_419:                              //  %if.then1711
+	bltu x0, x11, .LBB0_473
+.LBB0_471:                              //  %if.then1711
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	beq x0, x10, .LBB0_478
-	jal x0, .LBB0_487
-.LBB0_311:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-	sub fp, x19, x22
-	blt x0, fp, .LBB0_286
-	jal x0, .LBB0_298
-.LBB0_312:                              //  %if.then1528
+	beq x0, x10, .LBB0_472
+	jal x0, .LBB0_278
+.LBB0_333:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+	sub x9, x18, x22
+	blt x0, x9, .LBB0_301
+	jal x0, .LBB0_317
+.LBB0_334:                              //  %if.then1528
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
 	slti x12, x12, 7
-	add x19, x0, 90
-	bltu x0, x12, .LBB0_315
-.LBB0_313:                              //  %if.then1538
+	bltu x0, x12, .LBB0_337
+.LBB0_335:                              //  %if.then1538
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
-	mv fp, x15
-	mv x10, x18
+	mv x9, x15
 	jal __ssprint_r
-	bltu x0, x10, .LBB0_487
-.LBB0_314:                              //  %if.then1538.if.end1544_crit_edge
+	bltu x0, x10, .LBB0_278
+.LBB0_336:                              //  %if.then1538.if.end1544_crit_edge
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 592 ( sp )
-	lw x11, 8 ( fp )
-	mv x15, fp
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
+	lw x11, 8 ( x9 )
+	mv x15, x9
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
 	add x18, sp, 524
-.LBB0_315:                              //  %if.end1544
+.LBB0_337:                              //  %if.end1544
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x11, x11, 4
 	sw x11, 8 ( x15 )
@@ -2382,661 +2211,264 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_328
-.LBB0_316:                              //  %if.then1555
+	bltu x0, x10, .LBB0_356
+.LBB0_338:                              //  %if.then1555
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x18, sp, 524
-	beq x0, x10, .LBB0_329
-	jal x0, .LBB0_497
-.LBB0_317:                              //  %if.else1078
+	beq x0, x10, .LBB0_357
+	jal x0, .LBB0_278
+.LBB0_339:                              //  %if.else1078
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 632 ( sp )
-	lw x27, 92 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
-	bge x0, x10, .LBB0_345
-.LBB0_318:                              //  %if.else1185
+	bge x0, x10, .LBB0_369
+.LBB0_340:                              //  %if.else1185
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 600 ( sp )
-	lw x11, 60 ( sp )               //  4-byte Folded Reload
+	lw x11, 64 ( sp )               //  4-byte Folded Reload
 	sll x10, x10, 2&31
 	sra x10, x10, 2&31
-	mv fp, x11
-	blt x11, x10, .LBB0_320
-.LBB0_319:                              //  %if.else1185
+	mv x9, x11
+	blt x11, x10, .LBB0_342
+.LBB0_341:                              //  %if.else1185
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv fp, x10
-.LBB0_320:                              //  %if.else1185
+	mv x9, x10
+.LBB0_342:                              //  %if.else1185
                                         //    in Loop: Header=BB0_8 Depth=2
-	bge x0, fp, .LBB0_351
-.LBB0_321:                              //  %if.then1198
+	lw x22, 56 ( sp )               //  4-byte Folded Reload
+	bge x0, x9, .LBB0_374
+.LBB0_343:                              //  %if.then1198
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	sw fp, 0 ( x19 )
 	add x11, x10, x11
-	lw x10, 72 ( sp )               //  4-byte Folded Reload
-	sw x11, 8 ( x15 )
-	sw x10, 0 ( x20 )
 	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_350
-.LBB0_322:                              //  %if.then1210
+	bltu x0, x10, .LBB0_373
+.LBB0_344:                              //  %if.then1210
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_351
-	jal x0, .LBB0_486
-.LBB0_323:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	add x20, x20, 8
-	add x19, x0, 90
+	add x19, sp, 524
+	beq x0, x10, .LBB0_374
+	jal x0, .LBB0_277
+.LBB0_345:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	add x19, x19, 8
 	lw x10, 600 ( sp )
-	and x11, fp, 1
-	beq x0, x11, .LBB0_304
-.LBB0_324:                              //  %if.then1015
+	and x11, x9, 1
+	beq x0, x11, .LBB0_323
+.LBB0_346:                              //  %if.then1015
                                         //    in Loop: Header=BB0_8 Depth=2
 	add x15, sp, 588
 	lw x11, 8 ( x15 )
 	add x11, x11, 4
 	sw x11, 8 ( x15 )
 	add x11, x0, 4
-	sw x11, 4 ( x20 )
+	sw x11, 4 ( x19 )
 	add x11, sp, 640
-	sw x11, 0 ( x20 )
+	sw x11, 0 ( x19 )
 	lw x11, 592 ( sp )
 	add x12, x11, 1
 	slti x11, x11, 7
 	sw x12, 592 ( sp )
-	bltu x0, x11, .LBB0_338
-.LBB0_325:                              //  %if.then1025
+	bltu x0, x11, .LBB0_368
+.LBB0_347:                              //  %if.then1025
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	bltu x0, x10, .LBB0_487
-.LBB0_326:                              //  %if.then1025.if.end1031_crit_edge
+	bltu x0, x10, .LBB0_278
+.LBB0_348:                              //  %if.then1025.if.end1031_crit_edge
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 600 ( sp )
-	add x20, sp, 524
+	add x19, sp, 524
 	add x15, sp, 588
 	add fp, x10, -1
-	bge x0, fp, .LBB0_327
-.LBB0_339:                              //  %while.cond1036.preheader
+	bge x0, fp, .LBB0_467
+.LBB0_349:                              //  %while.cond1036.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	slti x10, fp, 17
-	beq x0, x10, .LBB0_342
-	jal x0, .LBB0_444
-.LBB0_340:                              //    in Loop: Header=BB0_342 Depth=3
-	add x20, x20, 8
-.LBB0_341:                              //  %if.end1055
-                                        //    in Loop: Header=BB0_342 Depth=3
+	beq x0, x10, .LBB0_354
+	jal x0, .LBB0_350
+.LBB0_352:                              //    in Loop: Header=BB0_354 Depth=3
+	add x19, x19, 8
+.LBB0_353:                              //  %if.end1055
+                                        //    in Loop: Header=BB0_354 Depth=3
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
 	add fp, fp, -16
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_444
-.LBB0_342:                              //  %while.body1039
+	bge x10, fp, .LBB0_350
+.LBB0_354:                              //  %while.body1039
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
+	sw x27, 4 ( x19 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_340
-.LBB0_343:                              //  %if.then1049
-                                        //    in Loop: Header=BB0_342 Depth=3
-	mv x10, x18
-	mv x11, x9
+	bltu x0, x10, .LBB0_352
+.LBB0_355:                              //  %if.then1049
+                                        //    in Loop: Header=BB0_354 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_341
-	jal x0, .LBB0_487
-.LBB0_328:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, sp, 524
+	beq x0, x10, .LBB0_353
+	jal x0, .LBB0_278
+.LBB0_356:                              //    in Loop: Header=BB0_8 Depth=2
 	add x18, x18, 8
-.LBB0_329:                              //  %if.end1561
+.LBB0_357:                              //  %if.end1561
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 56 ( sp )               //  4-byte Folded Reload
-	lw x11, 68 ( sp )               //  4-byte Folded Reload
-	mv x13, x22
-	mv x12, x22
+	lw x10, 60 ( sp )               //  4-byte Folded Reload
+	lw x11, 72 ( sp )               //  4-byte Folded Reload
+	mv x12, x0
+	mv x13, x12
 	jal __eqdf2
-	beq x0, x10, .LBB0_332
-.LBB0_330:                              //  %if.then1564
+	beq x0, x10, .LBB0_361
+.LBB0_358:                              //  %if.then1564
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 72 ( sp )               //  4-byte Folded Reload
 	lw x11, 600 ( sp )
 	add x15, sp, 588
 	lw x12, 8 ( x15 )
-	add x10, x10, 4
-	sw x10, 0 ( x18 )
-	lw x10, 592 ( sp )
+	add x10, fp, 4
 	sll x11, x11, 2&31
 	add x11, x11, -4
 	add x12, x11, x12
-	sw x11, 4 ( x18 )
-	add x11, x10, 1
-	slti x10, x10, 7
 	sw x12, 8 ( x15 )
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_407
-.LBB0_331:                              //  %if.then1578
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x18, sp, 524
-	beq x0, x10, .LBB0_408
-	jal x0, .LBB0_497
-.LBB0_332:                              //  %if.else1585
+	sw x10, 0 ( x18 )
+	sw x11, 4 ( x18 )
+	jal x0, .LBB0_359
+.LBB0_361:                              //  %if.else1585
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 600 ( sp )
 	add x15, sp, 588
 	add fp, x10, -1
-	bge x0, fp, .LBB0_367
-.LBB0_333:                              //  %while.cond1590.preheader
+	bge x0, fp, .LBB0_331
+.LBB0_362:                              //  %while.cond1590.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
 	sw x10, 0 ( x18 )
 	slti x10, fp, 17
-	beq x0, x10, .LBB0_336
-	jal x0, .LBB0_348
-.LBB0_334:                              //    in Loop: Header=BB0_336 Depth=3
+	beq x0, x10, .LBB0_366
+	jal x0, .LBB0_363
+.LBB0_364:                              //    in Loop: Header=BB0_366 Depth=3
 	add x18, x18, 8
-.LBB0_335:                              //  %if.end1609
-                                        //    in Loop: Header=BB0_336 Depth=3
+.LBB0_365:                              //  %if.end1609
+                                        //    in Loop: Header=BB0_366 Depth=3
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
 	add fp, fp, -16
 	sw x10, 0 ( x18 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_348
-.LBB0_336:                              //  %while.body1593
+	bge x10, fp, .LBB0_363
+.LBB0_366:                              //  %while.body1593
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x18 )
+	sw x27, 4 ( x18 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_334
-.LBB0_337:                              //  %if.then1603
-                                        //    in Loop: Header=BB0_336 Depth=3
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	bltu x0, x10, .LBB0_364
+.LBB0_367:                              //  %if.then1603
+                                        //    in Loop: Header=BB0_366 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
 	add x18, sp, 524
-	beq x0, x10, .LBB0_335
-	jal x0, .LBB0_497
-.LBB0_338:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
+	beq x0, x10, .LBB0_365
+	jal x0, .LBB0_278
+.LBB0_368:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
 	add fp, x10, -1
-	blt x0, fp, .LBB0_339
-	jal x0, .LBB0_327
-.LBB0_345:                              //  %if.then1081
+	blt x0, fp, .LBB0_349
+	jal x0, .LBB0_467
+.LBB0_369:                              //  %if.then1081
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
 	add x11, x11, 4
 	sw x11, 8 ( x15 )
 	add x11, x0, 4
-	sw x11, 4 ( x20 )
-	lw x11, 40 ( sp )               //  4-byte Folded Reload
-	sw x11, 0 ( x20 )
+	sw x11, 4 ( x19 )
+	lw x11, 44 ( sp )               //  4-byte Folded Reload
+	sw x11, 0 ( x19 )
 	lw x11, 592 ( sp )
 	add x12, x11, 1
 	slti x11, x11, 7
 	sw x12, 592 ( sp )
-	bltu x0, x11, .LBB0_362
-.LBB0_346:                              //  %if.then1091
+	bltu x0, x11, .LBB0_384
+.LBB0_370:                              //  %if.then1091
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	add x19, x0, 90
-	bltu x0, x10, .LBB0_487
-.LBB0_347:                              //  %if.then1091.if.end1097_crit_edge
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	bltu x0, x10, .LBB0_278
+.LBB0_371:                              //  %if.then1091.if.end1097_crit_edge
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 632 ( sp )
-	add x20, sp, 524
+	add x19, sp, 524
 	add x15, sp, 588
-	jal x0, .LBB0_363
-.LBB0_348:                              //  %while.end1611
+	jal x0, .LBB0_385
+.LBB0_363:                              //  %while.end1611
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
 	sll x10, fp, 2&31
 	sw x10, 4 ( x18 )
 	add x11, x10, x11
-	lw x10, 592 ( sp )
 	sw x11, 8 ( x15 )
+.LBB0_359:                              //  %if.then1564
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_406
-.LBB0_349:                              //  %if.then1623
+	bltu x0, x10, .LBB0_360
+.LBB0_330:                              //  %if.then1578
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 100 ( sp )              //  4-byte Folded Reload
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
 	add x18, sp, 524
-	beq x0, x10, .LBB0_408
-	jal x0, .LBB0_497
-.LBB0_350:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-.LBB0_351:                              //  %if.end1217
-                                        //    in Loop: Header=BB0_8 Depth=2
-	blt x22, fp, .LBB0_353
-.LBB0_352:                              //  %if.end1217
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv fp, x22
-.LBB0_353:                              //  %if.end1217
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 60 ( sp )               //  4-byte Folded Reload
-	sub fp, x10, fp
-	bge x0, fp, .LBB0_361
-.LBB0_354:                              //  %while.cond1228.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, fp, 17
-	beq x0, x10, .LBB0_357
-	jal x0, .LBB0_359
-.LBB0_355:                              //    in Loop: Header=BB0_357 Depth=3
-	add x20, x20, 8
-.LBB0_356:                              //  %if.end1247
-                                        //    in Loop: Header=BB0_357 Depth=3
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x20 )
-	add x10, x0, 16
-	bge x10, fp, .LBB0_359
-.LBB0_357:                              //  %while.body1231
-                                        //    Parent Loop BB0_5 Depth=1
-                                        //      Parent Loop BB0_8 Depth=2
-                                        //  =>    This Inner Loop Header: Depth=3
-	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
-	add x10, x10, 64
-	sw x10, 8 ( x15 )
-	lw x10, 592 ( sp )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_355
-.LBB0_358:                              //  %if.then1241
-                                        //    in Loop: Header=BB0_357 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_356
-	jal x0, .LBB0_486
-.LBB0_359:                              //  %while.end1249
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
-	add x11, x10, x11
-	lw x10, 592 ( sp )
-	sw x11, 8 ( x15 )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_368
-.LBB0_360:                              //  %if.then1261
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	lw x11, 104 ( sp )              //  4-byte Folded Reload
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_369
-	jal x0, .LBB0_486
-.LBB0_361:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 104 ( sp )              //  4-byte Folded Reload
-	jal x0, .LBB0_369
-.LBB0_362:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	add x20, x20, 8
-	add x19, x0, 90
-.LBB0_363:                              //  %if.end1097
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 600 ( sp )
-	and x11, fp, 1
-	or x11, x11, x10
-	or x11, x12, x11
-	beq x0, x11, .LBB0_411
-.LBB0_364:                              //  %if.then1104
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 8 ( x15 )
-	add x11, x11, 4
-	sw x11, 8 ( x15 )
-	add x11, x0, 4
-	sw x11, 4 ( x20 )
-	add x11, sp, 640
-	sw x11, 0 ( x20 )
-	lw x11, 592 ( sp )
-	add x12, x11, 1
-	slti x11, x11, 7
-	sw x12, 592 ( sp )
-	bltu x0, x11, .LBB0_421
-.LBB0_365:                              //  %if.then1114
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	bltu x0, x10, .LBB0_487
-.LBB0_366:                              //  %if.then1114.if.end1120_crit_edge
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 632 ( sp )
-	add x11, sp, 524
-	add x15, sp, 588
-	bge x10, x0, .LBB0_476
-	jal x0, .LBB0_422
-.LBB0_367:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_408
-.LBB0_368:                              //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 104 ( sp )              //  4-byte Folded Reload
-	add x20, x20, 8
-.LBB0_369:                              //  %cleanup.cont1271
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 60 ( sp )               //  4-byte Folded Reload
-	lw x12, 72 ( sp )               //  4-byte Folded Reload
-	sll x10, x10, 2&31
-	add x19, x10, x12
-	and x10, x11, 1024
-	bltu x0, x10, .LBB0_371
-.LBB0_370:                              //  %cleanup.cont1271.if.end1404_crit_edge
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 600 ( sp )
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	mv fp, x19
-	jal x0, .LBB0_376
-.LBB0_371:                              //  %while.cond1276.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 64 ( sp )               //  4-byte Folded Reload
-	blt x0, x11, .LBB0_381
-.LBB0_372:                              //  %while.cond1276.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	blt x0, x23, .LBB0_381
-.LBB0_373:                              //  %while.end1397
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 600 ( sp )
-	lw x12, 72 ( sp )               //  4-byte Folded Reload
-	sll x11, x10, 2&31
-	add fp, x11, x12
-	bltu fp, x19, .LBB0_375
-.LBB0_374:                              //  %while.end1397
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv fp, x19
-.LBB0_375:                              //  %while.end1397
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	add x26, x0, 64
-	mv x22, x0
-.LBB0_376:                              //  %if.end1404
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 104 ( sp )              //  4-byte Folded Reload
-	lw x11, 632 ( sp )
-	add x19, x0, 90
-	and x12, x12, 1
-	bltu x0, x12, .LBB0_378
-.LBB0_377:                              //  %if.end1404
-                                        //    in Loop: Header=BB0_8 Depth=2
-	bge x11, x10, .LBB0_428
-.LBB0_378:                              //  %if.then1410
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 8 ( x15 )
-	add x12, x12, 4
-	sw x12, 8 ( x15 )
-	add x12, x0, 4
-	sw x12, 4 ( x20 )
-	add x12, sp, 640
-	sw x12, 0 ( x20 )
-	lw x12, 592 ( sp )
-	add x13, x12, 1
-	slti x12, x12, 7
-	sw x13, 592 ( sp )
-	bltu x0, x12, .LBB0_427
-.LBB0_379:                              //  %if.then1420
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	bltu x0, x10, .LBB0_487
-.LBB0_380:                              //  %if.then1420.if.end1427_crit_edge
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 632 ( sp )
-	lw x10, 600 ( sp )
-	add x20, sp, 524
-	add x15, sp, 588
-	jal x0, .LBB0_428
-.LBB0_381:                              //  %while.body1281.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	slt x22, x0, x11
-.LBB0_382:                              //  %while.body1281
-                                        //    Parent Loop BB0_5 Depth=1
-                                        //      Parent Loop BB0_8 Depth=2
-                                        //  =>    This Loop Header: Depth=3
-                                        //          Child Loop BB0_398 Depth 4
-	lw x10, 8 ( x15 )
-	sw x11, 64 ( sp )               //  4-byte Folded Spill
-	and x26, x22, 1
-	add x10, x10, 4
-	sw x10, 8 ( x15 )
-	add x10, x0, 4
-	sw x10, 4 ( x20 )
-	add x10, sp, 644
-	sw x10, 0 ( x20 )
-	lw x10, 592 ( sp )
-	add x11, x10, 1
-	sw x11, 592 ( sp )
-	bltu x0, x26, .LBB0_384
-.LBB0_383:                              //  %while.body1281
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x11, 96 ( sp )               //  4-byte Folded Reload
-	add x11, x11, -1
-	sw x11, 96 ( sp )               //  4-byte Folded Spill
-.LBB0_384:                              //  %while.body1281
-                                        //    in Loop: Header=BB0_382 Depth=3
-	slti x10, x10, 7
-	bltu x0, x10, .LBB0_386
-.LBB0_385:                              //  %if.then1299
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_387
-	jal x0, .LBB0_486
-.LBB0_386:                              //    in Loop: Header=BB0_382 Depth=3
-	add x20, x20, 8
-.LBB0_387:                              //  %if.end1305
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x10, 600 ( sp )
-	lw x11, 72 ( sp )               //  4-byte Folded Reload
-	sll x10, x10, 2&31
-	add x10, x10, x11
-	lw x11, 96 ( sp )               //  4-byte Folded Reload
-	sub x10, x10, x19
-	sra x10, x10, 2&31
-	lb fp, 0 ( x11 )
-	blt fp, x10, .LBB0_389
-.LBB0_388:                              //  %if.end1305
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv fp, x10
-.LBB0_389:                              //  %if.end1305
-                                        //    in Loop: Header=BB0_382 Depth=3
-	bge x0, fp, .LBB0_392
-.LBB0_390:                              //  %if.then1320
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
-	sw x19, 0 ( x20 )
-	add x11, x10, x11
-	lw x10, 592 ( sp )
-	sw x11, 8 ( x15 )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_402
-.LBB0_391:                              //  %if.then1332
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	bltu x0, x10, .LBB0_486
-.LBB0_392:                              //  %if.end1339
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv x10, x0
-	blt x10, fp, .LBB0_394
-.LBB0_393:                              //  %if.end1339
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv fp, x0
-.LBB0_394:                              //  %if.end1339
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x10, 96 ( sp )               //  4-byte Folded Reload
-	lb x10, 0 ( x10 )
-	sub fp, x10, fp
-	bge x0, fp, .LBB0_404
-.LBB0_395:                              //  %while.cond1351.preheader
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
-	slti x10, fp, 17
-	beq x0, x10, .LBB0_398
-	jal x0, .LBB0_400
-.LBB0_396:                              //    in Loop: Header=BB0_398 Depth=4
-	add x20, x20, 8
-.LBB0_397:                              //  %if.end1370
-                                        //    in Loop: Header=BB0_398 Depth=4
-	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x20 )
-	add x10, x0, 16
-	bge x10, fp, .LBB0_400
-.LBB0_398:                              //  %while.body1354
-                                        //    Parent Loop BB0_5 Depth=1
-                                        //      Parent Loop BB0_8 Depth=2
-                                        //        Parent Loop BB0_382 Depth=3
-                                        //  =>      This Inner Loop Header: Depth=4
-	lw x10, 8 ( x15 )
-	add x10, x10, 64
-	sw x10, 8 ( x15 )
-	add x10, x0, 64
-	sw x10, 4 ( x20 )
-	lw x10, 592 ( sp )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_396
-.LBB0_399:                              //  %if.then1364
-                                        //    in Loop: Header=BB0_398 Depth=4
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_397
-	jal x0, .LBB0_486
-.LBB0_400:                              //  %while.end1372
-                                        //    in Loop: Header=BB0_382 Depth=3
-	lw x11, 8 ( x15 )
-	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
-	add x11, x10, x11
-	lw x10, 592 ( sp )
-	sw x11, 8 ( x15 )
-	add x11, x10, 1
-	slti x10, x10, 7
-	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_403
-.LBB0_401:                              //  %if.then1384
-                                        //    in Loop: Header=BB0_382 Depth=3
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_404
-	jal x0, .LBB0_486
-.LBB0_402:                              //    in Loop: Header=BB0_382 Depth=3
-	add x20, x20, 8
-	mv x10, x0
-	bge x10, fp, .LBB0_393
-	jal x0, .LBB0_394
-.LBB0_403:                              //    in Loop: Header=BB0_382 Depth=3
-	add x20, x20, 8
-.LBB0_404:                              //  %cleanup.cont1394
-                                        //    in Loop: Header=BB0_382 Depth=3
-	xor x10, x22, -1
-	and x10, x10, 1
-	sub x23, x23, x10
-	lw x10, 96 ( sp )               //  4-byte Folded Reload
-	lw x11, 64 ( sp )               //  4-byte Folded Reload
-	lb x10, 0 ( x10 )
-	sub x11, x11, x26
-	slt x22, x0, x11
-	sll x10, x10, 2&31
-	add x19, x10, x19
-	blt x0, x11, .LBB0_382
-.LBB0_405:                              //  %cleanup.cont1394
-                                        //    in Loop: Header=BB0_382 Depth=3
-	blt x0, x23, .LBB0_382
-	jal x0, .LBB0_373
-.LBB0_406:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-.LBB0_407:                              //  %if.end1649
-                                        //    in Loop: Header=BB0_8 Depth=2
+	beq x0, x10, .LBB0_331
+	jal x0, .LBB0_278
+.LBB0_360:                              //    in Loop: Header=BB0_8 Depth=2
 	add x18, x18, 8
-.LBB0_408:                              //  %if.end1649
+.LBB0_331:                              //  %if.end1649
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 44 ( sp )               //  4-byte Folded Reload
+	lw x10, 48 ( sp )               //  4-byte Folded Reload
 	lw x11, 8 ( x15 )
 	sll x10, x10, 2&31
 	add x11, x10, x11
@@ -3048,422 +2480,849 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_420
-.LBB0_409:                              //  %if.then1662
+	bltu x0, x10, .LBB0_372
+.LBB0_332:                              //  %if.then1662
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-.LBB0_410:                              //  %if.then1177
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	bltu x0, x10, .LBB0_487
-.LBB0_411:                              //  %if.end1670
+	add x19, sp, 524
+	mv x18, x0
+	beq x0, x10, .LBB0_467
+	jal x0, .LBB0_278
+.LBB0_372:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x18, 8
+	mv x18, x0
+	and x10, x9, 4
+	bltu x0, x10, .LBB0_468
+	jal x0, .LBB0_472
+.LBB0_373:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+.LBB0_374:                              //  %if.end1217
                                         //    in Loop: Header=BB0_8 Depth=2
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-.LBB0_478:                              //  %if.end1719thread-pre-split
+	blt x18, x9, .LBB0_376
+.LBB0_375:                              //  %if.end1217
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 596 ( sp )
-.LBB0_479:                              //  %if.end1719
+	mv x9, x18
+.LBB0_376:                              //  %if.end1217
                                         //    in Loop: Header=BB0_8 Depth=2
-	blt x27, x25, .LBB0_481
-.LBB0_480:                              //  %if.end1719
+	lw x10, 64 ( sp )               //  4-byte Folded Reload
+	sub x9, x10, x9
+	bge x0, x9, .LBB0_390
+.LBB0_377:                              //  %while.cond1228.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x25, x27
-.LBB0_481:                              //  %if.end1719
-                                        //    in Loop: Header=BB0_8 Depth=2
-	add x23, x23, x25
-	beq x0, x10, .LBB0_483
-.LBB0_482:                              //  %land.lhs.true1729
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	add x15, sp, 588
-	bltu x0, x10, .LBB0_487
-.LBB0_483:                              //  %if.end1733
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 80 ( sp )               //  4-byte Folded Reload
-	sw x0, 592 ( sp )
-	bltu x0, x11, .LBB0_484
-.LBB0_524:                              //  %if.end1733
-                                        //    in Loop: Header=BB0_5 Depth=1
-	jal x0, .LBB0_5
-.LBB0_484:                              //  %if.then1738
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	jal _free_r
-	add x15, sp, 588
-	add x20, sp, 524
-	mv fp, x24
-	lw x10, 0 ( fp )
-	beq x0, x10, .LBB0_525
-.LBB0_526:                              //  %if.then1738
-                                        //    in Loop: Header=BB0_5 Depth=1
-	jal x0, .LBB0_6
-.LBB0_525:                              //  %if.then1738
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_8
-.LBB0_420:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x18, 8
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-	jal x0, .LBB0_478
-.LBB0_421:                              //    in Loop: Header=BB0_8 Depth=2
-	add x11, x20, 8
-	bge x10, x0, .LBB0_476
-.LBB0_422:                              //  %while.cond1125.preheader
-                                        //    in Loop: Header=BB0_8 Depth=2
-	lw x12, 112 ( sp )              //  4-byte Folded Reload
-	sub fp, x0, x10
-	sw x12, 0 ( x11 )
-	add x12, x0, -17
-	bge x12, x10, .LBB0_425
-	jal x0, .LBB0_473
-.LBB0_423:                              //    in Loop: Header=BB0_425 Depth=3
-	add x11, x11, 8
-.LBB0_424:                              //  %if.end1144
-                                        //    in Loop: Header=BB0_425 Depth=3
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	add fp, fp, -16
-	sw x10, 0 ( x11 )
+	sw x10, 0 ( x19 )
+	slti x10, x9, 17
+	beq x0, x10, .LBB0_382
+	jal x0, .LBB0_378
+.LBB0_380:                              //    in Loop: Header=BB0_382 Depth=3
+	add x19, x19, 8
+.LBB0_381:                              //  %if.end1247
+                                        //    in Loop: Header=BB0_382 Depth=3
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	add x9, x9, -16
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_473
-.LBB0_425:                              //  %while.body1128
+	bge x10, x9, .LBB0_378
+.LBB0_382:                              //  %while.body1231
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x11 )
+	sw x27, 4 ( x19 )
+	add x10, x10, 64
+	sw x10, 8 ( x15 )
+	lw x10, 592 ( sp )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_380
+.LBB0_383:                              //  %if.then1241
+                                        //    in Loop: Header=BB0_382 Depth=3
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_381
+	jal x0, .LBB0_277
+.LBB0_378:                              //  %while.end1249
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 8 ( x15 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	add x11, x10, x11
+	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_389
+.LBB0_379:                              //  %if.then1261
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	lw x11, 104 ( sp )              //  4-byte Folded Reload
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_391
+	jal x0, .LBB0_277
+.LBB0_384:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	add x19, x19, 8
+.LBB0_385:                              //  %if.end1097
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x12, 600 ( sp )
+	and x11, x9, 1
+	or x11, x11, x10
+	or x11, x12, x11
+	beq x0, x11, .LBB0_467
+.LBB0_386:                              //  %if.then1104
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 8 ( x15 )
+	add x11, x11, 4
+	sw x11, 8 ( x15 )
+	add x11, x0, 4
+	sw x11, 4 ( x19 )
+	add x11, sp, 640
+	sw x11, 0 ( x19 )
+	lw x11, 592 ( sp )
+	add x12, x11, 1
+	slti x11, x11, 7
+	sw x12, 592 ( sp )
+	bltu x0, x11, .LBB0_429
+.LBB0_387:                              //  %if.then1114
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	bltu x0, x10, .LBB0_278
+.LBB0_388:                              //  %if.then1114.if.end1120_crit_edge
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 632 ( sp )
+	add x11, sp, 524
+	add x15, sp, 588
+	bge x10, x0, .LBB0_465
+	jal x0, .LBB0_430
+.LBB0_211:                              //  %if.else522
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x27
+	jal strlen
+	mv fp, x10
+.LBB0_212:                              //  %if.end524
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x11, fp
+	sltiu x12, fp, 100
+	sll x13, fp, 2&31
+	sw x11, 96 ( sp )               //  4-byte Folded Spill
+	bltu x0, x12, .LBB0_215
+.LBB0_213:                              //  %if.then527
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x11, x13, 4
+	mv x10, x25
+	mv x9, x13
+	jal _malloc_r
+	mv fp, x10
+	beq x0, fp, .LBB0_488
+.LBB0_214:                              //    in Loop: Header=BB0_8 Depth=2
+	sw fp, 76 ( sp )                //  4-byte Folded Spill
+	add x15, sp, 588
+	mv x13, x9
+	jal x0, .LBB0_216
+.LBB0_215:                              //  %if.end541
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x0
+	add fp, sp, 124
+	add x15, sp, 588
+	sw x10, 76 ( sp )               //  4-byte Folded Spill
+	beq x0, x11, .LBB0_218
+.LBB0_216:                              //  %for.body.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 96 ( sp )               //  4-byte Folded Reload
+	mv x10, fp
+.LBB0_217:                              //  %for.body
+                                        //    Parent Loop BB0_5 Depth=1
+                                        //      Parent Loop BB0_8 Depth=2
+                                        //  =>    This Inner Loop Header: Depth=3
+	lb x12, 0 ( x27 )
+	add x27, x27, 1
+	add x11, x11, -1
+	sw x12, 0 ( x10 )
+	add x10, x10, 4
+	bltu x0, x11, .LBB0_217
+.LBB0_218:                              //  %cleanup550.thread
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x10, x13, fp
+	lw x5, 96 ( sp )                //  4-byte Folded Reload
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	sw x18, 64 ( sp )               //  4-byte Folded Spill
+	sw x18, 68 ( sp )               //  4-byte Folded Spill
+	sw x0, 0 ( x10 )
+	mv x11, x18
+	mv x22, x18
+	mv x10, x11
+	mv x18, x11
+	bge x5, x11, .LBB0_266
+	jal x0, .LBB0_267
+.LBB0_219:                              //  %if.else573
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x27
+	jal wcslen
+	mv x22, x0
+	mv x5, x10
+	sw x22, 68 ( sp )               //  4-byte Folded Spill
+	mv x11, x22
+	sw x22, 76 ( sp )               //  4-byte Folded Spill
+	sw x22, 64 ( sp )               //  4-byte Folded Spill
+	jal x0, .LBB0_227
+.LBB0_389:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+.LBB0_390:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 104 ( sp )              //  4-byte Folded Reload
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+.LBB0_391:                              //  %cleanup.cont1271
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 64 ( sp )               //  4-byte Folded Reload
+	sll x10, x10, 2&31
+	add x18, x10, fp
+	and x10, x11, 1024
+	bltu x0, x10, .LBB0_393
+.LBB0_392:                              //  %cleanup.cont1271.if.end1404_crit_edge
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 600 ( sp )
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	mv x9, x18
+	jal x0, .LBB0_398
+.LBB0_393:                              //  %while.cond1276.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	blt x0, x9, .LBB0_403
+.LBB0_394:                              //  %while.cond1276.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	blt x0, x22, .LBB0_403
+.LBB0_395:                              //  %while.end1397
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 600 ( sp )
+	sll x11, x10, 2&31
+	add x9, x11, fp
+	bltu x9, x18, .LBB0_397
+.LBB0_396:                              //  %while.end1397
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x9, x18
+.LBB0_397:                              //  %while.end1397
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lw x26, 96 ( sp )               //  4-byte Folded Reload
+.LBB0_398:                              //  %if.end1404
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x12, 104 ( sp )              //  4-byte Folded Reload
+	lw x11, 632 ( sp )
+	mv x18, x0
+	and x12, x12, 1
+	bltu x0, x12, .LBB0_400
+.LBB0_399:                              //  %if.end1404
+                                        //    in Loop: Header=BB0_8 Depth=2
+	bge x11, x10, .LBB0_438
+.LBB0_400:                              //  %if.then1410
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x12, 8 ( x15 )
+	add x12, x12, 4
+	sw x12, 8 ( x15 )
+	add x12, x0, 4
+	sw x12, 4 ( x19 )
+	add x12, sp, 640
+	sw x12, 0 ( x19 )
+	lw x12, 592 ( sp )
+	add x13, x12, 1
+	slti x12, x12, 7
+	sw x13, 592 ( sp )
+	bltu x0, x12, .LBB0_437
+.LBB0_401:                              //  %if.then1420
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	bltu x0, x10, .LBB0_278
+.LBB0_402:                              //  %if.then1420.if.end1427_crit_edge
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 632 ( sp )
+	lw x10, 600 ( sp )
+	add x19, sp, 524
+	add x15, sp, 588
+	jal x0, .LBB0_438
+.LBB0_220:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	xor x10, x9, 103
+	bltu x0, x10, .LBB0_508
+.LBB0_509:                              //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_176
+.LBB0_508:                              //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_183
+.LBB0_221:                              //  %if.else340
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x17, 632 ( sp )
+	lw x12, 104 ( sp )              //  4-byte Folded Reload
+	xor x10, x26, 102
+	bltu x0, x10, .LBB0_179
+.LBB0_222:                              //  %if.then343
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x12, 1
+	or x10, x18, x10
+	blt x0, x17, .LBB0_223
+.LBB0_510:                              //  %if.then343
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_185
+.LBB0_223:                              //  %if.then346
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x26, x0, 102
+	beq x0, x10, .LBB0_238
+.LBB0_224:                              //  %if.then351
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x10, x17, x18
+	add x5, x10, 1
+	mv x14, x0
+	and x10, x12, 1024
+	bltu x0, x10, .LBB0_230
+	jal x0, .LBB0_460
+.LBB0_179:                              //  %if.else366
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 600 ( sp )
+	bge x17, x10, .LBB0_225
+.LBB0_180:                              //  %if.else375
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x11, x0
+	blt x11, x17, .LBB0_228
+.LBB0_181:                              //  %if.else375
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x11, x0, 2
+	sub x11, x11, x17
+	jal x0, .LBB0_229
+.LBB0_225:                              //  %if.then369
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x12, 1
+	add x5, x10, x17
+	add x26, x0, 103
+	mv x14, x0
+	and x10, x12, 1024
+	bltu x0, x10, .LBB0_230
+	jal x0, .LBB0_460
+.LBB0_403:                              //  %while.body1281.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	slt x25, x0, x9
+.LBB0_404:                              //  %while.body1281
+                                        //    Parent Loop BB0_5 Depth=1
+                                        //      Parent Loop BB0_8 Depth=2
+                                        //  =>    This Loop Header: Depth=3
+                                        //          Child Loop BB0_422 Depth 4
+	lw x10, 8 ( x15 )
+	and x26, x25, 1
+	add x10, x10, 4
+	sw x10, 8 ( x15 )
+	add x10, x0, 4
+	sw x10, 4 ( x19 )
+	add x10, sp, 644
+	sw x10, 0 ( x19 )
+	lw x10, 592 ( sp )
+	add x11, x10, 1
+	sw x11, 592 ( sp )
+	bltu x0, x26, .LBB0_406
+.LBB0_405:                              //  %while.body1281
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x11, 100 ( sp )              //  4-byte Folded Reload
+	add x11, x11, -1
+	sw x11, 100 ( sp )              //  4-byte Folded Spill
+.LBB0_406:                              //  %while.body1281
+                                        //    in Loop: Header=BB0_404 Depth=3
+	slti x10, x10, 7
+	bltu x0, x10, .LBB0_408
+.LBB0_407:                              //  %if.then1299
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_409
+	jal x0, .LBB0_288
+.LBB0_408:                              //    in Loop: Header=BB0_404 Depth=3
+	add x19, x19, 8
+.LBB0_409:                              //  %if.end1305
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 600 ( sp )
+	lw x11, 100 ( sp )              //  4-byte Folded Reload
+	sw x9, 68 ( sp )                //  4-byte Folded Spill
+	sll x10, x10, 2&31
+	lb x9, 0 ( x11 )
+	add x10, x10, fp
+	sub x10, x10, x18
+	sra x10, x10, 2&31
+	blt x9, x10, .LBB0_411
+.LBB0_410:                              //  %if.end1305
+                                        //    in Loop: Header=BB0_404 Depth=3
+	mv x9, x10
+.LBB0_411:                              //  %if.end1305
+                                        //    in Loop: Header=BB0_404 Depth=3
+	bge x0, x9, .LBB0_414
+.LBB0_412:                              //  %if.then1320
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x11, 8 ( x15 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	sw x18, 0 ( x19 )
+	add x11, x10, x11
+	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_425
+.LBB0_413:                              //  %if.then1332
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	bltu x0, x10, .LBB0_288
+.LBB0_414:                              //  %if.end1339
+                                        //    in Loop: Header=BB0_404 Depth=3
+	mv x10, x0
+	blt x10, x9, .LBB0_416
+.LBB0_415:                              //  %if.end1339
+                                        //    in Loop: Header=BB0_404 Depth=3
+	mv x9, x0
+.LBB0_416:                              //  %if.end1339
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 100 ( sp )              //  4-byte Folded Reload
+	lb x10, 0 ( x10 )
+	sub x9, x10, x9
+	bge x0, x9, .LBB0_424
+.LBB0_417:                              //  %while.cond1351.preheader
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	sw x10, 0 ( x19 )
+	slti x10, x9, 17
+	beq x0, x10, .LBB0_422
+	jal x0, .LBB0_418
+.LBB0_420:                              //    in Loop: Header=BB0_422 Depth=4
+	add x19, x19, 8
+.LBB0_421:                              //  %if.end1370
+                                        //    in Loop: Header=BB0_422 Depth=4
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	add x9, x9, -16
+	sw x10, 0 ( x19 )
+	add x10, x0, 16
+	bge x10, x9, .LBB0_418
+.LBB0_422:                              //  %while.body1354
+                                        //    Parent Loop BB0_5 Depth=1
+                                        //      Parent Loop BB0_8 Depth=2
+                                        //        Parent Loop BB0_404 Depth=3
+                                        //  =>      This Inner Loop Header: Depth=4
+	lw x10, 8 ( x15 )
+	sw x27, 4 ( x19 )
+	add x10, x10, 64
+	sw x10, 8 ( x15 )
+	lw x10, 592 ( sp )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_420
+.LBB0_423:                              //  %if.then1364
+                                        //    in Loop: Header=BB0_422 Depth=4
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_421
+	jal x0, .LBB0_288
+.LBB0_418:                              //  %while.end1372
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x11, 8 ( x15 )
+	sll x10, x9, 2&31
+	sw x10, 4 ( x19 )
+	add x11, x10, x11
+	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
+	add x11, x10, 1
+	slti x10, x10, 7
+	sw x11, 592 ( sp )
+	bltu x0, x10, .LBB0_426
+.LBB0_419:                              //  %if.then1384
+                                        //    in Loop: Header=BB0_404 Depth=3
+	lw x10, 88 ( sp )               //  4-byte Folded Reload
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	add x15, sp, 588
+	add x19, sp, 524
+	beq x0, x10, .LBB0_427
+	jal x0, .LBB0_288
+.LBB0_424:                              //    in Loop: Header=BB0_404 Depth=3
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	jal x0, .LBB0_427
+.LBB0_425:                              //    in Loop: Header=BB0_404 Depth=3
+	add x19, x19, 8
+	mv x10, x0
+	bge x10, x9, .LBB0_415
+	jal x0, .LBB0_416
+.LBB0_426:                              //    in Loop: Header=BB0_404 Depth=3
+	lw x9, 68 ( sp )                //  4-byte Folded Reload
+	add x19, x19, 8
+.LBB0_427:                              //  %cleanup.cont1394
+                                        //    in Loop: Header=BB0_404 Depth=3
+	xor x10, x25, -1
+	and x10, x10, 1
+	sub x22, x22, x10
+	lw x10, 100 ( sp )              //  4-byte Folded Reload
+	sub x9, x9, x26
+	slt x25, x0, x9
+	lb x10, 0 ( x10 )
+	sll x10, x10, 2&31
+	add x18, x10, x18
+	blt x0, x9, .LBB0_404
+.LBB0_428:                              //  %cleanup.cont1394
+                                        //    in Loop: Header=BB0_404 Depth=3
+	blt x0, x22, .LBB0_404
+	jal x0, .LBB0_395
+.LBB0_429:                              //    in Loop: Header=BB0_8 Depth=2
+	add x11, x19, 8
+	bge x10, x0, .LBB0_465
+.LBB0_430:                              //  %while.cond1125.preheader
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x12, 112 ( sp )              //  4-byte Folded Reload
+	sub x9, x0, x10
+	sw x12, 0 ( x11 )
+	add x12, x0, -17
+	bge x12, x10, .LBB0_435
+	jal x0, .LBB0_431
+.LBB0_433:                              //    in Loop: Header=BB0_435 Depth=3
+	add x11, x11, 8
+.LBB0_434:                              //  %if.end1144
+                                        //    in Loop: Header=BB0_435 Depth=3
+	lw x10, 112 ( sp )              //  4-byte Folded Reload
+	add x9, x9, -16
+	sw x10, 0 ( x11 )
+	add x10, x0, 16
+	bge x10, x9, .LBB0_431
+.LBB0_435:                              //  %while.body1128
+                                        //    Parent Loop BB0_5 Depth=1
+                                        //      Parent Loop BB0_8 Depth=2
+                                        //  =>    This Inner Loop Header: Depth=3
+	lw x10, 8 ( x15 )
+	sw x27, 4 ( x11 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
 	add x12, x10, 1
 	slti x10, x10, 7
 	sw x12, 592 ( sp )
-	bltu x0, x10, .LBB0_423
-.LBB0_426:                              //  %if.then1138
-                                        //    in Loop: Header=BB0_425 Depth=3
-	mv x10, x18
-	mv x11, x9
+	bltu x0, x10, .LBB0_433
+.LBB0_436:                              //  %if.then1138
+                                        //    in Loop: Header=BB0_435 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
 	add x11, sp, 524
-	beq x0, x10, .LBB0_424
-	jal x0, .LBB0_487
-.LBB0_427:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-.LBB0_428:                              //  %if.end1427
+	beq x0, x10, .LBB0_434
+	jal x0, .LBB0_278
+.LBB0_437:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+.LBB0_438:                              //  %if.end1427
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x13, 72 ( sp )               //  4-byte Folded Reload
 	sll x12, x10, 2&31
+	add x12, x12, fp
+	sub x12, x12, x9
 	sub x10, x10, x11
-	mv x9, x10
-	add x12, x12, x13
-	sub x12, x12, fp
 	sra x12, x12, 2&31
-	blt x10, x12, .LBB0_430
-.LBB0_429:                              //  %if.end1427
+	mv fp, x10
+	blt x10, x12, .LBB0_440
+.LBB0_439:                              //  %if.end1427
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x9, x12
-.LBB0_430:                              //  %if.end1427
+	mv fp, x12
+.LBB0_440:                              //  %if.end1427
                                         //    in Loop: Header=BB0_8 Depth=2
-	bge x0, x9, .LBB0_434
-.LBB0_431:                              //  %if.then1442
+	bge x0, fp, .LBB0_444
+.LBB0_441:                              //  %if.then1442
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x12, 8 ( x15 )
-	sll x11, x9, 2&31
-	sw x11, 4 ( x20 )
-	sw fp, 0 ( x20 )
+	sll x11, fp, 2&31
+	sw x11, 4 ( x19 )
+	sw x9, 0 ( x19 )
 	add x12, x11, x12
 	lw x11, 592 ( sp )
 	sw x12, 8 ( x15 )
 	add x12, x11, 1
 	slti x11, x11, 7
 	sw x12, 592 ( sp )
-	bltu x0, x11, .LBB0_437
-.LBB0_432:                              //  %if.then1454
+	bltu x0, x11, .LBB0_452
+.LBB0_442:                              //  %if.then1454
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x11, 76 ( sp )               //  4-byte Folded Reload
-	mv x10, x18
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	bltu x0, x10, .LBB0_502
-.LBB0_433:                              //  %if.then1454.if.end1461_crit_edge
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	bltu x0, x10, .LBB0_278
+.LBB0_443:                              //  %if.then1454.if.end1461_crit_edge
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 632 ( sp )
 	lw x11, 600 ( sp )
-	add x20, sp, 524
+	add x19, sp, 524
 	add x15, sp, 588
 	sub x10, x11, x10
-.LBB0_434:                              //  %if.end1461
+	bge x18, fp, .LBB0_445
+	jal x0, .LBB0_453
+.LBB0_444:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	blt x18, fp, .LBB0_453
+.LBB0_445:                              //  %if.end1461
                                         //    in Loop: Header=BB0_8 Depth=2
-	blt x22, x9, .LBB0_438
-.LBB0_435:                              //  %if.end1461
-                                        //    in Loop: Header=BB0_8 Depth=2
-	mv x11, x22
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
+	mv x11, x18
 	add fp, x11, x10
-	blt x0, fp, .LBB0_439
-.LBB0_327:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-	jal x0, .LBB0_478
-.LBB0_437:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x20, 8
-	bge x22, x9, .LBB0_435
-.LBB0_438:                              //    in Loop: Header=BB0_8 Depth=2
-	sub x11, x0, x9
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
+	blt x0, fp, .LBB0_446
+	jal x0, .LBB0_467
+.LBB0_452:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
+	add x19, x19, 8
+	bge x18, fp, .LBB0_445
+.LBB0_453:                              //    in Loop: Header=BB0_8 Depth=2
+	sub x11, x0, fp
 	add fp, x11, x10
-	bge x0, fp, .LBB0_327
-.LBB0_439:                              //  %while.cond1473.preheader
+	bge x0, fp, .LBB0_467
+.LBB0_446:                              //  %while.cond1473.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	slti x10, fp, 17
-	beq x0, x10, .LBB0_442
-	jal x0, .LBB0_444
-.LBB0_440:                              //    in Loop: Header=BB0_442 Depth=3
-	add x20, x20, 8
-.LBB0_441:                              //  %if.end1492
-                                        //    in Loop: Header=BB0_442 Depth=3
+	beq x0, x10, .LBB0_450
+	jal x0, .LBB0_350
+.LBB0_448:                              //    in Loop: Header=BB0_450 Depth=3
+	add x19, x19, 8
+.LBB0_449:                              //  %if.end1492
+                                        //    in Loop: Header=BB0_450 Depth=3
 	lw x10, 112 ( sp )              //  4-byte Folded Reload
 	add fp, fp, -16
-	sw x10, 0 ( x20 )
+	sw x10, 0 ( x19 )
 	add x10, x0, 16
-	bge x10, fp, .LBB0_444
-.LBB0_442:                              //  %while.body1476
+	bge x10, fp, .LBB0_350
+.LBB0_450:                              //  %while.body1476
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
 	lw x10, 8 ( x15 )
-	sw x26, 4 ( x20 )
+	sw x27, 4 ( x19 )
 	add x10, x10, 64
 	sw x10, 8 ( x15 )
 	lw x10, 592 ( sp )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_440
-.LBB0_443:                              //  %if.then1486
-                                        //    in Loop: Header=BB0_442 Depth=3
-	mv x10, x18
-	mv x11, x9
+	bltu x0, x10, .LBB0_448
+.LBB0_451:                              //  %if.then1486
+                                        //    in Loop: Header=BB0_450 Depth=3
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_441
-	jal x0, .LBB0_487
-.LBB0_444:                              //  %while.end1057
+	add x19, sp, 524
+	beq x0, x10, .LBB0_449
+	jal x0, .LBB0_278
+.LBB0_350:                              //  %while.end1057
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x11, 8 ( x15 )
 	sll x10, fp, 2&31
-	sw x10, 4 ( x20 )
+	sw x10, 4 ( x19 )
 	add x11, x10, x11
-	sw x11, 8 ( x15 )
 	lw x10, 592 ( sp )
+	sw x11, 8 ( x15 )
 	add x11, x10, 1
 	slti x10, x10, 7
 	sw x11, 592 ( sp )
-	bltu x0, x10, .LBB0_446
-.LBB0_445:                              //  %if.then1069
+	beq x0, x10, .LBB0_466
+.LBB0_351:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x19, 8
+	and x10, x9, 4
+	bltu x0, x10, .LBB0_468
+	jal x0, .LBB0_472
+.LBB0_226:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x5, fp
+	mv x11, x18
+	mv x22, x18
+	sw x18, 76 ( sp )               //  4-byte Folded Spill
+	sw x18, 68 ( sp )               //  4-byte Folded Spill
+	sw x18, 64 ( sp )               //  4-byte Folded Spill
+.LBB0_227:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
-	mv x12, x15
-	jal __ssprint_r
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
+	mv fp, x27
 	add x15, sp, 588
-	add x20, sp, 524
-	beq x0, x10, .LBB0_411
-	jal x0, .LBB0_487
-.LBB0_446:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
-	add x20, x20, 8
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-	jal x0, .LBB0_478
-.LBB0_447:                              //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x19
-	mv x23, x19
-	sw x19, 80 ( sp )               //  4-byte Folded Spill
-	sw x19, 64 ( sp )               //  4-byte Folded Spill
-	sw x19, 60 ( sp )               //  4-byte Folded Spill
-.LBB0_448:                              //  %sw.epilog763
+	lw x16, 92 ( sp )               //  4-byte Folded Reload
+	mv x10, x11
+	mv x18, x11
+	blt x5, x11, .LBB0_511
+.LBB0_512:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
-	sw x26, 72 ( sp )               //  4-byte Folded Spill
-	mv x26, x10
-	add x15, sp, 588
-	mv x10, x26
-	blt x22, x26, .LBB0_527
-.LBB0_528:                              //  %sw.epilog763
+	jal x0, .LBB0_266
+.LBB0_511:                              //  %sw.epilog763
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_255
-.LBB0_527:                              //  %sw.epilog763
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_256
-.LBB0_449:                              //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_267
+.LBB0_228:                              //    in Loop: Header=BB0_8 Depth=2
 	seqz x11, x0
-.LBB0_450:                              //  %if.else375
+.LBB0_229:                              //  %if.else375
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x22, x10, x11
-	add x27, x0, 103
-	mv x11, x0
+	add x5, x10, x11
+	add x26, x0, 103
+	mv x14, x0
 	and x10, x12, 1024
 	beq x0, x10, .LBB0_460
-.LBB0_451:                              //  %if.end385
+.LBB0_230:                              //  %if.end385
                                         //    in Loop: Header=BB0_8 Depth=2
-	bge x0, x16, .LBB0_460
-.LBB0_452:                              //  %while.cond392.preheader
+	bge x0, x17, .LBB0_460
+.LBB0_231:                              //  %while.cond392.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x10, 96 ( sp )               //  4-byte Folded Reload
+	lw x10, 100 ( sp )              //  4-byte Folded Reload
 	mv x14, x0
 	lb x10, 0 ( x10 )
 	xor x11, x10, 127
-	beq x0, x11, .LBB0_467
-.LBB0_453:                              //  %while.cond392.preheader
+	beq x0, x11, .LBB0_456
+.LBB0_232:                              //  %while.cond392.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
-	bge x10, x16, .LBB0_467
-.LBB0_454:                              //  %if.end401.preheader
+	bge x10, x17, .LBB0_456
+.LBB0_233:                              //  %if.end401.preheader
                                         //    in Loop: Header=BB0_8 Depth=2
 	mv x11, x0
 	mv x14, x11
-	mv x23, x11
-.LBB0_455:                              //  %if.end401
+	mv x22, x11
+.LBB0_234:                              //  %if.end401
                                         //    Parent Loop BB0_5 Depth=1
                                         //      Parent Loop BB0_8 Depth=2
                                         //  =>    This Inner Loop Header: Depth=3
-	lw x13, 96 ( sp )               //  4-byte Folded Reload
+	lw x13, 100 ( sp )              //  4-byte Folded Reload
 	lbu x12, 1 ( x13 )
-	beq x12, x11, .LBB0_457
-.LBB0_456:                              //  %if.end401
-                                        //    in Loop: Header=BB0_455 Depth=3
+	beq x12, x11, .LBB0_236
+.LBB0_235:                              //  %if.end401
+                                        //    in Loop: Header=BB0_234 Depth=3
 	add x13, x13, 1
-.LBB0_457:                              //  %if.end401
-                                        //    in Loop: Header=BB0_455 Depth=3
-	sub x16, x16, x10
+.LBB0_236:                              //  %if.end401
+                                        //    in Loop: Header=BB0_234 Depth=3
+	sub x17, x17, x10
 	snez x10, x12
-	add x23, x10, x23
+	add x22, x10, x22
 	seqz x10, x12
 	add x14, x10, x14
 	lb x10, 0 ( x13 )
-	sw x13, 96 ( sp )               //  4-byte Folded Spill
+	sw x13, 100 ( sp )              //  4-byte Folded Spill
 	xor x12, x10, 127
-	beq x0, x12, .LBB0_468
-.LBB0_458:                              //  %if.end401
-                                        //    in Loop: Header=BB0_455 Depth=3
-	blt x10, x16, .LBB0_455
-	jal x0, .LBB0_468
-.LBB0_467:                              //    in Loop: Header=BB0_8 Depth=2
-	mv x23, x14
-.LBB0_468:                              //  %while.end412
+	beq x0, x12, .LBB0_457
+.LBB0_237:                              //  %if.end401
+                                        //    in Loop: Header=BB0_234 Depth=3
+	blt x10, x17, .LBB0_234
+	jal x0, .LBB0_457
+.LBB0_456:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x22, x14
+.LBB0_457:                              //  %while.end412
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x10, x22, x14
-	add x22, x23, x10
-	sw x16, 60 ( sp )               //  4-byte Folded Spill
-	sw x14, 64 ( sp )               //  4-byte Folded Spill
-	lw x14, 92 ( sp )               //  4-byte Folded Reload
-	lw x10, 636 ( sp )
-	mv x26, x0
-	beq x0, x10, .LBB0_207
-.LBB0_529:                              //  %while.end412
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_472
-.LBB0_207:                              //    in Loop: Header=BB0_8 Depth=2
-	mv fp, x14
-	mv x10, x26
-	blt x22, x26, .LBB0_530
-.LBB0_531:                              //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_255
-.LBB0_530:                              //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_256
-.LBB0_459:                              //    in Loop: Header=BB0_8 Depth=2
-	mv x22, x16
-	mv x11, x0
+	add x10, x5, x14
+	add x5, x22, x10
+	jal x0, .LBB0_461
+.LBB0_238:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x5, x17
+	mv x14, x0
 	and x10, x12, 1024
-	bltu x0, x10, .LBB0_451
-.LBB0_460:                              //    in Loop: Header=BB0_8 Depth=2
-	sw x16, 60 ( sp )               //  4-byte Folded Spill
-	jal x0, .LBB0_471
-.LBB0_461:                              //  %cond.true463
+	bltu x0, x10, .LBB0_230
+	jal x0, .LBB0_460
+.LBB0_239:                              //  %cond.true463
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lhu x18, 0 ( x10 )
-.LBB0_462:                              //  %cond.false467
+.LBB0_240:                              //  %cond.end480
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
 	mv x22, x0
-.LBB0_463:                              //  %cond.end483
+.LBB0_241:                              //  %cond.end483
                                         //    in Loop: Header=BB0_8 Depth=2
-	add x27, x0, 111
+	add x26, x0, 111
 	mv x10, x0
-	and fp, fp, -1025
+	and x9, x9, -1025
 	sw x0, 648 ( sp )
 	add x11, x0, -1
-	bge x11, x26, .LBB0_532
-.LBB0_533:                              //  %cond.end483
+	blt x11, fp, .LBB0_513
+.LBB0_514:                              //  %cond.end483
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_213
-.LBB0_532:                              //  %cond.end483
+	jal x0, .LBB0_243
+.LBB0_513:                              //  %cond.end483
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_214
-.LBB0_464:                              //  %cond.true591
+	jal x0, .LBB0_242
+.LBB0_454:                              //  %cond.true591
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 652 ( sp )
 	add x11, x10, 4
 	sw x11, 652 ( sp )
 	lhu x18, 0 ( x10 )
-.LBB0_465:                              //  %cond.false595
+.LBB0_455:                              //  %cond.end608
                                         //    in Loop: Header=BB0_8 Depth=2
-	lw x26, 92 ( sp )               //  4-byte Folded Reload
 	mv x22, x0
-	add x27, x0, 117
+	add x26, x0, 117
 	seqz x10, x0
 	sw x0, 648 ( sp )
 	add x11, x0, -1
-	bge x11, x26, .LBB0_534
-.LBB0_535:                              //  %cond.false595
+	bge x11, fp, .LBB0_515
+.LBB0_516:                              //  %cond.end608
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_213
-.LBB0_534:                              //  %cond.false595
+	jal x0, .LBB0_242
+.LBB0_515:                              //  %cond.end608
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_214
-.LBB0_469:                              //    in Loop: Header=BB0_8 Depth=2
-	seqz x22, x0
-.LBB0_470:                              //  %if.end385.thread
+	jal x0, .LBB0_243
+.LBB0_458:                              //    in Loop: Header=BB0_8 Depth=2
+	seqz x5, x0
+.LBB0_459:                              //  %if.end385.thread
                                         //    in Loop: Header=BB0_8 Depth=2
-	sw x16, 60 ( sp )               //  4-byte Folded Spill
-	add x27, x0, 102
-.LBB0_471:                              //  %if.end417
+	add x26, x0, 102
+.LBB0_460:                              //  %if.end417
                                         //    in Loop: Header=BB0_8 Depth=2
-	sw x11, 64 ( sp )               //  4-byte Folded Spill
-	mv x23, x11
-	lw x14, 92 ( sp )               //  4-byte Folded Reload
+	mv x22, x14
+.LBB0_461:                              //  %if.end417
+                                        //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 636 ( sp )
-	mv x26, x0
-	beq x0, x10, .LBB0_536
-.LBB0_537:                              //  %if.end417
+	mv x11, x0
+	sw x17, 64 ( sp )               //  4-byte Folded Spill
+	sw x14, 68 ( sp )               //  4-byte Folded Spill
+	beq x0, x10, .LBB0_463
+.LBB0_462:                              //  %if.then419
                                         //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_472
-.LBB0_536:                              //  %if.end417
-                                        //    in Loop: Header=BB0_8 Depth=2
-	jal x0, .LBB0_207
-.LBB0_473:                              //  %while.end1146
+	add x10, x0, 45
+	sw x10, 648 ( sp )
+.LBB0_463:                              //    in Loop: Header=BB0_8 Depth=2
+	mv x9, x27
+	mv x10, x11
+	mv x18, x11
+	blt x5, x11, .LBB0_517
+.LBB0_518:                              //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_266
+.LBB0_517:                              //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_267
+.LBB0_431:                              //  %while.end1146
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x12, 8 ( x15 )
-	sll x10, fp, 2&31
+	sll x10, x9, 2&31
 	sw x10, 4 ( x11 )
 	add x12, x10, x12
 	lw x10, 592 ( sp )
@@ -3471,60 +3330,118 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add x12, x10, 1
 	slti x10, x10, 7
 	sw x12, 592 ( sp )
-	bltu x0, x10, .LBB0_475
-.LBB0_474:                              //  %if.then1158
+	bltu x0, x10, .LBB0_464
+.LBB0_432:                              //  %if.then1158
                                         //    in Loop: Header=BB0_8 Depth=2
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	mv x12, x15
 	jal __ssprint_r
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
 	add x15, sp, 588
 	add x11, sp, 524
-	beq x0, x10, .LBB0_476
-	jal x0, .LBB0_487
-.LBB0_475:                              //    in Loop: Header=BB0_8 Depth=2
-	lw fp, 104 ( sp )               //  4-byte Folded Reload
+	beq x0, x10, .LBB0_465
+	jal x0, .LBB0_278
+.LBB0_464:                              //    in Loop: Header=BB0_8 Depth=2
+	lw x9, 104 ( sp )               //  4-byte Folded Reload
 	add x11, x11, 8
-.LBB0_476:                              //  %if.end1165
+.LBB0_465:                              //  %if.end1165
                                         //    in Loop: Header=BB0_8 Depth=2
 	lw x10, 600 ( sp )
 	lw x12, 8 ( x15 )
+	sw fp, 0 ( x11 )
 	sll x10, x10, 2&31
 	add x12, x10, x12
-	sw x12, 8 ( x15 )
-	lw x12, 72 ( sp )               //  4-byte Folded Reload
 	sw x10, 4 ( x11 )
 	lw x10, 592 ( sp )
-	sw x12, 0 ( x11 )
+	sw x12, 8 ( x15 )
 	add x12, x10, 1
 	slti x10, x10, 7
 	sw x12, 592 ( sp )
-	beq x0, x10, .LBB0_410
-.LBB0_477:                              //    in Loop: Header=BB0_8 Depth=2
-	add x20, x11, 8
-	and x10, fp, 4
-	bltu x0, x10, .LBB0_412
-	jal x0, .LBB0_478
-.LBB0_485:
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-.LBB0_486:
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-.LBB0_487:                              //  %error
-	lw x11, 80 ( sp )               //  4-byte Folded Reload
-	beq x0, x11, .LBB0_489
-.LBB0_488:                              //  %if.then1751
-	mv x10, x18
+	bltu x0, x10, .LBB0_483
+.LBB0_466:                              //  %if.then1069
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	add x19, sp, 524
+	bltu x0, x10, .LBB0_278
+.LBB0_467:                              //  %if.end1670
+                                        //    in Loop: Header=BB0_8 Depth=2
+	and x10, x9, 4
+	bltu x0, x10, .LBB0_468
+.LBB0_472:                              //  %if.end1719thread-pre-split
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x10, 596 ( sp )
+.LBB0_473:                              //  %if.end1719
+                                        //    in Loop: Header=BB0_8 Depth=2
+	blt x26, x20, .LBB0_475
+.LBB0_474:                              //  %if.end1719
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x20, x26
+.LBB0_475:                              //  %if.end1719
+                                        //    in Loop: Header=BB0_8 Depth=2
+	add x22, x22, x20
+	beq x0, x10, .LBB0_477
+.LBB0_476:                              //  %land.lhs.true1729
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
+	mv x11, x23
+	mv x12, x15
+	jal __ssprint_r
+	add x15, sp, 588
+	bltu x0, x10, .LBB0_278
+.LBB0_477:                              //  %if.end1733
+                                        //    in Loop: Header=BB0_8 Depth=2
+	lw x11, 76 ( sp )               //  4-byte Folded Reload
+	sw x0, 592 ( sp )
+	bltu x0, x11, .LBB0_478
+.LBB0_519:                              //  %if.end1733
+                                        //    in Loop: Header=BB0_5 Depth=1
+	jal x0, .LBB0_5
+.LBB0_478:                              //  %if.then1738
+                                        //    in Loop: Header=BB0_8 Depth=2
+	mv x10, x25
 	jal _free_r
-.LBB0_489:                              //  %if.end1752
-	lbu x10, 12 ( x9 )
+	add x15, sp, 588
+	add x19, sp, 524
+	mv fp, x24
+	lw x10, 0 ( fp )
+	beq x0, x10, .LBB0_520
+.LBB0_521:                              //  %if.then1738
+                                        //    in Loop: Header=BB0_5 Depth=1
+	jal x0, .LBB0_6
+.LBB0_520:                              //  %if.then1738
+                                        //    in Loop: Header=BB0_8 Depth=2
+	jal x0, .LBB0_8
+.LBB0_483:                              //    in Loop: Header=BB0_8 Depth=2
+	add x19, x11, 8
+	and x10, x9, 4
+	bltu x0, x10, .LBB0_468
+	jal x0, .LBB0_472
+.LBB0_287:
+	mv x23, x25
+.LBB0_288:
+	lw x25, 88 ( sp )               //  4-byte Folded Reload
+.LBB0_277:
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+.LBB0_278:                              //  %error
+	lw x11, 76 ( sp )               //  4-byte Folded Reload
+	beq x0, x11, .LBB0_280
+.LBB0_279:                              //  %if.then1751
+	mv x10, x25
+	jal _free_r
+.LBB0_280:                              //  %if.end1752
+	lbu x10, 12 ( x23 )
 	mv x11, x0
 	and x10, x10, 64
-	beq x10, x11, .LBB0_491
-.LBB0_490:                              //  %if.end1752
-	add x23, x0, -1
-.LBB0_491:                              //  %cleanup1762
-	mv x10, x23
+	beq x10, x11, .LBB0_282
+.LBB0_281:                              //  %if.end1752
+	add x22, x0, -1
+.LBB0_282:                              //  %cleanup1762
+	mv x10, x22
 	lw fp, 684 ( sp )               //  4-byte Folded Reload
 	lw x27, 688 ( sp )              //  4-byte Folded Reload
 	lw x26, 692 ( sp )              //  4-byte Folded Reload
@@ -3541,59 +3458,45 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	add sp, sp, 736
 	.cfi_def_cfa 2, 0
 	jr ra
-.LBB0_492:                              //  %done
+.LBB0_484:                              //  %done
 	lw x10, 596 ( sp )
-	beq x0, x10, .LBB0_494
-.LBB0_493:                              //  %land.lhs.true1742
+	beq x0, x10, .LBB0_486
+.LBB0_485:                              //  %land.lhs.true1742
 	add x12, sp, 588
-	mv x10, x18
-	mv x11, x9
+	mv x10, x25
+	mv x11, x23
 	jal __ssprint_r
-	bltu x0, x10, .LBB0_489
-.LBB0_494:                              //  %if.end1746
+	bltu x0, x10, .LBB0_280
+.LBB0_486:                              //  %if.end1746
 	sw x0, 592 ( sp )
-	lbu x10, 12 ( x9 )
+	lbu x10, 12 ( x23 )
 	mv x11, x0
 	and x10, x10, 64
-	bne x10, x11, .LBB0_490
-	jal x0, .LBB0_491
-.LBB0_495:                              //  %if.then9
+	bne x10, x11, .LBB0_281
+	jal x0, .LBB0_282
+.LBB0_487:                              //  %if.then9
 	add x10, x0, 12
-	sw x10, 0 ( x18 )
-	jal x0, .LBB0_490
-.LBB0_496:
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
-	lbu x10, 12 ( x9 )
-	mv x11, x0
-	and x10, x10, 64
-	bne x10, x11, .LBB0_490
-	jal x0, .LBB0_491
-.LBB0_497:
-	lw x18, 100 ( sp )              //  4-byte Folded Reload
-	lw x11, 80 ( sp )               //  4-byte Folded Reload
-	bltu x0, x11, .LBB0_488
-	jal x0, .LBB0_489
-.LBB0_498:                              //  %cleanup
-	lh x10, 12 ( x9 )
-	lw x23, 84 ( sp )               //  4-byte Folded Reload
-	jal x0, .LBB0_501
-.LBB0_499:                              //  %cleanup550
-	mv x9, x19
-.LBB0_500:                              //  %if.then254
-	lh x10, 12 ( x9 )
-.LBB0_501:                              //  %if.then254
+	sw x10, 0 ( x25 )
+	jal x0, .LBB0_281
+.LBB0_78:                               //  %cleanup
+	lh x10, 12 ( x23 )
 	or x10, x10, 64
-	sh x10, 12 ( x9 )
-	lbu x10, 12 ( x9 )
+	sh x10, 12 ( x23 )
+	lw x22, 80 ( sp )               //  4-byte Folded Reload
+	lbu x10, 12 ( x23 )
 	mv x11, x0
 	and x10, x10, 64
-	bne x10, x11, .LBB0_490
-	jal x0, .LBB0_491
-.LBB0_502:
-	lw x9, 76 ( sp )                //  4-byte Folded Reload
-	lw x11, 80 ( sp )               //  4-byte Folded Reload
-	bltu x0, x11, .LBB0_488
-	jal x0, .LBB0_489
+	bne x10, x11, .LBB0_281
+	jal x0, .LBB0_282
+.LBB0_488:                              //  %if.then254
+	lh x10, 12 ( x23 )
+	or x10, x10, 64
+	sh x10, 12 ( x23 )
+	lbu x10, 12 ( x23 )
+	mv x11, x0
+	and x10, x10, 64
+	bne x10, x11, .LBB0_281
+	jal x0, .LBB0_282
 .Lfunc_end0:
 	.size	_svfwprintf_r, .Lfunc_end0-_svfwprintf_r
 	.cfi_endproc
@@ -3601,95 +3504,95 @@ _svfwprintf_r:                          //  @_svfwprintf_r
 	.p2align	2
 JTI0_0:
 	.long	.LBB0_29
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_31
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_32
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_37
 	.long	.LBB0_40
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_39
-	.long	.LBB0_21
-	.long	.LBB0_120
+	.long	.LBB0_22
+	.long	.LBB0_117
 	.long	.LBB0_43
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_61
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_75
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_61
 	.long	.LBB0_61
 	.long	.LBB0_61
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_44
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_78
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_95
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_120
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_79
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_93
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_117
 	.long	.LBB0_61
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_75
-	.long	.LBB0_87
+	.long	.LBB0_85
 	.long	.LBB0_61
 	.long	.LBB0_61
 	.long	.LBB0_61
 	.long	.LBB0_45
-	.long	.LBB0_87
+	.long	.LBB0_85
 	.long	.LBB0_28
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_47
-	.long	.LBB0_120
+	.long	.LBB0_117
 	.long	.LBB0_53
-	.long	.LBB0_96
-	.long	.LBB0_101
-	.long	.LBB0_28
-	.long	.LBB0_120
-	.long	.LBB0_78
-	.long	.LBB0_42
+	.long	.LBB0_97
 	.long	.LBB0_102
-	.long	.LBB0_120
-	.long	.LBB0_120
-	.long	.LBB0_107
-	.long	.LBB0_120
+	.long	.LBB0_28
+	.long	.LBB0_117
+	.long	.LBB0_79
+	.long	.LBB0_42
+	.long	.LBB0_103
+	.long	.LBB0_117
+	.long	.LBB0_117
+	.long	.LBB0_108
+	.long	.LBB0_117
 	.long	.LBB0_42
                                         //  -- End function
 	.text

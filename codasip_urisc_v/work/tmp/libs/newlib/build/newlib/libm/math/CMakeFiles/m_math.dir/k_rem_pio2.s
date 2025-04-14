@@ -56,10 +56,9 @@ __kernel_rem_pio2:                      //  @__kernel_rem_pio2
 .LBB0_1:                                //  %entry
 	mv x26, x10
 .LBB0_2:                                //  %entry
-	add x11, x0, -24
-	mv x10, x26
-	jal __mulsi3
 	lw x21, 0 ( x18 )
+	add x10, x0, -24
+	hackaton_custom_instr_c x10, x10, x26
 	add x25, x10, x9
 	add x10, x20, -1
 	add x11, x10, x21

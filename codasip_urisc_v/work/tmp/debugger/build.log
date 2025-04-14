@@ -1,5 +1,5 @@
-[1/5] Building CXX object CMakeFiles/lldb-mi.dir/dummy.cpp.o
-[2/5] Building CXX object CMakeFiles/codasip_urisc_v-ia-lldb.dir/dummy.cpp.o
+[1/5] Building CXX object CMakeFiles/codasip_urisc_v-ia-lldb.dir/dummy.cpp.o
+[2/5] Building CXX object CMakeFiles/lldb-mi.dir/dummy.cpp.o
 [3/5] Linking CXX executable codasip_urisc_v-ia-lldb
 [4/5] Linking CXX executable codasip_urisc_v-ia-lldb-mi
 [4/5] Install the project...

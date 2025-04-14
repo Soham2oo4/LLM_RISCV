@@ -8,90 +8,59 @@ category:                               //  @category
 	.cfi_return_column 1
 //  %bb.0:                              //  %entry
 	.cfi_def_cfa 2, 0
-	add sp, sp, -32
-	.cfi_adjust_cfa_offset 32
-	sw x9, 24 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 9, -8
-	mv x9, x10
-	lui x10, %hi( 917999 )
-	sw fp, 0 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -32
-	add fp, x0, -1
-	add x10, x10, %lo( 917999 )
-	sw ra, 28 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 1, -4
-	sw x18, 20 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 18, -12
-	sw x19, 16 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 19, -16
-	sw x20, 12 ( sp )               //  4-byte Folded Spill
-	.cfi_offset 20, -20
-	sw x21, 8 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 21, -24
-	sw x22, 4 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 22, -28
-	bltu x10, x9, .LBB0_7
+	lui x12, %hi( 917999 )
+	mv x11, x10
+	add x10, x0, -1
+	add x12, x12, %lo( 917999 )
+	bltu x12, x11, .LBB0_7
 .LBB0_1:                                //  %while.body.i.preheader
-	lui x10, %hi( 2128 )
-	add x22, x10, %lo( 2128 )
-	lui x10, %hi( categories )
-	mv x20, x0
-	add x18, x0, 6
-	add x21, x10, %lo( categories )
+	lui x14, %hi( categories )
+	lui x12, %hi( 2128 )
+	add x15, x12, %lo( 2128 )
+	mv x13, x0
+	add x12, x0, 6
+	add x14, x14, %lo( categories )
 	jal x0, .LBB0_2
 .LBB0_3:                                //  %if.then19.i
                                         //    in Loop: Header=BB0_2 Depth=1
-	add x20, x19, 1
-	blt x22, x20, .LBB0_7
+	add x13, x16, 1
+	blt x15, x13, .LBB0_7
 .LBB0_2:                                //  %while.body.i
                                         //  =>This Inner Loop Header: Depth=1
-	add x10, x20, x22
-	slt x11, x10, x0
-	add x10, x11, x10
-	sra x19, x10, 1&31
-	mv x10, x19
-	mv x11, x18
-	jal __mulsi3
-	add x11, x10, x21
-	lbu x10, 1 ( x11 )
-	lbu x12, 0 ( x11 )
-	lbu x13, 2 ( x11 )
-	sll x10, x10, 8&31
-	or x10, x12, x10
-	lbu x12, 3 ( x11 )
-	sll x12, x12, 8&31
-	or x12, x13, x12
-	sll x12, x12, 16&31
-	or x10, x10, x12
-	lbu x12, 4 ( x11 )
-	lbu x11, 5 ( x11 )
-	sll x11, x11, 8&31
-	or x12, x12, x11
-	srl x11, x10, 8&31
-	add x12, x12, x11
-	bltu x12, x9, .LBB0_3
+	add x16, x13, x15
+	slt x17, x16, x0
+	add x16, x17, x16
+	sra x16, x16, 1&31
+	hackaton_custom_instr_c x17, x12, x16
+	add x5, x17, x14
+	lbu x17, 1 ( x5 )
+	lbu x6, 0 ( x5 )
+	lbu x7, 2 ( x5 )
+	sll x17, x17, 8&31
+	or x17, x6, x17
+	lbu x6, 3 ( x5 )
+	sll x6, x6, 8&31
+	or x6, x7, x6
+	sll x6, x6, 16&31
+	or x17, x17, x6
+	lbu x6, 4 ( x5 )
+	lbu x5, 5 ( x5 )
+	sll x5, x5, 8&31
+	or x6, x6, x5
+	srl x5, x17, 8&31
+	add x6, x6, x5
+	bltu x6, x11, .LBB0_3
 .LBB0_4:                                //  %if.else.i
                                         //    in Loop: Header=BB0_2 Depth=1
-	bgeu x9, x11, .LBB0_8
+	bgeu x11, x5, .LBB0_8
 .LBB0_5:                                //  %if.then26.i
                                         //    in Loop: Header=BB0_2 Depth=1
-	add x22, x19, -1
-	bge x22, x20, .LBB0_2
-	jal x0, .LBB0_7
-.LBB0_8:                                //  %if.else27.i
-	and fp, x10, 255
+	add x15, x16, -1
+	bge x15, x13, .LBB0_2
 .LBB0_7:                                //  %bisearch_cat.exit
-	mv x10, fp
-	lw fp, 0 ( sp )                 //  4-byte Folded Reload
-	lw x22, 4 ( sp )                //  4-byte Folded Reload
-	lw x21, 8 ( sp )                //  4-byte Folded Reload
-	lw x20, 12 ( sp )               //  4-byte Folded Reload
-	lw x19, 16 ( sp )               //  4-byte Folded Reload
-	lw x18, 20 ( sp )               //  4-byte Folded Reload
-	lw x9, 24 ( sp )                //  4-byte Folded Reload
-	lw ra, 28 ( sp )                //  4-byte Folded Reload
-	add sp, sp, 32
-	.cfi_def_cfa 2, 0
+	jr ra
+.LBB0_8:                                //  %if.else27.i
+	and x10, x17, 255
 	jr ra
 .Lfunc_end0:
 	.size	category, .Lfunc_end0-category

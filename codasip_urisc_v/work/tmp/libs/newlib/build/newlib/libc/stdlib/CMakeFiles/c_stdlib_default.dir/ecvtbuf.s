@@ -595,7 +595,7 @@ print_e:                                //  @print_e
 	add x11, x10, 48
 	sb x11, 2 ( x20 )
 	add x11, x0, -100
-	jal __mulsi3
+	hackaton_custom_instr_c x10, x11, x10
 	lw x11, 12 ( sp )
 	add fp, x20, 3
 	add x10, x10, x11
@@ -617,7 +617,7 @@ print_e:                                //  @print_e
 	add x11, x10, 48
 	sb x11, 0 ( fp )
 	add x11, x0, -10
-	jal __mulsi3
+	hackaton_custom_instr_c x10, x11, x10
 	lw x11, 12 ( sp )
 	add x10, x10, x11
 	sw x10, 12 ( sp )

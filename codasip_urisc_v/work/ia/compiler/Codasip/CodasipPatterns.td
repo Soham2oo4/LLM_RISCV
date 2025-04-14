@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-13 13:38:41
+ *                Date: 2025-04-14 08:33:34
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -172,6 +172,62 @@ def rule_SETCC_27: Pattern<(i32 (setule (i32 CheckFI_i32_regs:$op0), (i32 CheckF
 
 
 // patterns for moi instructions
+
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_SDT: SDTypeProfile<0,0,[]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_0",i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_: CodasipMicroClass_<(outs), (ins)>
+{
+let Pattern = [(i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__reg0__MOI_CLONE_MOI_node )];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_f,reg0,reg0,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_SDT: SDTypeProfile<0,1,[]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_1",i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let Pattern = [(i_ext_hackaton__opc_hackaton_custom_f__reg0__reg0__regs__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op0))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_f,reg0,reg0,regs)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_SDT: SDTypeProfile<0,1,[]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_2",i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_: CodasipMicroClass_<(outs), (ins regs:$op0)>
+{
+let Pattern = [(i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__reg0__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op0))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_f,reg0,regs,reg0)
+}
+
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_SDT: SDTypeProfile<0,2,[]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node: SDNode<"CodasipISD::MOI_GROUP_3",i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_SDT,[SDNPHasChain,SDNPMayLoad,SDNPMayStore,SDNPMemOperand]>;
+def i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_: CodasipMicroClass_<(outs), (ins regs:$op0, regs:$op1)>
+{
+let Pattern = [(i_ext_hackaton__opc_hackaton_custom_f__reg0__regs__regs__MOI_CLONE_MOI_node (i32 CheckFI_i32_regs:$op0), (i32 CheckFI_i32_regs:$op1))];
+let Size = 4;
+let isReMaterializable = 1;
+let mayLoad = 1;
+let mayStore = 1;
+let isPseudo = 1;
+let isCodeGenOnly = 1;
+// i_ext_hackaton(opc_hackaton_custom_f,reg0,regs,regs)
+}
 
 
 

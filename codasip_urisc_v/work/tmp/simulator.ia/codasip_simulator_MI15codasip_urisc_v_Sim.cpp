@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) simulator generator
  * \version 9.4.2
  * \brief   Source files for simulator
@@ -22,8 +22,8 @@
 #include "getopt_common/interface/basicoptions.h"
 static const codasip::getopt::ToolInfoSetter g_ToolInfo(codasip::getopt::ToolInfo("Codasip  (C49_2265_2231)", 
 "codasip_urisc_v", 
-"c4c1ef5d0a47b468750b0ac9107fe5db40f062ae3b6facf494d6999714ebb7f1", 
-"2025-04-13 13:39:57", 
+"271a6fa179b31593f4e8cd71c6e3b4567daf28d0637b50eed3bc6aac455439cb", 
+"2025-04-14 08:34:40", 
 ""
 ));
 #include <sstream>
@@ -328,22 +328,27 @@ Sim::Sim(const std::string& name, const Uid uid, const char* codalParametersStri
     MI2s3IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".s3", static_cast< ::codasip::resources::Uid>(300ULL)),
     MI7result0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".result0", static_cast< ::codasip::resources::Uid>(301ULL)),
     MI7result1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".result1", static_cast< ::codasip::resources::Uid>(302ULL)),
-    MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_a0", static_cast< ::codasip::resources::Uid>(303ULL)),
-    MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_a1", static_cast< ::codasip::resources::Uid>(304ULL)),
-    MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_b0", static_cast< ::codasip::resources::Uid>(305ULL)),
-    MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_b1", static_cast< ::codasip::resources::Uid>(306ULL)),
-    MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".accumulator", static_cast< ::codasip::resources::Uid>(307ULL)),
-    MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".sum0", static_cast< ::codasip::resources::Uid>(308ULL)),
-    MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".sum1", static_cast< ::codasip::resources::Uid>(309ULL)),
-    MI5summaIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".summa", static_cast< ::codasip::resources::Uid>(310ULL)),
-    MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_0", static_cast< ::codasip::resources::Uid>(311ULL)),
-    MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_1", static_cast< ::codasip::resources::Uid>(312ULL)),
-    MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_2", static_cast< ::codasip::resources::Uid>(313ULL)),
-    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_4", static_cast< ::codasip::resources::Uid>(314ULL)),
-    MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_3", static_cast< ::codasip::resources::Uid>(315ULL)),
-    MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_5", static_cast< ::codasip::resources::Uid>(316ULL)),
-    MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_6", static_cast< ::codasip::resources::Uid>(317ULL)),
-    MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_7", static_cast< ::codasip::resources::Uid>(318ULL)),
+    MI3sumIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".sum", static_cast< ::codasip::resources::Uid>(303ULL)),
+    MI3valIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".val", static_cast< ::codasip::resources::Uid>(304ULL)),
+    MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".size", static_cast< ::codasip::resources::Uid>(305ULL)),
+    MI4val1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".val1", static_cast< ::codasip::resources::Uid>(306ULL)),
+    MI4val2IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".val2", static_cast< ::codasip::resources::Uid>(307ULL)),
+    MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_a0", static_cast< ::codasip::resources::Uid>(308ULL)),
+    MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_a1", static_cast< ::codasip::resources::Uid>(309ULL)),
+    MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_b0", static_cast< ::codasip::resources::Uid>(310ULL)),
+    MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".simd_b1", static_cast< ::codasip::resources::Uid>(311ULL)),
+    MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".accumulator", static_cast< ::codasip::resources::Uid>(312ULL)),
+    MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".sum0", static_cast< ::codasip::resources::Uid>(313ULL)),
+    MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".sum1", static_cast< ::codasip::resources::Uid>(314ULL)),
+    MI3macIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".mac", static_cast< ::codasip::resources::Uid>(315ULL)),
+    MI5summaIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".summa", static_cast< ::codasip::resources::Uid>(316ULL)),
+    MI1iIH5_3isa3isa1_14i_ext_hackatonB0(m_Name + ".i", static_cast< ::codasip::resources::Uid>(317ULL)),
+    MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_0", static_cast< ::codasip::resources::Uid>(318ULL)),
+    MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_1", static_cast< ::codasip::resources::Uid>(319ULL)),
+    MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_2", static_cast< ::codasip::resources::Uid>(320ULL)),
+    MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_3", static_cast< ::codasip::resources::Uid>(321ULL)),
+    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_4", static_cast< ::codasip::resources::Uid>(322ULL)),
+    MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton(m_Name + ".codasip_tmp_var_5", static_cast< ::codasip::resources::Uid>(323ULL)),
     m_SysCalls(*this, 4, 4)
 {
     m_Executable = "";
@@ -685,6 +690,11 @@ Sim::Sim(const std::string& name, const Uid uid, const char* codalParametersStri
     MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI7result0IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI7result1IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI3valIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
@@ -692,15 +702,15 @@ Sim::Sim(const std::string& name, const Uid uid, const char* codalParametersStri
     MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI3macIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
+    MI1iIH5_3isa3isa1_14i_ext_hackatonB0.set_log(m_Log);
     MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
     MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
     MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
-    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
     MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
+    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
     MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
-    MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
-    MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.set_log(m_Log);
     m_SysCalls.SetMhz(100);
 }
 int Sim::Reset()
@@ -1685,67 +1695,87 @@ bool Sim::ResourceRead(MaxUint& data, const debugger::Tid tid, const debugger::D
         return true;
         }
         case 3000000303: {
-        data = MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000304: {
-        data = MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI3valIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000305: {
-        data = MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000306: {
-        data = MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000307: {
-        data = MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000308: {
-        data = MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000309: {
-        data = MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000310: {
-        data = MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dread();
+        data = MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000311: {
-        data = MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000312: {
-        data = MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000313: {
-        data = MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000314: {
-        data = MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000315: {
-        data = MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI3macIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000316: {
-        data = MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000317: {
-        data = MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI1iIH5_3isa3isa1_14i_ext_hackatonB0.dread();
         return true;
         }
         case 3000000318: {
-        data = MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.dread();
+        data = MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dread();
+        return true;
+        }
+        case 3000000319: {
+        data = MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dread();
+        return true;
+        }
+        case 3000000320: {
+        data = MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dread();
+        return true;
+        }
+        case 3000000321: {
+        data = MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dread();
+        return true;
+        }
+        case 3000000322: {
+        data = MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dread();
+        return true;
+        }
+        case 3000000323: {
+        data = MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dread();
         return true;
         }
         case 0: {
@@ -2831,67 +2861,87 @@ bool Sim::ResourceWrite(const debugger::Tid tid, const debugger::Did dwarf, cons
         return true;
         }
         case 3000000303: {
-        MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000304: {
-        MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI3valIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000305: {
-        MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000306: {
-        MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000307: {
-        MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000308: {
-        MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000309: {
-        MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000310: {
-        MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
+        MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000311: {
-        MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000312: {
-        MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000313: {
-        MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000314: {
-        MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000315: {
-        MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI3macIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000316: {
-        MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000317: {
-        MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI1iIH5_3isa3isa1_14i_ext_hackatonB0.dwrite(data);
         return true;
         }
         case 3000000318: {
-        MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        return true;
+        }
+        case 3000000319: {
+        MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        return true;
+        }
+        case 3000000320: {
+        MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        return true;
+        }
+        case 3000000321: {
+        MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        return true;
+        }
+        case 3000000322: {
+        MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
+        return true;
+        }
+        case 3000000323: {
+        MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dwrite(data);
         return true;
         }
         case 0: {
@@ -3237,7 +3287,7 @@ bool Sim::MemoryWrite(const debugger::Tid tid, const debugger::Did dwarf, const 
 void Sim::InitRspJson()
 {
     std::stringstream rspJson;
-    rspJson << "{\"__generated_by\": \"Codasip Studio version 9.4.2\", \"__generated_date\": \"2025-04-13\", \"address_spaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"default\": 1, \"description\": \"\", \"dwarf\": 0, \"encoding\": \"uint\", \"endian\": \"little\", \"format\": \"hex\", \"function-result\": [10, 11, 12, 13], \"interfaces\": [\"if_ldst\", \"if_fetch\"], \"name\": \"as_all\", \"set\": \"Address spaces\", \"type\": \"code-and-data\", \"uid\": 33, \"wordsize\": 32}], \"hostinfo\": {\"arch\": \"codasip_le\", \"callee-saved\": [9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 8], \"datalayout\": \"e-p:32:32:32-S64-a0:0:32-n32\", \"endian\": \"little\", \"harts_count\": 1, \"hostname\": \"codasip_urisc_v\", \"instruction-sizes\": [32], \"ostype\": \"standalone\", \"ptrsize\": 4, \"stack_alignment\": 2, \"syscalls\": 1, \"triple\": \"codasip_le-Codasip-standalone\", \"vendor\": \"Codasip\", \"watchpoint_exceptions_received\": \"after\", \"watchpoint_simulator\": 0}, \"interfaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 C";
+    rspJson << "{\"__generated_by\": \"Codasip Studio version 9.4.2\", \"__generated_date\": \"2025-04-14\", \"address_spaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"default\": 1, \"description\": \"\", \"dwarf\": 0, \"encoding\": \"uint\", \"endian\": \"little\", \"format\": \"hex\", \"function-result\": [10, 11, 12, 13], \"interfaces\": [\"if_ldst\", \"if_fetch\"], \"name\": \"as_all\", \"set\": \"Address spaces\", \"type\": \"code-and-data\", \"uid\": 33, \"wordsize\": 32}], \"hostinfo\": {\"arch\": \"codasip_le\", \"callee-saved\": [9, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 8], \"datalayout\": \"e-p:32:32:32-S64-a0:0:32-n32\", \"endian\": \"little\", \"harts_count\": 1, \"hostname\": \"codasip_urisc_v\", \"instruction-sizes\": [32], \"ostype\": \"standalone\", \"ptrsize\": 4, \"stack_alignment\": 2, \"syscalls\": 1, \"triple\": \"codasip_le-Codasip-standalone\", \"vendor\": \"Codasip\", \"watchpoint_exceptions_received\": \"after\", \"watchpoint_simulator\": 0}, \"interfaces\": [{\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 C";
     rspJson << "odasip\", \"dwarf\": 1, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"RW\", \"format\": \"hex\", \"name\": \"if_ldst\", \"set\": \"Memories\", \"uid\": 37, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [32], \"description\": \"\", \"dwarf\": 2, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"R\", \"format\": \"hex\", \"name\": \"if_fetch\", \"set\": \"Memories\", \"uid\": 38, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"\", \"dwarf\": 4, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"RW\", \"format\": \"hex\", \"name\": \"testbench_m_memory_if_ldst\", \"set\": \"Memories\", \"uid\": 48, \"wordsize\": 32}, {\"addrsize\": 32, \"bytesize\": 8, \"data_alignment\": [8, 16, 32], \"description\": \"\", \"dwarf\": 5, \"encoding\": \"uint\", \"endian\": \"little\", \"flag\": \"R\", \"format\": \"hex\", \"name\": \"testbench_m_memory_if_fetch\", \"set\": \"Memories\", \"uid\": 49, \"wordsize\": 32}], \"ports\": [{\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 64, \"encoding\": \"uint\", \"format\": \"hex\", \"nam";
     rspJson << "e\": \"p_meip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 39}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 65, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_msip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 40}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 66, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_mtip\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 41}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"OUT\", \"dwarf\": 67, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_wfi\", \"set\": \"Out Port(s)\", \"type\": \"CONTROL\", \"uid\": 42}, {\"bitsize\": 1, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 68, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_nmi\", \"set\": \"In Port(s)\", \"type\": \"INTERRUPT\", \"uid\": 43}, {\"bitsize\": 32, \"description\": \"\", \"direction\": \"IN\", \"dwarf\": 69, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_nmi_mtval\", \"set\": \"In Port(s)\", \"type\": \"DATA\", \"uid\": 44}, {\"bitsize\": 32, \"description\": \"\", \"direction\": \"IN\", \"dwa";
     rspJson << "rf\": 70, \"encoding\": \"uint\", \"format\": \"hex\", \"name\": \"p_boot_addr\", \"set\": \"In Port(s)\", \"type\": \"DATA\", \"uid\": 45}], \"registers\": [{\"arch\": 0, \"bitsize\": 32, \"description\": \"Codasip s.r.o. CONFIDENTIAL Copyright 2022 Codasip\", \"dwarf\": 49, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 0, \"name\": \"r_instr_fetch\", \"set\": \"Micro-architectural Registers\", \"uid\": 1}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 50, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 1, \"name\": \"r_fetch_fault\", \"set\": \"Micro-architectural Registers\", \"uid\": 2}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 51, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 2, \"name\": \"r_pf_mem_error\", \"set\": \"Micro-architectural Registers\", \"uid\": 3}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 52, \"encoding\": \"uint\", \"format\": \"hex\", \"gcc\": 3, \"name\": \"r_minstret_written\", \"set\": \"Micro-architectural Registers\", \"uid\": 4}, {\"arch\": 0, \"bitsize\": 1, \"description\": \"\", \"dwarf\": 53, \"encoding\": \"uint\", \"format\"";
@@ -6840,61 +6890,58 @@ void Sim::MI14i_ext_hackatonIH5_3isa3isa()
             }
             case 2:
             {
-                MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() & int32_t(65535))));
-                MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() >> int32_t(16))));
-                MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() & int32_t(65535))));
-                MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() >> int32_t(16))));
-                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read() + ((MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.read()) >> int32_t(8)) + ((MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.read()) >> int32_t(8)));
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()));
                 break;
             }
             case 3:
             {
-                MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() & int32_t(65535))));
-                MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>(((MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() >> int32_t(16)) & int32_t(65535))));
-                MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>((MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() & int32_t(65535))));
-                MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int16_t>(((MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() >> int32_t(16)) & int32_t(65535))));
-                MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int32_t>(MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.read()) + MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.read());
-                MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.read() > int32_t(32767)));
-                if (MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.read())
+                MI3macIH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read());
                 {
-                    MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(32767));
-                }
-                else 
-                {
-                    MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.read() < int32_t(-32768)));
-                    if (MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.read())
+                    MI1iIH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(0));
+                    MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.write(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() < int8_t(4));
+                    while (MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.read())
                     {
-                        MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(-32768));
+                        MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI8load_val(int32_t(131),MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read()));
+                        MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI8load_val(int32_t(131),MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()));
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "s1 addr["
+                             <<  std::dec << int(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "]: 0x"
+                             <<  std::hex << (MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " value: "
+                             <<  std::dec << (MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " \n";
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "s2 addr["
+                             <<  std::dec << int(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "]: 0x"
+                             <<  std::hex << (MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " value: "
+                             <<  std::dec << (MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " \n";
+                        MI3macIH5_3isa3isa1_14i_ext_hackatonB0.write(MI3macIH5_3isa3isa1_14i_ext_hackatonB0.read() + static_cast<int32_t>((static_cast<int16_t>((static_cast<int16_t>(MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.read() * MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.read())) >> int32_t(8)))));
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "mac value:  "
+                             <<  std::dec << (MI3macIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "\n";
+                        MI1iIH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int8_t>(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() + int8_t(1))), MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() + (int32_t(2))), MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() + (int32_t(2)));
+                        MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.write(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() < int8_t(4));
                     }
                 }
-                MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int32_t>(MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.read()) + MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.read());
-                MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.read() > int32_t(32767)));
-                if (MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.read())
-                {
-                    MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(32767));
-                }
-                else 
-                {
-                    MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.read() < int32_t(-32768)));
-                    if (MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.read())
-                    {
-                        MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(-32768));
-                    }
-                }
-                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write((MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.read() << int32_t(16)) | (MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.read() & int32_t(65535)));
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(MI3macIH5_3isa3isa1_14i_ext_hackatonB0.read());
                 break;
             }
             case 4:
             {
-                MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() > int32_t(32767)));
-                if (MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.read())
+                MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() > int32_t(32767)));
+                if (MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.read())
                 {
                     MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(32767));
                 }
                 else 
                 {
-                    MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() < int32_t(-32768)));
-                    if (MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.read())
+                    MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.write(static_cast<bool>(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() < int32_t(-32768)));
+                    if (MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.read())
                     {
                         MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(-32768));
                     }
@@ -6903,6 +6950,47 @@ void Sim::MI14i_ext_hackatonIH5_3isa3isa()
                         MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read());
                     }
                 }
+                break;
+            }
+            case 5:
+            {
+                {
+                    MI1iIH5_3isa3isa1_14i_ext_hackatonB0.write(int32_t(0));
+                    MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.write(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() < int8_t(4));
+                    while (MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.read())
+                    {
+                        MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI8load_val(int32_t(131),MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read()));
+                        MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI8load_val(int32_t(131),MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()));
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "s1 addr["
+                             <<  std::dec << int(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "]: 0x"
+                             <<  std::hex << (MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " value: "
+                             <<  std::dec << (MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "  accumalate\n";
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "s2 addr["
+                             <<  std::dec << int(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "]: 0x"
+                             <<  std::hex << (MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " value: "
+                             <<  std::dec << (MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << " accumalate\n";
+                        MI9write_val(int32_t(163),MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read(),static_cast<int16_t>(MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.read() + MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.read()));
+                        SIM_LOG(LOG_TYPE_PRINT, 13, m_SimCycleCounter)
+                             << "mac value:  "
+                             <<  std::dec << (MI3macIH5_3isa3isa1_14i_ext_hackatonB0.read()) << std::dec
+                             << "\n";
+                        MI1iIH5_3isa3isa1_14i_ext_hackatonB0.write(static_cast<int8_t>(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() + int8_t(1))), MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s1IH5_3isa3isa1_14i_ext_hackatonB0.read() + (int32_t(2))), MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s2IH5_3isa3isa1_14i_ext_hackatonB0.read() + (int32_t(2))), MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.write(MI2s3IH5_3isa3isa1_14i_ext_hackatonB0.read() + (int32_t(2)));
+                        MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.write(MI1iIH5_3isa3isa1_14i_ext_hackatonB0.read() < int8_t(4));
+                    }
+                }
+                MI6resultIH5_3isa3isa1_14i_ext_hackatonB0.write(MI3macIH5_3isa3isa1_14i_ext_hackatonB0.read());
+                break;
+            }
+            case 6:
+            {
                 break;
             }
             default:
@@ -7358,37 +7446,47 @@ MaxInt Sim::ResourceRead(const Uid resource, const simulator::Address addr)
     case 302:
         return (MI7result1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 303:
-        return (MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 304:
-        return (MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI3valIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 305:
-        return (MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 306:
-        return (MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 307:
-        return (MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 308:
-        return (MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 309:
-        return (MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 310:
-        return (MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dread());
+        return (MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 311:
-        return (MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 312:
-        return (MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 313:
-        return (MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 314:
-        return (MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 315:
-        return (MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI3macIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 316:
-        return (MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 317:
-        return (MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI1iIH5_3isa3isa1_14i_ext_hackatonB0.dread());
     case 318:
-        return (MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.dread());
+        return (MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dread());
+    case 319:
+        return (MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dread());
+    case 320:
+        return (MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dread());
+    case 321:
+        return (MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dread());
+    case 322:
+        return (MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dread());
+    case 323:
+        return (MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dread());
     default:
         SIM_LOG(LOG_TYPE_ERROR, 0, m_SimCycleCounter) << "unknown resource UID: '" << resource << "'" << std::endl;
     }
@@ -8083,52 +8181,67 @@ void Sim::ResourceWrite(const Uid resource, const MaxInt& data, const simulator:
         MI7result1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 303:
-        MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI3sumIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 304:
-        MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI3valIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 305:
-        MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI4sizeIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 306:
-        MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI4val1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 307:
-        MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI4val2IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 308:
-        MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI7simd_a0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 309:
-        MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI7simd_a1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 310:
-        MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
+        MI7simd_b0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 311:
-        MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI7simd_b1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 312:
-        MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI11accumulatorIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 313:
-        MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI4sum0IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 314:
-        MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI4sum1IH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 315:
-        MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI3macIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 316:
-        MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI5summaIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 317:
-        MI17codasip_tmp_var_6IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI1iIH5_3isa3isa1_14i_ext_hackatonB0.dwrite((data));
         break;
     case 318:
-        MI17codasip_tmp_var_7IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        MI17codasip_tmp_var_0IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        break;
+    case 319:
+        MI17codasip_tmp_var_1IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        break;
+    case 320:
+        MI17codasip_tmp_var_2IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        break;
+    case 321:
+        MI17codasip_tmp_var_3IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        break;
+    case 322:
+        MI17codasip_tmp_var_4IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
+        break;
+    case 323:
+        MI17codasip_tmp_var_5IH5_3isa3isa1_14i_ext_hackaton.dwrite((data));
         break;
     default:
         SIM_LOG(LOG_TYPE_ERROR, 0, m_SimCycleCounter) << "unknown resource UID: '" << resource << "'" << std::endl;

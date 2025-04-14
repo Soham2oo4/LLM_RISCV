@@ -14,6 +14,8 @@ enum : uint3
     OPC_HACKATON_CUSTOM_C   = 0b010,
     OPC_HACKATON_CUSTOM_D   = 0b011,
     OPC_HACKATON_CUSTOM_E   = 0b100,
+    OPC_HACKATON_CUSTOM_F   = 0b101,
+    OPC_HACKATON_CUSTOM_G   = 0b110,
 };
 
 #endif

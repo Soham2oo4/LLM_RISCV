@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-13 13:38:41
+ *                Date: 2025-04-14 08:33:34
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -77,7 +77,7 @@ CodasipGenTargetLowering::CodasipGenTargetLowering(CodasipTargetMachine &TM)
   setOperationAction(ISD::Constant, MVT::i32, Legal);
   setOperationAction(ISD::ADD, MVT::i32, Legal);
   setOperationAction(ISD::SUB, MVT::i32, Legal);
-  setOperationAction(ISD::MUL, MVT::i32, Expand);
+  setOperationAction(ISD::MUL, MVT::i32, Legal);
   setOperationAction(ISD::SDIV, MVT::i32, Expand);
   setOperationAction(ISD::UDIV, MVT::i32, Expand);
   setOperationAction(ISD::SREM, MVT::i32, Expand);
@@ -1161,7 +1161,15 @@ const char *CodasipGenTargetLowering::getTargetNodeName(unsigned Opcode) const {
   case CodasipISD::EH_SJLJ_SETUP_DISPATCH:
     return "CodasipISD::EH_SJLJ_SETUP_DISPATCH";
   
-  
+  case CodasipISD::MOI_GROUP_0:
+return "MOI_GROUP_0";
+case CodasipISD::MOI_GROUP_1:
+return "MOI_GROUP_1";
+case CodasipISD::MOI_GROUP_2:
+return "MOI_GROUP_2";
+case CodasipISD::MOI_GROUP_3:
+return "MOI_GROUP_3";
+
   // this may appear in instruction semantics
   case CodasipISD::GET_PC:
     return "CodasipISD::GET_PC";
@@ -1724,11 +1732,55 @@ SDValue CodasipGenTargetLowering::LowerIntrinsic(SDValue Op,
 
 // custom memsd classes, they differ just by the opcode
 
+struct CodasipMemSDNode_1 : public MemSDNode{
+  CodasipMemSDNode_1(unsigned Order, const DebugLoc &dl, SDVTList VTs,
+                               EVT MemVT, MachineMemOperand *MMO) :
+      MemSDNode(1 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE, Order, dl,
+                VTs, MemVT, MMO){}
+};
+
+struct CodasipMemSDNode_2 : public MemSDNode{
+  CodasipMemSDNode_2(unsigned Order, const DebugLoc &dl, SDVTList VTs,
+                               EVT MemVT, MachineMemOperand *MMO) :
+      MemSDNode(2 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE, Order, dl,
+                VTs, MemVT, MMO){}
+};
+
+struct CodasipMemSDNode_3 : public MemSDNode{
+  CodasipMemSDNode_3(unsigned Order, const DebugLoc &dl, SDVTList VTs,
+                               EVT MemVT, MachineMemOperand *MMO) :
+      MemSDNode(3 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE, Order, dl,
+                VTs, MemVT, MMO){}
+};
+
+struct CodasipMemSDNode_4 : public MemSDNode{
+  CodasipMemSDNode_4(unsigned Order, const DebugLoc &dl, SDVTList VTs,
+                               EVT MemVT, MachineMemOperand *MMO) :
+      MemSDNode(4 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE, Order, dl,
+                VTs, MemVT, MMO){}
+};
+
 
 SDValue CodasipGenTargetLowering::GetCodasipMemSDNode(
     SelectionDAG &DAG, int Opcode, SDVTList VTs, ArrayRef<SDValue> Ops,
     const SDLoc &dl, EVT MemVT, MachineMemOperand *MMO) const {
   switch (Opcode) {
+  
+  case 1 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE:
+    return DAG.getTargetMemSDNode<CodasipMemSDNode_1>(VTs, Ops, dl,
+                                                                MemVT, MMO);
+  
+  case 2 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE:
+    return DAG.getTargetMemSDNode<CodasipMemSDNode_2>(VTs, Ops, dl,
+                                                                MemVT, MMO);
+  
+  case 3 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE:
+    return DAG.getTargetMemSDNode<CodasipMemSDNode_3>(VTs, Ops, dl,
+                                                                MemVT, MMO);
+  
+  case 4 + CodasipISD::FIRST_TARGET_MEMORY_OPCODE:
+    return DAG.getTargetMemSDNode<CodasipMemSDNode_4>(VTs, Ops, dl,
+                                                                MemVT, MMO);
   
   default:
     llvm_unreachable("unknown target node");

@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) source generator
  * \version 9.4.2
  */
@@ -20,8 +20,8 @@
 #include "getopt_common/interface/basicoptions.h"
 static const codasip::getopt::ToolInfoSetter g_ToolInfo(codasip::getopt::ToolInfo("Codasip  (C49_2265_2231)", 
 "codasip_urisc_v", 
-"c4c1ef5d0a47b468750b0ac9107fe5db40f062ae3b6facf494d6999714ebb7f1", 
-"2025-04-13 13:39:49", 
+"271a6fa179b31593f4e8cd71c6e3b4567daf28d0637b50eed3bc6aac455439cb", 
+"2025-04-14 08:34:49", 
 ""
 ));
 

@@ -10,30 +10,26 @@ __sfmoreglue:                           //  @__sfmoreglue
 	.cfi_def_cfa 2, 0
 	add sp, sp, -16
 	.cfi_adjust_cfa_offset 16
-	sw x9, 8 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 9, -8
-	mv x9, x11
-	sw fp, 0 ( sp )                 //  4-byte Folded Spill
-	.cfi_offset 8, -16
-	mv fp, x10
-	add x11, x0, 104
-	mv x10, x9
-	sw ra, 12 ( sp )                //  4-byte Folded Spill
-	.cfi_offset 1, -4
 	sw x18, 4 ( sp )                //  4-byte Folded Spill
 	.cfi_offset 18, -12
-	jal __mulsi3
-	mv x18, x10
-	add x11, x18, 12
-	mv x10, fp
+	mv x18, x11
+	add x11, x0, 104
+	sw x9, 8 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 9, -8
+	hackaton_custom_instr_c x9, x11, x18
+	add x11, x9, 12
+	sw ra, 12 ( sp )                //  4-byte Folded Spill
+	.cfi_offset 1, -4
+	sw fp, 0 ( sp )                 //  4-byte Folded Spill
+	.cfi_offset 8, -16
 	jal _malloc_r
 	mv fp, x10
 	beq x0, fp, .LBB0_1
 .LBB0_2:                                //  %if.end
 	add x10, fp, 12
 	mv x11, x0
-	mv x12, x18
-	sw x9, 4 ( fp )
+	mv x12, x9
+	sw x18, 4 ( fp )
 	sw x10, 8 ( fp )
 	sw x0, 0 ( fp )
 	jal memset

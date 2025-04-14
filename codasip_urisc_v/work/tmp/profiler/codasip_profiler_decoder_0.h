@@ -11,7 +11,7 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) source generator
  * \version 9.4.2
  */
@@ -191,6 +191,8 @@ private:
         CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_cIH5_3isa3isa24_21opc_hackaton_custom_i3opc,
         CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_dIH5_3isa3isa24_21opc_hackaton_custom_i3opc,
         CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i3opc,
+        CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc,
+        CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc,
         CODASIP_SWITCH_VALUE_MI23i_control_registers_immIH5_3isa3isa,
         CODASIP_SWITCH_VALUE_MI23i_control_registers_regIH5_3isa3isa,
         CODASIP_SWITCH_VALUE_MI4reg0IH5_3isa3isa9_7reg_any3dst,
@@ -937,7 +939,8 @@ FORCE_INLINE int MI3isaIH5_3isa3isa::Parser_MI3isaIH5_3isa3isa_bs_32(const uint3
             goto END_OF_MI3isaIH5_3isa3isa;
         }
         if (((input & 0xfe00407f) == 0x2b /*0000000XXXXXXXXXX0XXXXXXX0101011*/ ) || 
-                ((input & 0xfe00707f) == 0x402b /*0000000XXXXXXXXXX100XXXXX0101011*/ )) {
+                ((input & 0xfe00607f) == 0x402b /*0000000XXXXXXXXXX10XXXXXX0101011*/ ) || 
+                ((input & 0xfe00707f) == 0x602b /*0000000XXXXXXXXXX110XXXXX0101011*/ )) {
             codasip_switch_MI3isaIH5_3isa3isa = CODASIP_SWITCH_VALUE_MI14i_ext_hackatonIH5_3isa3isa;
             if (Parser_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_2_bc__24_23_22_21_20_bs_32(input) != INSTPARSER_OK) return INSTPARSER_INVALIDCODE;
             if (Parser_MI7reg_anyIH5_3isa3isa9_7reg_any4rs_1_bc__19_18_17_16_15_bs_32(input) != INSTPARSER_OK) return INSTPARSER_INVALIDCODE;
@@ -965,6 +968,16 @@ FORCE_INLINE int MI3isaIH5_3isa3isa::Parser_MI3isaIH5_3isa3isa_bs_32(const uint3
             case ( 0x4000 /*XXXXXXXXXXXXXXXXX100*/ ):
             {
                 codasip_switch_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc = CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_eIH5_3isa3isa24_21opc_hackaton_custom_i3opc;
+                break;
+            }
+            case ( 0x5000 /*XXXXXXXXXXXXXXXXX101*/ ):
+            {
+                codasip_switch_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc = CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_fIH5_3isa3isa24_21opc_hackaton_custom_i3opc;
+                break;
+            }
+            case ( 0x6000 /*XXXXXXXXXXXXXXXXX110*/ ):
+            {
+                codasip_switch_MI21opc_hackaton_custom_iIH5_3isa3isa24_21opc_hackaton_custom_i3opc = CODASIP_SWITCH_VALUE_MI21opc_hackaton_custom_gIH5_3isa3isa24_21opc_hackaton_custom_i3opc;
                 break;
             }
             default: 

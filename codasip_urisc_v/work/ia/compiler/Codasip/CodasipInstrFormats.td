@@ -11,14 +11,14 @@
  * in Codasip license agreement under which you obtained this file.
  *
  * \file
- * \date    2025-04-13
+ * \date    2025-04-14
  * \author  Codasip (c) C compiler backend generator
  * \version 9.4.2
  * \brief   Source for compiler backend
  * \project codasip_urisc_v.ia
  * \note          Codasip Studio version: 9.4.2
  *                Project: codasip_urisc_v.ia
- *                Date: 2025-04-13 13:38:41
+ *                Date: 2025-04-14 08:33:34
  *                Copyright (C) 2025 Codasip s.r.o.
  */
 
@@ -132,58 +132,6 @@ def post_dec_store: PatFrag<(ops node:$val, node:$base, node:$offset), (istore n
 
 // combinations of indexed extloads/truncstores
 
-def pre_inc_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_inc_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def pre_dec_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_dec_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-
-def pre_inc_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_inc_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def pre_dec_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_dec_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-
-def pre_inc_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_inc_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def pre_dec_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_dec_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-
-def pre_inc_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_inc_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def pre_dec_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-def post_dec_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
-  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
-}]>;
-
 def pre_inc_extloadi8: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
   return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i8;
 }]>;
@@ -234,6 +182,58 @@ def pre_dec_truncstorei8: PatFrag<(ops node:$val, node:$base, node:$offset), (is
 }]>;
 def post_dec_truncstorei8: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
   return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i8;
+}]>;
+
+def pre_inc_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_inc_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def pre_dec_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_dec_extloadi16: PatFrag<(ops node:$base, node:$offset), (iextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+
+def pre_inc_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_inc_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def pre_dec_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_dec_sextloadi16: PatFrag<(ops node:$base, node:$offset), (isextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+
+def pre_inc_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_inc_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def pre_dec_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_dec_zextloadi16: PatFrag<(ops node:$base, node:$offset), (izextload node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<LoadSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+
+def pre_inc_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_INC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_inc_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_INC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def pre_dec_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::PRE_DEC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
+}]>;
+def post_dec_truncstorei16: PatFrag<(ops node:$val, node:$base, node:$offset), (ist node:$val, node:$base, node:$offset), [{
+  return cast<LSBaseSDNode>(N)->getAddressingMode() == ISD::POST_DEC  &&  cast<StoreSDNode>(N)->getMemoryVT() == MVT::i16;
 }]>;
 
 

@@ -63,40 +63,40 @@ __sfvwrite_r:                           //  @__sfvwrite_r
 	and x11, x10, 2
 	bltu x0, x11, .LBB0_7
 .LBB0_15:                               //  %if.else
+	mv x27, x26
 	and x10, x10, 1
 	bltu x0, x10, .LBB0_16
 .LBB0_20:                               //  %do.body31.preheader
 	lui x10, %hi( 65535 )
-	add x19, x10, %lo( 65535 )
+	add x24, x10, %lo( 65535 )
 	lui x10, %hi( 2147483647 )
-	add x27, x10, %lo( 2147483647 )
+	add x19, x10, %lo( 2147483647 )
 	lui x10, %hi( 64383 )
 	add x10, x10, %lo( 64383 )
-	mv x22, x26
-	mv x21, x26
+	mv x20, x26
 	sw x10, 8 ( sp )                //  4-byte Folded Spill
-	bltu x0, x22, .LBB0_24
+	bltu x0, x27, .LBB0_24
 	jal x0, .LBB0_22
 .LBB0_39:                               //  %if.end105
-	mv x11, x21
-	mv x12, x20
+	mv x11, x20
+	mv x12, x21
 	jal memmove
 	lw x10, 8 ( fp )
-	sub x10, x10, x20
+	sub x10, x10, x21
 	sw x10, 8 ( fp )
 	lw x10, 0 ( fp )
-	add x10, x20, x10
+	add x10, x21, x10
 	sw x10, 0 ( fp )
-	mv x20, x22
+	mv x21, x27
 .LBB0_49:                               //  %if.end169
 	lw x10, 8 ( x18 )
-	sub x22, x22, x20
-	add x21, x20, x21
-	sub x10, x10, x20
+	sub x27, x27, x21
+	add x20, x21, x20
+	sub x10, x10, x21
 	sw x10, 8 ( x18 )
 	beq x0, x10, .LBB0_68
 .LBB0_21:                               //  %do.body31
-	beq x0, x22, .LBB0_22
+	beq x0, x27, .LBB0_22
 .LBB0_24:                               //  %while.end39
 	lh x10, 12 ( fp )
 	lw x12, 8 ( fp )
@@ -108,21 +108,21 @@ __sfvwrite_r:                           //  @__sfvwrite_r
 	bltu x11, x10, .LBB0_42
 .LBB0_41:                               //  %lor.lhs.false122
 	lw x11, 20 ( fp )
-	bgeu x22, x11, .LBB0_46
+	bgeu x27, x11, .LBB0_46
 .LBB0_42:                               //  %if.then127
-	mv x20, x22
-	bltu x22, x12, .LBB0_44
+	mv x21, x27
+	bltu x27, x12, .LBB0_44
 .LBB0_43:                               //  %if.then127
-	mv x20, x12
+	mv x21, x12
 .LBB0_44:                               //  %if.then127
-	mv x11, x21
-	mv x12, x20
+	mv x11, x20
+	mv x12, x21
 	jal memmove
 	lw x10, 0 ( fp )
-	add x10, x20, x10
+	add x10, x21, x10
 	sw x10, 0 ( fp )
 	lw x10, 8 ( fp )
-	sub x10, x10, x20
+	sub x10, x10, x21
 	sw x10, 8 ( fp )
 	bltu x0, x10, .LBB0_49
 .LBB0_45:                               //  %land.lhs.true143
@@ -133,78 +133,78 @@ __sfvwrite_r:                           //  @__sfvwrite_r
 	jal x0, .LBB0_62
 .LBB0_22:                               //  %while.body35
                                         //  =>This Inner Loop Header: Depth=1
-	lw x22, 4 ( x25 )
+	lw x27, 4 ( x25 )
 	add x25, x25, 8
-	beq x0, x22, .LBB0_22
+	beq x0, x27, .LBB0_22
 .LBB0_23:                               //  %while.cond32.while.end39_crit_edge
-	lw x21, -8 ( x25 )
+	lw x20, -8 ( x25 )
 	lh x10, 12 ( fp )
 	lw x12, 8 ( fp )
 	and x11, x10, 512
 	beq x0, x11, .LBB0_40
 .LBB0_25:                               //  %if.then44
-	bltu x22, x12, .LBB0_27
+	bltu x27, x12, .LBB0_27
 .LBB0_26:                               //  %if.then44
 	and x11, x10, 1152
 	beq x0, x11, .LBB0_27
 .LBB0_28:                               //  %if.then52
-	and x24, x19, x10
-	lw x10, 20 ( fp )
-	add x11, x0, 3
-	jal __mulsi3
-	slt x11, x10, x0
-	add x10, x11, x10
+	lw x11, 20 ( fp )
+	add x12, x0, 3
+	lw x13, 0 ( fp )
+	and x10, x24, x10
+	hackaton_custom_instr_c x11, x12, x11
+	slt x12, x11, x0
+	add x11, x12, x11
+	sra x12, x11, 1&31
 	lw x11, 16 ( fp )
-	lw x12, 0 ( fp )
-	sra x10, x10, 1&31
-	sub x20, x12, x11
-	add x12, x20, x22
-	add x23, x12, 1
-	bltu x10, x23, .LBB0_30
+	sub x21, x13, x11
+	add x13, x21, x27
+	add x22, x13, 1
+	bltu x12, x22, .LBB0_30
 .LBB0_29:                               //  %if.then52
-	mv x23, x10
+	mv x22, x12
 .LBB0_30:                               //  %if.then52
-	and x10, x24, 1024
+	and x10, x10, 1024
 	bltu x0, x10, .LBB0_31
 .LBB0_33:                               //  %if.else80
 	mv x10, x9
-	mv x12, x23
+	mv x12, x22
 	jal _realloc_r
-	mv x24, x10
-	bltu x0, x24, .LBB0_36
+	mv x23, x10
+	bltu x0, x23, .LBB0_36
 	jal x0, .LBB0_34
 .LBB0_27:                               //  %if.then44.if.end105_crit_edge
 	lw x10, 0 ( fp )
-	mv x20, x22
-	bltu x22, x12, .LBB0_39
+	mv x21, x27
+	bltu x27, x12, .LBB0_39
 	jal x0, .LBB0_38
 .LBB0_46:                               //  %if.else148
-	mv x20, x22
-	bltu x22, x27, .LBB0_48
+	mv x21, x27
+	bltu x27, x19, .LBB0_48
 .LBB0_47:                               //  %if.else148
-	mv x20, x27
+	mv x21, x19
 .LBB0_48:                               //  %if.else148
-	mv x10, x20
+	mv x10, x21
 	jal __modsi3
 	lw x11, 28 ( fp )
 	lw x14, 36 ( fp )
-	sub x13, x20, x10
+	sub x13, x21, x10
 	mv x10, x9
-	mv x12, x21
+	mv x12, x20
 	call.reg x14
-	mv x20, x10
-	blt x0, x20, .LBB0_49
+	mv x21, x10
+	blt x0, x21, .LBB0_49
 	jal x0, .LBB0_62
 .LBB0_31:                               //  %if.then67
 	mv x10, x9
-	mv x11, x23
+	mv x11, x22
 	jal _malloc_r
-	mv x24, x10
-	beq x0, x24, .LBB0_32
+	mv x23, x10
+	beq x0, x23, .LBB0_32
 .LBB0_35:                               //  %if.end71
 	lw x11, 16 ( fp )
-	mv x10, x24
-	mv x12, x20
+	mv x10, x23
+	mv x12, x21
 	jal memcpy
 	lhu x10, 12 ( fp )
 	lw x11, 8 ( sp )                //  4-byte Folded Reload
@@ -212,17 +212,17 @@ __sfvwrite_r:                           //  @__sfvwrite_r
 	or x10, x10, 128
 	sh x10, 12 ( fp )
 .LBB0_36:                               //  %cleanup
-	sub x10, x23, x20
+	sub x10, x22, x21
 	sw x10, 8 ( fp )
-	add x10, x20, x24
-	mv x12, x22
-	sw x23, 20 ( fp )
-	sw x24, 16 ( fp )
+	add x10, x21, x23
+	mv x12, x27
+	sw x22, 20 ( fp )
+	sw x23, 16 ( fp )
 	sw x10, 0 ( fp )
-	mv x20, x22
-	bltu x22, x12, .LBB0_39
+	mv x21, x27
+	bltu x27, x12, .LBB0_39
 .LBB0_38:                               //  %if.end105
-	mv x20, x12
+	mv x21, x12
 	jal x0, .LBB0_39
 .LBB0_1:
 	mv x26, x0
@@ -273,7 +273,6 @@ __sfvwrite_r:                           //  @__sfvwrite_r
 	bgeu x21, x19, .LBB0_12
 	jal x0, .LBB0_13
 .LBB0_16:                               //  %do.body179.preheader
-	mv x27, x26
 	mv x19, x26
 	mv x21, x26
 	seqz x20, x0
